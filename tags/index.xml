@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on bresilla</title>
-    <link>http://www.bresilla.com/tags/</link>
+    <link>https://www.bresilla.com/tags/</link>
     <description>Recent content in Tags on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 17 Jan 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://www.bresilla.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.bresilla.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>development</title>
-      <link>http://www.bresilla.com/tags/development/</link>
+      <link>https://www.bresilla.com/tags/development/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.bresilla.com/tags/development/</guid>
+      <guid>https://www.bresilla.com/tags/development/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hugo</title>
-      <link>http://www.bresilla.com/tags/hugo/</link>
+      <link>https://www.bresilla.com/tags/hugo/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.bresilla.com/tags/hugo/</guid>
+      <guid>https://www.bresilla.com/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>themes</title>
-      <link>http://www.bresilla.com/tags/themes/</link>
+      <link>https://www.bresilla.com/tags/themes/</link>
       <pubDate>Thu, 17 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://www.bresilla.com/tags/themes/</guid>
+      <guid>https://www.bresilla.com/tags/themes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>go</title>
-      <link>http://www.bresilla.com/tags/go/</link>
+      <link>https://www.bresilla.com/tags/go/</link>
       <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://www.bresilla.com/tags/go/</guid>
+      <guid>https://www.bresilla.com/tags/go/</guid>
       <description></description>
     </item>
     
     <item>
       <title>golang</title>
-      <link>http://www.bresilla.com/tags/golang/</link>
+      <link>https://www.bresilla.com/tags/golang/</link>
       <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://www.bresilla.com/tags/golang/</guid>
+      <guid>https://www.bresilla.com/tags/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>templates</title>
-      <link>http://www.bresilla.com/tags/templates/</link>
+      <link>https://www.bresilla.com/tags/templates/</link>
       <pubDate>Wed, 02 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://www.bresilla.com/tags/templates/</guid>
+      <guid>https://www.bresilla.com/tags/templates/</guid>
       <description></description>
     </item>
     
