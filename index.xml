@@ -140,8 +140,13 @@ We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Ar
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/resume/</guid>
-      <description>Here are some quotes i like:
-We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle</description>
+      <description>Johnny Coder 1 MyAddress email@example.com MyTown 1000 @twitter_handle MyCountry 1800 my-phone-nr
+Education  2010-2014 (expected) PhD, Computer Science; Awesome University (MyTown)
+Thesis title: Deep Learning Approaches to the Self-Awesomeness Estimation Problem
+ 2007-2010 BSc, Computer Science and Electrical Engineering; University of HomeTown (HomeTown)
+Minor: Awesomeology
+  Experience Your Most Recent Work Experience:
+Short text containing the type of work done, results obtained, lessons learned and other remarks. Can also include lists and links:</description>
     </item>
     
   </channel>
