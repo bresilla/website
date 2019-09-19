@@ -1,0 +1,20 @@
+baseURL = "https://bresilla.com/presentations/"
+languageCode = "en-us"
+title = "presentations"
+disableKinds = ["sitemap", "RSS"]
+theme = "reveal-hugo"
+publishDir = "../static/presentations"
+
+# relativeURLs = true
+# uglyURLs = true
+
+[author]
+name = "Trim Bresilla"
+
+[outputFormats.Reveal]
+baseName = "index"
+mediaType = "text/html"
+isHTML = true
+
+[params.reveal_hugo]
+history = true
