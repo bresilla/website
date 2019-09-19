@@ -1,12 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Playfair+Display&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Lustria&display=swap");
-@font-face {
-  font-family: 'Novacento Sans Wide';
-  src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot");
-  src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff2") format("woff2"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff") format("woff"), url("../fonts/Novecentosanswide-UltraLight-webfont.ttf") format("truetype"), url("../fonts/Novecentosanswide-UltraLight-webfont.svg#novecento_sans_wideultralight") format("svg");
-  font-style: normal;
-  font-weight: 200; }
-
+@import url("https://fonts.googleapis.com/css?family=Lusitana|Playfair+Display&display=swap");
 @font-face {
   font-family: 'Daytona';
   src: url("../fonts/Daytona_Thin.ttf") format("truetype");
@@ -19,14 +11,13 @@
   box-sizing: inherit; }
 
 html {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   box-sizing: border-box;
   font-size: 62.5%; }
 
 body {
   color: #fafafa;
   background-color: #080a0f;
-  font-family: "Lustria", Georgia, serif;
+  font-family: "Lusitana", Georgia, serif;
   font-size: 1.6em;
   font-weight: 300;
   line-height: 1.8em; }
@@ -48,7 +39,7 @@ a:after {
   left: 0;
   width: 0%;
   border-bottom: 1px solid #ff9000;
-  transition: 0.4s; }
+  transition: .4s; }
 
 a:hover:after {
   width: 100%; }
@@ -57,7 +48,7 @@ a, a:active, a:focus {
   outline: none; }
 
 p {
-  margin: 2.0rem 0 0.1rem 0; }
+  margin: 2.0rem 0 2.0rem 0; }
 
 h1,
 h2,
@@ -207,42 +198,6 @@ img {
 .fas {
   font-weight: 900; }
 
-.title {
-  font-size: 4.2rem; }
-
-.centered .about ul li a {
-  font-weight: 300;
-  color: #ff9000;
-  text-decoration: none; }
-
-.centered .about ul li a:after {
-  position: relative;
-  border-bottom: 0px solid #ff9000; }
-
-.centered .about ul li a:hover:after {
-  width: 100%; }
-
-.centered .about h1 a {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 300;
-  font-size: 2em;
-  color: #fafafa;
-  margin: 0;
-  text-transform: uppercase; }
-
-.centered .about h1 a:hover {
-  color: #ff9000; }
-
-.centered .about h1 a:after {
-  display: block;
-  content: '';
-  border-bottom: 1px solid #ff9000;
-  transform: scaleX(0);
-  transition: transform .4s ease-in-out; }
-
-.centered .about h1 a:hover:after {
-  transform: scaleX(1); }
-
 .content {
   flex: 1;
   display: flex;
@@ -302,7 +257,6 @@ img {
       .list ul li {
         margin: 1.6rem 0 1.6rem 0; } }
     .list ul li .date {
-      font-family: "Playfair Display", Georgia, serif;
       display: inline-block;
       width: 20.0rem;
       text-align: right;
@@ -312,9 +266,9 @@ img {
           display: block;
           text-align: left; } }
     .list ul li .title {
-      font-family: "Daytona", Helvetica, sans-serif;
       font-size: 1.8rem;
       color: #fafafa;
+      font-family: "Daytona", Helvetica, sans-serif;
       font-weight: 700; }
       .list ul li .title:hover, .list ul li .title:focus {
         color: #ff9000; }
@@ -326,18 +280,21 @@ img {
   .centered .about {
     text-align: center; }
     .centered .about h1 {
-      margin-top: 2.0rem;
-      margin-bottom: 0.5rem; }
+      margin-top: 3rem;
+      margin-bottom: 2.5rem;
+      font-size: 4em;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 300;
+      text-transform: uppercase; }
+      .centered .about h1 a {
+        color: #fafafa;
+        text-transform: uppercase; }
     .centered .about h2 {
       margin-top: 1.0rem;
-      margin-bottom: 0.5rem;
-      font-size: 2rem; }
-      @media only screen and (max-width: 768px) {
-        .centered .about h2 {
-          font-size: 2.0rem; } }
+      font-size: 1.8rem; }
     .centered .about ul {
       list-style: none;
-      margin: 3.0rem 0 1.0rem 0;
+      margin: 3.0rem 0 0rem 0;
       padding: 0; }
       .centered .about ul li {
         display: inline-block;
@@ -371,6 +328,21 @@ img {
       @media only screen and (max-width: 768px) {
         .centered .error h2 {
           font-size: 2.8rem; } }
+
+.centered .about h1 a:hover {
+  color: #ff9000;
+  text-decoration: none; }
+
+.centered .about h1 a:after {
+  display: block;
+  content: '';
+  border-bottom: 1px solid #ff9000;
+  transform: scaleX(0);
+  transition: transform .4s ease-in-out; }
+
+.centered .about h1 a:hover:after {
+  width: 100%;
+  transform: scaleX(1); }
 
 .navigation {
   height: 6.0rem;
@@ -440,17 +412,13 @@ img {
     @media only screen and (max-width: 768px) {
       .navigation .menu-button {
         display: block;
+        font-size: 2.4rem;
         font-weight: 400;
         line-height: 6.0rem;
         color: #fafafa;
         cursor: pointer; }
         .navigation .menu-button:hover, .navigation .menu-button:focus {
           color: #ff9000; } }
-
-.fa-bars:before {
-  font-family: "Daytona", Helvetica, sans-serif;
-  font-size: 1.5rem;
-  content: "menu"; }
 
 .pagination {
   margin-top: 6.0rem;
@@ -472,17 +440,19 @@ img {
         width: 3.2rem; }
 
 .footer {
-  font-family: "Playfair Display", Georgia, serif;
   width: 100%;
   text-align: center;
+  font-family: "Playfair Display", Georgia, serif;
   line-height: 2.0rem;
   margin-bottom: 1.0rem; }
   .footer a {
-    color: #fafafa; }
-  .footer a:hover {
-    color: #ff9000; }
+    color: #fafafa;
+    text-decoration: none; }
+    .footer a :hover {
+      color: #ff9000; }
   .footer p {
     padding: 5px;
-    border-top: 1px solid #fafafa; }
+    border-top: 1px solid #fafafa;
+    margin: 2rem 0 .1rem; }
 
 /*# sourceMappingURL=coder.css.map */

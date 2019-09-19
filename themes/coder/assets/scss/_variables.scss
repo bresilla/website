@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Daytona';
+    src: url("../fonts/Daytona_Thin.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+ @import url('https://fonts.googleapis.com/css?family=Lusitana|Playfair+Display&display=swap');
+// Fonts
+$text-font-family: 'Lusitana', Georgia, serif;
+$fancy-font-family: 'Playfair Display', Georgia, serif;
+$heading-font-family: 'Daytona', Helvetica, sans-serif;
+$code-font-family: 'Source Code Pro', 'Lucida Console', monospace;
+
+$darkcolor: #080a0f;
+$lightcolor: #fafafa;
+$accentcolor: #ff9000;
+
+$darkcolor1: $darkcolor;
+$lightcolor1: $lightcolor;
+$accentcolor1: $accentcolor;
+
+// Colors
+$bg-color: $darkcolor !default;
+$fg-color: $lightcolor !default;
+$alt-bg-color: $darkcolor1 !default;
+$alt-fg-color: $lightcolor1 !default;
+$link-color: $accentcolor !default;
+
+// Colors inverted
+$bg-color-inverted: $lightcolor !default;
+$fg-color-inverted: $darkcolor !default;
+$alt-bg-color-inverted: $lightcolor1 !default;
+$alt-fg-color-inverted: $darkcolor1 !default;
+$link-color-inverted: $accentcolor1 !default;
