@@ -1,4 +1,12 @@
 @font-face {
+    font-family: 'Novacento Sans Wide';
+    src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot");
+    src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff2") format("woff2"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff") format("woff"), url("../fonts/Novecentosanswide-UltraLight-webfont.ttf") format("truetype"), url("../fonts/Novecentosanswide-UltraLight-webfont.svg#novecento_sans_wideultralight") format("svg");
+    font-style: normal;
+    font-weight: 200;
+}
+
+@font-face {
     font-family: 'Daytona';
     src: url("../fonts/Daytona_Thin.ttf") format("truetype");
     font-style: normal;
@@ -9,11 +17,15 @@
 $text-font-family: 'Lusitana', Georgia, serif;
 $fancy-font-family: 'Playfair Display', Georgia, serif;
 $heading-font-family: 'Daytona', Helvetica, sans-serif;
+$thin-font-family: 'Novacento Sans Wide', Helvetica, sans-serif;
 $code-font-family: 'Source Code Pro', 'Lucida Console', monospace;
 
 $darkcolor: #080a0f;
 $lightcolor: #fafafa;
 $accentcolor: #ff9000;
+
+$glitchone: #af87ff;
+$glitchtwo: red;
 
 $darkcolor1: $darkcolor;
 $lightcolor1: $lightcolor;
