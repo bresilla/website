@@ -1,4 +1,4 @@
-baseURL = "https://bresilla.com/presentations/"
+baseURL = "/"
 languageCode = "en-us"
 title = "presentations"
 disableKinds = ["sitemap", "RSS"]

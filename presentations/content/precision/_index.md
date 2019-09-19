@@ -3,7 +3,8 @@ title = "Custom theme example presentation"
 outputs = ["Reveal"]
 [reveal_hugo]
 highlight_theme = "arta"
-custom_theme = "precision.css"
+custom_theme = "/custom-theme.scss"
+custom_theme_compile = true
 [logo]
 src = "/images/unibo.png"
 alt = "UNIBO"
