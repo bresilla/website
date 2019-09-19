@@ -28,7 +28,7 @@ body {
 
 a {
   font-weight: 300;
-  color: #ff9000;
+  color: #fafafa;
   text-decoration: none;
   position: relative; }
 

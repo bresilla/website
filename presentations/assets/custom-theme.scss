@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Daytona';
+    src: url("./fonts/Daytona_Light.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+@import url('https://fonts.googleapis.com/css?family=Lusitana|Playfair+Display&display=swap');
+
+@import "reveal-js/css/theme/template/mixins";
+@import "reveal-js/css/theme/template/settings";
+
+$lightcolor: #ffffff;
+$darkcolor: #080a0f;
+
+$backgroundColor: $darkcolor;
+
+$mainColor: $lightcolor;
+$headingColor: $lightcolor;
+$linkColor: $lightcolor;
+
+$mainFont: 'Daytona', Helvetica, sans-serif;
+$headingFont: 'Playfair Display', Helvetica, sans-serif;
+$mainFontSize: 38px;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: uppercase;
+$headingFontWeight: 600;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+@import "reveal-js/css/theme/template/theme";
+
+section.has-light-background {
+	&, h1, h2, h3, h4, h5, h6 {
+		color: #222;
+	}
+}
+
+.reveal pre {
+	margin: 50px auto;
+}

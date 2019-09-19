@@ -22,10 +22,10 @@ body {
   }
 }
 a {
- font-weight:300;
- color:$accentcolor;
- text-decoration:none;
- position:relative
+    font-weight:300;
+    color:$lightcolor;
+    text-decoration:none;
+    position:relative
 }
 a:hover{
     color: $accentcolor;
