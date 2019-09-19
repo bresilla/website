@@ -1,676 +1,131 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
   <head>
-	<meta name="generator" content="Hugo 0.59.0-DEV" />
     <meta charset="utf-8">
-<title>reveal-hugo</title>
-<meta name="description" content="A Hugo theme for creating Reveal.js presentations">
-<meta name="author" content="Trim Bresilla">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="/presentations/reveal-js/css/reveal.css"><link rel="stylesheet" href="/presentations/reveal-hugo/themes/robot-lung.css" id="theme"><link rel="stylesheet" href="/presentations/highlight-js/color-brewer.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Trim Bresilla">
+    <meta name="description" content="Personal website &amp; bolg">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Talks"/>
+<meta name="twitter:description" content="A SIMPLE PRESENTATION
+A SIMPLE PRESENTATION"/>
+
+    <meta property="og:title" content="Talks" />
+<meta property="og:description" content="A SIMPLE PRESENTATION
+A SIMPLE PRESENTATION" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/presentations/" />
+
+
+
+    
+      <base href="/presentations/">
+    
+    <title>
+  Talks · bresilla
+</title>
+
+    
+      <link rel="canonical" href="/presentations/">
     
 
-<style>
- 
-.reveal section pre {
-  box-shadow: none;
-  margin-top: 25px;
-  margin-bottom: 25px;
-  border: 1px solid lightgrey;
-}
-.reveal section pre:hover {
-  border: 1px solid grey;
-  transition: border 0.3s ease;
-}
-.reveal section pre > code {
-  padding: 10px;
-}
-.reveal table {
-  font-size: 0.65em;
-}
- 
-.reveal section.side-by-side h1 {
-  position: absolute;
-}
-.reveal section.side-by-side h1:first-of-type {
-  left: 25%;
-}
-.reveal section.side-by-side h1:nth-of-type(2) {
-  right: 25%;
-}
-.reveal section[data-background-image] a,
-.reveal section[data-background-image] p,
-.reveal section[data-background-image] h2 {
-  color: white;
-}
-.reveal section[data-background-image] a {
-  text-decoration: underline;
-}
-</style>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
 
-  </head>
-  <body>
-    <div class="reveal">
-      <div class="slides">
-  
-<section>
-
-<h1 id="toc_0">📽️</h1>
-
-<h1 id="reveal-hugo">reveal-hugo</h1>
-
-<p>A Hugo theme for creating Reveal.js presentations.</p>
-
-<p>~ made by <a href="https://dzello.com/">@dzello</a> ~</p>
-</section>
-
-  
-<section>
-
-<h2 id="what-s-included">What&rsquo;s included?</h2>
-
-<ul>
-<li>All Reveal.js HTML, CSS and JS (v3.7.0)</li>
-<li>All out-of-the-box Reveal.js themes</li>
-<li>Two custom Reveal.js themes (including this one)</li>
-</ul>
-
-<p><br>
-<a href="https://github.com/dzello/reveal-hugo">see the code on github</a></p>
-
-</section><section>
-
-<h2 id="features">Features</h2>
-
-<ul>
-<li>Write slides in Markdown in one or more files</li>
-<li>Shortcodes for fragments, sections, slides &amp; more</li>
-<li>All Reveal.js parameters can be customized</li>
-<li>Any Hugo section can be output as a presentation</li>
-<li>Supports offline development or using a CDN</li>
-</ul>
-</section><section>
-
-<h1 id="usage">Usage</h1>
-
-</section><section>
-
-<h2 id="prerequisite">Prerequisite</h2>
-
-<p>First, add this to your <code>config.toml</code>:</p>
-
-<pre><code class="language-toml">[outputFormats.Reveal]
-baseName = &quot;index&quot;
-mediaType = &quot;text/html&quot;
-isHTML = true
-</code></pre>
-
-</section><section>
-
-<h3 id="presentation-at-site-root">Presentation at site root</h3>
-
-<p>Create <code>content/_index.md</code>:</p>
-
-<pre><code class="language-markdown">+++
-outputs = [&quot;Reveal&quot;]
-+++
-
-# Slide 1
-
-Hello world!
-</code></pre>
-
-</section><section>
-
-<h3 id="add-slides">Add slides</h3>
-
-<p>Separate them by <code>---</code> surrounded by blank lines:</p>
-
-<pre><code># Slide 1
-
-Hello world!
-
----
-
-# Slide 2
-
-Hello program!
-</code></pre>
-
-</section><section>
-
-<h3 id="add-slides-with-other-files">Add slides with other files</h3>
-
-<p>Add slides to <code>content/home/*.md</code></p>
-
-<pre><code class="language-markdown">+++
-weight = 10
-+++
-
-# Slide 3
-
----
-
-# Slide 4
-</code></pre>
-
-<p><small>💡 Tip: Use <code>weight</code> to specify the order that files should be considered.</small></p>
-
-</section><section>
-
-<h3 id="presentation-at-section">Presentation at &lsquo;/{section}/&rsquo;</h3>
-
-<p>Add slides to <code>content/{section}/_index.md</code>:</p>
-
-<pre><code class="language-markdown">+++
-outputs = [&quot;Reveal&quot;]
-+++
-
-# Slide 1
-
----
-
-# Slide 2
-</code></pre>
-
-</section><section>
-
-<p>Add slides from other files in <code>content/{section}/*.md</code></p>
-
-<pre><code class="language-markdown">+++
-weight = 10
-+++
-
-# Slide 3
-
----
-
-# Slide 4
-</code></pre>
-
-<p><small>💡 Tip: Use <code>weight</code> to specify the order that files should be considered.</small></p>
-</section><section>
-
-<h1 id="configuration">Configuration</h1>
-
-<p>Place configuration values in <code>config.toml</code> or a presentation&rsquo;s front matter (<code>_index.md</code>).</p>
-
-</section><section>
-
-<h2 id="reveal-js-themes">Reveal.js themes</h2>
-
-<p>Themes control the look and feel of your presentation. Set the <code>theme</code> param to any <a href="https://github.com/hakimel/reveal.js/#theming">valid Reveal.js theme</a>.</p>
-
-<pre><code class="language-toml">[params.reveal_hugo]
-theme = &quot;moon&quot;
-</code></pre>
-
-</section><section>
-
-<h2 id="use-a-custom-theme">Use a custom theme</h2>
-
-<p>To use a custom Reveal.js theme, place the CSS file in the <code>static</code> directory and set the <code>custom_theme</code> param.</p>
-
-<pre><code class="language-toml">[params.reveal_hugo]
-custom_theme = &quot;reveal-hugo/themes/robot-lung.css&quot;
-</code></pre>
-
-</section><section>
-
-<h3 id="use-a-custom-theme-advanced">Use a custom theme (advanced)</h3>
-
-<p>To use Hugo pipes to build a custom Reveal.js theme, place the source file (SCSS / PostCSS) in the <code>assets</code> directory and set the <code>custom_theme_compile</code> param.</p>
-
-<pre><code class="language-toml">[params.reveal_hugo]
-custom_theme = &quot;reveal-hugo/themes/custom-theme.scss&quot;
-custom_theme_compile = true
-</code></pre>
-
-<p><small>
-💡 See the <a href="/custom-theme-example/">custom theme example presentation</a> for more details.
-</small></p>
-
-</section><section>
-
-<h2 id="bundled-themes">Bundled themes</h2>
-
-<p>reveal-hugo comes with 2 extra Reveal.js themes:</p>
-
-<ul>
-<li><a href="https://github.com/dzello/revealjs-themes#robot-lung">robot-lung</a> (this one)</li>
-<li><a href="https://github.com/dzello/revealjs-themes#sunblind">sunblind</a></li>
-</ul>
-
-<p><br>
-<small>
-They live in the <code>static/reveal-hugo/themes</code> folder and also <a href="https://github.com/dzello/revealjs-themes">on Github</a>.
-</small></p>
-
-</section><section>
-
-<h2 id="reveal-js-params">Reveal.js params</h2>
-
-<p>Set <strong>snakecase</strong> versions of Reveal.js params, which will be camelized and passed to <code>Reveal.initialize</code>.</p>
-
-<pre><code class="language-toml">[params.reveal_hugo]
-history = true
-slide_number = true
-transition = 'zoom'
-transition_speed = 'fast'
-</code></pre>
-
-<p><a href="https://github.com/hakimel/reveal.js/#configuration">Full list of params</a></p>
-
-</section><section>
-
-<h2 id="highlight-js-themes">highlight.js themes</h2>
-
-<p>To change the syntax highlighting theme, set the <code>highlight_theme</code>
-to a valid <a href="https://highlightjs.org/static/demo/">highlight.js theme name</a>.</p>
-
-<pre><code class="language-toml">[params.reveal_hugo]
-highlight_theme = &quot;zenburn&quot;
-</code></pre>
-
-</section><section>
-
-<h2 id="extending-the-layout">Extending the layout</h2>
-
-<p>Use partials to add HTML to the page for one or all presentations at a time.</p>
-
-<p><small>
-💡 This is the recommended way to add script and style tags to customize your presentations.
-</small></p>
-
-</section><section>
-
-<p>Here is where to put partials for different presentations and places in the DOM.
-<br><br></p>
-
-<table>
-<thead>
-<tr>
-<th>Presentation</th>
-<th>Before &lt;/head&gt;</th>
-<th>Before &lt;/body&gt;</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>All</td>
-<td>reveal-hugo/head.html</td>
-<td>reveal-hugo/body.html</td>
-</tr>
-
-<tr>
-<td>Root</td>
-<td>home/reveal-hugo/head.html</td>
-<td>home/reveal-hugo/body.html</td>
-</tr>
-
-<tr>
-<td>Section</td>
-<td>{section}/reveal-hugo/head.html</td>
-<td>{section}/reveal-hugo/body.html</td>
-</tr>
-</tbody>
-</table>
-
-<p>&nbsp;</p>
-
-<p><small>
-💡 You can also create an <code>end.html</code> to put content before the end of the <code>.reveal</code> div tag.
-</small></p>
-
-</section><section>
-
-<h2 id="custom-css-example">Custom CSS Example</h2>
-
-<p>In <code>home/reveal-hugo/head.html</code>:</p>
-
-<pre><code class="language-html">&lt;style&gt;
-.reveal section h1 {
-  color: blue;
-}
-&lt;/style&gt;
-</code></pre>
-
-</section><section>
-
-<h2 id="custom-js-example">Custom JS Example</h2>
-
-<p>In <code>home/reveal-hugo/body.html</code>:</p>
-
-<pre><code class="language-html">&lt;script type=&quot;text/javascript&quot;&gt;
-Reveal.addEventListener('slidechanged', function(event) {
-  console.log(&quot;🎞️ Slide is now &quot; + event.indexh);
-});
-&lt;/script&gt;
-</code></pre>
-</section><section>
-
-<h1 id="shortcodes">Shortcodes</h1>
-
-</section><section>
-
-<p>Hugo&rsquo;s shortcodes are similar to functions or templates that extend what you can do with Markdown.</p>
-
-<p><a href="https://gohugo.io/content-management/shortcodes/">Shortcode documentation</a></p>
-</section><section>
-
-<h2 id="fragment">Fragment</h2>
-
-<p>The <code>fragment</code> shortcode makes content appear incrementally.</p>
-
-<pre><code>{{% fragment %}} One {{% /fragment %}}
-{{% fragment %}} Two {{% /fragment %}}
-{{% fragment %}} Three {{% /fragment %}}
-</code></pre>
-
-<p><span class='fragment '
-  >
-   One
-</span>
-<span class='fragment '
-  >
-   Two
-</span>
-<span class='fragment '
-  >
-   Three
-</span></p>
-
-</section><section>
-
-<h2 id="frag">Frag</h2>
-
-<p>The <code>frag</code> shortcode is more terse than <code>fragment</code>. It accepts a <code>c</code> attribute.</p>
-
-<pre><code>{{&lt; frag c=&quot;One&quot; &gt;}}
-{{&lt; frag c=&quot;Two&quot; &gt;}}
-{{&lt; frag c=&quot;Three&quot; &gt;}}
-</code></pre>
-
-<p><span class='fragment '
-  >
-  One
-</span>
-<span class='fragment '
-  >
-  Two
-</span>
-<span class='fragment '
-  >
-  Three
-</span></p>
-
-</section><section>
-
-<p>Both <code>fragment</code> and <code>frag</code> accept two additional parameters:</p>
-
-<ul>
-<li><code>class</code>: sets the class of the wrapping <code>span</code> element</li>
-<li><code>index</code>: controls the order in which sections will appear</li>
-</ul>
-</section><section><section data-shortcode-section>
-<h2 id="section">Section</h2>
-
-<p>The <code>section</code> shortcode groups slides into a <strong>vertical display</strong>.</p>
-
-<p><br>
-<small>
-use the down arrow or swipe down to continue
-</small>
-<br>
-<a href="#" class="navigate-down">🔽</a></p>
-
-</section><section>
-
-<p>Put the shortcode around the slides you want to group together.</p>
-
-<pre><code class="language-markdown">{{% section %}}
-
-## Section slide 1
-
----
-
-## Section slide 2
-
-{{% /section %}}
-</code></pre>
-
-<p>Keep going down.</p>
-
-</section><section>
-
-<h2 id="that-s-it">That&rsquo;s it!</h2>
-
-<p>Use the right arrow or swipe right to continue.</p>
-
-</section>
-</section><section data-noprocess data-markdown
-  data-separator="^\r?\n---\r?\n$"
-  data-separator-vertical="^\r?\n------\r?\n$"
-  data-separator-notes="notes?:">
-  <script type="text/template">
     
-
-## Markdown
-
-Reveal.js has its own [markdown processor](https://github.com/hakimel/reveal.js#markdown). To use that instead of Hugo, surround a slide with the markdown shortcode.
-
-```markdown
-{{< markdown >}}
-
-# Hello world!
-
-{{< /markdown >}}
-```
-
-<br>
-<small>
-💡 Make sure to use the `{{< >}}` shortcode syntax to avoid rendering by Hugo.
-</small>
-
----
-
-<!-- .slide: data-background="#FF4081" -->
-
-Reveal.js markdown uses HTML comments to change slide properties, like background color.
-
-```markdown
-{{< markdown >}}
-<!-- .slide: data-background="#FF4081" -->
-# I'm a colorful slide
-{{< /markdown >}}
-```
-
-
-  </script>
-</section>
-</section><section>
-
-<h2 id="notes">Notes</h2>
-
-<p>Add speaker notes to your presentation with the <code>note</code> shortcode. Type &rsquo;s&rsquo; to see this slide&rsquo;s speaker notes.</p>
-
-<pre><code class="language-markdown">---
-
-{{% note %}}
-You found the speaker notes!
-{{% /note %}}
-
----
-</code></pre>
-
-<aside class="notes">
-You found the speaker notes!
-</aside>
-
-</section>
-
-
-<section data-noprocess data-shortcode-slide
-      data-notes="You found the notes!">
-  
-
-<h2 id="notes-1">Notes</h2>
-
-<p>You can also add notes with the <code>slide</code> shortcode and <code>notes</code> attribute:</p>
-
-<pre><code class="language-markdown">---
-
-{{% slide notes=&quot;You found the notes!&quot; %}}
-
----
-</code></pre>
-
-</section>
-
-<section data-noprocess>
-  <h2>Write slides in HTML</h2>
-  <p>Use a <code>section</code> tag with a <code>data-noprocess</code> attribute to avoid any processing by reveal-hugo.</p>
-  <pre>
-&lt;section data-noprocess&gt;
-  &lt;h1&gt;Hello world!&lt;/h1&gt;
-&lt;section&gt;</pre>
-  <small>💡 This is useful if you can't get Markdown to output exactly what you want.</small>
-</section>
-</section><section>
-
-<h1 id="resources">Resources</h1>
-
-</section><section>
-
-<h2 id="code-and-docs">Code and docs</h2>
-
-<ul>
-<li><a href="https://github.com/dzello/reveal-hugo">reveal-hugo Github README</a></li>
-<li><a href="https://github.com/dzello/reveal-hugo/tree/master/exampleSite">Content for this presentation</a></li>
-</ul>
-
-</section><section>
-
-<h2 id="external-resources">External resources</h2>
-
-<ul>
-<li><a href="https://revealjs.com/">Reveal.js</a></li>
-<li><a href="https://gohugo.io/">Hugo docs</a></li>
-<li><a href="https://gohugo.io/templates/output-formats/">Hugo output format docs</a></li>
-</ul>
-
-</section><section>
-
-<h2 id="designed-to">Designed to&hellip;</h2>
-
-<ul>
-<li>Deploy to <a href="https://netlify.com/">Netlify</a></li>
-<li>Edit with <a href="https://forestry.io/">Forestry</a></li>
-</ul>
-
-</section><section>
-
-<h1 id="toc_4">🙏</h1>
-
-<p>Contribute by opening issues and pull requests.</p>
-
-</section><section>
-
-<h1 id="thanks">Thanks!</h1>
-
-</section><section>
-
-<h1 id="toc_6">↩️</h1>
-
-<h4 id="start-over"><a href="#">Start over</a></h4>
-</section>
-
-</div>
       
-<div class="line top"></div>
-<div class="line bottom"></div>
-<div class="line left"></div>
-<div class="line right"></div>
-
-    </div>
-<script type="text/javascript" src=/presentations/reveal-hugo/object-assign.js></script>
-
-<a href="/presentations/reveal-js/css/print/" id="print-location" style="display: none;"></a>
-<script type="text/javascript">
-  var printLocationElement = document.getElementById('print-location');
-  var link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.type = 'text/css';
-  link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
-  document.getElementsByTagName('head')[0].appendChild(link);
-</script>
-
-<script type="application/json" id="reveal-hugo-site-params">{}</script>
-<script type="application/json" id="reveal-hugo-page-params">{"custom_theme":"reveal-hugo/themes/robot-lung.css","highlight_theme":"color-brewer","margin":0.2,"templates":{"hotpink":{"background":"#FF4081","class":"hotpink"}},"transition":"slide","transition_speed":"fast"}</script>
-
-<script src="/presentations/reveal-js/lib/js/head.min.js"></script>
-<script src="/presentations/reveal-js/js/reveal.js"></script>
-
-<script type="text/javascript">
-  
-  
-  function camelize(map) {
-    if (map) {
-      Object.keys(map).forEach(function(k) {
-        newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
-        if (newK != k) {
-          map[newK] = map[k];
-          delete map[k];
-        }
-      });
-    }
-    return map;
-  }
-  
-  var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
-  var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
-  var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
-  
-  var options = Object.assign({},
-    camelize(revealHugoDefaults),
-    camelize(revealHugoSiteParams),
-    camelize(revealHugoPageParams));
-  Reveal.initialize(options);
-</script>
-
-<script type="text/javascript" src="/presentations/reveal-js/lib/js/classList.js"></script>
-
-
-<script type="text/javascript" src="/presentations/reveal-js/plugin/markdown/marked.js"></script>
-
-<script type="text/javascript" src="/presentations/reveal-js/plugin/markdown/markdown.js"></script>
-
-<script type="text/javascript" src="/presentations/reveal-js/plugin/highlight/highlight.js"></script>
-
-<script type="text/javascript" src="/presentations/reveal-js/plugin/zoom-js/zoom.js"></script>
-
-
-<script type="text/javascript" src="/presentations/reveal-js/plugin/notes/notes.js"></script>
-
-
-
-<script type="text/javascript">
-if (hljs)
-  hljs.initHighlightingOnLoad();
-</script>
-    
+      
+      <link rel="stylesheet" href="/css/coder.min.1f7f3cec43b8c99b4310f94f3cecf5924be19efdae6f058376948d7c125f96b6.css" integrity="sha256-H3887EO4yZtDEPlPPOz1kkvhnv2ubwWDdpSNfBJflrY=" crossorigin="anonymous" media="screen" />
     
 
+    
 
-<script type="text/javascript">
+    
 
-Reveal.addEventListener('slidechanged', function(event) {
-  console.log("🎞️ Slide is now " + event.indexh);
-});
-</script>
+    
+
+    
+    
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.59.0-DEV" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      bresilla
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">about</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">projects</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/presentations/">talks</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/contact/">contact</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container page">
+  <article>
+    <header>
+      <h1>Talks</h1>
+    </header>
+
+    <p><a href="/presentations/apresent/index.html">A SIMPLE PRESENTATION</a></p>
+
+<p><a href="/presentations/precision/index.html">A SIMPLE PRESENTATION</a></p>
+
+  </article>
+</section>
+
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+    <a href="/quotes"><p>We are what we repeatedly do. Excellence, then, is not an act, but a habit.</p></a>
+    
+  </section>
+</footer>
+
+    </main>
+
+    
 
   </body>
+
 </html>
