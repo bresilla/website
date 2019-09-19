@@ -1,0 +1,88 @@
+baseurl = "/"
+title = "bresilla"
+theme = "hugo-coder"
+# theme = "coder-portfolio"
+languagecode = "en"
+defaultcontentlanguage = "en"
+publishDir = "./docs"
+
+paginate = 20
+canonifyurls = true
+pygmentsstyle = "b2"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+disqusShortname = "kushtrimbresilla"
+
+[params]
+    surname = "Bresilla"
+    name = "Trim"
+    author = "Trim Bresilla"
+
+    description = "Personal website & bolg"
+    keywords = "blog,developer,personal"
+    info = "plant hacker · robotist · reverse engineer"
+    avatarurl = "images/profile_06.jpg"
+    footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
+    dateformat = "2 January 2006"
+
+    hideCredits = false
+    hideCopyright = false
+    commit = "https://github.com/luizdepra/hugo-coder/tree/"
+    rtl = false
+    inverted = false
+    maxSeeAlsoItems = 5
+    custom_css = []
+    custom_js = []
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+
+[[params.social]]
+    name = "Github"
+    icon = "fab fa-github"
+    weight = 1
+    url = "https://github.com/bresilla/"
+[[params.social]]
+    name = "LinkedIn"
+    icon = "fab fa-linkedin"
+    weight = 3
+    url = "https://www.linkedin.com/in/bresilla/"
+[[params.social]]
+    name = "Twitter"
+    icon = "fab fa-twitter"
+    weight = 4
+    url = "https://twitter.com/trimbresilla/"
+[[params.social]]
+    name = "RSS"
+    icon = "fas fa-rss-square"
+    weight = 5
+    url = "index.xml"
+[[params.social]]
+    name = "Reddit"
+    icon = "fab fa-reddit"
+    weight = 6
+    url = "https://www.reddit.com/user/bresilla"
+
+
+[[menu.main]]
+    name = "about"
+    weight = 1
+    url = "about/"
+
+[[menu.main]]
+    name = "blog"
+    weight = 2
+    url = "posts/"
+
+[[menu.main]]
+    name = "projects"
+    weight = 3
+    url = "projects/"
+
+[[menu.main]]
+    name = "contact"
+    weight = 5
+    url = "contact/"
