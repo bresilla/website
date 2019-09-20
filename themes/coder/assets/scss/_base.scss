@@ -10,8 +10,8 @@ html {
 }
 
 body {
-  color: $fg-color;
-  background-color: $bg-color;
+  color: var(--fg-color);
+  background-color: var(--bg-color);
 	font-family: $text-font-family;
 	font-size: 1.6em;
 	font-weight: 300;

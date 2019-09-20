@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang }}">
+<html lang="{{ .Site.Language.Lang }}" style="{{ if .Params.styleaccent }} --accent-color:{{ .Params.styleaccent }} {{ end }};{{ if .Params.stylebackground }} --bg-color:{{ .Params.stylebackground }} {{ end }};{{ if .Params.styleforeground }} --fg-color:{{ .Params.styleforeground  }} {{ end }}">
 
   <head>
     <meta charset="utf-8">
@@ -78,7 +78,7 @@
   </head>
 
   <body class="{{ if .Site.Params.rtl }}rtl{{ end }} {{ if .Site.Params.inverted }}inverted{{ end }}">
-    <main class="wrapper">
+      <main class="wrapper {{ .Slug }}">
       {{ partial "header.html" . }}
 
       <div class="content">

@@ -8,4 +8,7 @@ tags = []
 categories = []
 externalLink = ""
 series = []
+styleaccent = ""
+stylebackground = ""
+styleforeground = ""
 +++

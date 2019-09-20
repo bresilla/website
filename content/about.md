@@ -1,6 +1,9 @@
 +++
 title = "About Me"
 slug = "about"
+styleaccent= "#04f977"
+stylebackground= "#7a4949"
+styleforeground= "#000000"
 +++
 
 This is my personal website & blogg.

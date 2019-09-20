@@ -20,27 +20,29 @@ $heading-font-family: 'Daytona', Helvetica, sans-serif;
 $thin-font-family: 'Novacento Sans Wide', Helvetica, sans-serif;
 $code-font-family: 'Source Code Pro', 'Lucida Console', monospace;
 
-$darkcolor: #080a0f;
-$lightcolor: #fafafa;
-$accentcolor: #ff9000;
+:root{
+    --accent-color: #ff9000;
+    --bg-color: #080a0f;
+    --fg-color: #fafafa;
+}
 
-$glitchone: $accentcolor;
+$darkcolor: var(--bg-color);
+$lightcolor: var(--fg-color);
+$accentcolor: var(--accent-color);
+
+$glitchone: var(--accent-color);
 $glitchtwo: blue;
 
-$darkcolor1: $darkcolor;
-$lightcolor1: $lightcolor;
-$accentcolor1: $accentcolor;
-
 // Colors
-$bg-color: $darkcolor !default;
-$fg-color: $lightcolor !default;
-$alt-bg-color: $darkcolor1 !default;
-$alt-fg-color: $lightcolor1 !default;
-$link-color: $accentcolor !default;
+$bg-color: var(--bg-color) !default;
+$fg-color: var(--fg-color) !default;
+$alt-bg-color: var(--bg-color) !default;
+$alt-fg-color: var(--fg-color) !default;
+$link-color: var(--accent-color) !default;
 
 // Colors inverted
-$bg-color-inverted: $lightcolor !default;
-$fg-color-inverted: $darkcolor !default;
-$alt-bg-color-inverted: $lightcolor1 !default;
-$alt-fg-color-inverted: $darkcolor1 !default;
-$link-color-inverted: $accentcolor1 !default;
+$bg-color-inverted: var(--fg-color) !default;
+$fg-color-inverted: var(--bg-color) !default;
+$alt-bg-color-inverted: var(--fg-color) !default;
+$alt-fg-color-inverted: var(--bg-color) !default;
+$link-color-inverted: var(--accent-color) !default;
