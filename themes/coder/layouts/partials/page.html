@@ -1,7 +1,7 @@
 <section class="container page">
   <article>
     <header>
-      <h1>{{ .Title }}</h1>
+      <h1 class="{{ .Slug }} contpage"  data-text="{{ .Title }}">{{ .Title }}</h1>
     </header>
 
     {{ .Content }}
