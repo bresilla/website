@@ -5,9 +5,6 @@ outputs = ["Reveal"]
 highlight_theme = "arta"
 custom_theme = "/custom-theme.scss"
 custom_theme_compile = true
-[logo]
-src = "/images/unibo.png"
-alt = "UNIBO"
 +++
 
 {{< slide transition="zoom" transition-speed="fast" >}}
