@@ -18,6 +18,10 @@ disqusShortname = "kushtrimbresilla"
     surname = "Bresilla"
     name = "Trim"
     author = "Trim Bresilla"
+    styleaccent = "#ff9000"
+    stylebackground = "#080a0f"
+    styleforeground = "#c4d0d1"
+    inverse = true
 
     description = "Personal website & bolg"
     keywords = "blog,developer,personal"
