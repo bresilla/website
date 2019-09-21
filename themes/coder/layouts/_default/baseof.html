@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang }}" style="{{ if .Params.styleaccent }} --accent-color:{{ .Params.styleaccent }} {{ end }};{{ if .Params.stylebackground }} --bg-color:{{ .Params.stylebackground }} {{ end }};{{ if .Params.styleforeground }} --fg-color:{{ .Params.styleforeground  }} {{ end }}">
+<html lang="{{ .Site.Language.Lang }}" style="
+    {{ if .Params.styleaccent }} --accent-color:{{ .Params.styleaccent }} {{ end }};
+    {{ if .Params.stylebackground }} --bg-color:{{ .Params.stylebackground }} {{ end }};
+    {{ if .Params.styleforeground }} --fg-color:{{ .Params.styleforeground  }} {{ end }}
+    ">
 
   <head>
     <meta charset="utf-8">

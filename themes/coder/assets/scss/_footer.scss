@@ -12,8 +12,22 @@
     }
   }
   p {
-    padding: 5px;
-    border-top: 1px solid #fafafa;
     margin: 2rem 0 .1rem;
-  }
+    }
+    @media only screen and (min-width : 768px) {
+        p {
+            background:
+                linear-gradient(to bottom, var(--accent-color) 0%, var(--accent-color) 100%);
+                background-position: 100% 0;
+                background-repeat: repeat-x;
+                background-size: 1px 1px;
+            text-decoration: none;
+            transition: background-size .5s;
+            padding: 4px;
+        }
+        p:hover {
+            color: var(--bg-color);
+            background-size: 4px 50px;
+        }
+    }
 }
