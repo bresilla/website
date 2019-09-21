@@ -1,6 +1,7 @@
 +++
 title = "Contact"
 slug = "contact"
+footercontent = "Here goes some very important quote"
 styleaccent = "#5fd7ff"
 +++
 

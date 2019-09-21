@@ -5,7 +5,12 @@
     font-style: normal;
     font-weight: 200;
 }
-
+@font-face {
+    font-family: 'Iosevka Term SS01';
+    src: url("../fonts/iosevka-term-ss01-light.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
 @font-face {
     font-family: 'Daytona';
     src: url("../fonts/Daytona_Thin.ttf") format("truetype");
@@ -18,7 +23,7 @@ $text-font-family: 'Lusitana', Georgia, serif;
 $fancy-font-family: 'Playfair Display', Georgia, serif;
 $heading-font-family: 'Daytona', Helvetica, sans-serif;
 $thin-font-family: 'Novacento Sans Wide', Helvetica, sans-serif;
-$code-font-family: 'Source Code Pro', 'Lucida Console', monospace;
+$code-font-family: 'Iosevka Term SS01', 'Lucida Console', monospace;
 
 :root{
     --accent-color: #ff9000;
