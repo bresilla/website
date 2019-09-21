@@ -98,12 +98,12 @@
   </url>
   
   <url>
-    <loc>/categories/golang/</loc>
+    <loc>/tags/golang/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/golang/</loc>
+    <loc>/categories/golang/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -115,6 +115,10 @@
   <url>
     <loc>/posts/migrate-from-jekyll/</loc>
     <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/logo/</loc>
   </url>
   
   <url>
@@ -131,10 +135,6 @@
   
   <url>
     <loc>/quotes/</loc>
-  </url>
-  
-  <url>
-    <loc>/resume/</loc>
   </url>
   
   <url>

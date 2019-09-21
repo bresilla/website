@@ -94,6 +94,15 @@ Follow the following steps:
     </item>
     
     <item>
+      <title></title>
+      <link>/logo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/logo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>About Me</title>
       <link>/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -129,21 +138,6 @@ Here is supposed to be a cool paragraphs describing some things to make me look 
       <guid>/quotes/</guid>
       <description>Here are some quotes i like:
 We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle</description>
-    </item>
-    
-    <item>
-      <title>Resume</title>
-      <link>/resume/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/resume/</guid>
-      <description>Johnny Coder 1 MyAddress email@example.com MyTown 1000 @twitter_handle MyCountry 1800 my-phone-nr
-Education  2010-2014 (expected) PhD, Computer Science; Awesome University (MyTown)
-Thesis title: Deep Learning Approaches to the Self-Awesomeness Estimation Problem
- 2007-2010 BSc, Computer Science and Electrical Engineering; University of HomeTown (HomeTown)
-Minor: Awesomeology
-  Experience Your Most Recent Work Experience:
-Short text containing the type of work done, results obtained, lessons learned and other remarks. Can also include lists and links:</description>
     </item>
     
     <item>

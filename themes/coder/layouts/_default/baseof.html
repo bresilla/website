@@ -79,6 +79,14 @@
 
   <body class="{{ if .Site.Params.rtl }}rtl{{ end }} {{ if .Site.Params.inverted }}inverted{{ end }}">
       <main class="wrapper {{ .Slug }}">
+      {{ if .Params.video }} 
+        <div class="fullscreen-bg">
+            <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
+                <source src="../video/bresilla.mp4" type="video/mp4">
+            </video>
+        </div>
+      {{ end }}
+
       {{ partial "header.html" . }}
 
       <div class="content">

@@ -201,89 +201,144 @@
 		height: 100%;
 }
 
-.lister {
+.contpage {
     font-size: 4.2rem;
+    // font-family: $fancy-font-family;
 }
+
+$glitchsize: 3px;
 
 @media only screen and (min-width : 768px) {
-.glitch, .contpage{
-    position: relative;
-	color: $lightcolor;
-	animation: glitch-skew 1s infinite linear alternate-reverse;
-	&::before{
-		@include glitchCopy;
-		left: 2px;
-		text-shadow: -2px 0 $glitchone;
-		clip: rect(44px, 450px, 56px, 0);
-		animation: glitch-anim 5s infinite linear alternate-reverse;
-	}
+    .glitch, .contpage{
+        position: relative;
+        color: $lightcolor;
+        animation: glitch-skew 1s infinite linear alternate-reverse;
+        &::before{
+            @include glitchCopy;
+            left: $glitchsize;
+            text-shadow: $glitchsize 0 $glitchone;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim1 5s infinite linear alternate-reverse;
+        }
 
-	&::after {
-		@include glitchCopy;
-		left: -2px;
-		text-shadow: -2px 0 $glitchtwo, 2px 2px $glitchone;
-		animation: glitch-anim2 1s infinite linear alternate-reverse;
-	}
-}
-
-/* Creates an animation with 20 steaps. For each step, it calculates a percentage for the specific step. It then generates a random clip box to be used for the random glitch effect. Also adds a very subtle skew to change the 'thickness' of the glitch.*/
-@keyframes glitch-anim {
-  $steps: 50;
-  @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-			transform: skew((random(100) / 100) + deg);
+        &::after {
+            @include glitchCopy;
+            right: $glitchsize;
+            text-shadow: $glitchsize 0 $glitchtwo, $glitchsize $glitchsize $glitchone;
+            animation: glitch-anim2 1s infinite linear alternate-reverse;
+        }
     }
-  }
-}
 
-// Same deal, just duplicated for ultra randomness.
-@keyframes glitch-anim2 {
-  $steps: 20;
-  @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-			transform: skew((random(100) / 100) + deg);
+    /* Creates an animation with 20 steaps. For each step, it calculates a percentage for the specific step. It then generates a random clip box to be used for the random glitch effect. Also adds a very subtle skew to change the 'thickness' of the glitch.*/
+    @keyframes glitch-anim {
+    $steps: 50;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 5);
+                transform: skew((random(100) / 100) + deg);
+        }
     }
-  }
-}
-
-// Does the same deal as before, but now only skews. Used for main text.
-@keyframes glitch-skew {
-  $steps: 10;
-  @for $i from 0 through $steps {
-    #{percentage($i*(1/$steps))} {
-      transform: skew((random(10) - 5) + deg);
     }
-  }
-}
 
-.typewriter {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: .15em solid orange; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: .15em; /* Adjust as needed */
-  animation: 
-    typing 3.5s steps(40, end),
-    blink-caret .75s step-end infinite;
-}
+    @keyframes glitch-anim1 {
+    $steps: 30;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                transform: skew((random(100) / 100) + deg);
+        }
+    }
+    }
 
-/* The typing effect */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
+    // Same deal, just duplicated for ultra randomness.
+    @keyframes glitch-anim2 {
+    $steps: 20;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                transform: skew((random(100) / 100) + deg);
+        }
+    }
+    }
 
-/* The typewriter cursor effect */
-@keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: $accentcolor; }
-}
+    // Does the same deal as before, but now only skews. Used for main text.
+    @keyframes glitch-skew {
+    $steps: 10;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        transform: skew((random(10) - 5) + deg);
+        }
+    }
+    }
+
+    .typewriter {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid orange; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: 
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+    }
+
+    /* The typing effect */
+    @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+    }
+
+    /* The typewriter cursor effect */
+    @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: $accentcolor; }
+    }
 }
 
 
 .wrapper.about {
     // background-color: $accentcolor;
     transition: background-color 2s ease-in;
+}
+
+.fullscreen-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -100;
+}
+
+.fullscreen-bg__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .fullscreen-bg__video {
+    height: 300%;
+    top: -100%;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .fullscreen-bg__video {
+    width: 300%;
+    left: -100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .fullscreen-bg {
+    background: url('../img/videoframe.jpg') center center / cover no-repeat;
+  }
+
+  .fullscreen-bg__video {
+    display: none;
+  }
 }

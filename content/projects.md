@@ -1,9 +1,7 @@
 +++
 title = "Projects"
 slug = "projects"
-styleaccent= "#ffffff"
-stylebackground= "#101010"
-styleforeground= "#ff8929"
+styleaccent= "#fc50f6"
 +++
 
 Nothing to see here... Move along!
