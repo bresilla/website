@@ -6,12 +6,13 @@
     <h1 class="glitch" data-text="{{ .Site.Params.author }}"><a href="/logo/">{{ .Site.Params.author }}</a></h1>
     <h2 class="typewriter" data-text="{{ .Site.Params.info }}">{{ .Site.Params.info }}</h2>
     {{ with .Site.Params.social }}
-    <ul>
+    <ul class="socials">
       {{ range sort .}}
         {{ if .icon }}
           <li>
-            <a href="{{ .url }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }}>
+            <a class="textglitch" data-text="{{ .unicode }}" href="{{ .url }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }}>
               <i class="{{ .icon }}" aria-hidden="true"></i>
+              <!-- {{ .unicode }} -->
             </a>
           </li>
         {{ else }}

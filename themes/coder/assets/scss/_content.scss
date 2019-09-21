@@ -130,13 +130,11 @@
     ul {
       list-style: none;
       margin: 3.0rem 0 0rem 0;
-      padding: 0;
       li {
         display: inline-block;
         position: relative;
         a {
           color: $fg-color;
-          text-transform: uppercase;
           margin-left: 1.0rem;
           margin-right: 1.0rem;
           font-size: 1.6rem;
@@ -147,6 +145,7 @@
           @media only screen and (max-width : 768px) {
             font-size: 1.4rem;
           }
+          text-decoration: none;
           i {
             font-size: 3.2rem;
           }
@@ -230,7 +229,6 @@
     font-size: 4.2rem;
 }
 
-$glitchsize: 3px;
 
 @media only screen and (min-width : 768px) {
     .glitch, .contpage{
@@ -367,3 +365,51 @@ $glitchsize: 3px;
     }
 }
 
+ul.socials{
+    padding: 0;
+}
+
+@media only screen and (min-width : 768px) {
+    .textglitch {
+        transform: translate(-50%, -50%);
+        padding-top: 1rem;
+        padding-left: 0.3rem;
+        &:before, &:after {
+            border: 0;
+            display: block;
+            font-family: "Font Awesome 5 Brands";
+            font-size: 2em;
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            opacity: .5;
+        } &:after {
+            color: $glitchtwo;
+            z-index: -2;
+        } &:before {
+            color: var(--accent-color);
+            z-index: -1;
+        }
+        &:hover {
+            &:before {
+                animation: hoverglitch .3s cubic-bezier(.25, .46, .45, .94) both 5
+            }
+            &:after {
+                animation: hoverglitch .3s cubic-bezier(.25, .46, .45, .94) reverse both 5
+            }
+        }
+    }
+}
+
+
+@keyframes hoverglitch {
+	0% { transform: translate(0) }
+	20% { transform: translate(-5px, 5px) }
+	40% { transform: translate(-5px, -5px) }
+	60% { transform: translate(5px, 5px) }
+	80% { transform: translate(5px, -5px) }
+	to {transform: translate(0) }
+}

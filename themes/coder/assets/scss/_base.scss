@@ -31,19 +31,19 @@ a:hover{
     color: $accentcolor;
 }
 a:after {
- content:'';
- position:absolute; 
- bottom:0;
- left:0;
- width:0%;
- border-bottom:1px solid $accentcolor;
- transition:.4s
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:0%;
+    border-bottom:1px solid $accentcolor;
+    transition:.4s
 }
 a:hover:after {
- width:100%
+    width:100%
 }
 a, a:active, a:focus {
- outline:none;
+    outline:none;
 }
 
 
