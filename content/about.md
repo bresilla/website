@@ -1,6 +1,7 @@
 +++
 title = "About Me"
 slug = "about"
+footercontent = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
 styleaccent= "#04f977"
 +++
 

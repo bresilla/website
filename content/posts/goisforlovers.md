@@ -14,6 +14,9 @@ categories = [
     "golang",
 ]
 series = ["Getting Started", "Hugo"]
+styleaccent= "#af87ff"
+stylebackground = "#c4d0d1"
+styleforeground = "#080a0f"
 +++
 
 Hugo uses the excellent [go][] [html/template][gohtmltemplate] library for

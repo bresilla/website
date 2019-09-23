@@ -94,9 +94,5 @@ disqusShortname = "kushtrimbresilla"
 [[menu.main]]
     name = "talks"
     weight = 4
-    url = "presentations/"
-
-[[menu.main]]
-    name = "contact"
-    weight = 5
-    url = "contact/"
+    # url = "presentations/"
+    url = "talk/"

@@ -12,6 +12,9 @@ categories = [
     "golang",
 ]
 series = ["Getting Started", "Hugo"]
+styleaccent= "#af87ff"
+stylebackground = "#c4d0d1"
+styleforeground = "#080a0f"
 +++
 
 ## Step 1. Install Hugo

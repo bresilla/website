@@ -28,6 +28,7 @@ $code-font-family: 'Iosevka Term SS01', 'Lucida Console', monospace;
 :root{
     --accent-color: #ff9000;
     --bg-color: #080a0f;
+    --glitch-color: blue;
     --fg-color: #fafafa;
 }
 
@@ -37,7 +38,7 @@ $lightcolor: var(--fg-color);
 $accentcolor: var(--accent-color);
 
 $glitchone: var(--accent-color);
-$glitchtwo: blue;
+$glitchtwo: var(--glitch-color);
 
 // Colors
 $bg-color: var(--bg-color) !default;

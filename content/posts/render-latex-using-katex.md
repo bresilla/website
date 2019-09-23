@@ -4,6 +4,9 @@ title = "Render LaTeX using KaTeX"
 description = "Katex support demo"
 katex = "true"
 series = ["Theme", "Hugo"]
+styleaccent= "#af87ff"
+stylebackground = "#c4d0d1"
+styleforeground = "#080a0f"
 +++
 
 Enable katex by adding `katex = "true"` to the [front matter](https://gohugo.io/content-management/front-matter/)  

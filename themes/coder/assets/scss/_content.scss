@@ -28,7 +28,9 @@
     }
   }
   .post {
-    // font-family: $heading-font-family;
+      a {
+          color: $accentcolor;
+      }
     .post-title {
       margin-bottom: .75em;
     }
@@ -58,6 +60,10 @@
     font-size: 1.6rem;
     margin: 0;
   }
+}
+.content article header h1 {
+    font-family: $heading-font-family;
+    font-weight: 300;
 }
 
 .avatar img{
@@ -176,16 +182,13 @@
   }
 }
 
-
 @mixin textGlitch($name, $intensity, $textColor, $background, $highlightColor1, $highlightColor2, $width, $height) {
 
   color: $textColor;
   position: relative;
   $steps: $intensity;
 
-  // Ensure the @keyframes are generated at the root level
   @at-root {
-    // We need two different ones
     @for $i from 1 through 2 {
       @keyframes #{$name}-anim-#{$i} {
         @for $i from 0 through $steps {
@@ -238,7 +241,7 @@
         position: relative;
         color: $lightcolor;
         @include textGlitch("example-two", 30, var(--fg-color), var(--bg-color), white, green, 450, 115);
-        animation: glitch-skew 1s infinite linear alternate-reverse;
+        animation: glitch-anim1 0.1s infinite linear alternate-reverse;
         &::before{
             @include textGlitch("example-two", 10, var(--accent-color), var(--bg-color), white, green, 714, 50);
             @include glitchCopy;
@@ -257,46 +260,33 @@
         }
     }
 
-    /* Creates an animation with 20 steaps. For each step, it calculates a percentage for the specific step. It then generates a random clip box to be used for the random glitch effect. Also adds a very subtle skew to change the 'thickness' of the glitch.*/
-    @keyframes glitch-anim {
-    $steps: 50;
-    @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-        clip: rect(random(100)+px, 9999px, random(100)+px, 5);
-                transform: skew((random(100) / 100) + deg);
-        }
-    }
-    }
-
     @keyframes glitch-anim1 {
-    $steps: 30;
-    @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-                transform: skew((random(100) / 100) + deg);
+        $steps: 30;
+        @for $i from 0 through $steps {
+            #{percentage($i*(1/$steps))} {
+            clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                    transform: skew((random(100) / 100) + deg);
+            }
         }
     }
-    }
 
-    // Same deal, just duplicated for ultra randomness.
     @keyframes glitch-anim2 {
-    $steps: 20;
-    @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-                transform: skew((random(100) / 100) + deg);
+        $steps: 20;
+        @for $i from 0 through $steps {
+            #{percentage($i*(1/$steps))} {
+            clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                    transform: skew((random(100) / 100) + deg);
+            }
         }
-    }
     }
 
-    // Does the same deal as before, but now only skews. Used for main text.
     @keyframes glitch-skew {
-    $steps: 10;
-    @for $i from 0 through $steps {
-        #{percentage($i*(1/$steps))} {
-        transform: skew((random(10) - 5) + deg);
+        $steps: 100;
+        @for $i from 0 through $steps {
+            #{percentage($i*(1/$steps))} {
+            transform: skew((random(10) - 5) + deg);
+            }
         }
-    }
     }
 }
 
@@ -405,14 +395,12 @@ ul.socials{
             }
         }
     }
-}
-
-
-@keyframes hoverglitch {
-	0% { transform: translate(0) }
-	20% { transform: translate(-5px, 5px) }
-	40% { transform: translate(-5px, -5px) }
-	60% { transform: translate(5px, 5px) }
-	80% { transform: translate(5px, -5px) }
-	to {transform: translate(0) }
+    @keyframes hoverglitch {
+        0% { transform: translate(0) }
+        20% { transform: translate(-4px, 4px) }
+        40% { transform: translate(-4px, -4px) }
+        60% { transform: translate(4px, 4px) }
+        80% { transform: translate(4px, -4px) }
+        to {transform: translate(0) }
+    }
 }

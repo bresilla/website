@@ -113,12 +113,14 @@ Here is supposed to be a cool paragraphs describing some things to make me look 
     </item>
     
     <item>
-      <title>Contact</title>
-      <link>/contact/</link>
+      <title>Famous Programming Quotes</title>
+      <link>/talk/present1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/contact/</guid>
-      <description>You can&amp;rsquo;t contact me, that was just a click bait.</description>
+      <guid>/talk/present1/</guid>
+      <description> Famous Programming Quotes  &amp;ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&amp;rdquo; &amp;ndash; Phil Karlton
+  “To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &amp;ndash; Grace Hopper
+ </description>
     </item>
     
     <item>
@@ -138,16 +140,6 @@ Here is supposed to be a cool paragraphs describing some things to make me look 
       <guid>/quotes/</guid>
       <description>Here are some quotes i like:
 We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle</description>
-    </item>
-    
-    <item>
-      <title>Talks</title>
-      <link>/presentations/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/presentations/</guid>
-      <description>A SIMPLE PRESENTATION
-A SIMPLE PRESENTATION</description>
     </item>
     
   </channel>

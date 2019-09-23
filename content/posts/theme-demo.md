@@ -5,6 +5,9 @@ description = "The post demonstrates features of the coder theme."
 images = ["/images/N90.jpg"]
 math = "true"
 series = ["Theme", "Hugo"]
+styleaccent= "#af87ff"
+stylebackground = "#c4d0d1"
+styleforeground = "#080a0f"
 +++
 
 ## Style Demo
