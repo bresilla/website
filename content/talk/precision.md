@@ -10,7 +10,7 @@ tags = [
 categories = [
     "Agrculture",
 ]
-externalLink = "/presentations/precision/index.html"
+externalLink = "/press/precision/index.html"
 series = ["Presentations"]
 styleaccent= "#af87ff"
 stylebackground = "#c4d0d1"

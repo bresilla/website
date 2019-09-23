@@ -10,7 +10,7 @@ tags = [
 categories = [
     "Agrculture",
 ]
-externalLink = "/presentations/apresent/index.html"
+externalLink = "/press/apresent/index.html"
 series = ["Presentations"]
 styleaccent= "#af87ff"
 stylebackground = "#c4d0d1"
