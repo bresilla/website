@@ -10,16 +10,16 @@ html {
 }
 
 body {
-  color: var(--fg-color);
-  background-color: var(--bg-color);
-	font-family: $text-font-family;
-	font-size: 1.6em;
-	font-weight: 300;
-  line-height: 1.8em;
-  @media only screen and (max-width : 768px) {
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    font-family: $text-font-family;
     font-size: 1.6em;
-    line-height: 1.6em;
-  }
+    font-weight: 900;
+    line-height: 1.8em;
+    @media only screen and (max-width : 768px) {
+        font-size: 1.6em;
+        line-height: 1.6em;
+    }
 }
 a {
     font-weight:300;
@@ -57,7 +57,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: $heading-font-family;
+  font-family: $text-font-family;
   font-weight: 700;
   color: $alt-fg-color;
   margin: 6.4rem 0 3.2rem 0;
@@ -134,14 +134,16 @@ pre {
 
 code {
   font-family: $code-font-family;
+  background-color: var(--fg-color);
+  color: var(--bg-color);
   font-size: 1.6rem;
   font-weight: 400;
-  background-color: $alt-bg-color;
-  color: $fg-color;
   padding: 0.2rem 0.4rem 0.2rem 0.4rem;
 }
 
 blockquote {
+  background-color: var(--fg-color);
+  color: var(--bg-color);
   border-left: 2px solid $alt-bg-color;
   padding-left: 2.0rem;
   line-height: 2.2rem;

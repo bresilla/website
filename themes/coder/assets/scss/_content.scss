@@ -28,8 +28,12 @@
     }
   }
   .post {
-      a {
-          color: $accentcolor;
+    font-family: $text-font-family;
+    font-weight: 900;
+    a {
+        font-family: $code-font-family;
+        color: $accentcolor;
+        font-weight: 900;
       }
     .post-title {
       margin-bottom: .75em;
@@ -99,7 +103,7 @@
       .title {
         font-size: 1.8rem;
         color: $fg-color;
-        font-family: $heading-font-family;
+        font-family: $text-font-family;
         font-weight: 700;
         &:hover,
         &:focus {
@@ -223,10 +227,10 @@
 }
 
 @mixin glitchCopy {
-		content: attr(data-text);
-        position: absolute;
-		width: 100%;
-		height: 100%;
+    content: attr(data-text);
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .contpage {

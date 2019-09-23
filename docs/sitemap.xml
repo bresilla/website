@@ -118,6 +118,16 @@
   </url>
   
   <url>
+    <loc>/posts/linux/creating-a-new-theme/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/linux/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/posts/hugo-template-primer/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
@@ -129,6 +139,11 @@
   
   <url>
     <loc>/posts/hugoisforlovers/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/linux/hugoisforlovers/</loc>
     <lastmod>2014-04-02T00:00:00+00:00</lastmod>
   </url>
   

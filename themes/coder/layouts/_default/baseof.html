@@ -81,16 +81,15 @@
 
     {{ hugo.Generator }}
   </head>
-
-  <body class="{{ if .Site.Params.rtl }}rtl{{ end }} {{ if .Site.Params.inverted }}inverted{{ end }}">
-      <main class="wrapper {{ .Slug }}">
-      {{ if .Params.video }} 
+  <body style=" {{ if .Params.image }} background-image: url('{{ .Params.image }}'); background-position: center; background-repeat: no-repeat; background-size: cover {{ end }}">
+        {{ if .Params.video }} 
         <div class="fullscreen-bg">
             <video loop muted autoplay poster="img/videoframe.jpg" class="fullscreen-bg__video">
-                <source src="../video/bresilla.mp4" type="video/mp4">
+                <source src="{{ .Params.video }}" type="video/mp4">
             </video>
         </div>
-      {{ end }}
+        {{ end }}
+      <main class="wrapper {{ .Slug }}">
 
       {{ partial "header.html" . }}
 
