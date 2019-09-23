@@ -6,10 +6,28 @@
     <description>Recent content on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 20 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A simple presentation</title>
+      <link>/talk/apresent/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/talk/apresent/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Precision Agriculture</title>
+      <link>/talk/precisionag/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/talk/precisionag/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Render LaTeX using KaTeX</title>
@@ -110,17 +128,6 @@ Follow the following steps:
       <guid>/about/</guid>
       <description>This is my personal website &amp;amp; blogg.
 Here is supposed to be a cool paragraphs describing some things to make me look cool and super awsome. I&amp;rsquo;ll have to make up something along the way :P</description>
-    </item>
-    
-    <item>
-      <title>Famous Programming Quotes</title>
-      <link>/talk/present1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/talk/present1/</guid>
-      <description> Famous Programming Quotes  &amp;ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&amp;rdquo; &amp;ndash; Phil Karlton
-  “To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &amp;ndash; Grace Hopper
- </description>
     </item>
     
     <item>
