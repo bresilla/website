@@ -1,6 +1,6 @@
 +++
 title = "Precision Agriculture"
-date = "2019-05-17"
+date = "2016-01-28"
 slug = "precisionag"
 tags = [
     "agriculture",

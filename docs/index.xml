@@ -23,19 +23,6 @@
     </item>
     
     <item>
-      <title>Precision Agriculture</title>
-      <link>/talk/precisionag/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/talk/precisionag/</guid>
-      <description>Precision Agriculture with Hugo Pipes
-This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
-Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
-No separate build process is required, which means you can iterate on your theme and your content at the same time.
-To set a custom theme and use Hugo to compile it:</description>
-    </item>
-    
-    <item>
       <title>Render LaTeX using KaTeX</title>
       <link>/posts/render-latex-using-katex/</link>
       <pubDate>Wed, 20 Mar 2019 00:00:00 +0000</pubDate>
@@ -72,6 +59,19 @@ Deleted text
 This is text with inline math $\sum_{n=1}^{\infty} 2^{-n} = 1$ and with math blocks:
 $$ \sum_{n=1}^{\infty} 2^{-n} = 1 $$
    Heading Another heading     text text   text text   text text     Block quotes are written like so.</description>
+    </item>
+    
+    <item>
+      <title>Precision Agriculture</title>
+      <link>/talk/precisionag/</link>
+      <pubDate>Thu, 28 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/talk/precisionag/</guid>
+      <description>Precision Agriculture with Hugo Pipes
+This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
+Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
+No separate build process is required, which means you can iterate on your theme and your content at the same time.
+To set a custom theme and use Hugo to compile it:</description>
     </item>
     
     <item>
