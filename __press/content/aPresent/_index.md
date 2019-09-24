@@ -1,6 +1,8 @@
 +++
 outputs = ["Reveal"]
 title = "Famous Programming Quotes"
+[reveal_hugo]
+theme = "moon"
 
 +++
 # Famous Programming Quotes
