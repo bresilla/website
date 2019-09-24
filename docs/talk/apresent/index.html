@@ -1,38 +1,102 @@
-<!DOCTYPE HTML>
-<html lang="en" style="
-     --accent-color:#af87ff ;
-     --bg-color:#c4d0d1 ;
-     --fg-color:#080a0f ;
-    ;
-    ">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="Content-Language" content="en" />
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
-  <meta name="application-name" content="bresilla" />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>A simple presentation</title>
+    <meta name="description" content="Personal website &amp; bolg">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <title>bresilla</title>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.min.css" />
-  <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/night.min.css' />
-  <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css' />
-
-  
-</head>
-<body>
+    <link rel="stylesheet" href="/reveal-js/css/reveal.css"><link rel="stylesheet" href="/reveal-js/css/theme/moon.css" id="theme">
+    <link rel="stylesheet" href="/highlight-js/default.min.css">
+  </head>
+  <body>
     <div class="reveal">
         <div class="slides">
-            </div>
+            <section>
+
+<h1 id="famous-programming-quotes">Famous Programming Quotes</h1>
+
+</section><section>
+
+<blockquote>
+<p>&ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&rdquo; &ndash; Phil Karlton</p>
+</blockquote>
+
+</section><section>
+
+<blockquote>
+<p>“To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &ndash; Grace Hopper</p>
+</blockquote>
+</section></div>
     </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/js/reveal.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/zoom-js/zoom.min.js"></script>
-
-<script type="application/json" id="reveal-user-config">null</script>
-<script type="application/json" id="reveal-default-config">null</script>
-<script type="application/javascript" src='/hugo-theme-revealjs.js'></script>
-
-
-
-</body>
+    
+    <script type="text/javascript" src=/reveal-hugo/object-assign.js></script>
+    
+    <a href="/reveal-js/css/print/" id="print-location" style="display: none;"></a>
+    <script type="text/javascript">
+    var printLocationElement = document.getElementById('print-location');
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
+    document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+    
+    <script type="application/json" id="reveal-hugo-site-params">null</script>
+    <script type="application/json" id="reveal-hugo-page-params">{"theme":"moon"}</script>
+    
+    <script src="/reveal-js/lib/js/head.min.js"></script>
+    <script src="/reveal-js/js/reveal.js"></script>
+    
+    <script type="text/javascript">
+    
+    
+    function camelize(map) {
+        if (map) {
+        Object.keys(map).forEach(function(k) {
+            newK = k.replace(/(\_\w)/g, function(m) { return m[1].toUpperCase() });
+            if (newK != k) {
+            map[newK] = map[k];
+            delete map[k];
+            }
+        });
+        }
+        return map;
+    }
+    
+    var revealHugoDefaults = { center: true, controls: true, history: true, progress: true, transition: "slide" };
+    var revealHugoSiteParams = JSON.parse(document.getElementById('reveal-hugo-site-params').innerHTML);
+    var revealHugoPageParams = JSON.parse(document.getElementById('reveal-hugo-page-params').innerHTML);
+    
+    var options = Object.assign({},
+        camelize(revealHugoDefaults),
+        camelize(revealHugoSiteParams),
+        camelize(revealHugoPageParams));
+    Reveal.initialize(options);
+    </script>
+    
+    <script type="text/javascript" src="/reveal-js/lib/js/classList.js"></script>
+    
+    
+    <script type="text/javascript" src="/reveal-js/plugin/markdown/marked.js"></script>
+    
+    <script type="text/javascript" src="/reveal-js/plugin/markdown/markdown.js"></script>
+    
+    <script type="text/javascript" src="/reveal-js/plugin/highlight/highlight.js"></script>
+    
+    <script type="text/javascript" src="/reveal-js/plugin/zoom-js/zoom.js"></script>
+    
+    
+    <script type="text/javascript" src="/reveal-js/plugin/notes/notes.js"></script>
+    
+    
+    
+    <script type="text/javascript">
+    if (hljs)
+    hljs.initHighlightingOnLoad();
+    </script>
+  </body>
 </html>

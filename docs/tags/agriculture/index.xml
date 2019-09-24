@@ -17,7 +17,9 @@
       <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/talk/apresent/</guid>
-      <description></description>
+      <description> Famous Programming Quotes  &amp;ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&amp;rdquo; &amp;ndash; Phil Karlton
+  “To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &amp;ndash; Grace Hopper
+ </description>
     </item>
     
     <item>
@@ -26,7 +28,11 @@
       <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/talk/precisionag/</guid>
-      <description></description>
+      <description>Precision Agriculture with Hugo Pipes
+This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
+Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
+No separate build process is required, which means you can iterate on your theme and your content at the same time.
+To set a custom theme and use Hugo to compile it:</description>
     </item>
     
   </channel>
