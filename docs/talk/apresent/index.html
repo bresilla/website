@@ -1,5 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="
+     --accent-color:#af87ff ;
+     --bg-color:#c4d0d1 ;
+     --fg-color:#080a0f ;
+    ;
+    ">
   <head>
     <meta charset="utf-8">
     <title>A simple presentation</title>
@@ -13,7 +18,11 @@
     <link rel="stylesheet" href="/highlight-js/default.min.css">
   </head>
   <body>
-    <div class="reveal">
+    <div class="reveal bordeline">
+        <div class="line top"></div>
+        <div class="line bottom"></div>
+        <div class="line left"></div>
+        <div class="line right"></div>
         <div class="slides">
             <section>
 
@@ -32,18 +41,6 @@
 </blockquote>
 </section></div>
     </div>
-    
-    <script type="text/javascript" src=/reveal-hugo/object-assign.js></script>
-    
-    <a href="/reveal-js/css/print/" id="print-location" style="display: none;"></a>
-    <script type="text/javascript">
-    var printLocationElement = document.getElementById('print-location');
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = printLocationElement.href + (window.location.search.match(/print-pdf/gi) ? 'pdf.css' : 'paper.css');
-    document.getElementsByTagName('head')[0].appendChild(link);
-    </script>
     
     <script type="application/json" id="reveal-hugo-site-params">null</script>
     <script type="application/json" id="reveal-hugo-page-params">{"theme":"moon"}</script>
