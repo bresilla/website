@@ -1,21 +1,52 @@
-// Base settings for all themes that can optionally be
-// overridden by the super-theme
+// Base settings for all themes that can optionally be overridden by the super-theme
+@font-face {
+    font-family: 'Novacento Sans Wide';
+    src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot");
+    src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff2") format("woff2"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff") format("woff"), url("../fonts/Novecentosanswide-UltraLight-webfont.ttf") format("truetype"), url("../fonts/Novecentosanswide-UltraLight-webfont.svg#novecento_sans_wideultralight") format("svg");
+    font-style: normal;
+    font-weight: 200;
+}
+@font-face {
+    font-family: 'Iosevka Term SS01';
+    src: url("../fonts/iosevka-term-ss01-light.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+@font-face {
+    font-family: 'Daytona';
+    src: url("../fonts/Daytona_Thin.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;
+}
+// Fonts
+
+$text-font-family: 'Daytona', Georgia, serif;
+$heading-font-family: 'Daytona', Helvetica, sans-serif;
+$thin-font-family: 'Novacento Sans Wide', Helvetica, sans-serif;
+$code-font-family: 'Iosevka Term SS01', 'Lucida Console', monospace;
+
+:root{
+    --accent-color: #ff9000;
+    --bg-color: #080a0f;
+    --glitch-color: blue;
+    --fg-color: #fafafa;
+}
 
 // Background of the presentation
-$backgroundColor: #2b2b2b;
+$backgroundColor: var(--bg-color);
 
 // Primary/body text
-$mainFont: 'Lato', sans-serif;
+$mainFont: 'Daytona', sans-serif;
 $mainFontSize: 40px;
-$mainColor: #eee;
+$mainColor: var(--fg-color);
 
 // Vertical spacing between blocks of text
 $blockMargin: 20px;
 
 // Headings
 $headingMargin: 0 0 $blockMargin 0;
-$headingFont: 'League Gothic', Impact, sans-serif;
-$headingColor: #eee;
+$headingFont: 'Daytona', Impact, sans-serif;
+$headingColor: var(--accent-color);
 $headingLineHeight: 1.2;
 $headingLetterSpacing: normal;
 $headingTextTransform: uppercase;

@@ -12,13 +12,13 @@ categories = [
 ]
 series = ["Presentations"]
 styleaccent= "#af87ff"
-stylebackground = "#c4d0d1"
-styleforeground = "#080a0f"
+styleforeground = "#c4d0d1"
+stylebackground = "#080a0f"
 
 outputs = ["Reveal"]
 [reveal_hugo]
 highlight_theme = "arta"
-custom_theme = "/custom-theme.scss"
+custom_theme = "custom-theme.scss"
 custom_theme_compile = true
 +++
 
@@ -35,6 +35,8 @@ This presentation uses a custom Reveal.js theme written in SCSS that is compiled
 Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
 
 ---
+
+{{< slide background-color="#FFFFFF">}}
 
 No separate build process is required, which means you can iterate on your theme and your content at the same time.
 
