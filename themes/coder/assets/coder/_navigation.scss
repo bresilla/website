@@ -88,7 +88,7 @@ a {
         display: block;
         font-weight: 400;
         line-height: 6.0rem;
-        color: $fg-color;
+        color: var(--fg-color);
         cursor: pointer;
         &:hover,
         &:focus {
@@ -122,4 +122,27 @@ a {
             margin-left: 1.0rem;
             margin-right: 1.0rem;
         }
+}
+
+.navigation {
+    @media only screen and (max-width : 768px) {
+        .title {
+            a {
+                background-color: var(--accent-color);
+                color: var(--bg-color);
+                transition: background-color .5s, color .5s;
+                padding: 4px;
+            }
+            a:hover {
+                background-color: var(--bg-color);
+                color: var(--accent-color);
+            }
+            a:hover::after {
+                width: 0%;
+            }
+        }
+    }
+    .menu-button {
+        color: var(--accent-color);
+    }
 }
