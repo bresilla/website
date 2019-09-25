@@ -33,7 +33,7 @@
     <div class="wrapper">
         <div class="sidebar-wrapper">
             <div class="profile-container">
-                <img class="profile img-circle" src="{{ .Site.BaseURL }}/{{ .Site.Params.avatarurl }}" alt="" />
+                <img class="profile img-circle" src="{{ .Site.BaseURL }}{{ .Site.Params.avatarurl }}" alt="" />
                 <h1 class="name"><a href="{{ .Site.BaseURL | relLangURL }}">{{ .Site.Params.author }}</a></h1>
 
                 <h3 class="tagline">{{ .Site.Params.info }}</h3>
