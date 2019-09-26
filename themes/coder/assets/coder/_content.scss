@@ -256,6 +256,7 @@
             left: $glitchsize;
             text-shadow: $glitchsize 0 $glitchone;
             clip: rect(44px, 450px, 56px, 0);
+            text-shadow: $glitchsize 40 $glitchtwo, $glitchsize $glitchsize $glitchone;
             animation: glitch-anim1 5s infinite linear alternate-reverse;
         }
 
@@ -263,7 +264,7 @@
             @include textGlitch("example-two", 42, var(--accent-color), var(--bg-color), white, green, 154, 540);
             @include glitchCopy;
             right: $glitchsize;
-            text-shadow: $glitchsize 0 $glitchtwo, $glitchsize $glitchsize $glitchone;
+            text-shadow: $glitchsize 20 $glitchtwo, $glitchsize $glitchsize $glitchone;
             animation: glitch-anim2 3s infinite linear alternate-reverse;
         }
     }
