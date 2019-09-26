@@ -254,9 +254,9 @@
         &::before{
             @include glitchCopy;
             left: $glitchsize;
-            text-shadow: $glitchsize 0 $glitchone;
+            color: $glitchtwo;
             clip: rect(44px, 450px, 56px, 0);
-            text-shadow: $glitchsize 40 $glitchtwo, $glitchsize $glitchsize $glitchone;
+            text-shadow: $glitchsize 40 $glitchtwo, $glitchsize+2 $glitchsize+2 $glitchone;
             animation: glitch-anim1 5s infinite linear alternate-reverse;
         }
 
@@ -265,7 +265,7 @@
             @include glitchCopy;
             right: $glitchsize;
             text-shadow: $glitchsize 20 $glitchtwo, $glitchsize $glitchsize $glitchone;
-            animation: glitch-anim2 3s infinite linear alternate-reverse;
+            animation: glitch-anim2 3s infinite linear normal;
         }
     }
 
