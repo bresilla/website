@@ -252,7 +252,6 @@
         @include textGlitch("example-two", 30, var(--fg-color), var(--bg-color), white, green, 450, 115);
         animation: glitch-anim1 0.1s infinite linear alternate-reverse;
         &::before{
-            @include textGlitch("example-two", 10, var(--accent-color), var(--bg-color), white, green, 714, 50);
             @include glitchCopy;
             left: $glitchsize;
             text-shadow: $glitchsize 0 $glitchone;
@@ -261,7 +260,7 @@
         }
 
         &::after {
-            @include textGlitch("example-two", 42, var(--bg-color), var(--bg-color), white, green, 154, 540);
+            @include textGlitch("example-two", 42, var(--accent-color), var(--bg-color), white, green, 154, 540);
             @include glitchCopy;
             right: $glitchsize;
             text-shadow: $glitchsize 0 $glitchtwo, $glitchsize $glitchsize $glitchone;
