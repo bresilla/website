@@ -135,6 +135,8 @@
     .typewriter {
         font-family: $code-font-family;
         letter-spacing: .1em;
+        color: var(--accent-color);
+        font-size: 2.6rem;
         height: 2rem;
     }
     h2 {
