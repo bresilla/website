@@ -329,6 +329,7 @@ img {
         font-weight: 400;
         line-height: 6.0rem;
         color: var(--fg-color);
+        padding-right: 10px;
         cursor: pointer; }
         .navigation .menu-button:hover, .navigation .menu-button:focus {
           color: var(--accent-color); } }
@@ -574,7 +575,7 @@ a:focus, a:hover {
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
   .cv {
-    padding: 30px; }
+    padding: 20px; }
   .sidebar-wrapper {
     position: static;
     width: inherit;
