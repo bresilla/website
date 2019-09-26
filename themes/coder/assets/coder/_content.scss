@@ -264,7 +264,7 @@
             @include textGlitch("example-two", 42, var(--accent-color), var(--bg-color), white, green, 154, 540);
             @include glitchCopy;
             right: $glitchsize;
-            text-shadow: $glitchsize 20 $glitchtwo, $glitchsize $glitchsize $glitchone;
+            text-shadow: $glitchsize 20 $glitchtwo, $glitchsize $glitchsize red;
             animation: glitch-anim2 3s infinite linear normal;
         }
     }

@@ -1,10 +1,10 @@
 +++
 title = "Talks"
 slug = "talks"
-footercontent = "Here goes some very important quote"
+footercontent = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
 styleaccent= "#fc50f6"
-stylebackground = "#c4d0d1"
-styleforeground = "#080a0f"
+styleforeground = "#c4d0d1"
+stylebackground = "#080a0f"
 +++
 
 Nothing else to see here... Move along!

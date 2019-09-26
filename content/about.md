@@ -1,7 +1,7 @@
 +++
 title = "About Me"
 slug = "about"
-footercontent = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
+footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
 styleaccent= "#04f977"
 +++
 

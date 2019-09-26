@@ -1,10 +1,10 @@
 +++
 title = "Posts"
 slug = "blog"
-footercontent = "Here goes some very important quote"
-styleaccent= "#af87ff"
-stylebackground = "#c4d0d1"
-styleforeground = "#080a0f"
+footercontent = "After a time, one may find that ’having’ is not as pleasing as ’wanting’"
+styleaccent = "#5fd7ff"
+styleforeground = "#c4d0d1"
+stylebackground = "#080a0f"
 +++
 
 

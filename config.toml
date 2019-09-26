@@ -34,7 +34,7 @@ isHTML = true
     keywords = "blog,developer,personal"
     info = "plant hacker · robotist · reverse engineer"
     avatarurl = "images/profile_06.jpg"
-    footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
+    footercontent = "I solemnly swear that I am up to no good"
     dateformat = "2 January 2006"
 
     hideCredits = false
@@ -92,11 +92,6 @@ isHTML = true
     name = "blog"
     weight = 2
     url = "posts/"
-
-[[menu.main]]
-    name = "projects"
-    weight = 3
-    url = "projects/"
 
 [[menu.main]]
     name = "talks"
