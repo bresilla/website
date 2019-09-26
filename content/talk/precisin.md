@@ -11,7 +11,7 @@ categories = [
     "Agrculture",
 ]
 series = ["Presentations"]
-styleaccent= "#af87ff"
+styleaccent= "#ff0000"
 styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 
