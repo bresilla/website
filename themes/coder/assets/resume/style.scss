@@ -1,76 +1,26 @@
-@font-face {
-    font-family: 'Novacento Sans Wide';
-    src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot");
-    src: url("../fonts/Novecentosanswide-UltraLight-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff2") format("woff2"), url("../fonts/Novecentosanswide-UltraLight-webfont.woff") format("woff"), url("../fonts/Novecentosanswide-UltraLight-webfont.ttf") format("truetype"), url("../fonts/Novecentosanswide-UltraLight-webfont.svg#novecento_sans_wideultralight") format("svg");
-    font-style: normal;
-    font-weight: 200;
-}
-@font-face {
-    font-family: 'Iosevka Term SS01';
-    src: url("../fonts/iosevka-term-ss01-light.ttf") format("truetype");
-    font-style: normal;
-    font-weight: 200;
-}
-@font-face {
-    font-family: 'Daytona';
-    src: url("../fonts/Daytona_Thin.ttf") format("truetype");
-    font-style: normal;
-    font-weight: 200;
-}
-// Fonts
-
-$text-font-family: 'Daytona', Georgia, serif;
-$heading-font-family: 'Daytona', Helvetica, sans-serif;
-$thin-font-family: 'Novacento Sans Wide', Helvetica, sans-serif;
-$code-font-family: 'Iosevka Term SS01', 'Lucida Console', monospace;
-
-:root{
-    --accent-color: #ff9000;
-    --bg-color: #080a0f;
-    --glitch-color: blue;
-    --fg-color: #fafafa;
-}
+@import "../coder/_variables.scss";
+@import "../coder/_base.scss";
+@import "../coder/_footer.scss";
+@import "../coder/_navigation.scss";
 
 $accent: var(--accent-color);
 $backcolor: var(--bg-color);
 $forecolor: var(--fg-color);
 
-body {
-  font-family: $heading-font-family;
-  color: $forecolor;
-  background: $backcolor;
-  font-size: 14px;
-  padding: 30px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-a {
-  color: var(--accent-color);
-  -webkit-transition: all 0.4s ease-in-out;
-  -moz-transition: all 0.4s ease-in-out;
-  -ms-transition: all 0.4s ease-in-out;
-  -o-transition: all 0.4s ease-in-out;
+a, a:active, a:focus {
+    outline:none;
+}
 
-  &:hover {
-    text-decoration: underline;
-    color: #1a454f;
-  }
-
-  &:focus {
+a:focus, a:hover {
+    color: var(--accent-color);
     text-decoration: none;
-  }
 }
 
-p {
-  line-height: 1.5;
-}
-
-.wrapper {
+.cv {
   background: var(--bg-color);
   max-width: 960px;
   margin: 0 auto;
@@ -90,6 +40,10 @@ p {
   min-height: 800px;
   color: #080a0f;
 
+  hr {
+        border-top: 1px solid var(--bg-color);
+  }
+
   a {
     color: #080a0f;
   }
@@ -102,12 +56,14 @@ p {
 
 
   .name {
+    color: $backcolor;
     font-size: 32px;
     margin-top: 0;
     margin-bottom: 10px;
   }
 
   .tagline {
+    color: $backcolor;
     font-size: 16px;
     font-style: italic;
     margin-top: 0;
@@ -148,9 +104,11 @@ p {
 
   .container-block-title {
     text-transform: uppercase;
-    font-size: 16px;
+    font-size: 20px;
+    color: $backcolor;
+    position: relative;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     .fa {
       width: 30px;
       height: 30px;
@@ -175,7 +133,8 @@ p {
   }
 
   .degree {
-    font-size: 14px;
+    color: $backcolor;
+    font-size: 16px;
     margin-top: 0;
     margin-bottom: 5px;
   }
@@ -191,8 +150,10 @@ p {
 
     .meta {
       font-style: italic;
+      font-size: 14px;
       margin-bottom: 0px;
       margin-top: 0;
+      color: $backcolor;
     }
 
     .time {
@@ -219,11 +180,15 @@ p {
 }
 
 .main-wrapper {
+  padding: 50px;
   background: rgba(255, 255, 255, 0.05);
-  padding: 60px;
   padding-right: 300px;
   page-break-before: always;
   color: forecolor;
+
+  hr {
+        border-top: 1px solid var(--accent-color);
+  }
 
   .section-title {
     text-transform: uppercase;
@@ -332,31 +297,16 @@ p {
   }
 }
 
-.footer {
-  padding: 30px;
-  padding-top: 60px;
-
-  .copyright {
-    line-height: 1.6;
-    color: #545E6C;
-    font-size: 13px;
-  }
-
-  .fa-heart {
-    color: #fb866a;
-  }
-}
-
-.btn-translate {
-  background-color: #276472;
-  border-color: #41a7be;
-}
-
 /* Extra small devices (phones, less than 768px) */
 @media (max-width: 767px) {
+
+    .cv {
+        padding: 30px;
+    }
   .sidebar-wrapper {
     position: static;
     width: inherit;
+    height: initial;
   }
 
   .main-wrapper {
@@ -374,8 +324,7 @@ p {
   }
 }
 
-/* Small devices (tablets, 768px and up) */
-/* Medium devices (desktops, 992px and up) */
+/* Small devices (tablets, 768px and up) ** Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   .skillset {
     .level-title {
