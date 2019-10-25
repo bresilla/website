@@ -3088,7 +3088,7 @@
 		// Update progress if enabled
 		if( config.progress && dom.progressbar ) {
 
-			dom.progressbar.style.width = getProgress() * dom.wrapper.offsetWidth + 'px';
+			dom.progressbar.style.width = Math.floor(getProgress() * (dom.wrapper.offsetWidth * 0.8)) + 'px';
 
 		}
 

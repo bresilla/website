@@ -11,20 +11,22 @@ categories = [
     "Agrculture",
 ]
 series = ["Presentations"]
-styleaccent= "#ff0000"
+styleaccent= "#4fcad1"
 styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 
 outputs = ["Reveal"]
 [reveal_hugo]
 highlight_theme = "arta"
-custom_theme = "custom-theme.scss"
+custom_theme = "cosrel.scss"
 custom_theme_compile = true
 +++
 
 {{< slide transition="zoom" transition-speed="fast" >}}
 # Precision Agriculture
 *with Hugo Pipes*
+
+
 
 ---
 This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using [Hugo pipes](https://gohugo.io/hugo-pipes/).
@@ -35,7 +37,23 @@ This presentation uses a custom Reveal.js theme written in SCSS that is compiled
 Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
 
 ---
+{{% section %}}
+{{< slide background-color="#FFFFFF">}}
 
+Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
+
+---
+{{< slide background-color="#FFFFFF">}}
+
+Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
+
+---
+{{< slide background-color="#FFFFFF">}}
+
+Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
+{{% /section %}}
+
+---
 {{< slide background-color="#FFFFFF">}}
 
 No separate build process is required, which means you can iterate on your theme and your content at the same time.
