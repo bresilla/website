@@ -28,9 +28,8 @@
       <pubDate>Thu, 28 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>/talk/precisionag/</guid>
-      <description>Precision Agriculture with Hugo Pipes
+      <description>Sensors, Robotics and Artificial Intelligence in Agrculture future farmers and plant hackers
 This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
-Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
 Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
 Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
 Hugo pipes compiles the source code of the theme, located in assets/custom-theme.</description>

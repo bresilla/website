@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" style="
     {{ if .Params.styleaccent }} --accent-color:{{ .Params.styleaccent }} {{ else if .Site.Params.styleaccent }} --accent-color:{{ .Site.Params.styleaccent }} {{ end }};
+    {{ if .Params.styleseconsaccent }} --secondary-accent:{{ .Params.styleseconsaccent }} {{ else if .Site.Params.styleseconsaccent }} --secondary-accent:{{ .Site.Params.styleseconsaccent }} {{ end }};
     {{ if .Params.stylebackground }} --bg-color:{{ .Params.stylebackground }} {{ else if .Site.Params.stylebackground }} --bg-color:{{ .Site.Params.stylebackground }} {{ end }};
     {{ if .Params.styleforeground }} --fg-color:{{ .Params.styleforeground  }} {{ else if .Site.Params.styleforeground }} --fg-color:{{ .Site.Params.styleforeground }} {{ end }};
     {{ if .Params.styleglitch }} --glitch-color:{{ .Params.styleglitch  }} {{ else if .Site.Params.styleglitch }} --glitch-color:{{ .Site.Params.styleglitch }} {{ end }};

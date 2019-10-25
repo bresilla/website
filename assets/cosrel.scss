@@ -9,6 +9,7 @@
 
 :root{
     --accent-size: 2px;
+    --secondary-accent: #777;
 }
 
 body {
@@ -332,7 +333,7 @@ body {
     z-index: 1000;
     margin: 10% 0% 2% 10%;
     color: var(--accent-color);
-    background-color: #777777;
+    background-color: var(--secondary-accent);
 }
 	.reveal .progress span {
         width: 80%;
