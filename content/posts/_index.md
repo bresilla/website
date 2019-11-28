@@ -7,5 +7,7 @@ styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 +++
 
+##### [LINUX]({{< ref "/posts/linux" >}})
 
-Nothing else to see here... Move along!
+<hr size="1" width="50%">
+

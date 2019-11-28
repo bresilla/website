@@ -1,6 +1,7 @@
 +++
 title = "Quotes"
 slug = "quotes"
+styleaccent = "#ffe0b2"
 +++
 
 Here are some quotes i like:

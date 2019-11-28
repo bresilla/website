@@ -12,7 +12,6 @@ categories = [
 ]
 series = ["Presentations"]
 styleaccent= "#bf3920"
-styleseconsaccent = "#5e1a0f"
 stylebackground = "#d8d9db"
 styleforeground = "#080a0f"
 
@@ -23,7 +22,7 @@ custom_theme = "cosrel.scss"
 custom_theme_compile = true
 +++
 
-{{< slide transition="zoom" transition-speed="fast" background-image="/images/talks/precisionin/cover.jpg" >}}
+{{< slide transition="zoom" transition-speed="fast" class="side-by-side" >}}
 
 ### **Sensors, Robotics and Artificial Intelligence in Agrculture**
 *future farmers and plant hackers*
@@ -34,7 +33,7 @@ custom_theme_compile = true
 This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using [Hugo pipes](https://gohugo.io/hugo-pipes/).
 
 ---
-{{< slide background-color="#bf3920">}}
+{{< slide background-color="#30ddc3">}}
 
 Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
 
@@ -44,7 +43,7 @@ Hugo pipes compiles the source code of the theme, located in `assets/custom-them
 Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
 
 ---
-{{< slide background-color="#bf3920">}}
+{{< slide background-color="#30b2dd">}}
 
 Hugo pipes compiles the source code of the theme, located in `assets/custom-theme.scss`, into CSS.
 
@@ -55,7 +54,7 @@ Hugo pipes compiles the source code of the theme, located in `assets/custom-them
 
 ---
 
-{{< slide background-color="#bf3920">}}
+{{< slide background-color="#857cea">}}
 No separate build process is required, which means you can iterate on your theme and your content at the same time.
 
 ---
@@ -83,6 +82,8 @@ enableSourceMap = true
 See all the [available options](https://gohugo.io/hugo-pipes/scss-sass/#options).
 
 ---
+
+{{< slide background-image="/images/talks/precisionin/cover.jpg" >}}
 
 Note: to use a custom theme that doesn't need compilation, put it in the `static` directory and do not set the `custom_theme_compile` parameter. It will be served to the browser directly.
 

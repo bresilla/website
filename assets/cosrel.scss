@@ -9,14 +9,17 @@
 
 :root{
     --accent-size: 2px;
-    --secondary-accent: #777;
+    --secondary-accent: #00000055;
+    --border-color: var(--fg-color);
+    --progress-color: var(--accent-color);
 }
 
 body {
 	@include bodyBackground();
-	background-color: $backgroundColor;
-    // background-image: -moz-linear-gradient(left, var(--accent-color) 50%, var(--bg-color) 50%);
+    background-color: $backgroundColor;
 }
+
+
 
 .reveal {
 	font-family: $mainFont;
@@ -75,6 +78,16 @@ body {
 .reveal h1 {
 	text-shadow: $heading1TextShadow;
 }
+
+
+/*********************************************
+ * SPECIFIC SLIDES
+ *********************************************/
+.reveal section.side-by-side {
+    display: inline;
+}
+
+
 
 
 /*********************************************
@@ -250,7 +263,7 @@ body {
  *********************************************/
 
 .reveal a {
-	color: $linkColor;
+	color: var(--accent-color);
 	text-decoration: none;
 
 	-webkit-transition: color .15s ease;
@@ -258,7 +271,7 @@ body {
 	        transition: color .15s ease;
 }
 	.reveal a:hover {
-		color: $linkColorHover;
+		color: $mainColor;
 
 		text-shadow: none;
 		border: none;
@@ -307,7 +320,7 @@ body {
 .reveal .controls {
     right: 2%;
     bottom: 90%;
-    color: var(--accent-color);
+    color: var(--fg-color);
 }
 
 .reveal .controls .controls-arrow {
@@ -364,7 +377,7 @@ section.has-light-background {
 .line {
   content: '';
   position: fixed;
-  background: var(--accent-color);
+  background: var(--border-color);
   z-index: 105; 
 }
 .line.top {
