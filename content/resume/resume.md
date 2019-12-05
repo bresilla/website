@@ -4,7 +4,7 @@ date = "2016-01-28"
 slug = "resume"
 
 footercontent = "Be yourself, everyone else is already taken"
-styleaccent= "#04f977"
+styleaccent= "#5fd7ff"
 styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 
