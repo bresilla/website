@@ -1,26 +1,27 @@
 +++
-title = "$ whoami _"
+title = "About"
 slug = "about"
 footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
 styleaccent= "#04f977"
 +++
 
-<img align="right" src="/images/profile_04.jpg" width="300" height="300" style="margin: 20px; border-radius: 5%;">
+<img align="right" src="/images/profile_04.jpg" width=50% height=50% style="margin: 20px; border-radius: 5%;">
 
 <p align="justify"><i>
 Lets pretend you are a real person, and I'll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
 </i></p>
 
-<hr size="1" width="50%" style="color: #04f977;">
+<hr size="1" width="30%" style="color: #04f977;">
+<h4 style="color: black;"><span style="background: #04f977; padding-right: 10%; padding-left: 4px;">$ whoami _</span></h4>
 
 <p align="justify">
-The name is Trim, Trim BRESILLA (pun intended), and currently he's working as a PostDoc at University of Bologna. He's got some degrees and cerificates, but that doesn't matter much, cause that just represents the past. He's a robotics engineer and plant physiologist by trade, however he try to do more than that and more than and he pretends to even do more. <i> Kids nowadays ... remind me, how does the saying go ... em ... ah, found it... "Jack of all trades, master of none"</i>.
+The name is Trim, Trim BRESILLA (pun intended), and he's currently working as a PostDoc at University of Bologna. He's got some degrees and cerificates, but who doesn't nowdays, and it just represents the past. By trade, he's a robotics engineer and plant physiologist, however he tries to do more than he can and pretends to do much more in the future. <i> Kids nowadays right??? Remind me, how does the saying go ... em ... found it... <q>Jack of all trades, master of none</q></i>.
 <p align="justify">
 He is focused on research for the moment. Trying to utilize/develop tools to understand the plants growth behavior. He plays around with a lot of electronics and uses neural-networks to achieve this. Develops sensors and algorithms to predict plant stress and status, to estimate cropload, detect deseases, utiize irrigation, fertigation and spraying. For a more serious resume of his career, check his not so overboard, <a href="https://bresilla.com/resume/resume" style="color: #04f977;">'wanna be proffesional' resume</a>. 
 </p>
 
 
-<h4 style="background-color: #04f977; color: black; padding: 2px;">$ cat /etc/nix/nix.conf | grep "interests" _</h4>
+<h4 style="background-color: #04f977; color: black; padding: 4px;">$ cat /etc/nix/nix.conf | grep "interests" _</h4>
 
 - Data structures, design patterns, programming paradigms ...
 - Machine learning, deep learning, genetic algorithms ...
@@ -32,7 +33,7 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 - Quantum computing ???
 
 
-<h4 style="background-color: #04f977; color: black; padding: 2px;">$ find $HOME -type f -name "everyday" _</h4>
+<h4 style="background-color: #04f977; color: black; padding: 4px;">$ find $HOME -type f -name "everyday" _</h4>
 
 <p align="justify">
 In real life, he's a huge "space and time" nerd, "why do we exist" kind of guy, or better one: "do we actually exist, and if we do, can we prove it". He reads tons of physiosophy books. Basically, when in party, he's a buzz kiler, but in the bright side, he's very self-aware, and usually dosn't speak unless asked.

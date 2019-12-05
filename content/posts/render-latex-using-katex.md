@@ -7,6 +7,7 @@ series = ["Theme", "Hugo"]
 styleaccent= "#af87ff"
 stylebackground = "#c4d0d1"
 styleforeground = "#080a0f"
+width="80%"
 +++
 
 Enable katex by adding `katex = "true"` to the [front matter](https://gohugo.io/content-management/front-matter/)  

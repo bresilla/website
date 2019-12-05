@@ -29,14 +29,17 @@ isHTML = true
     styleaccent = "#ff9000"
     stylebackground = "#080a0f"
     styleforeground = "#c4d0d1"
+    gradient = "red, green, blue"
 
     description = "Personal website & bolg"
     keywords = "blog,developer,personal"
     info = "plant hacker · robotist · reverse engineer"
-    avatarurl = "images/profile_06.jpg"
+    avatarurl = "/images/profile_06.jpg"
+    avatarsvg = "/images/bresilla.svg"
     footercontent = "I solemnly swear that I am up to no good"
     dateformat = "2 January 2006"
 
+    width= "50%"
     hideCredits = false
     hideCopyright = false
     commit = "https://github.com/luizdepra/hugo-coder/tree/"

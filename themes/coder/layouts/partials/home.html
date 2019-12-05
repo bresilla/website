@@ -1,7 +1,17 @@
-<section class="container centered">
+<section class="container centered estate" {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.sidth }};" {{ end }}>
   <div class="about">
-    {{ with .Site.Params.avatarurl }}
-      <div class="avatar"><img src="{{ . | relURL }}" alt="avatar"></div>
+    <div class="avatar">
+        {{ with .Site.Params.avatarurl }}
+        <div class="glitch-avatar"><a class="textglitch" href="/logo/"><img src="{{ . | relURL }}" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
+        <script type="text/javascript">
+            function hover_avatar(element) {
+                element.setAttribute('src', '/images/bresilla.svg');
+            }
+            function unhover_avatar(element) {
+                element.setAttribute('src', '{{ . | relURL }}');
+            }
+        </script>
+    </div>
     {{ end }}
     <h1 class="glitch" data-text="{{ .Site.Params.author }}"><a href="/logo/">{{ .Site.Params.author }}</a></h1>
     <h2 class="typewriter" data-text="{{ .Site.Params.info }}"></h2>

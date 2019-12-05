@@ -42,7 +42,7 @@
     
       
       
-      <link rel="stylesheet" href="/coder/coder.min.e1c89c15c4e1f24fbfe410c9f88ebaa3a99afc9cdbef050f086925db1d855112.css" integrity="sha256-4cicFcTh8k&#43;/5BDJ&#43;I66o6ma/Jzb7wUPCGkl2x2FURI=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/coder/coder.min.4e74371f6e95e4c500d18ecbc0a24b94cc5937d5b85d2350e3b9eb976b2de9d3.css" integrity="sha256-TnQ3H26V5MUA0Y7LwKJLlMxZN9W4XSNQ47nrl2st6dM=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -55,7 +55,7 @@
     <link rel="alternate" type="application/rss+xml" href="/index.xml" title="bresilla" />
     <meta name="generator" content="Hugo 0.59.0-DEV" />
   </head>
-  <body style=" ">
+  <body >
         
       <main id="main" class="wrapper ">
 
@@ -96,10 +96,20 @@
 
       <div class="content">
         
-  <section class="container centered">
+  <section class="container centered estate"  style="--real-estate:;" >
   <div class="about">
-    
-      <div class="avatar"><img src="/images/profile_06.jpg" alt="avatar"></div>
+    <div class="avatar">
+        
+        <div class="glitch-img"><a class="textglitch" href="/logo/"><img src="/images/profile_06.jpg" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
+        <script type="text/javascript">
+            function hover_avatar(element) {
+                element.setAttribute('src', '/images/bresilla.svg');
+            }
+            function unhover_avatar(element) {
+                element.setAttribute('src', '\/images\/profile_06.jpg');
+            }
+        </script>
+    </div>
     
     <h1 class="glitch" data-text="Trim Bresilla"><a href="/logo/">Trim Bresilla</a></h1>
     <h2 class="typewriter" data-text="plant hacker · robotist · reverse engineer"></h2>
