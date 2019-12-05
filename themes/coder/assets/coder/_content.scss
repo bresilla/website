@@ -1,3 +1,11 @@
+.estate{
+    --real-estate: 100.0rem;
+}
+
+.estate {
+    max-width: var(--real-estate);
+}
+
 .content {
   flex: 1;
   display: flex;

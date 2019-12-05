@@ -5,7 +5,7 @@ slug = "creating-a-new-theme"
 tags = []
 categories = []
 series = ["Theme", "Hugo"]
-styleaccent = "#af87ff"
+styleaccent = "#f72c4a"
 stylebackground = "#c4d0d1"
 styleforeground = "#080a0f"
 

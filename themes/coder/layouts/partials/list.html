@@ -1,19 +1,22 @@
-<section class="container list">
+<section class="container list estate" {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.sidth }};" {{ end }}>
   <h1 class="title">
     {{- if eq .Kind "taxonomy" -}}
       {{- i18n .Data.Singular | title -}}
       {{- print ": " -}}
     {{- end -}}
 
-    {{- .Title -}}
+    <h1 class="lister contpage" data-text="{{ .Title }}">{{ .Title }}</h1>
   </h1>
   <ul>
     {{ range .Paginator.Pages }}
     <li>
-      <span class="date">{{ .Date.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
+      <span class="date" {{ if .Params.styleaccent }} style="color: black; background-color:{{ .Params.styleaccent }}; margin: 2px; padding: 2px;" {{ end }}>{{ .Date.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
       <a class="title" href="{{ .Params.ExternalLink | default .RelPermalink }}">{{ .Title }}</a>
     </li>
     {{ end }}
   </ul>
+    <div>
+        {{ .Content }}
+    </div>
   {{ partial "pagination.html" . }}
 </section>

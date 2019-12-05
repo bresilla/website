@@ -1,4 +1,4 @@
-<section class="container page">
+<section class="container page estate"  {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.sidth }};" {{ end }}>
   <article>
     <header>
       <h1 class="{{ .Slug }} contpage"  data-text="{{ .Title }}">{{ .Title }}</h1>
