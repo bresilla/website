@@ -2,6 +2,7 @@
 title = "RESUME"
 date = "2016-01-28"
 slug = "resume"
+unique = true
 
 footercontent = "Be yourself, everyone else is already taken"
 styleaccent= "#5fd7ff"
