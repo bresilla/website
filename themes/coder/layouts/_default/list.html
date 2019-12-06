@@ -1,11 +1,11 @@
 {{ define "title" }}
-  {{- if eq .Kind "taxonomy" -}}
-    {{- i18n .Data.Singular | title -}}
-    {{- print ": " -}}
-  {{- end -}}
+    {{- if eq .Kind "taxonomy" -}}
+        {{- i18n .Data.Singular | title -}}
+        {{- print ": " -}}
+    {{- end -}}
 
-  {{- .Title }} · {{ .Site.Title -}}
+    {{- .Title }} · {{ .Site.Title -}}
 {{ end }}
 {{ define "content" }}
-  {{ partial "list.html" . }}
+    {{ if .Site.Params.unique }} {{ partial "page.html" . }} {{ else }} {{ partial "list.html" . }} {{ end }}
 {{ end }}

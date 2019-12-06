@@ -4,6 +4,7 @@
 
 .estate {
     max-width: var(--real-estate);
+    padding: 0 5% 0 5%;
 }
 
 .content {
@@ -252,6 +253,24 @@
     font-weight: 300;
 }
 
+.glitch-avatar{
+    a {
+        text-decoration:none;
+        position:relative
+    }
+    a:hover{
+        color: $accentcolor;
+    }
+    a:after {
+        content:'';
+        position:absolute;
+        bottom:0;
+        left:0;
+        width:0%;
+        border-bottom:0px solid $accentcolor;
+        transition:.4s
+    }   border: none;
+}
 
 @media only screen and (min-width : 768px) {
     .glitch, .contpage{
