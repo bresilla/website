@@ -161,6 +161,15 @@ $ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currentl
     </item>
     
     <item>
+      <title>Life-Long Learning</title>
+      <link>/progress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/progress/</guid>
+      <description>SHORT-TERM GOALS VIM     Tailing VM (bspwm)     LATEX     Containers     NixOS &amp; NixShell     ROS2.0     Unreal Engine     Home Assistant     *when an entry of short term goal enters baking phase (90%-100%), gets removed from the list above and gets acumulated to one of the generalized topics below.</description>
+    </item>
+    
+    <item>
       <title>Quotes</title>
       <link>/quotes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

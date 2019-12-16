@@ -37,7 +37,7 @@
         <div class="cv estate" {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.width }};" {{ end }}>
             <div class="sidebar-wrapper">
                 <div class="profile-container">
-                    <img class="profile img-circle" src="{{ .Site.BaseURL }}{{ .Site.Params.cvurl }}" alt="" />
+                    <img class="profile img-circle" src="{{ .Site.BaseURL }}/{{ .Site.Params.cvurl }}" alt="" />
                     <h1 class="name">{{ .Site.Params.author }}</h1>
 
                     <h3 class="tagline">{{ .Site.Params.info }}</h3>
