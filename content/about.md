@@ -33,6 +33,10 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 - Quantum computing ???
 
 
+ Here is where he tracks what he's currently learning, what skills already has obtained, and what has in plan for the future:
+{{% button progress two %}} PROGRESS {{% /button %}}
+
+
 <h4 style="background-color: #04f977; color: black; padding: 4px;">$ find $HOME -type f -name "everyday" _</h4>
 
 <p align="justify">
