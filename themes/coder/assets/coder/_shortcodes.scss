@@ -129,3 +129,33 @@ div[class*=box] {
 	transform: scale(1,1);
 }
 
+.progress_main {
+    overflow:hidden;
+    div {
+        min-height: 2%;
+    }
+}
+
+#progress_one {
+    float:left;
+    width:25%;
+    margin: 1%;
+    text-align: right;
+}
+
+#progress_two {
+    background-color: #ffffff11;
+    overflow:hidden;
+    margin: 1%;
+}
+
+@media screen and (max-width: 767px) {
+    #progress_one {
+        float: none;
+        text-align: left;
+        margin-right:0;
+        width:auto;
+        border:0;
+        border-bottom:2px solid #000;
+    }
+}
