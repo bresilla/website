@@ -1,4 +1,5 @@
 +++
+show = true
 title = "About"
 slug = "about"
 footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
@@ -89,6 +90,7 @@ If you wanna know him better, so if in case you meet in physical world(s) someti
   - Radare2
   - Capstone / Keystone
   - Linux From Scratch
+  - Buildroot
 
 </details>
 <details>

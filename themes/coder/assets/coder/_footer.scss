@@ -1,20 +1,20 @@
 .footer {
   width: 100%;
-  text-align: center;
   font-family: $code-font-family;
   font-weight: 900;
   line-height: 2.0rem;
   margin-bottom:1.0rem;
   font-size: 1.7rem;
   a {
-    color: $lightcolor;
+    color: $fg-color;
     text-decoration: none;
     :hover {
-        color: $accentcolor;
+        color: $accent-color;
     }
   }
   p {
     margin: 2rem 0 .1rem;
+    text-align: center;
     }
     @media only screen and (max-width : 768px) {
         display: none;

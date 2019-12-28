@@ -25,30 +25,18 @@ $thin-font-family: 'Novacento Sans Wide', Helvetica, sans-serif;
 $code-font-family: 'Iosevka Term SS01', 'Lucida Console', monospace;
 
 :root{
-    --accent-color: #ff9000;
     --bg-color: #080a0f;
-    --glitch-color: blue;
     --fg-color: #fafafa;
+    --accent-color: #ff9000;
+    --glitch-color: var(--fg-color);
+    --titlecolor: var(--fg-color);
+    --titleback: var(--bg-color);
 }
 
 $glitchsize: 1px;
-$darkcolor: var(--bg-color);
-$lightcolor: var(--fg-color);
-$accentcolor: var(--accent-color);
 
-$glitchone: var(--accent-color);
-$glitchtwo: var(--glitch-color);
+$bg-color: var(--bg-color);
+$fg-color: var(--fg-color);
+$accent-color: var(--accent-color);
+$glitch-color: var(--glitch-color);
 
-// Colors
-$bg-color: var(--bg-color) !default;
-$fg-color: var(--fg-color) !default;
-$alt-bg-color: var(--bg-color) !default;
-$alt-fg-color: var(--fg-color) !default;
-$link-color: var(--accent-color) !default;
-
-// Colors inverted
-$bg-color-inverted: var(--fg-color) !default;
-$fg-color-inverted: var(--bg-color) !default;
-$alt-bg-color-inverted: var(--fg-color) !default;
-$alt-fg-color-inverted: var(--bg-color) !default;
-$link-color-inverted: var(--accent-color) !default;

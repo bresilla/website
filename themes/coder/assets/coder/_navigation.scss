@@ -12,7 +12,7 @@ a, span {
 a {
     &:hover,
     &:focus {
-    color: $link-color
+    color: $accent-color
     }
 }
 .navigation-title {
@@ -38,8 +38,8 @@ a {
     max-height: 0;
     width: 100%;
     background-color: $bg-color;
-    border-top: solid 2px $alt-bg-color;
-    border-bottom: solid 2px $alt-bg-color;
+    border-top: solid 2px $bg-color;
+    border-bottom: solid 2px $bg-color;
     transition: opacity 0.25s, max-height 0.15s linear;
     }
     .navigation-item {
@@ -72,7 +72,7 @@ a {
     display: none;
     @media only screen and (max-width : 768px) {
         &:checked + label {
-            color: $alt-bg-color;
+            color: $bg-color;
         }
         &:checked + label + ul {
             visibility: visible;
@@ -93,7 +93,7 @@ a {
         cursor: pointer;
         &:hover,
         &:focus {
-            color: $link-color
+            color: $accent-color
         }
         }
     }
