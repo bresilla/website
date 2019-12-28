@@ -1,8 +1,8 @@
 <section class="container centered estate" {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.width }};" {{ end }}>
-  <div class="about">
+  <div class="about" id="nodec">
     <div class="avatar">
         {{ with .Site.Params.avatarurl }}
-        <div class="glitch-avatar"><a class="textglitch" href="/logo/"><img src="{{ . | relURL }}" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
+        <div class="logo"><a class="textglitch" href="/logo/"><img src="{{ . | relURL }}" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
         <script type="text/javascript">
             function hover_avatar(element) {
                 element.setAttribute('src', '/images/bresilla.svg');
@@ -12,26 +12,33 @@
             }
         </script>
     </div>
+    </style>
     {{ end }}
-    <h1 class="glitch" data-text="{{ .Site.Params.author }}"><a href="/logo/">{{ .Site.Params.author }}</a></h1>
-    <h2 class="typewriter" data-text="{{ .Site.Params.info }}"></h2>
+    <div class="brand" >
+        <div class="author" >
+            <h1 class="nametext" data-text="{{ .Site.Params.author }}" >{{ .Site.Params.author }}</h1>
+        </div>
+        <div class="info" >
+            <h2 class="typewriter" data-text= "{{ .Site.Params.info }}"></h2>
+        </div>
+    </div>
     {{ with .Site.Params.social }}
-    <ul class="socials">
-      {{ range sort .}}
-        {{ if .icon }}
-          <li>
-            <a class="textglitch" data-text="{{ .unicode }}" href="{{ .url }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }}>
-              <i class="{{ .icon }}" aria-hidden="true"></i>
-              <!-- {{ .unicode }} -->
-            </a>
-          </li>
-        {{ else }}
-          <li>
-            <a href="{{ .url }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }}>{{ .name }}</a>
-          </li>
+    <div class="socials" >
+        {{ range sort .}}
+            {{ if .icon }}
+            <li>
+                <a class="textglitch" data-text="{{ .unicode }}" href="{{ .url }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }}>
+                <i class="{{ .icon }}" aria-hidden="true"></i>
+                <!-- {{ .unicode }} -->
+                </a>
+            </li>
+            {{ else }}
+            <li>
+                <a href="{{ .url }}" aria-label="{{ .name }}" {{ if .rel }}rel="{{ .rel }}"{{ end }}>{{ .name }}</a>
+            </li>
+            {{ end }}
         {{ end }}
-      {{ end }}
-    </ul>
+    </div>
     {{ end }}
   </div>
 </section>
