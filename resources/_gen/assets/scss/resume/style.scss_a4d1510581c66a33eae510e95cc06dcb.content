@@ -19,10 +19,12 @@
   font-weight: 200; }
 
 :root {
-  --accent-color: #ff9000;
   --bg-color: #080a0f;
-  --glitch-color: blue;
-  --fg-color: #fafafa; }
+  --fg-color: #fafafa;
+  --accent-color: #ff9000;
+  --glitch-color: var(--fg-color);
+  --titlecolor: var(--fg-color);
+  --titleback: var(--bg-color); }
 
 *,
 *:after,
@@ -70,17 +72,16 @@ a, a:active, a:focus {
   outline: none; }
 
 p {
-  margin: 2.0rem 0 2.0rem 0; }
+  margin: 2.0rem 0 2.0rem 0;
+  text-align: justify;
+  text-justify: inter-word; }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Daytona", Georgia, serif;
   font-weight: 700;
-  color: var(--fg-color);
+  color: var(--titlecolor);
+  background-color: var(--titleback);
+  padding: 0.5rem;
   margin: 6.4rem 0 3.2rem 0; }
 
 h1 {
@@ -108,24 +109,27 @@ h3 {
       line-height: 2.6rem; } }
 
 h4 {
-  font-size: 2.2rem;
-  line-height: 2.6rem; }
+  font-size: 2.0rem;
+  line-height: 2.6rem;
+  text-decoration: underline dashed var(--titlecolor) 2px; }
   @media only screen and (max-width: 768px) {
     h4 {
       font-size: 2.0rem;
       line-height: 2.4rem; } }
 
 h5 {
-  font-size: 2.0rem;
-  line-height: 2.4rem; }
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  text-decoration: underline dashed var(--titlecolor) 2px; }
   @media only screen and (max-width: 768px) {
     h5 {
       font-size: 1.8rem;
       line-height: 2.2rem; } }
 
 h6 {
-  font-size: 1.8rem;
-  line-height: 2.2rem; }
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+  text-decoration: underline dashed var(--titlecolor) 2px; }
   @media only screen and (max-width: 768px) {
     h6 {
       font-size: 1.6rem;
@@ -140,18 +144,12 @@ pre {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.6rem;
-  margin: 2.0rem 0 2.0rem 0;
-  padding: 2.0rem;
   overflow-x: auto; }
   pre code {
-    display: inline-block;
-    background-color: inherit;
-    color: inherit; }
+    display: inline-block; }
 
 code {
   font-family: "Iosevka Term SS01", "Lucida Console", monospace;
-  background-color: var(--fg-color);
-  color: var(--bg-color);
   font-size: 1.6rem;
   font-weight: 400;
   padding: 0.2rem 0.4rem 0.2rem 0.4rem; }
@@ -224,7 +222,6 @@ img {
 
 .footer {
   width: 100%;
-  text-align: center;
   font-family: "Iosevka Term SS01", "Lucida Console", monospace;
   font-weight: 900;
   line-height: 2.0rem;
@@ -236,7 +233,8 @@ img {
     .footer a :hover {
       color: var(--accent-color); }
   .footer p {
-    margin: 2rem 0 .1rem; }
+    margin: 2rem 0 .1rem;
+    text-align: center; }
   @media only screen and (max-width: 768px) {
     .footer {
       display: none;
@@ -368,11 +366,12 @@ img {
 .navigation .menu-button {
   color: var(--accent-color); }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700; }
-
 a, a:active, a:focus {
   outline: none; }
+
+h1, h2, h3, h4, h5, h6 {
+  background-color: #00000000;
+  padding: 0; }
 
 a:focus, a:hover {
   color: var(--accent-color);

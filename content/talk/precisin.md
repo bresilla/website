@@ -1,4 +1,5 @@
 +++
+show = true
 title = "Precision Agriculture"
 date = "2016-01-28"
 slug = "precisionag"

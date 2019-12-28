@@ -9,6 +9,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+        var randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
+        <!-- document.documentElement.style.setProperty('--glitch-color', randomColor); -->
+    </script>
 
     <meta name="author" content="Trim Bresilla">
     <meta name="description" content="Personal website &amp; bolg">
@@ -56,7 +60,7 @@ Follow the following steps:
     
       
       
-      <link rel="stylesheet" href="/coder/coder.min.e518cb335774c834c976484cb722797880361351ea84e861df0a96c97c269253.css" integrity="sha256-5RjLM1d0yDTJdkhMtyJ5eIA2E1HqhOhh3wqWyXwmklM=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/coder/coder.min.e8e72e16578365ccfcb2cdaba1d0acde34d861a589ffc2bd5aad68f23230f810.css" integrity="sha256-6OcuFleDZcz8ss2rodCs3jTYYaWJ/8K9Wq1o8jIw&#43;BA=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -109,13 +113,13 @@ Follow the following steps:
 
       <div class="content">
         
-    <section class="container page estate"   style="--real-estate:80em;" >
+    <section class="container page estate"  style=" --real-estate:80em; ">
   <article>
     <header>
       <h1 class=" contpage"  data-text="Getting Started with Hugo">Getting Started with Hugo</h1>
     </header>
-
-    
+    <span class="blogpost" >
+        
 
 <h2 id="step-1-install-hugo">Step 1. Install Hugo</h2>
 
@@ -141,7 +145,7 @@ you are reading right now.</p>
 </ol>
 
 <p>Corresponding pseudo commands:</p>
-<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">git clone https://github.com/spf13/hugo
+<div class="highlight"><pre class="chroma">git clone https://github.com/spf13/hugo
 cd hugo
 /path/to/where/you/installed/hugo server --source=./docs
 &gt; 29 pages created
@@ -156,7 +160,7 @@ cd hugo
 <p>Stop the Hugo process by hitting ctrl+c.</p>
 
 <p>Now we are going to run hugo again, but this time with hugo in watch mode.</p>
-<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">/path/to/hugo/from/step/1/hugo server --source=./docs --watch
+<div class="highlight"><pre class="chroma">/path/to/hugo/from/step/1/hugo server --source=./docs --watch
 &gt; 29 pages created
 &gt; 0 tags index created
 &gt; in 27 ms
@@ -171,7 +175,7 @@ are located at the same relative location as the url, in our case
 <code>docs/content/overview/quickstart.md</code>.</p>
 
 <p>Change and save this file.. Notice what happened in your terminal.</p>
-<div class="highlight"><pre style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&gt; Change detected, rebuilding site
+<div class="highlight"><pre class="chroma">&gt; Change detected, rebuilding site
 
 &gt; 29 pages created
 &gt; 0 tags index created
@@ -185,6 +189,7 @@ Having nearly instant feedback enables you to have your creativity flow without 
 
 <p>The best way to learn something is to play with it.</p>
 
+    </span>
   </article>
 </section>
 
@@ -210,6 +215,7 @@ Having nearly instant feedback enables you to have your creativity flow without 
     <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
     
     <script type="text/javascript" src="/scripts/coder.js"></script>
+
 
   </body>
 

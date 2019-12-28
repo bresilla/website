@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DEV on bresilla</title>
+    <link>/categories/dev/</link>
+    <description>Recent content in DEV on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 24 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/dev/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using *direnv* with Anaconda</title>
+      <link>/posts/direnv-anaconda/</link>
+      <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/direnv-anaconda/</guid>
+      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
+We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
+    </item>
+    
+    <item>
+      <title>How to manage projexts, the *NIX way!</title>
+      <link>/posts/direnv-nixshel-proji/</link>
+      <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/direnv-nixshel-proji/</guid>
+      <description>Rofi menu: Listing all active projects   Finished skills VIM    Tailing VM (bspwm)    LATEX    Containers    NixOS &amp;amp; NixShell    ROS2.0    Unreal Engine    Home Assistant      
+Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
+    </item>
+    
+    <item>
+      <title>ROS Melodic with Python 3</title>
+      <link>/posts/ros-melodic-python-3/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/ros-melodic-python-3/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

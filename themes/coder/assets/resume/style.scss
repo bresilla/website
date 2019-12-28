@@ -7,12 +7,13 @@ $accent: var(--accent-color);
 $backcolor: var(--bg-color);
 $forecolor: var(--fg-color);
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-}
-
 a, a:active, a:focus {
     outline:none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    background-color: #00000000;
+    padding: 0;
 }
 
 a:focus, a:hover {
@@ -39,6 +40,7 @@ a:focus, a:hover {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   font-weight: 900;
 }
+
 
 .sidebar-wrapper {
   background: $accent;

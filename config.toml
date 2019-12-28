@@ -8,9 +8,9 @@ publishDir = "./docs"
 
 paginate = 20
 canonifyurls = true
-pygmentsstyle = "b2"
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
+pygmentsUseClasses=true
 
 disqusShortname = "kushtrimbresilla"
 

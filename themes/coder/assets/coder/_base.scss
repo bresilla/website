@@ -24,12 +24,12 @@ body {
 }
 a {
     font-weight:300;
-    color:$lightcolor;
+    color:$fg-color;
     text-decoration:none;
     position:relative
 }
 a:hover{
-    color: $accentcolor;
+    color: $accent-color;
 }
 a:after {
     content:'';
@@ -37,7 +37,7 @@ a:after {
     bottom:0;
     left:0;
     width:0%;
-    border-bottom:1px solid $accentcolor;
+    border-bottom:1px solid $accent-color;
     transition:.4s
 }
 a:hover:after {
@@ -50,17 +50,16 @@ a, a:active, a:focus {
 
 p {
   margin: 2.0rem 0 2.0rem 0;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: $text-font-family;
   font-weight: 700;
-  color: $alt-fg-color;
+  color: var(--titlecolor);
+  background-color: var(--titleback);
+  padding: 0.5rem;
   margin: 6.4rem 0 3.2rem 0;
 }
 
@@ -89,24 +88,27 @@ h3 {
   }
 }
 h4 {
-  font-size: 2.2rem;
+  font-size: 2.0rem;
   line-height: 2.6rem;
+  text-decoration: underline dashed var(--titlecolor) 2px;
   @media only screen and (max-width : 768px) {
     font-size: 2.0rem;
     line-height: 2.4rem;
   }
 }
 h5 {
-  font-size: 2.0rem;
+  font-size: 1.8rem;
   line-height: 2.4rem;
+  text-decoration: underline dashed var(--titlecolor) 2px;
   @media only screen and (max-width : 768px) {
     font-size: 1.8rem;
     line-height: 2.2rem;
   }
 }
 h6 {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 2.2rem;
+  text-decoration: underline dashed var(--titlecolor) 2px;
   @media only screen and (max-width : 768px) {
     font-size: 1.6rem;
     line-height: 2.0rem;
@@ -123,20 +125,14 @@ pre {
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 2.6rem;
-  margin: 2.0rem 0 2.0rem 0;
-  padding: 2.0rem;
   overflow-x: auto;
   code {
     display: inline-block;
-    background-color: inherit;
-    color: inherit;
   }
 }
 
 code {
   font-family: $code-font-family;
-  background-color: var(--fg-color);
-  color: var(--bg-color);
   font-size: 1.6rem;
   font-weight: 400;
   padding: 0.2rem 0.4rem 0.2rem 0.4rem;
@@ -145,12 +141,13 @@ code {
 blockquote {
   background-color: var(--fg-color);
   color: var(--bg-color);
-  border-left: 2px solid $alt-bg-color;
+  border-left: 2px solid $bg-color;
   padding-left: 2.0rem;
   line-height: 2.2rem;
   font-weight: 400;
   font-style: italic;
 }
+
 
 th, td {
   padding: 1.6rem;
@@ -159,7 +156,7 @@ table {
   border-collapse: collapse;
 }
 table td, table th {
-  border: 2px solid $alt-fg-color;
+  border: 2px solid $fg-color;
 }
 table tr:first-child th {
   border-top: 0;

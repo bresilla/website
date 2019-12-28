@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>proji on bresilla</title>
+    <link>/tags/proji/</link>
+    <description>Recent content in proji on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 23 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/proji/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How to manage projexts, the *NIX way!</title>
+      <link>/posts/direnv-nixshel-proji/</link>
+      <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/direnv-nixshel-proji/</guid>
+      <description>Rofi menu: Listing all active projects   Finished skills VIM    Tailing VM (bspwm)    LATEX    Containers    NixOS &amp;amp; NixShell    ROS2.0    Unreal Engine    Home Assistant      
+Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,4 +1,5 @@
 +++
+show = true
 title = "A simple presentation"
 date = "2019-05-17"
 slug = "apresent"
