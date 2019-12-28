@@ -3,8 +3,9 @@
     <header>
       <h1 class="{{ .Slug }} contpage"  data-text="{{ .Title }}">{{ .Title }}</h1>
     </header>
-    <span class="blogpost" {{ if .Params.headerstyle }} style=" --titlecolor: var(--accent-color)" {{ end }}>
+    <span class="blogpost" {{ if .Params.headerstyle }} style=" --titlecolor: var(--accent-color);" {{ end }}>
         {{ .Content }}
     </span>
+    <style> {{ if .Params.headerstyle }} .blogpost h1, .blogpost h2, .blogpost h3, .blogpost h4, .blogpost h5, .blogpost h6 {text-decoration: underline dashed var(--titlecolor) 2px;} {{ end }} </style>
   </article>
 </section>
