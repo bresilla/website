@@ -12,5 +12,6 @@
             {{ if (.Get "font") }} color: {{ .Get "font" }} {{ else }} color: var(--bg-color) {{ end }};
         {{ end }}
         " >{{ .Inner }}</div>
+<style> @media only screen and (max-width : 768px) { .textframe{{ $type }} { width: 90% !important; } } </style>
 </div>
 

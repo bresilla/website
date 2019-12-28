@@ -27,8 +27,7 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/direnv-nixshel-proji/</guid>
-      <description>Rofi menu: Listing all active projects   Finished skills VIM    Tailing VM (bspwm)    LATEX    Containers    NixOS &amp;amp; NixShell    ROS2.0    Unreal Engine    Home Assistant      
-Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
+      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills VIM    Tailing VM (bspwm)    LATEX    Containers    NixOS &amp;amp; NixShell    ROS2.0    Unreal Engine    Home Assistant       @media only screen and (max-width : 768px) { .</description>
     </item>
     
     <item>
