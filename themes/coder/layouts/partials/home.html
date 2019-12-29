@@ -2,7 +2,7 @@
   <div class="about" id="nodec">
     <div class="avatar">
         {{ with .Site.Params.avatarurl }}
-        <div class="logo"><a class="textglitch" href="/logo/"><img src="{{ . | relURL }}" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
+        <div class="logo"><img src="{{ . | relURL }}" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
         <script type="text/javascript">
             function hover_avatar(element) {
                 element.setAttribute('src', '/images/bresilla.svg');
