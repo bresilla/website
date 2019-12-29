@@ -321,12 +321,13 @@ img {
   justify-content: center; }
   .centered .about {
     text-align: center; }
-    .centered .about .avatar img {
+    .centered .about .avatar .logo img {
       width: 50rem;
       height: auto;
-      border-radius: 50%; }
+      border-radius: 50%;
+      padding-bottom: 5%; }
       @media only screen and (max-width: 768px) {
-        .centered .about .avatar img {
+        .centered .about .avatar .logo img {
           width: 30rem; } }
     .centered .about .brand {
       height: 10em; }
@@ -342,7 +343,7 @@ img {
           text-transform: uppercase; }
         @media only screen and (max-width: 768px) {
           .centered .about .brand .author .nametext {
-            font-size: 3.5em; } }
+            font-size: 2.5em; } }
       .centered .about .brand .info {
         height: 10%; }
         .centered .about .brand .info .typewriter {
@@ -350,34 +351,39 @@ img {
           letter-spacing: .1em;
           color: var(--accent-color);
           margin: 0; }
+          @media only screen and (max-width: 768px) {
+            .centered .about .brand .info .typewriter {
+              font-size: 2rem; } }
     .centered .about .socials {
       font-size: 3.2rem;
       display: table;
-      width: 100%;
+      margin: 0 auto;
+      width: 60%;
       list-style: none; }
       @media only screen and (max-width: 768px) {
         .centered .about .socials {
           margin-top: 1.2em;
-          font-size: 2.5rem; } }
+          font-size: 2.5rem;
+          width: 80%; } }
       .centered .about .socials li {
         display: table-cell; }
         .centered .about .socials li a {
           display: block; }
-  .centered .error {
+  .centered .fourofour {
     text-align: center; }
-    .centered .error h1 {
+    .centered .fourofour h1 {
       margin-top: 2.0rem;
       margin-bottom: 0.5rem;
       font-size: 4.6rem; }
       @media only screen and (max-width: 768px) {
-        .centered .error h1 {
+        .centered .fourofour h1 {
           font-size: 3.2rem; } }
-    .centered .error h2 {
+    .centered .fourofour h2 {
       margin-top: 2.0rem;
       margin-bottom: 3.2rem;
       font-size: 3.2rem; }
       @media only screen and (max-width: 768px) {
-        .centered .error h2 {
+        .centered .fourofour h2 {
           font-size: 2.8rem; } }
 
 .contpage {
