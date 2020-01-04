@@ -8,3 +8,4 @@ stylebackground = "#080a0f"
 +++
 
 ##### [LINUX]({{< ref "/posts/linux" >}})
+##### [COPY]({{< ref "/posts/copy" >}})
