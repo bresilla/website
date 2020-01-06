@@ -1,5 +1,6 @@
 +++ 
 show = true
+blogpost = true
 date = "2019-12-24"
 title = "Using *direnv* with Anaconda"
 slug = "direnv-anaconda" 
@@ -10,8 +11,6 @@ styleaccent = "#00af60"
 styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 width="60%"
-headerstyle = true
-
 +++
 
 ## Introduction

@@ -1,11 +1,44 @@
 <section class="container page estate"  style="{{ if .Params.width }} --real-estate:{{ .Params.width }}; {{ else if .Site.Params.width }} --real-estate:{{ .Site.Params.width }}; {{ end }}">
-  <article>
-    <header>
-      <h1 class="{{ .Slug }} contpage"  data-text="{{ .Title }}">{{ .Title }}</h1>
-    </header>
-    <span class="blogpost" {{ if .Params.headerstyle }} style=" --titlecolor: var(--accent-color);" {{ end }}>
-        {{ .Content }}
-    </span>
-    <style> {{ if .Params.headerstyle }} .blogpost h1, .blogpost h2, .blogpost h3, .blogpost h4, .blogpost h5, .blogpost h6 {text-decoration: underline dashed var(--titlecolor) 2px;} {{ end }} </style>
-  </article>
+    <article>
+        <header>
+            <h1 class="{{ .Slug }} contpage"  data-text="{{ .Title }}" >{{ .Title }}</h1>
+            {{ if .Params.blogpost }}
+            <div class="undertitle" style="padding-left:2%;" >
+                {{ $taxo := "tags" }}
+                <span id="title_{{ $taxo }}" >
+                    {{ if .Param $taxo }} Tags: {{ end }}
+                    {{ range .Param $taxo }}
+                        {{ $name := . }}
+                        {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
+                            <a href="{{ .Permalink }}" >{{ $name }}</a>
+                        {{ end }}
+                    {{ end }}
+                </span>
+
+                {{ $taxo := "series" }}
+                <span id="title_{{ $taxo }}" >
+                    {{ if .Param $taxo }}| Series: {{ end }}
+                    {{ range .Param $taxo }}
+                        {{ $name := . }}
+                        {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
+                            <a href="{{ .Permalink }}" >{{ $name }}</a>
+                        {{ end }}
+                    {{ end }}
+                </span>
+
+                {{ if .Params.part }}
+                    <span id="title_part" >| Part: <a href="" > {{ .Params.part }} </a></span>
+                {{ end }}
+
+                {{ if .Params.link }}
+                    <span class="title_posturl" >| Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>
+                {{ end }}
+            </div>
+            {{ end }}
+        </header>
+        <span class="blogpost" {{ if not .Params.headerstyle }} style=" --titlecolor: var(--accent-color);" {{ end }}>
+            {{ .Content }}
+        </span>
+        <style> {{ if not .Params.headerstyle }} .blogpost h1, .blogpost h2, .blogpost h3, .blogpost h4, .blogpost h5, .blogpost h6 {text-decoration: underline dashed var(--titlecolor) 2px;} {{ end }} </style>
+    </article>
 </section>
