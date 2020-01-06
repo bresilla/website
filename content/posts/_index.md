@@ -7,5 +7,15 @@ styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 +++
 
-##### [LINUX]({{< ref "/posts/linux" >}})
-##### [COPY]({{< ref "/posts/copy" >}})
+
+More posts here categorized:
+
+{{% button url="/posts/linux" text="LINUX" position="left" %}}
+{{% button url="/posts/copy" text="COPYCAT" position="left" %}}
+
+<!-- {{% flexbox %}} -->
+<!-- <a href="/posts/linux" ><span class="tileflex"> LINUX </span></a> -->
+<!-- <a href="/posts/copy" ><span class="tileflex"> COPY </span></a> -->
+<!-- {{% /flexbox %}} -->
+
+

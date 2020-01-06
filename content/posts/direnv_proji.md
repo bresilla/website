@@ -1,5 +1,6 @@
 +++ 
 show = true
+blogpost = true
 date = "2019-12-23"
 title = "How to manage projexts, the *NIX way!"
 slug = "direnv-nixshel-proji" 
@@ -11,8 +12,6 @@ styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
 footercontent = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 width="60%"
-headerstyle = true
-
 +++
 
 
