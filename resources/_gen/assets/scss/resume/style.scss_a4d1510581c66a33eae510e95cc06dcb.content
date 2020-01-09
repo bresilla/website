@@ -71,6 +71,12 @@ a:hover:after {
 a, a:active, a:focus {
   outline: none; }
 
+summary, summary:active, summary:focus {
+  outline: none; }
+
+ul {
+  list-style: none; }
+
 p {
   margin: 2.0rem 0 2.0rem 0;
   text-align: justify;

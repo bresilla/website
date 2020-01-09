@@ -1,38 +1,50 @@
 <section class="container page estate"  style="{{ if .Params.width }} --real-estate:{{ .Params.width }}; {{ else if .Site.Params.width }} --real-estate:{{ .Site.Params.width }}; {{ end }}">
     <article>
         <header>
-            <h1 class="{{ .Slug }} contpage"  data-text="{{ .Title }}" >{{ .Title }}</h1>
+            <h1 class="{{ .Slug }} title glitchtitle"  data-text="{{ .Title }}" >{{ .Title }}</h1>
             {{ if .Params.blogpost }}
             <div class="undertitle" style="padding-left:2%;" >
-                {{ $taxo := "tags" }}
-                <span id="title_{{ $taxo }}" >
-                    {{ if .Param $taxo }} Tags: {{ end }}
-                    {{ range .Param $taxo }}
-                        {{ $name := . }}
-                        {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
-                            <a href="{{ .Permalink }}" >{{ $name }}</a>
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;INDEX </span>
+                        <span style="color:var(--fg-color)">&nbsp;</span>
+
+                        {{ $taxo := "tags" }}
+                        <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
+                            {{ if .Param $taxo }} Tags: {{ end }}
+                            {{ range .Param $taxo }}
+                                {{ $name := . }}
+                                {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
+                                    <a href="{{ .Permalink }}" >{{ $name }}</a>
+                                {{ end }}
+                            {{ end }}
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+
+                        {{ $taxo := "series" }}
+                        <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
+                            {{ if .Param $taxo }}Series: {{ end }}
+                            {{ range .Param $taxo }}
+                                {{ $name := . }}
+                                {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
+                                    <a href="{{ .Permalink }}" >{{ $name }}</a>
+                                {{ end }}
+                            {{ end }}
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+
+                        {{ if .Params.part }}
+                            <span id="title_part" style="color:var(--accent-color)" >Part: <a href="" > {{ .Params.part }} </a></span>
+                            <span style="color:var(--fg-color)">|</span>
                         {{ end }}
-                    {{ end }}
-                </span>
 
-                {{ $taxo := "series" }}
-                <span id="title_{{ $taxo }}" >
-                    {{ if .Param $taxo }}| Series: {{ end }}
-                    {{ range .Param $taxo }}
-                        {{ $name := . }}
-                        {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
-                            <a href="{{ .Permalink }}" >{{ $name }}</a>
+                        {{ if .Params.link }}
+                            <span class="title_posturl" style="color:var(--accent-color)" >Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>
+                            <span style="color:var(--fg-color)">|</span>
                         {{ end }}
-                    {{ end }}
-                </span>
-
-                {{ if .Params.part }}
-                    <span id="title_part" >| Part: <a href="" > {{ .Params.part }} </a></span>
-                {{ end }}
-
-                {{ if .Params.link }}
-                    <span class="title_posturl" >| Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>
-                {{ end }}
+                    </summary>
+                    {{ .TableOfContents }}
+                </details>
             </div>
             {{ end }}
         </header>

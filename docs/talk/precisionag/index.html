@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/reveal-js/css/reveal.css">
 
     
-            <link rel="stylesheet" href="/css/slide_theme.min.686d21a1b1bfda0fa3e224a450a1da89a29828feb3399e233c3c3856c3c47fe6.css" id="theme"><link rel="stylesheet" href="/highlight-js/arta.min.css">
+            <link rel="stylesheet" href="/css/slide_theme.min.4adaea7566152113b5417b496d7fcb4b9d69cd657a96586155f8ee5fe588e636.css" id="theme"><link rel="stylesheet" href="/highlight-js/arta.min.css">
   </head>
   <body>
     <div class="reveal bordeline">
@@ -28,95 +28,64 @@
         <div class="line right"></div>
         <div class="slides">
             
-
-
 <section data-noprocess data-shortcode-slide
       class="side-by-side"
       data-transition="zoom"
       data-transition-speed="fast">
   
-
 <h3 id="sensors-robotics-and-artificial-intelligence-in-agrculture"><strong>Sensors, Robotics and Artificial Intelligence in Agrculture</strong></h3>
-
 <p><em>future farmers and plant hackers</em></p>
-
 </section><section>
-
 <p>This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using <a href="https://gohugo.io/hugo-pipes/">Hugo pipes</a>.</p>
-
 </section>
-
 
 <section data-noprocess data-shortcode-slide
       data-background-color="#30ddc3">
   
-
 <p>Hugo pipes compiles the source code of the theme, located in <code>assets/custom-theme.scss</code>, into CSS.</p>
-
 </section><section>
-
 <section data-shortcode-section>
 <p>Hugo pipes compiles the source code of the theme, located in <code>assets/custom-theme.scss</code>, into CSS.</p>
-
 </section>
-
-<p><section data-noprocess data-shortcode-slide
-      data-background-color="#30b2dd"></p>
-
+<section data-noprocess data-shortcode-slide
+      data-background-color="#30b2dd">
 <p>Hugo pipes compiles the source code of the theme, located in <code>assets/custom-theme.scss</code>, into CSS.</p>
-
 </section><section>
-
 <p>Hugo pipes compiles the source code of the theme, located in <code>assets/custom-theme.scss</code>, into CSS.</p>
-
 </section>
-
 </section>
-
 <p>
 <section data-noprocess data-shortcode-slide
       data-background-color="#857cea">
   
 No separate build process is required, which means you can iterate on your theme and your content at the same time.</p>
-
 </section><section>
-
 <p>To set a custom theme and use Hugo to compile it:</p>
 <div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">reveal_hugo</span><span class="p">]</span>
 <span class="nx">custom_theme</span> <span class="p">=</span> <span class="s2">&#34;custom-theme.scss&#34;</span>
-<span class="nx">custom_theme_compile</span> <span class="p">=</span> <span class="kc">true</span></code></pre></div>
-<p><code>custom-theme.scss</code> must live in the <code>assets</code> folder.</p>
-
+<span class="nx">custom_theme_compile</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre></div><p><code>custom-theme.scss</code> must live in the <code>assets</code> folder.</p>
 </section><section>
-
 <p>To pass compilation options, use the <code>custom_theme_options</code> param:</p>
 <div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">reveal_hugo</span><span class="p">.</span><span class="nx">custom_theme_options</span><span class="p">]</span>
 <span class="nx">targetPath</span> <span class="p">=</span> <span class="s2">&#34;css/custom-theme.css&#34;</span>
-<span class="nx">enableSourceMap</span> <span class="p">=</span> <span class="kc">true</span></code></pre></div>
-<p>See all the <a href="https://gohugo.io/hugo-pipes/scss-sass/#options">available options</a>.</p>
-
+<span class="nx">enableSourceMap</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre></div><p>See all the <a href="https://gohugo.io/hugo-pipes/scss-sass/#options">available options</a>.</p>
 </section>
-
 
 <section data-noprocess data-shortcode-slide
       data-background-image="/images/talks/precisionin/cover.jpg">
   
-
-<p>Note: to use a custom theme that doesn&rsquo;t need compilation, put it in the <code>static</code> directory and do not set the <code>custom_theme_compile</code> parameter. It will be served to the browser directly.</p>
-
+<p>Note: to use a custom theme that doesn't need compilation, put it in the <code>static</code> directory and do not set the <code>custom_theme_compile</code> parameter. It will be served to the browser directly.</p>
 </section><section>
-
 <p>Write a custom Reveal.js theme in four steps:</p>
 <div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">1. Import `mixins` and `settings` from the templates directory
 2. Override variables and functions for colors, fonts and sizes
 3. Import `theme` from the templates directory
-4. Add any additional selectors to override the built CSS</code></pre></div>
-</section><section>
-
+4. Add any additional selectors to override the built CSS
+</code></pre></div></section><section>
 <p>See the <a href="https://github.com/hakimel/reveal.js/blob/master/css/theme/README.md">Reveal.js theme docs</a> to learn what overrides are possible.</p>
-
 </section><section>
-
 <p>See <code>assets/custom-theme.scss</code> or any file in <code>assets/reveal-js/css/theme/source</code> for an example.</p>
 </section></div>
     </div>

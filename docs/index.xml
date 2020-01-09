@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bresilla</title>
@@ -6,10 +6,20 @@
     <description>Recent content on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 04 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Backing up GPG key with YubiKey, Tomb and Cryptosetup</title>
+      <link>/posts/linux/gpg-yubikey-tomb/</link>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/linux/gpg-yubikey-tomb/</guid>
+      <description>This is a guide to using YubiKey as a SmartCard for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.
+Keys stored on YubiKey are non-exportable (as opposed to file-based keys that are stored on disk) and are convenient for everyday use. Instead of having to remember and enter passphrases to unlock SSH/GPG keys, YubiKey needs only a physical touch after being unlocked with a PIN.</description>
+    </item>
     
     <item>
       <title>Guide to using YubiKey for GPG and SSH</title>
@@ -22,23 +32,13 @@ Keys stored on YubiKey are non-exportable (as opposed to file-based keys that ar
     </item>
     
     <item>
-      <title>Guide to using YubiKey for GPG and SSH</title>
-      <link>/posts/linux/yubi-key-gpg/</link>
-      <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/linux/yubi-key-gpg/</guid>
-      <description>This is a guide to using YubiKey as a SmartCard for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.
-Keys stored on YubiKey are non-exportable (as opposed to file-based keys that are stored on disk) and are convenient for everyday use. Instead of having to remember and enter passphrases to unlock SSH/GPG keys, YubiKey needs only a physical touch after being unlocked with a PIN.</description>
-    </item>
-    
-    <item>
       <title>Using *direnv* with Anaconda</title>
       <link>/posts/direnv-anaconda/</link>
       <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/direnv-anaconda/</guid>
-      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
-We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
+      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&#39;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&#39;t cover using CSS to style your theme.
+We&#39;ll start with creating a new site with a very basic template.</description>
     </item>
     
     <item>
@@ -47,8 +47,7 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/direnv-nixshel-proji/</guid>
-      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills VIM    #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }  
-Tailing VM (bspwm)    #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }</description>
+      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
     </item>
     
     <item>
@@ -66,8 +65,8 @@ Tailing VM (bspwm)    #progress_one { float:left; width:25%; margin: 1%; text-al
       <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/talk/apresent/</guid>
-      <description> Famous Programming Quotes  &amp;ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&amp;rdquo; &amp;ndash; Phil Karlton
-  “To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &amp;ndash; Grace Hopper
+      <description>Famous Programming Quotes   &amp;ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&amp;rdquo; &amp;ndash; Phil Karlton
+   “To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &amp;ndash; Grace Hopper
  </description>
     </item>
     
@@ -78,10 +77,10 @@ Tailing VM (bspwm)    #progress_one { float:left; width:25%; margin: 1%; text-al
       
       <guid>/talk/precisionag/</guid>
       <description>Sensors, Robotics and Artificial Intelligence in Agrculture future farmers and plant hackers
-This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
-Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
-Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
-Hugo pipes compiles the source code of the theme, located in assets/custom-theme.</description>
+ This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
+ Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
+ Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
+ Hugo pipes compiles the source code of the theme, located in assets/custom-theme.</description>
     </item>
     
     <item>
@@ -99,8 +98,17 @@ Hugo pipes compiles the source code of the theme, located in assets/custom-theme
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Lets pretend you are a real person, and I&#39;ll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right). 
+      <description>Lets pretend you are a real person, and I&#39;ll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
 $ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currently working as a PostDoc at University of Bologna.</description>
+    </item>
+    
+    <item>
+      <title>Life-Long Learning</title>
+      <link>/lists/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lists/</guid>
+      <description>Programmng langauges  c++ rust go zig nim julia c assembly d python haskell c# r typescript scala swift lua matlab java kotlin    Open source projects  Linux LLVM project QEMU/KVM LXC/Docker ROS (Robotics Operating System) OpenBSD VSCode and LSP (language server protocol) Godot engine / Unreal engine Pytorch / Tensorflow NixOS / Nix-Shell Radare2 Capstone / Keystone Linux From Scratch Buildroot    Movies  Matrix Inception Startrek Tron Back to the Future Ghost in the Shell Lucy Terminator Valerian Minority Report 2001:A Space Odyssey Blade Runner Edge of Tomorrow Looper Total Recall    TV-Shwos  Westworld Dragonball Mr.</description>
     </item>
     
     <item>
@@ -109,8 +117,7 @@ $ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currentl
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/progress/</guid>
-      <description>LONG-TERM GOALS &amp;amp; SKILL TRACK Artificial Intelligence     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }  
-Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }</description>
+      <description>LONG-TERM GOALS &amp;amp; SKILL TRACK Artificial Intelligence     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Robotics &amp; Automation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Quantum Computing     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Reverse Engineering     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   3D Modeling     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Data Visualisation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Circuit Design     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Networking and IT     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   App&amp;Game development     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Design Sprint     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Hardware programming     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   SHORT-TERM GOALS VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
     </item>
     
     <item>
@@ -120,7 +127,7 @@ Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; tex
       
       <guid>/quotes/</guid>
       <description>Here are some quotes i like:
-We are what we repeatedly do. Excellence, then, is not an act, but a habit. - AristotleThings will not calm down, as a matter of fact they will just calm up. - Teal&amp;#39;c (Stargate)&amp;#34;</description>
+We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle Things will not calm down, as a matter of fact they will just calm up. - Teal&amp;#39;c (Stargate)&amp;#34; </description>
     </item>
     
   </channel>

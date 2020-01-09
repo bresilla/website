@@ -8,22 +8,16 @@ styleaccent= "#04f977"
 
 <img align="right" src="/images/profile_04.jpg" width=50% height=50% style="margin: 20px; border-radius: 5%;">
 
-<p align="justify"><i>
 Lets pretend you are a real person, and I'll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
-</i></p>
 
 <hr size="1" width="30%" style="color: #04f977;">
 <h4 style="color: black;"><span style="background: #04f977; padding-right: 10%; padding-left: 4px;">$ whoami _</span></h4>
 
-<p align="justify">
 The name is Trim, Trim BRESILLA (pun intended), and he's currently working as a PostDoc at University of Bologna. He's got some degrees and cerificates, but who doesn't nowdays, and it just represents the past. By trade, he's a robotics engineer and plant physiologist, however he tries to do more than he can and pretends to do much more in the future. <i> Kids nowadays right??? Remind me, how does the saying go ... em ... found it... <q>Jack of all trades, master of none</q></i>.
-<p align="justify">
 He is focused on research for the moment. Trying to utilize/develop tools to understand the plants growth behavior. He plays around with a lot of electronics and uses neural-networks to achieve this. Develops sensors and algorithms to predict plant stress and status, to estimate cropload, detect deseases, utiize irrigation, fertigation and spraying. For a more serious resume of his career, check his not so overboard, <a href="https://bresilla.com/resume/resume" style="color: #04f977;">'wanna be proffesional' resume</a>. 
-</p>
 
 
 <h4 style="background-color: #04f977; color: black; padding: 4px;">$ cat /etc/nix/nix.conf | grep "interests" _</h4>
-
 - Data structures, design patterns, programming paradigms ...
 - Machine learning, deep learning, genetic algorithms ...
 - Compilers, <a href="https://follang.org" style="color: #04f977;">programming languages</a>, machine code ...
@@ -36,182 +30,13 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 
  Here is where he tracks what he's currently learning, what skills already has obtained, and what has in plan for the future:
 
-{{% button url="/progress" text="PROGRESS" position="center" %}}
+{{< button url="/progress" text="PROGRESS" position="center" >}}
 
 <h4 style="background-color: #04f977; color: black; padding: 4px;">$ find $HOME -type f -name "everyday" _</h4>
 
-<p align="justify">
 In real life, he's a huge "space and time" nerd, "why do we exist" kind of guy, or better one: "do we actually exist, and if we do, can we prove it". He reads tons of physiosophy books. Basically, when in party, he's a buzz kiler, but in the bright side, he's very self-aware, and usually dosn't speak unless asked.
-</p>
 
 
-<p align="justify">
 If you wanna know him better, so if in case you meet in physical world(s) sometime (again, he's am a real person), you can check his lists below. Cos, he's wierd and likes to top list everything. And like his grandfather used to say: "Tell me what you do, and i tell you if you're my friend"
-</p>
 
-<details>
-  <summary style="color: #04f977;">Programmng langauges</summary>
-
-  - c++
-  - rust
-  - go
-  - zig
-  - nim
-  - julia
-  - c
-  - assembly
-  - d
-  - python
-  - haskell
-  - c#
-  - r
-  - typescript
-  - scala
-  - swift
-  - lua
-  - matlab
-  - java
-  - kotlin
-
-</details>
-<details>
-  <summary style="color: #04f977;">Open source projects</summary>
-
-  - Linux
-  - LLVM project
-  - QEMU/KVM
-  - LXC/Docker
-  - ROS (Robotics Operating System)
-  - OpenBSD
-  - VSCode and LSP (language server protocol)
-  - Godot engine / Unreal engine
-  - Pytorch / Tensorflow
-  - NixOS / Nix-Shell
-  - Radare2
-  - Capstone / Keystone
-  - Linux From Scratch
-  - Buildroot
-
-</details>
-<details>
-  <summary style="color: #04f977;">Movies</summary>
-
-  - Matrix
-  - Inception
-  - Startrek
-  - Tron
-  - Back to the Future
-  - Ghost in the Shell
-  - Lucy
-  - Terminator
-  - Valerian
-  - Minority Report
-  - 2001:A Space Odyssey
-  - Blade Runner
-  - Edge of Tomorrow
-  - Looper
-  - Total Recall
-
-</details>
-<details>
-  <summary style="color: #04f977;">TV-Shwos</summary>
-
-  - Westworld
-  - Dragonball
-  - Mr. Robot
-  - Fringe
-  - Stargate
-  - Sens8
-  - Dr. Who
-  - Expanse
-  - X-Files
-  - Lost
-  - Falling Skies
-  - Flash forward
-  - The event
-  - Halt and catch fire
-
-</details>
-<details>
-<summary style="color: #04f977;">Books</summary>
-
-  - Algorithm
-  - Bermuda
-  - Divide
-  - Selected
-  - Becoming human
-  - Linked
-  - Wastelands
-  - The Blst
-  - Resurgence
-  - Parallel Shift
-  - Glitches
-
-</details>
-<details>
-  <summary style="color: #04f977;">Comics</summary>
-
-  - Flash
-  - Batman
-  - Superman
-  - Cyborg
-  - Wonder Woman
-  - Green Lantern
-  - Zatana
-  - Martian Manhunter
-  - Starfire
-  - Aquaman
-  - Arrow
-  - Canary
-  - Raven
-  - Manhattan
-
-</details>
-<details>
-  <summary style="color: #04f977;">Games</summary>
-
-  - Cyberpunk
-  - Mass Effect
-  - Star Citizen
-  - Quantum Break
-  - DeuxEx
-  - Halo
-  - Titanfall
-  - Destiny
-  - Portal
-  - Call of duty
-  - Syndicate
-  - Division
-  - XCOM
-  - Crysis
-  - Dishonored
-
-</details>
-<details>
-  <summary style="color: #04f977;">Companies</summary>
-
-  - Github
-  - Redhat
-  - Cannonical
-  - Dell
-  - Microsoft
-  - Suse
-  - Intel
-  - Google
-  - Tesla
-  - Nvidia
-  - HP
-  - Apple
-  - Autodesk
-  - Qualcoomm
-  - AMD
-
-</details>
-<details>
-  <summary style="color: #04f977;">Organisations</summary>
-
-  - Gnome
-  - KDE
-  - FSF (Free Software Foundation)
-
-</details>
+{{< button url="/lists" text="LISTS" position="center" >}}
