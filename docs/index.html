@@ -26,8 +26,7 @@
 <meta property="og:description" content="Personal website &amp; bolg" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/" />
-
-<meta property="og:updated_time" content="2020-01-04T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-01-08T00:00:00+00:00" />
 
 
     
@@ -46,7 +45,7 @@
     
       
       
-      <link rel="stylesheet" href="/coder/coder.min.84feab6f39ed4c0d1a9d6d7ae08e6ad0b16e4107394c0ac9db10aa5d3fbf41fc.css" integrity="sha256-hP6rbzntTA0anW164I5q0LFuQQc5TArJ2xCqXT&#43;/Qfw=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/coder/coder.min.8bf1e66fe5c32976c3294c604ce51fc7b70934ae579e3f1e7de84e14dae86f32.css" integrity="sha256-i/Hmb&#43;XDKXbDKUxgTOUfx7cJNK5Xnj8efehOFNrobzI=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -57,7 +56,7 @@
     <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
 
     <link rel="alternate" type="application/rss+xml" href="/index.xml" title="bresilla" />
-    <meta name="generator" content="Hugo 0.59.0-DEV" />
+    <meta name="generator" content="Hugo 0.62.2" />
   </head>
   <body >
         
@@ -104,7 +103,7 @@
   <div class="about" id="nodec">
     <div class="avatar">
         
-        <div class="logo"><img src="/images/profile_06.jpg" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);"></a></div>
+        <div class="logo" style="cursor: pointer;" ><img src="/images/profile_06.jpg" alt="avatar" onmouseover="hover_avatar(this);" onmouseout="unhover_avatar(this);" onclick="myhref('/logo');" ></a></div>
         <script type="text/javascript">
             function hover_avatar(element) {
                 element.setAttribute('src', '/images/bresilla.svg');
@@ -112,13 +111,18 @@
             function unhover_avatar(element) {
                 element.setAttribute('src', '\/images\/profile_06.jpg');
             }
+            function myhref(web) {
+                window.location.href = web;
+            }
         </script>
     </div>
     </style>
     
     <div class="brand" >
         <div class="author" >
-            <h1 class="nametext" data-text="Trim Bresilla" >Trim Bresilla</h1>
+                <a href="/logo" class="nametext glitchtitle" data-text="Trim Bresilla" >
+                    Trim Bresilla
+                </a>
         </div>
         <div class="info" >
             <h2 class="typewriter" data-text= "plant hacker · robotist · reverse engineer"></h2>

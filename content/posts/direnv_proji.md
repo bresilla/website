@@ -7,6 +7,7 @@ slug = "direnv-nixshel-proji"
 tags = ["direnv","nix-shell","proji" ]
 categories = ["DEV"]
 series = ["DIRENV"]
+part = "1"
 styleaccent = "#fef460"
 styleforeground = "#c4d0d1"
 stylebackground = "#080a0f"
@@ -15,21 +16,21 @@ width="60%"
 +++
 
 
-{{% imfra url="https://i.imgur.com/momvy3U.png" border="1" width="70" %}} Rofi menu: Listing all active projects {{% /imfra %}}
+{{< imfra url="https://i.imgur.com/momvy3U.png" border="1" width="70" >}} Rofi menu: Listing all active projects {{< /imfra >}}
 
-{{% texfra type="fill" %}}
+{{< texfra type="fill" >}}
 <details class="dropdown">
   <summary>Finished skills</summary>
-{{% progressbar 70 ffffff %}} VIM {{% /progressbar %}}
-{{% progressbar 90 ffffff %}} Tailing VM (bspwm) {{% /progressbar %}}
-{{% progressbar 85 ffffff %}} LATEX {{% /progressbar %}}
-{{% progressbar 80 ffffff %}} Containers {{% /progressbar %}}
-{{% progressbar 60 ffffff %}} NixOS & NixShell {{% /progressbar %}}
-{{% progressbar 70 ffffff %}} ROS2.0 {{% /progressbar %}}
-{{% progressbar 30 ffffff %}} Unreal Engine {{% /progressbar %}}
-{{% progressbar 40 ffffff %}} Home Assistant {{% /progressbar %}}
+{{< progressbar 70 ffffff >}} VIM {{< /progressbar >}}
+{{< progressbar 90 ffffff >}} Tailing VM (bspwm) {{< /progressbar >}}
+{{< progressbar 85 ffffff >}} LATEX {{< /progressbar >}}
+{{< progressbar 80 ffffff >}} Containers {{< /progressbar >}}
+{{< progressbar 60 ffffff >}} NixOS & NixShell {{< /progressbar >}}
+{{< progressbar 70 ffffff >}} ROS2.0 {{< /progressbar >}}
+{{< progressbar 30 ffffff >}} Unreal Engine {{< /progressbar >}}
+{{< progressbar 40 ffffff >}} Home Assistant {{< /progressbar >}}
 </details>
-{{% /texfra %}}
+{{< /texfra >}}
 
 ## Introduction
 
