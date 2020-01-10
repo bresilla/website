@@ -50,10 +50,14 @@ a, a:active, a:focus {
 
 summary, summary:active, summary:focus {
     outline:none;
+    color: var(--accent-color);
 }
 
 ul {
   list-style: none;
+  li:before {
+       content: none;
+  }
 }
 
 p {

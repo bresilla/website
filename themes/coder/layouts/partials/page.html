@@ -48,9 +48,8 @@
             </div>
             {{ end }}
         </header>
-        <span class="blogpost" {{ if not .Params.headerstyle }} style=" --titlecolor: var(--accent-color);" {{ end }}>
+        <span class="{{ if .Params.blogpost }} blogpost {{ end }}" style=" --titlecolor: var(--accent-color);" >
             {{ .Content }}
         </span>
-        <style> {{ if not .Params.headerstyle }} .blogpost h1, .blogpost h2, .blogpost h3, .blogpost h4, .blogpost h5, .blogpost h6 {text-decoration: underline dashed var(--titlecolor) 2px;} {{ end }} </style>
     </article>
 </section>
