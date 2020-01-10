@@ -9,9 +9,9 @@
                         <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;INDEX </span>
                         <span style="color:var(--fg-color)">&nbsp;</span>
 
-                        {{ $taxo := "tags" }}
+                        {{ $taxo := "categories" }}
                         <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
-                            {{ if .Param $taxo }} Tags: {{ end }}
+                            {{ if .Param $taxo }}Category: {{ end }}
                             {{ range .Param $taxo }}
                                 {{ $name := . }}
                                 {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
@@ -37,6 +37,18 @@
                             <span id="title_part" style="color:var(--accent-color)" >Part: <a href="" > {{ .Params.part }} </a></span>
                             <span style="color:var(--fg-color)">|</span>
                         {{ end }}
+
+                        {{ $taxo := "tags" }}
+                        <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
+                            {{ if .Param $taxo }} Tags: {{ end }}
+                            {{ range .Param $taxo }}
+                            {{ $name := . }}
+                            {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
+                            <a href="{{ .Permalink }}" >{{ $name }}</a>
+                            {{ end }}
+                            {{ end }}
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
 
                         {{ if .Params.link }}
                             <span class="title_posturl" style="color:var(--accent-color)" >Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>

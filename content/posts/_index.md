@@ -8,11 +8,6 @@ stylebackground = "#080a0f"
 +++
 
 
-More posts here categorized:
-
-{{< button url="/posts/linux" text="LINUX" position="left" >}}
-{{< button url="/posts/copy" text="COPYCAT" position="left" >}}
-
 <!-- {{% flexbox %}} -->
 <!-- <a href="/posts/linux" ><span class="tileflex"> LINUX </span></a> -->
 <!-- <a href="/posts/copy" ><span class="tileflex"> COPY </span></a> -->

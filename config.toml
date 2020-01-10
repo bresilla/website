@@ -61,6 +61,7 @@ isHTML = true
 
 [taxonomies]
   category = "categories"
+  folder = "folder"
   series = "series"
   tag = "tags"
 
