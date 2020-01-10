@@ -158,11 +158,6 @@
   </url>
   
   <url>
-    <loc>/categories/agrculture/</loc>
-    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/agriculture/</loc>
     <lastmod>2019-05-17T00:00:00+00:00</lastmod>
   </url>
@@ -203,6 +198,10 @@
   
   <url>
     <loc>/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/folder/</loc>
   </url>
   
   <url>

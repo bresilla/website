@@ -8,9 +8,6 @@ tags = [
     "templte",
     "precision"
 ]
-categories = [
-    "Agrculture",
-]
 series = ["Presentations"]
 styleaccent = "#f72c4a"
 stylebackground = "#d8d9db"
