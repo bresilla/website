@@ -1,16 +1,23 @@
 <section class="container page estate"  style="{{ if .Params.width }} --real-estate:{{ .Params.width }}; {{ else if .Site.Params.width }} --real-estate:{{ .Site.Params.width }}; {{ end }}">
     <article>
         <header>
-            <h1 class="{{ .Slug }} title glitchtitle"  data-text="{{ .Title }}" >{{ .Title }}</h1>
+            {{ if .Params.title }}
+                <h1 class="{{ .Slug }} title glitchtitle"  data-text="{{ .Title }}" >{{ .Title }}</h1>
+            {{ end }}
+            <!-- {{ if .Params.part }} -->
+                <!-- <h1 class="title" data-text="{{ .Params.part }}" style="display: table; padding-left:2%;" > -->
+                    <!-- <a href="" style="background-color:var(--accent-color);" onMouseOver="this.style.color='var(--bg-color)'" onMouseOut="this.style.color='var(--fg-color)'" >&nbsp;{{ .Params.part }}&nbsp;</a> -->
+                <!-- </h1> -->
+            <!-- {{ end }} -->
             {{ if .Params.blogpost }}
             <div class="undertitle" style="padding-left:2%;" >
                 <details class="dropdown" >
                     <summary>
-                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;INDEX </span>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
                         <span style="color:var(--fg-color)">&nbsp;</span>
 
                         {{ $taxo := "categories" }}
-                        <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
+                        <span id="title_{{ $taxo }}" style="color:var(--accent-color) display:inline-block;" >
                             {{ if .Param $taxo }}Category: {{ end }}
                             {{ range .Param $taxo }}
                                 {{ $name := . }}
@@ -20,40 +27,36 @@
                             {{ end }}
                             <span style="color:var(--fg-color)">|</span>
                         </span>
-
-                        {{ $taxo := "series" }}
-                        <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
-                            {{ if .Param $taxo }}Series: {{ end }}
+                        {{ $taxo := "tags" }}
+                        <span id="title_{{ $taxo }}" style="color:var(--accent-color) display:inline-block;" >
+                            {{ if .Param $taxo }} Tags: {{ end }}
                             {{ range .Param $taxo }}
                                 {{ $name := . }}
                                 {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
-                                    <a href="{{ .Permalink }}" >{{ $name }}</a>
+                                <a href="{{ .Permalink }}" >{{ $name }}</a>
                                 {{ end }}
                             {{ end }}
                             <span style="color:var(--fg-color)">|</span>
                         </span>
 
-                        {{ if .Params.part }}
-                            <span id="title_part" style="color:var(--accent-color)" >Part: <a href="" > {{ .Params.part }} </a></span>
-                            <span style="color:var(--fg-color)">|</span>
-                        {{ end }}
-
-                        {{ $taxo := "tags" }}
-                        <span id="title_{{ $taxo }}" style="color:var(--accent-color)" >
-                            {{ if .Param $taxo }} Tags: {{ end }}
-                            {{ range .Param $taxo }}
-                            {{ $name := . }}
-                            {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
-                            <a href="{{ .Permalink }}" >{{ $name }}</a>
-                            {{ end }}
-                            {{ end }}
-                            <span style="color:var(--fg-color)">|</span>
-                        </span>
-
                         {{ if .Params.link }}
-                            <span class="title_posturl" style="color:var(--accent-color)" >Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>
+                            <span class="title_posturl" style="color:var(--accent-color) display:inline-block;" >Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>
                             <span style="color:var(--fg-color)">|</span>
                         {{ end }}
+
+                        {{ $taxo := "series" }}
+                        <span id="title_{{ $taxo }}" style="color:var(--accent-color) display:inline-block;" >
+                            {{ if .Param $taxo }}Series: {{ end }}
+                            {{ range .Param $taxo }}
+                                {{ $name := . }}
+                                {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}
+                                <a href="{{ .Permalink }}" >{{ $name }}</a>
+                                {{ end }}
+                            {{ end }}
+                            {{ if .Params.part }}
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART {{ .Params.part }}&nbsp;</span>
+                            {{ end }}
+                        </span>
                     </summary>
                     {{ .TableOfContents }}
                 </details>
