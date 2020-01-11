@@ -1,6 +1,6 @@
 +++
-title = "Talks"
-slug = "talks"
+title = "Linux"
+slug = "linux"
 footercontent = "Here goes some very important quote"
 styleaccent= "#fc50f6"
 styleforeground = "#c4d0d1"

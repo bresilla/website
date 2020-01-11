@@ -137,6 +137,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    @media only screen and (max-width : 768px) {
+        padding-top:0 !important;
+    }
     .about {
         text-align: center;
         .avatar .logo img{
@@ -150,9 +153,12 @@
         }
         .brand{
             height: 10em;
+            @media only screen and (max-width : 768px) {
+                height: 10%;
+            }
             .author {
-                margin-top: 3rem;
-                margin-bottom: 2.5rem;
+                margin-top: 5%;
+                margin-bottom: 2%;
                 .nametext{
                     font-size: 6em;
                     font-family: $thin-font-family;
@@ -318,7 +324,7 @@
                     100% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);} }
                 }
             .info{
-                height: 10%;
+                min-height: 3em !important;
                 .typewriter {
                     font-family: $code-font-family;
                     letter-spacing: .1em;
@@ -332,42 +338,42 @@
         }
 
         .socials{
-                font-size: 3.2rem;
-                display: table;
-                margin: 0 auto;
-                width: 60%;
-                list-style: none;
-                @media only screen and (max-width : 768px) {
-                    margin-top: 1.2em;
-                    font-size: 2.5rem;
-                    width: 80%;
-                }
-                li {
-                    display: table-cell;
-                    a {
-                        display: block;
-                    }
-                }
-            }
-  }
-
-  .fourofour {
-        text-align: center;
-        h1 {
-            margin-top: 2.0rem;
-            margin-bottom: 0.5rem;
-            font-size: 4.6rem;
+            font-size: 3.2rem;
+            display: table;
+            margin: 0 auto;
+            width: 60%;
+            list-style: none;
             @media only screen and (max-width : 768px) {
-                font-size: 3.2rem;
+                font-size: 2.5rem;
+                width: 80%;
+            }
+            li {
+                display: table-cell;
+                a {
+                    display: block;
+                }
             }
         }
-        h2 {
-            margin-top: 2.0rem;
-            margin-bottom: 3.2rem;
-            font-size: 3.2rem;
-            @media only screen and (max-width : 768px) {
-                font-size: 2.8rem;
+        .secretkey {
+            .svgholder {
+                width: 20%;
+                margin: 0 auto;
             }
+            #keysvg:hover{
+                fill:var(--fg-color) !important;
+            }
+        }
+  }
+
+}
+.homesection{
+    .latest {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .latestchild{
+            align-items: center;
+            justify-content: center;
         }
     }
 }

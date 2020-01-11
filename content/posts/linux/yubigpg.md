@@ -13,8 +13,9 @@ tags = ["yubikey","gpg","pass", "tomb", "cryptosetup" ]
 categories = ["LINUX"]
 series = ["GPG"]
 credits = [
+    "https://www.dyne.org/software/tomb/",
     "https://github.com/drduh/YubiKey-Guide",
-    "https://www.dyne.org/software/tomb/"
+    "https://spin.atomicobject.com/2013/11/24/secure-gpg-keys-guide/",
 ]
 part="1"
 +++

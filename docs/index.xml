@@ -94,6 +94,16 @@ We&#39;ll start with creating a new site with a very basic template.</descriptio
     </item>
     
     <item>
+      <title></title>
+      <link>/pgp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/pgp/</guid>
+      <description>Well well well, what do we have here. As far as I can imagine, you either clicked the key icon, and now you dont understand what all of this is, or you actually do understand it very well. If the later, then send me an encrypted &amp;ldquo;hi&amp;rdquo;.
+PUBLIC PGP KEY    div[class*=box] { width: 100%; display: flex; align-items: center; padding: 5px; } .btn { line-height: 50px; height: 50px; text-align: center; width: 250px; cursor: pointer; } #nodec .</description>
+    </item>
+    
+    <item>
       <title>About</title>
       <link>/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
