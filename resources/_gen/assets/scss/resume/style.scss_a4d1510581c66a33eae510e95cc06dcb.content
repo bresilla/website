@@ -77,8 +77,9 @@ summary, summary:active, summary:focus {
 
 ul {
   list-style: none; }
-  ul li:before {
-    content: none; }
+
+li:before {
+  content: none; }
 
 p {
   margin: 2.0rem 0 2.0rem 0;

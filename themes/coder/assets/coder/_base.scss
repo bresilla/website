@@ -55,9 +55,10 @@ summary, summary:active, summary:focus {
 
 ul {
   list-style: none;
-  li:before {
-       content: none;
-  }
+}
+
+li:before {
+    content: none;
 }
 
 p {
