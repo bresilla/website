@@ -14,7 +14,7 @@
                 <details class="dropdown" >
                     <summary>
                         <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
-                        <span style="color:var(--fg-color)">&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
 
                         {{ $taxo := "categories" }}
                         <span id="title_{{ $taxo }}" style="color:var(--accent-color) display:inline-block;" >
@@ -56,6 +56,7 @@
                             {{ if .Params.part }}
                                 <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART {{ .Params.part }}&nbsp;</span>
                             {{ end }}
+                            <span style="color:var(--fg-color)">|</span>
                         </span>
                     </summary>
                     {{ .TableOfContents }}

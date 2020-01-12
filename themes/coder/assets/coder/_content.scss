@@ -360,7 +360,7 @@
                 margin: 0 auto;
             }
             #keysvg:hover{
-                fill:var(--fg-color) !important;
+                fill:#f72c4a !important;
             }
         }
   }
@@ -514,3 +514,8 @@
 
 }
 
+#aboutlistdiv {
+    li:before {
+        content: none;
+    }
+}

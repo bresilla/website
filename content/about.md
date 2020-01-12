@@ -18,6 +18,9 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 
 
 <h4 style="background-color: #04f977; color: black; padding: 4px;">$ cat /etc/nix/nix.conf | grep "interests" _</h4>
+
+<div id="aboutlistdiv" >
+
 - Data structures, design patterns, programming paradigms ...
 - Machine learning, deep learning, genetic algorithms ...
 - Compilers, <a href="https://follang.org" style="color: #04f977;">programming languages</a>, machine code ...
@@ -27,6 +30,7 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 - Brain-Computer interfaces, biological cognition ???
 - Quantum computing ???
 
+</div>
 
  Here is where he tracks what he's currently learning, what skills already has obtained, and what has in plan for the future:
 
