@@ -170,7 +170,7 @@
                         text-transform:uppercase
                     }
                     @media only screen and (max-width : 768px) {
-                        font-size: 3em;
+                        font-size: 10vw;
                     }
                 }
                 .glitch {
@@ -354,15 +354,6 @@
                 }
             }
         }
-        .secretkey {
-            .svgholder {
-                width: 20%;
-                margin: 0 auto;
-            }
-            #keysvg:hover{
-                fill:#f72c4a !important;
-            }
-        }
   }
 
 }
@@ -384,57 +375,55 @@
     font-weight: 300;
 }
 
-@media only screen and (min-width : 768px) {
-    .glitchtitle {
-        position: relative;
-        color: $fg-color;
-        @include textGlitch("example-two", 30, var(--fg-color), var(--bg-color), white, green, 450, 115);
-        animation: glitch-anim1 0.1s infinite linear alternate-reverse;
-        &::before{
-            @include duplicate;
-            left: $glitchsize;
-            color: $glitch-color;
-            clip: rect(44px, 450px, 56px, 0);
-            text-shadow: $glitchsize 40 $glitch-color, $glitchsize+2 $glitchsize+2 var(--glitch-color);
-            animation: glitch-anim1 5s infinite linear alternate-reverse;
-            animation-fill-mode: backwards;
-        }
-
-        &::after {
-            @include textGlitch("example-two", 42, var(--accent-color), var(--bg-color), white, green, 154, 540);
-            @include duplicate;
-            right: $glitchsize;
-            text-shadow: $glitchsize 20 $glitch-color, $glitchsize $glitchsize red;
-            animation: glitch-anim2 3s infinite linear normal;
-        }
+.glitchtitle {
+    position: relative;
+    color: $fg-color;
+    @include textGlitch("example-two", 30, var(--fg-color), var(--bg-color), white, green, 450, 115);
+    animation: glitch-anim1 0.1s infinite linear alternate-reverse;
+    &::before{
+        @include duplicate;
+        left: $glitchsize;
+        color: $glitch-color;
+        clip: rect(44px, 450px, 56px, 0);
+        text-shadow: $glitchsize 40 $glitch-color, $glitchsize+2 $glitchsize+2 var(--glitch-color);
+        animation: glitch-anim1 5s infinite linear alternate-reverse;
+        animation-fill-mode: backwards;
     }
 
-    @keyframes glitch-anim1 {
-        $steps: 30;
-        @for $i from 0 through $steps {
-            #{percentage($i*(1/$steps))} {
-            clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-                    transform: skew((random(100) / 100) + deg);
-            }
+    &::after {
+        @include textGlitch("example-two", 42, var(--accent-color), var(--bg-color), white, green, 154, 540);
+        @include duplicate;
+        right: $glitchsize;
+        text-shadow: $glitchsize 20 $glitch-color, $glitchsize $glitchsize red;
+        animation: glitch-anim2 3s infinite linear normal;
+    }
+}
+
+@keyframes glitch-anim1 {
+    $steps: 30;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                transform: skew((random(100) / 100) + deg);
         }
     }
+}
 
-    @keyframes glitch-anim2 {
-        $steps: 20;
-        @for $i from 0 through $steps {
-            #{percentage($i*(1/$steps))} {
-            clip: rect(random(100)+px, 9999px, random(100)+px, 0);
-                    transform: skew((random(100) / 100) + deg);
-            }
+@keyframes glitch-anim2 {
+    $steps: 20;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                transform: skew((random(100) / 100) + deg);
         }
     }
+}
 
-    @keyframes glitch-skew {
-        $steps: 100;
-        @for $i from 0 through $steps {
-            #{percentage($i*(1/$steps))} {
-            transform: skew((random(10) - 5) + deg);
-            }
+@keyframes glitch-skew {
+    $steps: 100;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        transform: skew((random(10) - 5) + deg);
         }
     }
 }

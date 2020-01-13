@@ -21,19 +21,24 @@ video = "../video/bresilla.mp4"
         </svg>
     </div>
     <style>
-    .secretkey{
-      position: absolute;
-        bottom: 5%;
-        margin-right: auto;
-        margin-left: auto;
-        left: 0px;
-        right: 0px;
-    }
+        .secretkey{
+            position: absolute;
+            bottom: 5%;
+            margin-right: auto;
+            margin-left: auto;
+            left: 0px;
+            right: 0px;
+        }
+        @media only screen and (max-width : 768px) {
+            .svgmiddle{
+                width: 15%;
+            }
+        }
         .svgmiddle{
             padding: 2%;
             border-radius: 60%;
             margin: 0 auto;
-            width: 15%;
+            width: 8%;
         }
         #svgmiddle {
             opacity: 0;
