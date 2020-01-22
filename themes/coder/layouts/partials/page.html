@@ -9,7 +9,7 @@
                     <!-- <a href="" style="background-color:var(--accent-color);" onMouseOver="this.style.color='var(--bg-color)'" onMouseOut="this.style.color='var(--fg-color)'" >&nbsp;{{ .Params.part }}&nbsp;</a> -->
                 <!-- </h1> -->
             <!-- {{ end }} -->
-            {{ if .Params.blogpost }}
+            {{ if .Params.type }}
             <div class="undertitle" style="padding-left:2%;" >
                 <details class="dropdown" >
                     <summary>
@@ -64,7 +64,7 @@
             </div>
             {{ end }}
         </header>
-        <span class="{{ if .Params.blogpost }} blogpost {{ end }}" style=" --titlecolor: var(--accent-color);" >
+        <span class="{{ if .Params.type }} blogpost {{ end }}" style=" --titlecolor: var(--accent-color);" >
             {{ .Content }}
         </span>
         {{ if .Params.credits }}

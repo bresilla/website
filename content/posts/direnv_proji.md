@@ -1,6 +1,6 @@
 +++ 
 show = true
-blogpost = true
+type = "post"
 date = "2019-12-23"
 title = "How to manage projexts, the *NIX way!"
 slug = "direnv-nixshel-proji" 

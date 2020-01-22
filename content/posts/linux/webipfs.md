@@ -1,6 +1,6 @@
 +++ 
 show = true
-blogpost = true
+type = "post"
 width="60%"
 styleaccent= "#6acad1"
 styleforeground = "#c4d0d1"
