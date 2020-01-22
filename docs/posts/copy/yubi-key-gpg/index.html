@@ -51,7 +51,7 @@ Keys stored on YubiKey are non-exportable (as opposed to file-based keys that ar
     
       
       
-      <link rel="stylesheet" href="/coder/coder.min.aed135ecf7cb1caf95c5d40b5c2fec0cb369e55c26589df3002a082cb863b475.css" integrity="sha256-rtE17PfLHK&#43;VxdQLXC/sDLNp5VwmWJ3zACoILLhjtHU=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/coder/coder.min.fb8a1f626d9932cc10b79c3954009e48099bb6390e844c0ec601704e2d0d6856.css" integrity="sha256-&#43;4ofYm2ZMswQt5w5VACeSAmbtjkOhEwOxgFwTi0NaFY=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -112,156 +112,8 @@ Keys stored on YubiKey are non-exportable (as opposed to file-based keys that ar
             
             
             
-            <div class="undertitle" style="padding-left:2%;" >
-                <details class="dropdown" >
-                    <summary>
-                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
-                        <span style="color:var(--fg-color)">|</span>
-
-                        
-                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
-                            Category: 
-                            
-                                
-                                
-                                    <a href="/categories/copy/" >COPY</a>
-                                
-                            
-                            <span style="color:var(--fg-color)">|</span>
-                        </span>
-                        
-                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
-                             Tags: 
-                            
-                                
-                                
-                                <a href="/tags/yubikey/" >yubikey</a>
-                                
-                            
-                                
-                                
-                                <a href="/tags/gpg/" >gpg</a>
-                                
-                            
-                                
-                                
-                                <a href="/tags/pass/" >pass</a>
-                                
-                            
-                            <span style="color:var(--fg-color)">|</span>
-                        </span>
-
-                        
-                            <span class="title_posturl" style="color:var(--accent-color) display:inline-block;" >Url: <a href="https://github.com/drduh/YubiKey-Guide" > https://github.com/drduh/YubiKey-Guide </a></span>
-                            <span style="color:var(--fg-color)">|</span>
-                        
-
-                        
-                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
-                            Series: 
-                            
-                                
-                                
-                                <a href="/series/gpg/" >GPG</a>
-                                
-                            
-                            
-                            <span style="color:var(--fg-color)">|</span>
-                        </span>
-                    </summary>
-                    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#purchase-yubikey">Purchase YubiKey</a></li>
-    <li><a href="#verify-yubikey">Verify YubiKey</a></li>
-    <li><a href="#download-os-image">Download OS Image</a></li>
-    <li><a href="#required-software">Required software</a>
-      <ul>
-        <li><a href="#debianubuntu">Debian/Ubuntu</a></li>
-        <li><a href="#arch">Arch</a></li>
-        <li><a href="#rhel7">RHEL7</a></li>
-        <li><a href="#openbsd">OpenBSD</a></li>
-        <li><a href="#macos">macOS</a></li>
-        <li><a href="#windows">Windows</a></li>
-      </ul>
-    </li>
-    <li><a href="#entropy">Entropy</a></li>
-    <li><a href="#creating-keys">Creating keys</a></li>
-    <li><a href="#master-key">Master key</a></li>
-    <li><a href="#sign-with-an-existing-key-optional">Sign with an existing key (optional)</a></li>
-    <li><a href="#sub-keys">Sub-keys</a>
-      <ul>
-        <li><a href="#signing">Signing</a></li>
-        <li><a href="#encryption">Encryption</a></li>
-        <li><a href="#authentication">Authentication</a></li>
-        <li><a href="#add-extra-emails">Add extra emails</a></li>
-      </ul>
-    </li>
-    <li><a href="#verify">Verify</a></li>
-    <li><a href="#export">Export</a></li>
-    <li><a href="#backup">Backup</a></li>
-    <li><a href="#configure-smartcard">Configure Smartcard</a>
-      <ul>
-        <li><a href="#change-pin">Change PIN</a></li>
-        <li><a href="#set-information">Set information</a></li>
-      </ul>
-    </li>
-    <li><a href="#transfer-keys">Transfer keys</a>
-      <ul>
-        <li><a href="#signing-1">Signing</a></li>
-        <li><a href="#encryption-1">Encryption</a></li>
-        <li><a href="#authentication-1">Authentication</a></li>
-      </ul>
-    </li>
-    <li><a href="#verify-card">Verify card</a></li>
-    <li><a href="#cleanup">Cleanup</a></li>
-    <li><a href="#using-keys">Using keys</a></li>
-    <li><a href="#rotating-keys">Rotating keys</a></li>
-    <li><a href="#ssh">SSH</a>
-      <ul>
-        <li><a href="#create-configuration">Create configuration</a></li>
-        <li><a href="#replace-agents">Replace agents</a></li>
-        <li><a href="#copy-public-key">Copy public key</a></li>
-        <li><a href="#optional-save-public-key-for-identity-file-configuration">(Optional) Save public key for identity file configuration</a></li>
-        <li><a href="#connect-with-public-key-authentication">Connect with public key authentication</a></li>
-        <li><a href="#import-ssh-keys">Import SSH keys</a></li>
-        <li><a href="#remote-machines-agent-forwarding">Remote Machines (Agent Forwarding)</a>
-          <ul>
-            <li><a href="#steps-for-older-distributions">Steps for older distributions</a></li>
-          </ul>
-        </li>
-        <li><a href="#github">GitHub</a></li>
-        <li><a href="#openbsd-1">OpenBSD</a></li>
-        <li><a href="#windows-1">Windows</a>
-          <ul>
-            <li><a href="#wsl">WSL</a>
-              <ul>
-                <li><a href="#prerequisites">Prerequisites</a></li>
-                <li><a href="#wsl-configuration">WSL configuration</a></li>
-                <li><a href="#remote-host-configuration">Remote host configuration</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#multiple-keys">Multiple Keys</a></li>
-    <li><a href="#require-touch">Require touch</a></li>
-    <li><a href="#email">Email</a>
-      <ul>
-        <li><a href="#mailvelope-on-macos">Mailvelope on macOS</a></li>
-      </ul>
-    </li>
-    <li><a href="#reset">Reset</a></li>
-    <li><a href="#notes">Notes</a></li>
-    <li><a href="#troubleshooting">Troubleshooting</a></li>
-    <li><a href="#links">Links</a></li>
-  </ul>
-</nav>
-                </details>
-            </div>
-            
         </header>
-        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
+        <span class="" style=" --titlecolor: var(--accent-color);" >
             <p>This is a guide to using <a href="https://www.yubico.com/products/yubikey-hardware/">YubiKey</a> as a <a href="https://security.stackexchange.com/questions/38924/how-does-storing-gpg-ssh-private-keys-on-smart-cards-compare-to-plain-usb-drives">SmartCard</a> for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.</p>
 <p>Keys stored on YubiKey are <a href="https://support.yubico.com/support/solutions/articles/15000010242-can-i-duplicate-or-back-up-a-yubikey-">non-exportable</a> (as opposed to file-based keys that are stored on disk) and are convenient for everyday use. Instead of having to remember and enter passphrases to unlock SSH/GPG keys, YubiKey needs only a physical touch after being unlocked with a PIN. All signing and encryption operations happen on the card, rather than in OS memory.</p>
 <h1 id="purchase-yubikey">Purchase YubiKey</h1>

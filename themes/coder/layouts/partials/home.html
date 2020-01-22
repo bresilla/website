@@ -52,9 +52,16 @@
         </div>
         </section>
         <section class="latest" >
-            <!-- <div class="latestchild" style="padding-top:25%;" > -->
-                <!-- LATEST POST: -->
-            <!-- </div> -->
+            <div class="latestchild" style="padding-top:25%;" >
+                <div>
+                    LATEST POST:
+                </div>
+                {{ range first 1 .Site.Taxonomies.type.post }}
+                <div>
+                    <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+                </div>
+                {{ end }}
+            </div>
         </section>
     </section>
 </section>

@@ -53,6 +53,11 @@
   </url>
   
   <url>
+    <loc>/type/post/</loc>
+    <lastmod>2020-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/series/</loc>
     <lastmod>2020-01-11T00:00:00+00:00</lastmod>
   </url>
@@ -64,6 +69,11 @@
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/type/</loc>
     <lastmod>2020-01-11T00:00:00+00:00</lastmod>
   </url>
   

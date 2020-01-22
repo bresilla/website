@@ -60,6 +60,7 @@ isHTML = true
     custom_js = []
 
 [taxonomies]
+  type = "type"
   category = "categories"
   folder = "folder"
   series = "series"
