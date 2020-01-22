@@ -6,10 +6,64 @@
     <description>Recent content in Tags on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 11 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>blockchain</title>
+      <link>/tags/blockchain/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/blockchain/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>crypto</title>
+      <link>/tags/crypto/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/crypto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gpg</title>
+      <link>/tags/gpg/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/gpg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ipfs</title>
+      <link>/tags/ipfs/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ipfs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>p2p</title>
+      <link>/tags/p2p/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/p2p/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>website</title>
+      <link>/tags/website/</link>
+      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/website/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>cryptosetup</title>
@@ -17,15 +71,6 @@
       <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/cryptosetup/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gpg</title>
-      <link>/tags/gpg/</link>
-      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/gpg/</guid>
       <description></description>
     </item>
     
