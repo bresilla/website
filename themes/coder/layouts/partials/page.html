@@ -67,5 +67,19 @@
         <span class="{{ if .Params.blogpost }} blogpost {{ end }}" style=" --titlecolor: var(--accent-color);" >
             {{ .Content }}
         </span>
+        {{ if .Params.credits }}
+        <div style="padding-top:2%;" >
+            <hr size="1" style="color: var(--accent-color);">
+            <details class="references" style="padding-left:2%;" >
+                <summary> References</summary>
+                {{ range .Params.credits }}
+                <div style="padding-left:2%;" >
+                    <a href="{{ . }}" > {{ . }} </a>
+                </div>
+                {{ end }}
+            </details>
+            <hr size="1" style="color: var(--accent-color);">
+        </div>
+        {{ end }}
     </article>
 </section>

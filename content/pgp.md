@@ -1,6 +1,7 @@
 +++
 slug = "pgp"
-styleaccent = "#ec1b2e "
+footercontent = "In the kingdom of the blind, the one-eyed man is king"
+styleaccent = "#f72c4a"
 video = "../video/bresilla.mp4"
 +++
 

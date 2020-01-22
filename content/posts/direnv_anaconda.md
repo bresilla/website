@@ -5,6 +5,7 @@ date = "2019-12-24"
 title = "Using *direnv* with Anaconda"
 slug = "direnv-anaconda" 
 tags = ["direnv","anaconda","python" ]
+footercontent = "Artificial Intelligence is no match for natural stupidity - AI itself"
 categories = ["DEV"]
 series = ["DIRENV"]
 styleaccent = "#00af60"
