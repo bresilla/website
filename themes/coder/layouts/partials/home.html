@@ -51,17 +51,14 @@
             {{ end }}
         </div>
         </section>
-        <section class="latest" >
-            <div class="latestchild" style="padding-top:25%;" >
-                <div>
-                    LATEST POST:
+        <section class="latest" style="padding-top:20%;" >
+            {{ range first 1 .Site.Taxonomies.type.post }}
+            <div class="latestchild" style="width: 100%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color); cursor: pointer;" onclick="myhref('{{ .Page.RelPermalink }}');" >
+                <div class="latesttag" style="padding-left:2%; text-align:center;" >
+                    LATEST POST: {{ .Page.Title }}
                 </div>
-                {{ range first 1 .Site.Taxonomies.type.post }}
-                <div>
-                    <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
-                </div>
-                {{ end }}
             </div>
+            {{ end }}
         </section>
     </section>
 </section>

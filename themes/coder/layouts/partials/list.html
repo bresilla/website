@@ -16,12 +16,10 @@
         <div class="thelist">
             <ul style="display: table;">
                 {{ range .Paginator.Pages }}
-                {{ if.Params.show }}
                 <li id="nodec">
                     <span class="date" {{ if .Params.styleaccent }} style="color: var(--bg-color); background-color:{{ .Params.styleaccent }}; margin: 2px; padding: 2px;" {{ end }}>{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}</span>
                     <a class="title" href="{{ .Params.ExternalLink | default .RelPermalink }}" style="{{ if .Params.styleaccent }}color:{{ .Params.styleaccent }}; margin: 2px; padding: 2px;{{ end }} text-decoration: underline;" >{{ .Title }}</a>
                 </li>
-                {{ end }}
                 {{ end }}
             </ul>
         </div>

@@ -69,16 +69,20 @@
         </span>
         {{ if .Params.credits }}
         <div style="padding-top:2%;" >
-            <hr size="1" style="color: var(--accent-color);">
-            <details class="references" style="padding-left:2%;" >
-                <summary> References</summary>
-                {{ range .Params.credits }}
-                <div style="padding-left:2%;" >
-                    <a href="{{ . }}" > {{ . }} </a>
+            <div style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px;
+                border: 1px dashed var(--accent-color); color: var(--accent-color);" >
+                <details class="references" style="padding-left:2%;" >
+                    <summary> References</summary>
+                    {{ range .Params.credits }}
+                    <div style="padding-left:2%;" >
+                        - <a href="{{ . }}" > {{ . }} </a>
+                    </div>
+                        {{ end }}
+                </details>
                 </div>
-                {{ end }}
-            </details>
-            <hr size="1" style="color: var(--accent-color);">
+                    <style> @media only screen and (max-width : 768px) { .references { width: 90% !important; } } </style>
+            </div>
         </div>
         {{ end }}
     </article>
