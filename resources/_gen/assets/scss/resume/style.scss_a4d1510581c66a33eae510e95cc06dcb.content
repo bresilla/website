@@ -72,8 +72,7 @@ a, a:active, a:focus {
   outline: none; }
 
 summary, summary:active, summary:focus {
-  outline: none;
-  color: var(--accent-color); }
+  outline: none; }
 
 ul {
   list-style: none; }

@@ -16,23 +16,16 @@ width="60%"
 +++
 
 
-{{< imfra url="https://i.imgur.com/momvy3U.png" border="1" width="70" >}} Rofi menu: Listing all active projects {{< /imfra >}}
+{{< image url="https://i.imgur.com/momvy3U.png" border="1" width="70" >}} Rofi menu: Listing all active projects {{< /image >}}
 
-{{< texfra type="fill" >}}
+{{< block type="fill" >}}
 <details class="dropdown">
   <summary>Finished skills</summary>
-{{< progressbar 70 ffffff >}} VIM {{< /progressbar >}}
-{{< progressbar 90 ffffff >}} Tailing VM (bspwm) {{< /progressbar >}}
-{{< progressbar 85 ffffff >}} LATEX {{< /progressbar >}}
-{{< progressbar 80 ffffff >}} Containers {{< /progressbar >}}
-{{< progressbar 60 ffffff >}} NixOS & NixShell {{< /progressbar >}}
-{{< progressbar 70 ffffff >}} ROS2.0 {{< /progressbar >}}
-{{< progressbar 30 ffffff >}} Unreal Engine {{< /progressbar >}}
-{{< progressbar 40 ffffff >}} Home Assistant {{< /progressbar >}}
+  smething goes here
 </details>
-{{< /texfra >}}
+{{< /block >}}
 
-## Introduction
+# Introduction
 
 This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I'll explain how Hugo uses templates and how you can organize your templates to create a theme. I won't cover using CSS to style your theme.
 
@@ -53,11 +46,11 @@ func main() {
 {{< / highlight >}}
 
 
-## Some Definitions
+# Some Definitions
 
 There are a few concepts that you need to understand before creating a theme.
 
-#### Skins
+## Skins
 
 Skins are the files responsible for the look and feel of your site. It’s the CSS that controls colors and fonts, it’s the Javascript that determines actions and reactions. It’s also the rules that Hugo uses to transform your content into the HTML that the site will serve to visitors.
 

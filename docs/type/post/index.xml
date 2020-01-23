@@ -6,7 +6,7 @@
     <description>Recent content in post on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/type/post/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Setting up a blog above InterPlanetary FileSystem - IPFS</title>
       <link>/posts/linux/web-ipfs/</link>
-      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 23 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/posts/linux/web-ipfs/</guid>
       <description>THE WHY Here is the thing, I have no secrets of my own! Zero, zilch, zip, nada, nothing. However, this does not mean I am open to anyone to browse what I do and how I do. I like my life to be private. If somebody asks me anything (even a personal query), and if I find it reasonable (which most of the cases I do), I give the answer. I am very careful about what share and how I share.</description>
@@ -26,7 +26,7 @@
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/direnv-nixshel-proji/</guid>
-      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
+      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
     </item>
     
   </channel>
