@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Setting up a blog above InterPlanetary FileSystem - IPFS</title>
+      <title>Hosting a website in the Inter Planetary File System</title>
       <link>/posts/linux/web-ipfs/</link>
       <pubDate>Thu, 23 Jan 2020 00:00:00 +0000</pubDate>
       
@@ -34,7 +34,7 @@ Steps that we&#39;&amp;lsquo;ll go through are:
     <item>
       <title>Guide to using YubiKey for GPG and SSH</title>
       <link>/posts/copy/yubi-key-gpg/</link>
-      <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/posts/copy/yubi-key-gpg/</guid>
       <description>This is a guide to using YubiKey as a SmartCard for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.
@@ -43,29 +43,29 @@ Keys stored on YubiKey are non-exportable (as opposed to file-based keys that ar
     
     <item>
       <title>Using *direnv* with Anaconda</title>
-      <link>/posts/direnv-anaconda/</link>
+      <link>/posts/dev/direnv-anaconda/</link>
       <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/posts/direnv-anaconda/</guid>
+      <guid>/posts/dev/direnv-anaconda/</guid>
       <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&#39;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&#39;t cover using CSS to style your theme.
 We&#39;ll start with creating a new site with a very basic template.</description>
     </item>
     
     <item>
       <title>How to manage projexts, the *NIX way!</title>
-      <link>/posts/direnv-nixshel-proji/</link>
+      <link>/posts/dev/direnv-nixshel-proji/</link>
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/posts/direnv-nixshel-proji/</guid>
+      <guid>/posts/dev/direnv-nixshel-proji/</guid>
       <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
     </item>
     
     <item>
       <title>ROS Melodic with Python 3</title>
-      <link>/posts/ros-melodic-python-3/</link>
+      <link>/posts/dev/ros-melodic-python-3/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/posts/ros-melodic-python-3/</guid>
+      <guid>/posts/dev/ros-melodic-python-3/</guid>
       <description></description>
     </item>
     
@@ -132,15 +132,6 @@ $ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currentl
     </item>
     
     <item>
-      <title>Life-Long Learning</title>
-      <link>/progress/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/progress/</guid>
-      <description>LONG-TERM GOALS &amp;amp; SKILL TRACK Artificial Intelligence     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Robotics &amp; Automation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Quantum Computing     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Reverse Engineering     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   3D Modeling     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Data Visualisation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Circuit Design     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Networking and IT     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   App&amp;Game development     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Design Sprint     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Hardware programming     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   SHORT-TERM GOALS VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
-    </item>
-    
-    <item>
       <title>Quotes</title>
       <link>/quotes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -148,6 +139,15 @@ $ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currentl
       <guid>/quotes/</guid>
       <description>Here are some quotes i like:
 We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle Things will not calm down, as a matter of fact they will just calm up. - Teal&amp;#39;c (Stargate)&amp;#34; </description>
+    </item>
+    
+    <item>
+      <title>Skills progress</title>
+      <link>/progress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/progress/</guid>
+      <description>LONG-TERM GOALS &amp;amp; SKILL TRACK Artificial Intelligence     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Robotics &amp; Automation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Quantum Computing     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Reverse Engineering     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   3D Modeling     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Data Visualisation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Circuit Design     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Networking and IT     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   App&amp;Game development     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Design Sprint     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Hardware programming     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   SHORT-TERM GOALS VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
     </item>
     
   </channel>

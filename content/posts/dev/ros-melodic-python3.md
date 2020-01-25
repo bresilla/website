@@ -13,7 +13,10 @@ categories = [
 ]
 externalLink = "https://www.miguelalonsojr.com/blog/robotics/ros/python3/2019/08/20/ros-melodic-python-3-build.html"
 series = ["ROS"]
-styleaccent= "#af87ff"
-stylebackground = "#c4d0d1"
-styleforeground = "#080a0f"
+
+[style]
+    accent = "#af87ff"
+    theme = "dark"
+    width="60%"
+
 +++

@@ -35,9 +35,6 @@ isHTML = true
     author = "Trim Bresilla"
     mail = "trim.bresilla@bresilla.com"
     phone = "+38344171997"
-    styleaccent = "#ff9000"
-    stylebackground = "#080a0f"
-    styleforeground = "#c4d0d1"
     gradient = "red, green, blue"
 
     description = "Personal website & bolg"
@@ -46,10 +43,10 @@ isHTML = true
     avatarurl = "/images/profile_06.jpg"
     cvurl = "/images/profile_02.jpg"
     avatarsvg = "/images/bresilla.svg"
-    footercontent = "I solemnly swear that I am up to no good"
+    foot = "I solemnly swear that I am up to no good"
     dateformat = "2 January 2006"
 
-    width= "80em"
+
     hideCredits = false
     hideCopyright = false
     commit = "https://github.com/luizdepra/hugo-coder/tree/"
@@ -58,6 +55,13 @@ isHTML = true
     maxSeeAlsoItems = 5
     custom_css = []
     custom_js = []
+
+[params.style]
+    accent = "#ff9000"
+    theme = "dark"
+    bg = "#080a0f"
+    fg = "#c4d0d1"
+    min = "60em"
 
 [taxonomies]
   type = "type"

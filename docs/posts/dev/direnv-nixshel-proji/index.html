@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" style="
+     --accent-color:#fef460 ;
+    
+        
+            --bg-color:#080a0f; --fg-color:#c4d0d1;
+        
+     ">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+        var randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
+        <!-- document.documentElement.style.setProperty('--glitch-color', randomColor); -->
+    </script>
+
+    <meta name="author" content="Trim Bresilla">
+    <meta name="description" content="Personal website &amp; bolg">
+    <meta name="keywords" content="blog,developer,personal">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to manage projexts, the *NIX way!"/>
+<meta name="twitter:description" content="@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content."/>
+
+    <meta property="og:title" content="How to manage projexts, the *NIX way!" />
+<meta property="og:description" content="@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/dev/direnv-nixshel-proji/" />
+<meta property="article:published_time" content="2019-12-23T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-12-23T00:00:00+00:00" />
+
+
+
+    
+      <base href="/posts/dev/direnv-nixshel-proji/">
+    
+    <title>
+    How to manage projexts, the *NIX way! · bresilla
+</title>
+
+    
+      <link rel="canonical" href="/posts/dev/direnv-nixshel-proji/">
+    
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+    
+      
+      
+      <link rel="stylesheet" href="/coder/coder.min.4277ac17db3d1f772299569397ec3b752bfe566a81e1a4b0e4d723358544c91d.css" integrity="sha256-QnesF9s9H3cimVaTl&#43;w7dSv&#43;VmqB4aSw5NcjNYVEyR0=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.62.2" />
+  </head>
+  <body >
+        
+      <main id="main" class="wrapper direnv-nixshel-proji">
+
+      <nav class="navigation">
+  <section class="container">
+      <label class="title">
+          <a class="navigation-title" href="/">
+              bresilla
+          </a>
+      </label>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">about</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/resume">resume</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/talk/">talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+    <section class="container page estate" >
+    <article>
+        <header>
+            
+                <h1 class="direnv-nixshel-proji title glitchtitle"  data-text="How to manage projexts, the *NIX way!" >How to manage projexts, the *NIX way!</h1>
+            
+            
+                
+                    
+                
+            
+            
+            <div class="undertitle" style="padding-left:2%;" >
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
+
+                        
+                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
+                            Category: 
+                            
+                                
+                                
+                                    <a href="/categories/dev/" >DEV</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
+                             Tags: 
+                            
+                                
+                                
+                                <a href="/tags/direnv/" >direnv</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/nix-shell/" >nix-shell</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/proji/" >proji</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+
+                        
+
+                        
+                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
+                            Series: 
+                            
+                                
+                                
+                                <a href="/series/direnv/" >DIRENV</a>
+                                
+                            
+                            
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART 1&nbsp;</span>
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                    </summary>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#some-definitions">Some Definitions</a>
+      <ul>
+        <li><a href="#skins">Skins</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </details>
+            </div>
+            
+        </header>
+        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
+            
+
+
+
+<div class="imageframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%);" >
+    <div class="imageimageframe" style="
+        width: 70%;
+        margin: 0 auto; height:100%;
+        border-radius: 10px;
+        box-shadow:1px 1px 20px 3px #181818;
+        border: 1px solid  var(--accent-color) ;
+        background-image: url(https://i.imgur.com/momvy3U.png);
+        background-size: cover;" >
+        <style> @media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } } </style>
+        <img src="https://i.imgur.com/momvy3U.png" alt="" style="visibility: hidden;, height=100%;" >
+    </div>
+        <div class="imagetextframe" style="text-align: center; font-style: italic; font-weight: 300; margin-top:.2%; margin-bottom: 1%;" > Rofi menu: Listing all active projects </div>
+</div>
+
+<div class="textframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+    
+    
+    
+    <div class="textframefill" style="width: 48%; margin: 0 auto; padding: .4%; border-radius: 5px;
+         border: 1px solid var(--accent-color) ;
+        
+             background-color: var(--accent-color) ;
+             color: var(--bg-color) ;
+        
+        " >
+<details class="dropdown">
+  <summary>Finished skills</summary>
+  smething goes here
+</details>
+</div>
+<style> @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } } </style>
+</div>
+
+
+<h1 id="introduction">Introduction</h1>
+<p>This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I'll explain how Hugo uses templates and how you can organize your templates to create a theme. I won't cover using CSS to style your theme.</p>
+<p>We'll start with creating a new site with a very basic template. Then we'll add in a few pages and posts. With small variations on that, you will be able to create many different types of web sites.</p>
+<p>In this tutorial, commands that you enter will start with the &ldquo;$&rdquo; prompt. The output will follow. Lines that start with &ldquo;#&rdquo; are comments that I've added to explain a point. When I show updates to a file, the &ldquo;:wq&rdquo; on the last line means to save the file.</p>
+<p>Here's an example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+<h1 id="some-definitions">Some Definitions</h1>
+<p>There are a few concepts that you need to understand before creating a theme.</p>
+<h2 id="skins">Skins</h2>
+<p>Skins are the files responsible for the look and feel of your site. It’s the CSS that controls colors and fonts, it’s the Javascript that determines actions and reactions. It’s also the rules that Hugo uses to transform your content into the HTML that the site will serve to visitors.</p>
+<p>You have two ways to create a skin. The simplest way is to create it in the <code>layouts/</code> directory. If you do, then you don’t have to worry about configuring Hugo to recognize it. The first place that Hugo will look for rules and files is in the <code>layouts/</code> directory so it will always find the skin.</p>
+<p>Your second choice is to create it in a sub-directory of the <code>themes/</code> directory. If you do, then you must always tell Hugo where to search for the skin. It’s extra work, though, so why bother with it?</p>
+<p>The difference between creating a skin in <code>layouts/</code> and creating it in <code>themes/</code> is very subtle. A skin in <code>layouts/</code> can’t be customized without updating the templates and static files that it is built from. A skin created in <code>themes/</code>, on the other hand, can be and that makes it easier for other people to use it.</p>
+<p>The rest of this tutorial will call a skin created in the <code>themes/</code> directory a theme.</p>
+<p>Note that you can use this tutorial to create a skin in the <code>layouts/</code> directory if you wish to. The main difference will be that you won’t need to update the site’s configuration file to use a theme.</p>
+
+        </span>
+        
+    </article>
+</section>
+
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+        
+        <a href="/quotes"><p>Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)</p></a>
+        
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+    
+    <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
+    
+    <script type="text/javascript" src="/scripts/coder.js"></script>
+
+
+  </body>
+
+</html>

@@ -1,5 +1,5 @@
 +++
-show = true
+type = "talk"
 title = "Precision Agriculture"
 date = "2016-01-28"
 slug = "precisionag"
@@ -9,15 +9,17 @@ tags = [
     "precision"
 ]
 series = ["Presentations"]
-styleaccent = "#f72c4a"
-stylebackground = "#d8d9db"
-styleforeground = "#080a0f"
+
+[style]
+    accent = "#f72c4a"
+    bg = "#d8d9db"
+    fg = "#080a0f"
 
 outputs = ["Reveal"]
 [reveal_hugo]
-highlight_theme = "arta"
-custom_theme = "cosrel.scss"
-custom_theme_compile = true
+    highlight_theme = "arta"
+    custom_theme = "cosrel.scss"
+    custom_theme_compile = true
 +++
 
 {{< slide transition="zoom" transition-speed="fast" class="side-by-side" >}}

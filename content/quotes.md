@@ -1,7 +1,10 @@
 +++
 title = "Quotes"
 slug = "quotes"
-styleaccent = "#ffe0b2"
+
+[style]
+    accent = "#ffe0b2"
+    theme = "dark"
 +++
 
 Here are some quotes i like:

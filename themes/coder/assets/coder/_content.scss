@@ -1,9 +1,5 @@
-.estate{
-    --real-estate: 100.0rem;
-}
-
 .estate {
-    max-width: var(--real-estate);
+    max-width: 150rem;
     padding: 0 5% 0 5%;
     @media only screen and (max-width : 768px) {
         max-width: 100%;
@@ -501,10 +497,4 @@
         content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(list) "." counter(point) " ";
     }
 
-}
-
-#aboutlistdiv {
-    li:before {
-        content: none;
-    }
 }

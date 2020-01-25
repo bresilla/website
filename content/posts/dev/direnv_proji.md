@@ -1,18 +1,19 @@
 +++ 
-show = true
 type = "post"
+status = "in_progress"
 date = "2019-12-23"
-title = "How to manage projexts, the *NIX way!"
+
 slug = "direnv-nixshel-proji" 
-tags = ["direnv","nix-shell","proji" ]
+title = "How to manage projexts, the *NIX way!"
+foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 categories = ["DEV"]
 series = ["DIRENV"]
 part = "1"
-styleaccent = "#fef460"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
-footercontent = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
-width="60%"
+tags = ["direnv","nix-shell","proji" ]
+
+[style]
+    accent = "#fef460"
+    theme = "dark"
 +++
 
 

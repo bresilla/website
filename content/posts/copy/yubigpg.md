@@ -1,18 +1,21 @@
 +++ 
-show = true
-blogpost = true
-date = "2020-01-04"
-title = "Guide to using YubiKey for GPG and SSH"
-link = "https://github.com/drduh/YubiKey-Guide"
+type = "copy"
+status = "in_progress"
+date = "2020-01-08"
+
 slug = "yubi-key-gpg" 
+title = "Guide to using YubiKey for GPG and SSH"
+foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
+description = ""
 tags = ["yubikey","gpg","pass" ]
 categories = ["COPY"]
-series = ["GPG"]
-styleaccent= "#fc50f6"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
-footercontent = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
-width="60%"
+series = ["COPY"]
+link = "https://github.com/drduh/YubiKey-Guide"
+
+[style]
+    accent = "#fc50f6"
+    theme = "dark"
+
 +++
 
 This is a guide to using [YubiKey](https://www.yubico.com/products/yubikey-hardware/) as a [SmartCard](https://security.stackexchange.com/questions/38924/how-does-storing-gpg-ssh-private-keys-on-smart-cards-compare-to-plain-usb-drives) for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.

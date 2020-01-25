@@ -384,10 +384,7 @@ a:focus, a:hover {
   text-decoration: none; }
 
 .estate {
-  --real-estate: 100.0rem; }
-
-.estate {
-  max-width: var(--real-estate);
+  max-width: 150rem;
   padding: 2% 0 2% 0; }
 
 .cv {

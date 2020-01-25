@@ -1,9 +1,11 @@
 +++
 slug = "logo"
 footercontent = "Clothes don’t make the man"
-stylebackground = "#000000"
-styleaccent = "#f72c4a"
-video = "../video/bresilla.mp4"
+
+[style]
+    accent = "#f72c4a"
+    bg = "#000000"
+    video = "/video/bresilla.mp4"
 +++
 
 

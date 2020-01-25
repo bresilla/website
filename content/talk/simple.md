@@ -1,5 +1,5 @@
 +++
-show = true
+type = "talk"
 title = "A simple presentation"
 date = "2019-05-17"
 slug = "apresent"
@@ -9,13 +9,14 @@ tags = [
     "precision"
 ]
 series = ["Presentations"]
-styleaccent= "#fc50f6"
-stylebackground = "#c4d0d1"
-styleforeground = "#080a0f"
+[style]
+    accent= "#fc50f6"
+    bg = "#c4d0d1"
+    fg = "#080a0f"
 
 outputs = ["Reveal"]
 [reveal_hugo]
-theme = "moon"
+    theme = "moon"
 +++
 
 # Famous Programming Quotes
