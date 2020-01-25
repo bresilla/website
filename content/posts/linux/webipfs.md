@@ -1,18 +1,16 @@
 +++ 
-status = "in_progress"
 type = "post"
-width="60%"
-styleaccent= "#6acad1"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
-footercontent = "Between 'I want to be alone' and 'I want to be let alone' there is huge difference - Greta Garbo"
+status = "in_progress"
 date = "2020-01-23"
-title = "Setting up a blog above InterPlanetary FileSystem - IPFS"
+
 slug = "web-ipfs" 
-tags = ["ipfs","website","gpg", "blockchain", "p2p", "crypto" ]
+title = "Hosting a website in the Inter Planetary File System"
+foot = "Between 'I want to be alone' and 'I want to be let alone' there is huge difference - Greta Garbo"
+description = ""
 categories = ["LINUX"]
 series = ["IPFS"]
 part="1"
+tags = ["ipfs","website","gpg", "blockchain", "p2p", "crypto" ]
 credits = [
     "https://developers.cloudflare.com/distributed-web/ipfs-gateway/",
     "https://medium.com/pinata/how-to-easily-host-a-website-on-ipfs-9d842b5d6a01",
@@ -23,6 +21,10 @@ credits = [
     "https://101blockchains.com/centralized-vs-decentralized-internet-networks/",
     "https://medium.com/noia/the-internet-was-not-developed-it-just-happened-part-1-a123fe4628",
 ]
+
+[style]
+    accent = "#6acad1"
+    theme = "dark"
 +++
 
 

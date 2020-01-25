@@ -1,4 +1,4 @@
-<section class="container list estate" {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.width }};" {{ end }}>
+<section class="container list estate" >
     {{ if .Params.unique }}
         <div>
             {{ .Content }}
@@ -11,19 +11,68 @@
         {{- i18n .Data.Singular | title -}}
         {{- print ": " -}}
         {{- end -}}
-        <h1 class="title glitchtitle" data-text="{{ .Title }}">{{ .Title }}</h1>
-        </h1>
-        <div class="thelist">
-            <ul style="display: table;">
-                {{ range .Paginator.Pages }}
-                <li id="nodec">
-                    <span class="date" {{ if .Params.styleaccent }} style="color: var(--bg-color); background-color:{{ .Params.styleaccent }}; margin: 2px; padding: 2px;" {{ end }}>{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}</span>
-                    <a class="title" href="{{ .Params.ExternalLink | default .RelPermalink }}" style="{{ if .Params.styleaccent }}color:{{ .Params.styleaccent }}; margin: 2px; padding: 2px;{{ end }} text-decoration: underline;" >{{ .Title }}</a>
-                </li>
-                {{ end }}
-            </ul>
+        <h1 class="title glitchtitle" data-text="{{ .Title }}" >{{ .Title }}</h1>
+        <div class="thelist" >
+            {{ if .Params.top_level }}
+                {{ $type := .Params.slug }}
+                {{ partial "pagination.html" . }}
+                    <ul style="display: table; width: 100%;" >
+                        {{ range where .Site.RegularPages ".Params.type" "==" $type }}
+                        {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
+                        <li style="margin:2%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
+                            <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.8%;" >
+                            <div style="font-size: 1.5em;" >{{ .Title }}</div>
+                            <div style="font-size: 0.9em;" >
+                                <span >|</span>
+                                <div style="display:inline-block;" >
+                                <span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span>
+                                </div>
+                                <span >|</span>
+                                <div style="display:inline-block;" >
+                                <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
+                                </div>
+                                <span >|</span>
+                                <div style="display:inline-block;" >
+                                <span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
+                                </div>
+                                <span >|</span>
+                            </div>
+                            <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
+                            </div>
+                        </li>
+                        {{ end }}
+                    </ul>
+                {{ partial "pagination.html" . }}
+            {{ else }}
+                    <ul style="display: table; width: 100%; padding: 2%;" >
+                        {{ range .Paginator.Pages }}
+                        {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
+                        <li style="margin:2%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
+                            <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.8%;" >
+                            <div style="font-size: 1.5em;" >{{ .Title }}</div>
+                            <div style="font-size: 0.9em;" >
+                                <span >|</span>
+                                <div style="display:inline-block;" >
+                                <span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span>
+                                </div>
+                                <span >|</span>
+                                <div style="display:inline-block;" >
+                                <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
+                                </div>
+                                <span >|</span>
+                                <div style="display:inline-block;" >
+                                <span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
+                                </div>
+                                <span >|</span>
+                            </div>
+                            <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
+                            </div>
+                        </li>
+                        {{ end }}
+                    </ul>
+                {{ partial "pagination.html" . }}
+            {{ end }}
         </div>
-        {{ partial "pagination.html" . }}
 
         <!-- {{ with .File }}{{ .Dir }}{{ end }} -->
         {{ $thedir := (path.Join "content/" .File.Dir) }}
@@ -50,7 +99,7 @@
                     </div>
                 <style>
                     .mainflex{
-                        padding-top: 10%;
+                        padding-top: 5%;
                         width:100%;
                     }
                     .mainflex .innerflex{

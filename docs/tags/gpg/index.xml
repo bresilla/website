@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Setting up a blog above InterPlanetary FileSystem - IPFS</title>
+      <title>Hosting a website in the Inter Planetary File System</title>
       <link>/posts/linux/web-ipfs/</link>
       <pubDate>Thu, 23 Jan 2020 00:00:00 +0000</pubDate>
       
@@ -34,7 +34,7 @@ Steps that we&#39;&amp;lsquo;ll go through are:
     <item>
       <title>Guide to using YubiKey for GPG and SSH</title>
       <link>/posts/copy/yubi-key-gpg/</link>
-      <pubDate>Sat, 04 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/posts/copy/yubi-key-gpg/</guid>
       <description>This is a guide to using YubiKey as a SmartCard for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.

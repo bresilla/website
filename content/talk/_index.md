@@ -1,10 +1,12 @@
 +++
 title = "Talks"
-slug = "talks"
-footercontent = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
-styleaccent= "#fc50f6"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
+slug = "talk"
+top_level = true
+foot = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
+
+[style]
+    accent = "#fc50f6"
+    theme = "dark"
 +++
 
 Nothing else to see here... Move along!

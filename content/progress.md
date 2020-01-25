@@ -1,7 +1,11 @@
 +++
-title = "Life-Long Learning"
+title = "Skills progress"
 slug = "progress"
-styleaccent = "#ec1b2e "
+
+[style]
+    accent = "#fef460"
+    theme = "dark"
+
 +++
 
 ### LONG-TERM GOALS & SKILL TRACK

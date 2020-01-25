@@ -28,6 +28,11 @@
   </url>
   
   <url>
+    <loc>/posts/linux/web-ipfs/</loc>
+    <lastmod>2020-01-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/series/ipfs/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
   </url>
@@ -63,11 +68,6 @@
   </url>
   
   <url>
-    <loc>/posts/linux/web-ipfs/</loc>
-    <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
   </url>
@@ -88,12 +88,37 @@
   </url>
   
   <url>
+    <loc>/categories/copy/</loc>
+    <lastmod>2020-01-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/series/copy/</loc>
+    <lastmod>2020-01-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/copy/</loc>
+    <lastmod>2020-01-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/type/copy/</loc>
+    <lastmod>2020-01-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/cryptosetup/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/series/gpg/</loc>
+    <lastmod>2020-01-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/copy/yubi-key-gpg/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -113,27 +138,17 @@
   </url>
   
   <url>
-    <loc>/categories/copy/</loc>
-    <lastmod>2020-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/copy/</loc>
-    <lastmod>2020-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/copy/yubi-key-gpg/</loc>
-    <lastmod>2020-01-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/anaconda/</loc>
     <lastmod>2019-12-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/dev/</loc>
+    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/dev/</loc>
     <lastmod>2019-12-24T00:00:00+00:00</lastmod>
   </url>
   
@@ -148,22 +163,17 @@
   </url>
   
   <url>
-    <loc>/posts/</loc>
-    <lastmod>2019-12-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/python/</loc>
     <lastmod>2019-12-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/direnv-anaconda/</loc>
+    <loc>/posts/dev/direnv-anaconda/</loc>
     <lastmod>2019-12-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/direnv-nixshel-proji/</loc>
+    <loc>/posts/dev/direnv-nixshel-proji/</loc>
     <lastmod>2019-12-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -193,7 +203,7 @@
   </url>
   
   <url>
-    <loc>/posts/ros-melodic-python-3/</loc>
+    <loc>/posts/dev/ros-melodic-python-3/</loc>
     <lastmod>2019-08-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -214,6 +224,11 @@
   
   <url>
     <loc>/series/presentations/</loc>
+    <lastmod>2019-05-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/type/talk/</loc>
     <lastmod>2019-05-17T00:00:00+00:00</lastmod>
   </url>
   
@@ -258,11 +273,15 @@
   </url>
   
   <url>
-    <loc>/progress/</loc>
+    <loc>/posts/</loc>
   </url>
   
   <url>
     <loc>/quotes/</loc>
+  </url>
+  
+  <url>
+    <loc>/progress/</loc>
   </url>
   
 </urlset>

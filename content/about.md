@@ -3,7 +3,11 @@ show = true
 title = "About"
 slug = "about"
 footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
-styleaccent= "#04f977"
+
+[style]
+    accent = "#04f977"
+    theme = "dark"
+
 +++
 
 <img align="right" src="/images/profile_04.jpg" width=50% height=50% style="margin: 20px; border-radius: 5%;">
@@ -19,8 +23,6 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 
 <h4 style="background-color: #04f977; color: black; padding: 4px;">$ cat /etc/nix/nix.conf | grep "interests" _</h4>
 
-<div id="aboutlistdiv" >
-
 - Data structures, design patterns, programming paradigms ...
 - Machine learning, deep learning, genetic algorithms ...
 - Compilers, <a href="https://follang.org" style="color: #04f977;">programming languages</a>, machine code ...
@@ -29,8 +31,6 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 - Game development, virtual relality ???
 - Brain-Computer interfaces, biological cognition ???
 - Quantum computing ???
-
-</div>
 
  Here is where he tracks what he's currently learning, what skills already has obtained, and what has in plan for the future:
 

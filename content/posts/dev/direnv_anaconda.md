@@ -1,17 +1,23 @@
 +++ 
-show = true
-blogpost = true
+
+type = "post"
+status = "in_progress"
 date = "2019-12-24"
-title = "Using *direnv* with Anaconda"
+
 slug = "direnv-anaconda" 
-tags = ["direnv","anaconda","python" ]
-footercontent = "Artificial Intelligence is no match for natural stupidity - AI itself"
+title = "Using *direnv* with Anaconda"
+foot = "Artificial Intelligence is no match for natural stupidity - AI itself"
+description = "How to use direnv to manage, arranga, list... projects"
 categories = ["DEV"]
 series = ["DIRENV"]
-styleaccent = "#00af60"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
-width="60%"
+part="1"
+tags = ["direnv", "anaconda", "python" ]
+
+
+[style]
+    accent = "#00af60"
+    theme = "dark"
+    width="60%"
 +++
 
 ## Introduction

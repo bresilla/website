@@ -20,5 +20,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>copy</title>
+      <link>/type/copy/</link>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/type/copy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>talk</title>
+      <link>/type/talk/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/type/talk/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

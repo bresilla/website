@@ -1,10 +1,16 @@
 <!doctype html>
 <html lang="en" style="
-    {{ if .Params.styleaccent }} --accent-color:{{ .Params.styleaccent }} {{ else if .Site.Params.styleaccent }} --accent-color:{{ .Site.Params.styleaccent }} {{ end }};
-    {{ if .Params.stylebackground }} --bg-color:{{ .Params.stylebackground }} {{ else if .Site.Params.stylebackground }} --bg-color:{{ .Site.Params.stylebackground }} {{ end }};
-    {{ if .Params.styleforeground }} --fg-color:{{ .Params.styleforeground  }} {{ else if .Site.Params.styleforeground }} --fg-color:{{ .Site.Params.styleforeground }} {{ end }};
-    {{ if .Params.styleglitch }} --glitch-color:{{ .Params.styleglitch  }} {{ else if .Site.Params.styleglitch }} --glitch-color:{{ .Site.Params.styleglitch }} {{ end }};
-    ">
+    {{ if .Params.style.accent }} --accent-color:{{ .Params.style.accent }} {{ else if .Site.Params.style.accent }} --accent-color:{{ .Site.Params.style.accent }} {{ end }};
+    {{ if .Params.style.theme }}
+        {{ if eq .Params.style.theme "dark" }}
+            --bg-color:#080a0f; --fg-color:#c4d0d1;
+        {{ else if eq .Params.style.theme "light" }}
+            --bg-color:#c4d0d1; --fg-color:#080a0f;
+        {{ end }}
+    {{ else }}
+        {{ if .Params.style.bg }} --bg-color:{{ .Params.style.bg }} {{ else if .Site.Params.style.bg }} --bg-color:{{ .Site.Params.style.bg }} {{ end }};
+        {{ if .Params.style.fg }} --fg-color:{{ .Params.style.fg  }} {{ else if .Site.Params.style.fg }} --fg-color:{{ .Site.Params.style.fg }} {{ end }};
+    {{ end }} ">
 <head>
     <title>{{ .Site.Params.title }}</title>
     <!-- Meta -->
@@ -34,7 +40,7 @@
 <body>
     <main id="main" class="wrapper {{ .Slug }}">
         {{ partial "header.html" . }}
-        <div class="cv estate" {{ if .Params.width }} style="--real-estate:{{ .Params.width }};" {{ else if .Site.Params.width }} style="--real-estate:{{ .Site.Params.width }};" {{ end }}>
+        <div class="cv estate" >
             <div class="sidebar-wrapper">
                 <div class="profile-container">
                     <img class="profile img-circle" src="{{ .Site.BaseURL }}images/profile_02.jpg" alt="" />

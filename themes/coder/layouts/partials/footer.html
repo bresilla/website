@@ -1,11 +1,11 @@
 <footer class="footer">
   <section class="container">
-    {{ if .Params.footercontent }}
-        {{ with .Params.footercontent | safeHTML }}
+    {{ if .Params.foot }}
+        {{ with .Params.foot | safeHTML }}
         <a href="/quotes"><p>{{.}}</p></a>
         {{ end }}
     {{ else }}
-        {{ with .Site.Params.footercontent | safeHTML }}
+        {{ with .Site.Params.foot | safeHTML }}
             <a href="/quotes"><p>{{.}}</p></a>
         {{ end }}
     {{ end }}

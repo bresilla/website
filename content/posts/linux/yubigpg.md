@@ -1,23 +1,25 @@
 +++ 
-show = true
-blogpost = true
-width="60%"
-styleaccent= "#8e2a8b"
-stylebackground = "#c4d0d1"
-styleforeground = "#080a0f"
-footercontent = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
+type = "post"
+status = "in_progress"
 date = "2020-01-08"
-title = "Backing up GPG key with YubiKey, Tomb and Cryptosetup"
+
 slug = "gpg-yubikey-tomb" 
-tags = ["yubikey","gpg","pass", "tomb", "cryptosetup" ]
+title = "Backing up GPG key with YubiKey, Tomb and Cryptosetup"
+foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
+description= ""
 categories = ["LINUX"]
 series = ["GPG"]
+part="1"
+tags = ["yubikey","gpg","pass", "tomb", "cryptosetup" ]
 credits = [
     "https://www.dyne.org/software/tomb/",
     "https://github.com/drduh/YubiKey-Guide",
     "https://spin.atomicobject.com/2013/11/24/secure-gpg-keys-guide/",
 ]
-part="1"
+
+[style]
+    accent = "#8e2a8b"
+    theme = "light"
 +++
 
 In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.

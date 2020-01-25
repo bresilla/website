@@ -1,14 +1,25 @@
 +++ 
-draft = true
+type = "post"
+status = "in_progress"
 date = {{ .Date }}
+
+slug = ""
 title = ""
+foot = "Something catchy goes here"
 description = ""
-slug = "" 
-tags = []
 categories = []
-externalLink = ""
 series = []
-styleaccent = ""
-stylebackground = ""
-styleforeground = ""
+part="1"
+tags = []
+link = ""
+credits = [
+    "https://bresilla.com",
+    "https://bresilla.xyz"
+]
+
+[style]
+    accent = "#6acad1"
+    theme = "dark"
+    bg = "#080a0f"
+    fg = "#c4d0d1"
 +++

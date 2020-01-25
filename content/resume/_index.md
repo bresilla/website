@@ -4,10 +4,13 @@ date = "2016-01-28"
 slug = "resume"
 unique = true
 
-footercontent = "Be yourself, everyone else is already taken"
-styleaccent= "#5fd7ff"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
+foot = "Be yourself, everyone else is already taken"
+
+[style]
+    accent = "#5fd7ff"
+    theme = "dark"
+    bg = "#080a0f"
+    fg = "#c4d0d1"
 
 [params.cv]
     [params.cv.contact]

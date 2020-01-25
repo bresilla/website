@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" style="
      --accent-color:#8e2a8b ;
-     --bg-color:#c4d0d1 ;
-     --fg-color:#080a0f ;
-    ;
-    ">
+    
+        
+            --bg-color:#c4d0d1; --fg-color:#080a0f;
+        
+     ">
 
   <head>
     <meta charset="utf-8">
@@ -53,7 +54,7 @@ Steps that we&#39;&lsquo;ll go through are:
     
       
       
-      <link rel="stylesheet" href="/coder/coder.min.839de61e465c29dae5aba6036b41ffbd249097c8c8482dd8324794ad686c7970.css" integrity="sha256-g53mHkZcKdrlq6YDa0H/vSSQl8jISC3YMkeUrWhseXA=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/coder/coder.min.4277ac17db3d1f772299569397ec3b752bfe566a81e1a4b0e4d723358544c91d.css" integrity="sha256-QnesF9s9H3cimVaTl&#43;w7dSv&#43;VmqB4aSw5NcjNYVEyR0=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -106,7 +107,7 @@ Steps that we&#39;&lsquo;ll go through are:
 
       <div class="content">
         
-    <section class="container page estate"  style=" --real-estate:60%; ">
+    <section class="container page estate" >
     <article>
         <header>
             
@@ -118,8 +119,112 @@ Steps that we&#39;&lsquo;ll go through are:
                 
             
             
+            <div class="undertitle" style="padding-left:2%;" >
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
+
+                        
+                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
+                            Category: 
+                            
+                                
+                                
+                                    <a href="/categories/linux/" >LINUX</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
+                             Tags: 
+                            
+                                
+                                
+                                <a href="/tags/yubikey/" >yubikey</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/gpg/" >gpg</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/pass/" >pass</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/tomb/" >tomb</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/cryptosetup/" >cryptosetup</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+
+                        
+
+                        
+                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
+                            Series: 
+                            
+                                
+                                
+                                <a href="/series/gpg/" >GPG</a>
+                                
+                            
+                            
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART 1&nbsp;</span>
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                    </summary>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#secure-environment">SECURE ENVIRONMENT</a></li>
+    <li><a href="#gpg-keys">GPG-KEYS</a>
+      <ul>
+        <li><a href="#masterkey">MASTERKEY</a></li>
+        <li><a href="#subkeys">SUBKEYS</a>
+          <ul>
+            <li><a href="#signing-sub-key">SIGNING SUB-KEY</a></li>
+            <li><a href="#encryption-sub-key">ENCRYPTION SUB-KEY</a></li>
+            <li><a href="#authentication-sub-key">AUTHENTICATION SUB-KEY</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#digging-tombs-and-forging-keys">DIGGING TOMBS AND FORGING KEYS</a>
+      <ul>
+        <li><a href="#forging-keys">FORGING KEYS</a></li>
+        <li><a href="#dig-a-tomb">DIG A TOMB</a></li>
+        <li><a href="#lock-the-tomb">LOCK THE TOMB</a></li>
+        <li><a href="#open-the-tomb">OPEN THE TOMB</a></li>
+        <li><a href="#slam-everything">SLAM EVERYTHING</a></li>
+      </ul>
+    </li>
+    <li><a href="#backing-up-keys">BACKING-UP KEYS</a>
+      <ul>
+        <li><a href="#pubickey-backup">PUBICKEY BACKUP</a></li>
+        <li><a href="#subkey-backup">SUBKEY BACKUP</a></li>
+        <li><a href="#masterkey-backup">MASTERKEY BACKUP</a></li>
+        <li><a href="#invocation-certificate">INVOCATION CERTIFICATE</a></li>
+      </ul>
+    </li>
+    <li><a href="#cryptoluks">CRYPTOLUKS</a></li>
+  </ul>
+</nav>
+                </details>
+            </div>
+            
         </header>
-        <span class="" style=" --titlecolor: var(--accent-color);" >
+        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
             <p>In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.</p>
 <p>Steps that we'&lsquo;ll go through are:</p>
 <ul>

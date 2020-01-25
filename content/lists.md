@@ -1,7 +1,12 @@
 +++
 title = "Life-Long Learning"
 slug = "lists"
-styleaccent = "#ec1b2e "
+
+[style]
+    accent = "#ec1b2e"
+    theme = "dark"
+
+
 +++
 
 <details>

@@ -1,9 +1,11 @@
 +++ 
-draft = true
 date = {{ .Date }}
+slug = ""
+
 title = ""
-slug = "" 
-styleaccent = ""
-stylebackground = ""
-styleforeground = ""
+description = ""
+footercontent = "Something catchy goes here"
+[style]
+    accent = "#6acad1"
+    theme = "dark"
 +++
