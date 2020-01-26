@@ -2,9 +2,9 @@
     {{ $taxo := false }}
     <h1 class="title">
     {{- if eq .Kind "taxonomy" -}}
-    {{ $taxo = true }}
-    {{- i18n .Data.Singular | title -}}
-    {{- print ": " -}}
+        {{ $taxo = true }}
+        {{- i18n .Data.Singular | title -}}
+        {{- print ": " -}}
     {{- end -}}
     <h1 class="title glitchtitle" data-text="{{ .Title }}" >{{ .Title }}</h1>
     <div class="thelist" >
@@ -20,33 +20,21 @@
             {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
             <li style="margin:2%; padding:.1%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
                 <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.5%;" >
-                <div class="listertitle" style="font-size: 120%;" >{{ .Title }}</div>
-                <div class="listerdetail" style="font-size: 70%;" >
-                    <span >|</span>
-                    <div style="display:inline-block;" >
-                        <span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span>
-                    </div>
-                    <span >|</span>
-                    <div style="display:inline-block;" >
-                        <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
-                    </div>
-                    <span >|</span>
-                    <div style="display:inline-block;" >
-                        <span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
-                    </div>
-                    <span >|</span>
+                    <div class="listertitle" style="font-size: 120%;" >{{ .Title }}</div>
+                    <div class="listerdetail" style="font-size: 70%;" >
+                        <span style="display:inline-block;" ><span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span></span> <span >|</span>
+                        <span style="display:inline-block;" > <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span></span> <span >|</span>
+                        <span style="display:inline-block;" ><span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span></span><span >|</span>
                     </div>
                     <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
-                    <style>@media only screen and (max-width : 768px) { .listertitle { font-size: 2.6vmin !important; } .listerdetail { font-size: 1.6vmin !important; } }</style>
                 </div>
             </li>
             {{ end }}
         </ul>
         {{ partial "pagination.html" . }}
     </div>
-    <!-- {{ with .File }}{{ .Dir }}{{ end }} -->
-    {{ $thedir := (path.Join "content/" .File.Dir) }}
-    {{ if not $taxo }}
+    {{ $thedir := "content/" }} {{ with .File }} {{ $thedir = (path.Join $thedir .Dir) }} {{ end }}
+    {{ if .Params.folders }}
         <div class="mainflex" >
                 <div class="innerflex" >
                 {{ range (readDir $thedir) }}

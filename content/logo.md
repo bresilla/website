@@ -1,7 +1,7 @@
 +++
 type = "front"
 slug = "logo"
-footercontent = "Clothes don’t make the man"
+foot = "Clothes don’t make the man"
 
 [style]
     accent = "#f72c4a"

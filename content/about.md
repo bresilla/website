@@ -3,7 +3,7 @@ type = "front"
 show = true
 title = "About"
 slug = "about"
-footercontent = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
+foot = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
 
 [style]
     accent = "#04f977"

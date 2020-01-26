@@ -1,10 +1,7 @@
 +++
 title = "Copy"
 slug = "copycat"
-footercontent = "Here goes some very important quote"
-styleaccent = "#fef460"
-styleforeground = "#c4d0d1"
-stylebackground = "#080a0f"
+foot = "Here goes some very important quote"
 
 
 [style]
