@@ -2,16 +2,14 @@
     {{ .Title }} · {{ .Site.Title }}
 {{ end }}
 {{ define "content" }}
-{{ $type2 := delimit (slice "content/" .Params.type ".html") "" }}
     {{ $type := .Params.type }}
     {{ if eq $type "post" }}
-        {{ partial "content/post.html" . }}
+        {{ partial "content/single/post.html" . }}
     {{else if eq $type "talk" }}
-        {{ partial "content/talk.html" . }}
+        {{ partial "content/single/talk.html" . }}
     {{else if eq $type "resume" }}
-        {{ partial "content/resume.html" . }}
+        {{ partial "content/single/resume.html" . }}
     {{else if eq $type "front" }}
-        {{ partial "content/front.html" . }}
+        {{ partial "content/single/front.html" . }}
     {{ end }}
-
 {{ end }}

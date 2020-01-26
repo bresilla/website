@@ -3,9 +3,8 @@
         {{- i18n .Data.Singular | title -}}
         {{- print ": " -}}
     {{- end -}}
-
     {{- .Title }} · {{ .Site.Title -}}
 {{ end }}
 {{ define "content" }}
-    {{ if .Site.Params.unique }} {{ partial "page.html" . }} {{ else }} {{ partial "list.html" . }} {{ end }}
+    {{ partial "content/list/index.html" . }}
 {{ end }}

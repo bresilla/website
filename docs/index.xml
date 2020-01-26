@@ -47,8 +47,8 @@ Keys stored on YubiKey are non-exportable (as opposed to file-based keys that ar
       <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/dev/direnv-anaconda/</guid>
-      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&#39;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&#39;t cover using CSS to style your theme.
-We&#39;ll start with creating a new site with a very basic template.</description>
+      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
+We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
     </item>
     
     <item>
@@ -116,8 +116,8 @@ PUBLIC PGP KEY    div[class*=box] { width: 100%; display: flex; align-items: cen
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Lets pretend you are a real person, and I&#39;ll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
-$ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currently working as a PostDoc at University of Bologna.</description>
+      <description>Lets pretend you are a real person, and I&amp;rsquo;ll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
+$ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&amp;rsquo;s currently working as a PostDoc at University of Bologna.</description>
     </item>
     
     <item>
