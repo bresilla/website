@@ -1,4 +1,4 @@
-<div class="tipframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+<div class="tipframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
     {{ $width := default "40" (.Get "width") }}
     {{ $type := default "note" (.Get "type") }}
     {{ $radius := default "5" (.Get "radius") }}
@@ -10,7 +10,7 @@
     {{ else if eq $type "NOTE" }}
         {{ $color = "turquoise" }}
     {{ end }}
-    <div class="tip{{ $type }}" style="width:{{ $width }}%; margin: 0 auto; padding:.1%; border-radius:{{ $radius }}px; border: 1px solid {{$color}}; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.8em, {{$color}} 3.8em, {{$color}} 100%);" >
+    <div class="tip{{ $type }}" style="width:{{ $width }}%; margin: 0 auto; padding:.1%; border-radius:{{ $radius }}px; border: 1px solid {{$color}}; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3em, {{$color}} 3em, {{$color}} 100%);" >
         <div style="border: 2px dashed var(--bg-color); border-radius: {{ $radius }}px; padding:.9%;" >
             <div style="font-size:1.2em; color:{{ $color }};" >
                 &nbsp;{{ $type }}
