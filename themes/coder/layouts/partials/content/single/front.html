@@ -1,12 +1,10 @@
-<section class="container page estate" >
-    <article>
-        <header>
-            {{ if .Params.title }}
-                <h1 class="{{ .Slug }} title glitchtitle"  data-text="{{ .Title }}" >{{ .Title }}</h1>
-            {{ end }}
-        </header>
-        <span class="frontpost" style=" --titlecolor: var(--accent-color);" >
-            {{ .Content }}
-        </span>
-    </article>
+<section class="container list estate" >
+    <div style="padding-top: 5%;" >
+        {{ if .Params.title }}
+            <h1 class="{{ .Slug }} title glitchtitle" style="margin:0 !important;" data-text="{{ .Title }}" >{{ .Title }}</h1>
+        {{ end }}
+    </div>
+    <span class="frontpost" style=" --titlecolor: var(--accent-color);" >
+        {{ .Content }}
+    </span>
 </section>

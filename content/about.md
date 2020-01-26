@@ -11,7 +11,7 @@ foot = "We are what we repeatedly do. Excellence, then, is not an act, but a hab
 
 +++
 
-<img align="right" src="/images/profile_04.jpg" width=50% height=50% style="margin: 20px; border-radius: 5%;">
+<img align="right" src="/images/profile_04.jpg" width=50% height=40% style="margin: 20px; border-radius: 5%;">
 
 Lets pretend you are a real person, and I'll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
 

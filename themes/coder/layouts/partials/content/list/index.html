@@ -1,12 +1,12 @@
 <section class="container list estate" >
     {{ $taxo := false }}
-    <h1 class="title">
+    <div style="padding-top: 5%;" >
     {{- if eq .Kind "taxonomy" -}}
         {{ $taxo = true }}
-        {{- i18n .Data.Singular | title -}}
-        {{- print ": " -}}
+        <h1 class="title" style="margin:0 !important;" > {{- i18n .Data.Singular | title -}} {{- print ": " -}}</h1>
     {{- end -}}
-    <h1 class="title glitchtitle" data-text="{{ .Title }}" >{{ .Title }}</h1>
+    <h1 class="title glitchtitle" style="margin:0 !important;" data-text="{{ .Title }}" >{{ .Title }}</h1>
+    </div>
     <div class="thelist" >
         {{ $type := .Params.slug }}
         <ul style="display: table; width: 100%; padding: 2%;" >
