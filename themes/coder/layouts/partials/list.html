@@ -13,67 +13,41 @@
         {{- end -}}
         <h1 class="title glitchtitle" data-text="{{ .Title }}" >{{ .Title }}</h1>
         <div class="thelist" >
+            {{ $type := .Params.slug }}
+            <ul style="display: table; width: 100%; padding: 2%;" >
+            {{ $listt := .Paginator.Pages }}
             {{ if .Params.top_level }}
-                {{ $type := .Params.slug }}
-                {{ partial "pagination.html" . }}
-                    <ul style="display: table; width: 100%;" >
-                        {{ range where .Site.RegularPages ".Params.type" "==" $type }}
-                        {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
-                        <li style="margin:2%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
-                            <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.8%;" >
-                            <div style="font-size: 1.5em;" >{{ .Title }}</div>
-                            <div style="font-size: 0.9em;" >
-                                <span >|</span>
-                                <div style="display:inline-block;" >
-                                <span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span>
-                                </div>
-                                <span >|</span>
-                                <div style="display:inline-block;" >
-                                <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
-                                </div>
-                                <span >|</span>
-                                <div style="display:inline-block;" >
-                                <span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
-                                </div>
-                                <span >|</span>
-                            </div>
-                            <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
-                            </div>
-                        </li>
-                        {{ end }}
-                    </ul>
-                {{ partial "pagination.html" . }}
-            {{ else }}
-                    <ul style="display: table; width: 100%; padding: 2%;" >
-                        {{ range .Paginator.Pages }}
-                        {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
-                        <li style="margin:2%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
-                            <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.8%;" >
-                            <div style="font-size: 1.5em;" >{{ .Title }}</div>
-                            <div style="font-size: 0.9em;" >
-                                <span >|</span>
-                                <div style="display:inline-block;" >
-                                <span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span>
-                                </div>
-                                <span >|</span>
-                                <div style="display:inline-block;" >
-                                <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
-                                </div>
-                                <span >|</span>
-                                <div style="display:inline-block;" >
-                                <span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
-                                </div>
-                                <span >|</span>
-                            </div>
-                            <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
-                            </div>
-                        </li>
-                        {{ end }}
-                    </ul>
-                {{ partial "pagination.html" . }}
+                {{ $listt = first 4 (where (where .Site.Pages ".Params.type" "==" $type) ".Params.status" "==" "published" ) }}
+            {{ else if $taxo }}
+                {{ $listt = where .Paginator.Pages ".Params.status" "==" "published" }}
             {{ end }}
+            {{ range $listt }}
+                {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
+                <li style="margin:2%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
+                    <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.8%;" >
+                    <div style="font-size: 1.5em;" >{{ .Title }}</div>
+                    <div style="font-size: 0.9em;" >
+                        <span >|</span>
+                        <div style="display:inline-block;" >
+                        <span > Date: </span><span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" >&nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;</span>
+                        </div>
+                        <span >|</span>
+                        <div style="display:inline-block;" >
+                        <span > Category: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "categories" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }}&nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
+                        </div>
+                        <span >|</span>
+                        <div style="display:inline-block;" >
+                        <span > Series: </span> <span style="background-color: var(--bg-color); color:{{ .Params.style.accent }};" > {{ $taxo := "series" }} {{ range .Param $taxo }} {{ $name := . }} {{ with $.Site.GetPage (printf "/%s/%s" $taxo ($name | urlize)) }} &nbsp;{{ $name }}&nbsp;{{ end }} {{ end }} </span>
+                        </div>
+                        <span >|</span>
+                    </div>
+                    <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
+                    </div>
+                </li>
+                {{ end }}
+            </ul>
+            {{ partial "pagination.html" . }}
         </div>
-
         <!-- {{ with .File }}{{ .Dir }}{{ end }} -->
         {{ $thedir := (path.Join "content/" .File.Dir) }}
         {{ if not $taxo }}
@@ -82,7 +56,7 @@
                     {{ range (readDir $thedir) }}
                         {{ if .IsDir }}
                         <div class="tileflex" >
-                            <div style="cursor: pointer;" onclick="flexref('/posts/{{ .Name }}');" >
+                            <div style="cursor: pointer;" onclick="flexref('/{{ path.Base $thedir }}/{{ .Name }}');" >
                                 <svg version="1.1" id="folder" x="0px" y="0px" viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve" >
                                     <g><polygon id="topfolder" style="fill:var(--bg-color);" points="1.5,35.5 1.5,4.5 11.793,4.5 14.793,7.5 38.5,7.5 38.5,35.5  "/>
                                         <g><path style="fill:var(--accent-color);" d="M11.586,5l2.707,2.707L14.586,8H15h23v27H2V5H11.586 M12,4H1v32h38V7H15L12,4L12,4z"/></g>

@@ -1,4 +1,5 @@
 +++
+type = "front"
 title = "Quotes"
 slug = "quotes"
 

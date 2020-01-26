@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>front on bresilla</title>
+    <link>/type/front/</link>
+    <description>Recent content in front on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	<atom:link href="/type/front/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>/logo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/logo/</guid>
+      <description>KEY      .secretkey{ position: absolute; bottom: 5%; margin-right: auto; margin-left: auto; left: 0px; right: 0px; } @media only screen and (max-width : 768px) { .svgmiddle{ width: 15%; } } .svgmiddle{ padding: 2%; border-radius: 60%; margin: 0 auto; width: 8%; } #svgmiddle { opacity: 0; animation: cssAnimation 10s; animation-fill-mode: forwards; } @keyframes cssAnimation { 99% { opacity: 0; } 100% { opacity: 1;} }  function csvref(web) { window.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/pgp/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/pgp/</guid>
+      <description>Well well well, what do we have here. As far as I can imagine, you either clicked the key icon, and now you dont understand what all of this is, or you actually do understand it very well. If the later, then send me an encrypted &amp;ldquo;hi&amp;rdquo;.
+PUBLIC PGP KEY    div[class*=box] { width: 100%; display: flex; align-items: center; padding: 5px; } .btn { line-height: 50px; height: 50px; text-align: center; width: 250px; cursor: pointer; } #nodec .</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Lets pretend you are a real person, and I&#39;ll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
+$ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currently working as a PostDoc at University of Bologna.</description>
+    </item>
+    
+    <item>
+      <title>Quotes</title>
+      <link>/quotes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/quotes/</guid>
+      <description>Here are some quotes i like:
+We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Aristotle Things will not calm down, as a matter of fact they will just calm up. - Teal&amp;#39;c (Stargate)&amp;#34; </description>
+    </item>
+    
+    <item>
+      <title>Skills progress</title>
+      <link>/progress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/progress/</guid>
+      <description>LONG-TERM GOALS &amp;amp; SKILL TRACK Artificial Intelligence     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Robotics &amp; Automation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Quantum Computing     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Reverse Engineering     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   3D Modeling     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Data Visualisation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Circuit Design     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Networking and IT     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   App&amp;Game development     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Design Sprint     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Hardware programming     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   SHORT-TERM GOALS VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
+    </item>
+    
+    <item>
+      <title>Top Lists</title>
+      <link>/lists/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lists/</guid>
+      <description>Programmng langauges  c++ rust go zig nim julia c assembly d python haskell c# r typescript scala swift lua matlab java kotlin    Open source projects  Linux LLVM project QEMU/KVM LXC/Docker ROS (Robotics Operating System) OpenBSD VSCode and LSP (language server protocol) Godot engine / Unreal engine Pytorch / Tensorflow NixOS / Nix-Shell Radare2 Capstone / Keystone Linux From Scratch Buildroot    Movies  Matrix Inception Startrek Tron Back to the Future Ghost in the Shell Lucy Terminator Valerian Minority Report 2001:A Space Odyssey Blade Runner Edge of Tomorrow Looper Total Recall    TV-Shwos  Westworld Dragonball Mr.</description>
+    </item>
+    
+  </channel>
+</rss>

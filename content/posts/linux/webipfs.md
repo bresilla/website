@@ -1,6 +1,6 @@
 +++ 
 type = "post"
-status = "in_progress"
+status = "published"
 date = "2020-01-23"
 
 slug = "web-ipfs" 

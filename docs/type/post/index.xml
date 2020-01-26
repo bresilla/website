@@ -32,6 +32,16 @@ Steps that we&#39;&amp;lsquo;ll go through are:
     </item>
     
     <item>
+      <title>Guide to using YubiKey for GPG and SSH</title>
+      <link>/posts/copy/yubi-key-gpg/</link>
+      <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/copy/yubi-key-gpg/</guid>
+      <description>This is a guide to using YubiKey as a SmartCard for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.
+Keys stored on YubiKey are non-exportable (as opposed to file-based keys that are stored on disk) and are convenient for everyday use. Instead of having to remember and enter passphrases to unlock SSH/GPG keys, YubiKey needs only a physical touch after being unlocked with a PIN.</description>
+    </item>
+    
+    <item>
       <title>Using *direnv* with Anaconda</title>
       <link>/posts/dev/direnv-anaconda/</link>
       <pubDate>Tue, 24 Dec 2019 00:00:00 +0000</pubDate>

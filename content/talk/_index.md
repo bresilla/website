@@ -8,5 +8,3 @@ foot = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
     accent = "#fc50f6"
     theme = "dark"
 +++
-
-Nothing else to see here... Move along!

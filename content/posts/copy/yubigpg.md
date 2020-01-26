@@ -1,5 +1,5 @@
 +++ 
-type = "copy"
+type = "post"
 status = "in_progress"
 date = "2020-01-08"
 

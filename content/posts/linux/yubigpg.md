@@ -1,6 +1,6 @@
 +++ 
 type = "post"
-status = "in_progress"
+status = "published"
 date = "2020-01-08"
 
 slug = "gpg-yubikey-tomb" 

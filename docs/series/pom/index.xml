@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>POM on bresilla</title>
+    <link>/series/pom/</link>
+    <description>Recent content in POM on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 28 Jan 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/series/pom/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Precision Agriculture</title>
+      <link>/talk/agro/precisionag/</link>
+      <pubDate>Thu, 28 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/talk/agro/precisionag/</guid>
+      <description>Sensors, Robotics and Artificial Intelligence in Agrculture future farmers and plant hackers
+ This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
+ Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
+ Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
+ Hugo pipes compiles the source code of the theme, located in assets/custom-theme.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,4 +1,5 @@
 +++
+type = "front"
 slug = "logo"
 footercontent = "Clothes don’t make the man"
 
