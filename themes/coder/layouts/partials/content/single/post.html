@@ -4,11 +4,6 @@
             {{ if .Params.title }}
                 <h1 class="{{ .Slug }} title glitchtitle"  data-text="{{ .Title }}" >{{ .Title }}</h1>
             {{ end }}
-            <!-- {{ if .Params.part }} -->
-                <!-- <h1 class="title" data-text="{{ .Params.part }}" style="display: table; padding-left:2%;" > -->
-                    <!-- <a href="" style="background-color:var(--accent-color);" onMouseOver="this.style.color='var(--bg-color)'" onMouseOut="this.style.color='var(--fg-color)'" >&nbsp;{{ .Params.part }}&nbsp;</a> -->
-                <!-- </h1> -->
-            <!-- {{ end }} -->
             {{ if .Params.type }}
             <div class="undertitle" style="padding-left:2%;" >
                 <details class="dropdown" >
@@ -38,12 +33,10 @@
                             {{ end }}
                             <span style="color:var(--fg-color)">|</span>
                         </span>
-
                         {{ if .Params.link }}
                             <span class="title_posturl" style="color:var(--accent-color) display:inline-block;" >Url: <a href="{{ .Params.link }}" > {{ .Params.link }} </a></span>
                             <span style="color:var(--fg-color)">|</span>
                         {{ end }}
-
                         {{ $taxo := "series" }}
                         <span id="title_{{ $taxo }}" style="color:var(--accent-color) display:inline-block;" >
                             {{ if .Param $taxo }}Series: {{ end }}

@@ -23,8 +23,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
 
         
+            
+            
+            <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
         
-        <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
+
         
         
 
@@ -92,11 +95,6 @@
                 <h1 class="direnv-nixshel-proji title glitchtitle"  data-text="How to manage projexts, the *NIX way!" >How to manage projexts, the *NIX way!</h1>
             
             
-                
-                    
-                
-            
-            
             <div class="undertitle" style="padding-left:2%;" >
                 <details class="dropdown" >
                     <summary>
@@ -135,9 +133,7 @@
                             
                             <span style="color:var(--fg-color)">|</span>
                         </span>
-
                         
-
                         
                         <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
                             Series: 
@@ -172,7 +168,7 @@
 
 
 
-<div class="imageframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%);" >
+<div class="imageframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%);" >
     <div class="imageimageframe" style="
         width: 70%;
         margin: 0 auto; height:100%;
@@ -187,7 +183,7 @@
         <div class="imagetextframe" style="text-align: center; font-style: italic; font-weight: 300; margin-top:.2%; margin-bottom: 1%;" > Rofi menu: Listing all active projects </div>
 </div>
 
-<div class="textframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+<div class="textframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
     
     
     
@@ -209,7 +205,7 @@
 
 <h1 id="introduction">Introduction</h1>
 <p>This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&rsquo;t cover using CSS to style your theme.</p>
-<div class="tipframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+<div class="tipframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
     
     
     
@@ -217,7 +213,7 @@
     
         
     
-    <div class="tipNOTE" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid turquoise; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.8em, turquoise 3.8em, turquoise 100%);" >
+    <div class="tipNOTE" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid turquoise; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3em, turquoise 3em, turquoise 100%);" >
         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
             <div style="font-size:1.2em; color:turquoise;" >
                 &nbsp;NOTE
@@ -234,7 +230,7 @@ smething goes here
 
 
 <p>something</p>
-<div class="tipframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+<div class="tipframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
     
     
     
@@ -242,7 +238,7 @@ smething goes here
     
         
     
-    <div class="tipINFO" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid greenyellow; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.8em, greenyellow 3.8em, greenyellow 100%);" >
+    <div class="tipINFO" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid greenyellow; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3em, greenyellow 3em, greenyellow 100%);" >
         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
             <div style="font-size:1.2em; color:greenyellow;" >
                 &nbsp;INFO
@@ -259,7 +255,7 @@ else
 
 
 <p>something</p>
-<div class="tipframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+<div class="tipframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
     
     
     
@@ -267,7 +263,7 @@ else
     
         
     
-    <div class="tipWARN" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid tomato; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.8em, tomato 3.8em, tomato 100%);" >
+    <div class="tipWARN" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid tomato; color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3em, tomato 3em, tomato 100%);" >
         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
             <div style="font-size:1.2em; color:tomato;" >
                 &nbsp;WARN
@@ -284,11 +280,11 @@ smething goes here
 
 
 <p>something</p>
-<div class="hideframeholder" style="width: 100vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+<div class="hideframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
     
     
     
-    <div class="hidenote" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.8em, var(--accent-color) 3.8em, var(--accent-color) 100%);" >
+    <div class="hidenote" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
             <details>
             <summary style="font-size:1.2em; color:var(--accent-color);" >note</summary>
