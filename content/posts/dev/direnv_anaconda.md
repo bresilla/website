@@ -1,7 +1,6 @@
 +++ 
-
 type = "post"
-status = "in_progress"
+status = "published"
 date = "2019-12-24"
 
 slug = "direnv-anaconda" 

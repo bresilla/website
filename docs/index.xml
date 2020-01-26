@@ -70,27 +70,25 @@ We&#39;ll start with creating a new site with a very basic template.</descriptio
     </item>
     
     <item>
-      <title>A simple presentation</title>
-      <link>/talk/apresent/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/talk/apresent/</guid>
-      <description>Famous Programming Quotes   &amp;ldquo;There are only two hard things in Computer Science: cache invalidation and naming things.&amp;rdquo; &amp;ndash; Phil Karlton
-   “To me programming is more than an important practical art. It is also a gigantic undertaking in the foundations of knowledge.” &amp;ndash; Grace Hopper
- </description>
-    </item>
-    
-    <item>
       <title>Precision Agriculture</title>
-      <link>/talk/precisionag/</link>
+      <link>/talk/agro/precisionag/</link>
       <pubDate>Thu, 28 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>/talk/precisionag/</guid>
+      <guid>/talk/agro/precisionag/</guid>
       <description>Sensors, Robotics and Artificial Intelligence in Agrculture future farmers and plant hackers
  This presentation uses a custom Reveal.js theme written in SCSS that is compiled by Hugo, using Hugo pipes.
  Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
  Hugo pipes compiles the source code of the theme, located in assets/custom-theme.scss, into CSS.
  Hugo pipes compiles the source code of the theme, located in assets/custom-theme.</description>
+    </item>
+    
+    <item>
+      <title>RESUME</title>
+      <link>/resume/</link>
+      <pubDate>Thu, 28 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/resume/</guid>
+      <description></description>
     </item>
     
     <item>
@@ -123,15 +121,6 @@ $ whoami _ The name is Trim, Trim BRESILLA (pun intended), and he&#39;s currentl
     </item>
     
     <item>
-      <title>Life-Long Learning</title>
-      <link>/lists/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/lists/</guid>
-      <description>Programmng langauges  c++ rust go zig nim julia c assembly d python haskell c# r typescript scala swift lua matlab java kotlin    Open source projects  Linux LLVM project QEMU/KVM LXC/Docker ROS (Robotics Operating System) OpenBSD VSCode and LSP (language server protocol) Godot engine / Unreal engine Pytorch / Tensorflow NixOS / Nix-Shell Radare2 Capstone / Keystone Linux From Scratch Buildroot    Movies  Matrix Inception Startrek Tron Back to the Future Ghost in the Shell Lucy Terminator Valerian Minority Report 2001:A Space Odyssey Blade Runner Edge of Tomorrow Looper Total Recall    TV-Shwos  Westworld Dragonball Mr.</description>
-    </item>
-    
-    <item>
       <title>Quotes</title>
       <link>/quotes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -148,6 +137,15 @@ We are what we repeatedly do. Excellence, then, is not an act, but a habit. - Ar
       
       <guid>/progress/</guid>
       <description>LONG-TERM GOALS &amp;amp; SKILL TRACK Artificial Intelligence     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Blockchain Technology     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Robotics &amp; Automation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Quantum Computing     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Reverse Engineering     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   3D Modeling     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Data Visualisation     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Circuit Design     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Networking and IT     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   App&amp;Game development     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Design Sprint     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Hardware programming     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   SHORT-TERM GOALS VIM     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Tailing VM (bspwm)     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   LATEX     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   Containers     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   NixOS &amp; NixShell     #progress_one { float:left; width:25%; margin: 1%; text-align: right; } #progress_two { background-color: #ffffff11; overflow:hidden; margin: 1%; } @media screen and (max-width: 767px) { #progress_one { float: none; text-align: left; margin-right:0; width:auto; border:0; } }   ROS2.</description>
+    </item>
+    
+    <item>
+      <title>Top Lists</title>
+      <link>/lists/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lists/</guid>
+      <description>Programmng langauges  c++ rust go zig nim julia c assembly d python haskell c# r typescript scala swift lua matlab java kotlin    Open source projects  Linux LLVM project QEMU/KVM LXC/Docker ROS (Robotics Operating System) OpenBSD VSCode and LSP (language server protocol) Godot engine / Unreal engine Pytorch / Tensorflow NixOS / Nix-Shell Radare2 Capstone / Keystone Linux From Scratch Buildroot    Movies  Matrix Inception Startrek Tron Back to the Future Ghost in the Shell Lucy Terminator Valerian Minority Report 2001:A Space Odyssey Blade Runner Edge of Tomorrow Looper Total Recall    TV-Shwos  Westworld Dragonball Mr.</description>
     </item>
     
   </channel>

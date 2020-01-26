@@ -1,5 +1,6 @@
 +++
-title = "Life-Long Learning"
+type = "front"
+title = "Top Lists"
 slug = "lists"
 
 [style]
@@ -10,7 +11,7 @@ slug = "lists"
 +++
 
 <details>
-  <summary style="color: #04f977;">Programmng langauges</summary>
+  <summary>Programmng langauges</summary>
 
   - c++
   - rust
@@ -35,7 +36,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">Open source projects</summary>
+  <summary>Open source projects</summary>
 
   - Linux
   - LLVM project
@@ -54,7 +55,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">Movies</summary>
+  <summary>Movies</summary>
 
   - Matrix
   - Inception
@@ -74,7 +75,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">TV-Shwos</summary>
+  <summary>TV-Shwos</summary>
 
   - Westworld
   - Dragonball
@@ -93,7 +94,7 @@ slug = "lists"
 
 </details>
 <details>
-<summary style="color: #04f977;">Books</summary>
+<summary>Books</summary>
 
   - Algorithm
   - Bermuda
@@ -109,7 +110,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">Comics</summary>
+  <summary>Comics</summary>
 
   - Flash
   - Batman
@@ -128,7 +129,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">Games</summary>
+  <summary>Games</summary>
 
   - Cyberpunk
   - Mass Effect
@@ -148,7 +149,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">Companies</summary>
+  <summary>Companies</summary>
 
   - Github
   - Redhat
@@ -168,7 +169,7 @@ slug = "lists"
 
 </details>
 <details>
-  <summary style="color: #04f977;">Organisations</summary>
+  <summary>Organisations</summary>
 
   - Gnome
   - KDE

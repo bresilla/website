@@ -50,7 +50,7 @@
             </div>
             {{ end }}
             <div class="latest" style="padding-top:5%;" >
-                {{ range first 1 .Site.Taxonomies.type.post }}
+                {{ range first 1 (where .Site.Taxonomies.type.post ".Params.status" "==" "published") }}
                 <div class="latestchild" style="width: 100%; border-radius: 5px; border: 1px dashed var(--accent-color); background-color:var(--bg-color); color: var(--accent-color); cursor: pointer;" onclick="myhref('{{ .Page.RelPermalink }}');" >
                     <div class="latesttag" style="padding:1%; text-align:center;" >
                         LATEST POST: {{ .Page.Title }}

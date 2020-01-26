@@ -1,4 +1,5 @@
 +++
+type = "front"
 slug = "pgp"
 footercontent = "In the kingdom of the blind, the one-eyed man is king"
 styleaccent = "#f72c4a"

@@ -2,5 +2,16 @@
     {{ .Title }} · {{ .Site.Title }}
 {{ end }}
 {{ define "content" }}
-    {{ partial "page.html" . }}
+{{ $type2 := delimit (slice "content/" .Params.type ".html") "" }}
+    {{ $type := .Params.type }}
+    {{ if eq $type "post" }}
+        {{ partial "content/post.html" . }}
+    {{else if eq $type "talk" }}
+        {{ partial "content/talk.html" . }}
+    {{else if eq $type "resume" }}
+        {{ partial "content/resume.html" . }}
+    {{else if eq $type "front" }}
+        {{ partial "content/front.html" . }}
+    {{ end }}
+
 {{ end }}

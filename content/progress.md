@@ -1,4 +1,5 @@
 +++
+type = "front"
 title = "Skills progress"
 slug = "progress"
 

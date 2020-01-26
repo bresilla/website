@@ -1,4 +1,5 @@
 +++
+type = "front"
 show = true
 title = "About"
 slug = "about"
