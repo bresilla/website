@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en" style="
      --accent-color:#8e2a8b ;
@@ -9,70 +7,47 @@
         
      ">
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript">
-        var randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
-        <!-- document.documentElement.style.setProperty('--glitch-color', randomColor); -->
-    </script>
-
-    <meta name="author" content="Trim Bresilla">
-    <meta name="description" content="Personal website &amp; bolg">
-    <meta name="keywords" content="blog,developer,personal">
-
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Backing up GPG key with YubiKey, Tomb and Cryptosetup"/>
-<meta name="twitter:description" content="In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.
-Steps that we&#39;&lsquo;ll go through are:
- Generate a live secure enviroiment (TAILS) Generate GPG-Keys Diging secure tombs and forging keys Backing-up keys and revocation certificates Backing up keys in crypto LUKS drive  SECURE ENVIRONMENT Lets make a working folder where we create file, keys, tombs ad so on."/>
-
-    <meta property="og:title" content="Backing up GPG key with YubiKey, Tomb and Cryptosetup" />
-<meta property="og:description" content="In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.
-Steps that we&#39;&lsquo;ll go through are:
- Generate a live secure enviroiment (TAILS) Generate GPG-Keys Diging secure tombs and forging keys Backing-up keys and revocation certificates Backing up keys in crypto LUKS drive  SECURE ENVIRONMENT Lets make a working folder where we create file, keys, tombs ad so on." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/posts/linux/gpg-yubikey-tomb/" />
-<meta property="article:published_time" content="2020-01-08T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-01-08T00:00:00+00:00" />
-
-
-
-    
-      <base href="/posts/linux/gpg-yubikey-tomb/">
-    
-    <title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
     Backing up GPG key with YubiKey, Tomb and Cryptosetup · bresilla
 </title>
+        <meta name="author" content="Trim Bresilla">
+        <meta name="description" content="Personal website &amp; bolg">
+        <meta name="keywords" content="blog,developer,personal">
+         <base href="/posts/linux/gpg-yubikey-tomb/"> 
+         <link rel="canonical" href="/posts/linux/gpg-yubikey-tomb/"> 
 
-    
-      <link rel="canonical" href="/posts/linux/gpg-yubikey-tomb/">
-    
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
 
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather:300,700%7CSource+Code+Pro:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
-
-    
-      
-      
-      <link rel="stylesheet" href="/coder/coder.min.56b80694a95ecaead39a4d7f2100eb96c20a5c15a2700715a488e501e772c204.css" integrity="sha256-VrgGlKleyurTmk1/IQDrlsIKXBWicAcVpIjlAedywgQ=" crossorigin="anonymous" media="screen" />
-    
-
-    
-
-    
-
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-
-    <meta name="generator" content="Hugo 0.62.2" />
-  </head>
-  <body >
         
-      <main id="main" class="wrapper gpg-yubikey-tomb">
+        
+        <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
+        
+        
 
-      <nav class="navigation">
+        <link rel="icon" type="image/png" href="/images/favicon.svg">
+        <meta name="generator" content="Hugo 0.63.1" />
+        
+        
+    </head>
+    <body >
+            
+
+        
+            
+                
+                
+                
+            
+        
+
+        
+        
+        <main id="main" class="wrapper gpg-yubikey-tomb">
+            <nav class="navigation">
   <section class="container">
       <label class="title">
           <a class="navigation-title" href="/">
@@ -106,10 +81,8 @@ Steps that we&#39;&lsquo;ll go through are:
   </section>
 </nav>
 
-
-      <div class="content">
-        
-
+            <div class="content">
+                
     
     
         <section class="container page estate" >
@@ -535,7 +508,7 @@ ssb  rsa4096/CC964AFC82754FD0
    -v           print version, license and list of available ciphers
    -q           run quietly without printing informations
    -D           print debugging information at runtime
-</code></pre></div><p>Now, let's think how to save our GPG keys.</p>
+</code></pre></div><p>Now, let&rsquo;s think how to save our GPG keys.</p>
 <p>The best way is to create two tombs, one for SUBKEYS <code>subkey.tomb</code>/<code>subkey.key</code> and the other one for MASTERKEY  <code>master.tomb</code>/<code>master.key</code>. Eventhoug, the USBKEY where will GPG keys be saved is gonna be LUKS encrypted (more on that later), still its good to have separation between SUBKEYS and MASTERKEY. As mentioned before, the masterkey is the one used only to issue subkeys, and this will potentially be living as long as you live (unless quantum qomputers break RSA, then we all are f**ked). So its important to have a separation. One good case that comes to mind is, when formatting main machine, we want again to setup/copy/work with subkeys, and if in those times there is a malware lurking in the machine it can compromise not only the subkeys, but masterkey too.</p>
 <h2 id="forging-keys">FORGING KEYS</h2>
 <div class="commandframeholder" >
@@ -731,7 +704,7 @@ gpg --armor --export bruce.wayne@waynecorp.com > $TEMP/public.asc
 
 
 <h2 id="subkey-backup">SUBKEY BACKUP</h2>
-<p>From last step, before we close/slam the tomb, we have mounted/opened the tomb on <code>/media/subkey</code>, and that's where we are going to back up the SUBKEYS:</p>
+<p>From last step, before we close/slam the tomb, we have mounted/opened the tomb on <code>/media/subkey</code>, and that&rsquo;s where we are going to back up the SUBKEYS:</p>
 <div class="commandframeholder" >
     
     
@@ -762,7 +735,7 @@ tomb close subkey
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Closing tomb <span class="o">[</span>subkey<span class="o">]</span> mounted on /media/subkey
 tomb <span class="o">(</span>*<span class="o">)</span> Tomb <span class="o">[</span>subkey<span class="o">]</span> closed: your bones will rest in peace.
 </code></pre></div><h2 id="masterkey-backup">MASTERKEY BACKUP</h2>
-<p>Since we didn't <code>tomb slam</code> to close all tombs, we only closed <code>subkey</code> tomb with close comand, so we have <code>master</code> tomb still open on <code>/media/subkey</code>, and that's where we are going to back up the MASTERKEY, and same time, we are going to back up there an INVOCATION CAETIFICATE, in case anytime the master is compromised we can use it, and procedures are the same like for <code>subkey</code>:</p>
+<p>Since we didn&rsquo;t <code>tomb slam</code> to close all tombs, we only closed <code>subkey</code> tomb with close comand, so we have <code>master</code> tomb still open on <code>/media/subkey</code>, and that&rsquo;s where we are going to back up the MASTERKEY, and same time, we are going to back up there an INVOCATION CAETIFICATE, in case anytime the master is compromised we can use it, and procedures are the same like for <code>subkey</code>:</p>
 <div class="commandframeholder" >
     
     
@@ -1051,10 +1024,8 @@ sda
 
     
 
-
-      </div>
-
-      <footer class="footer">
+            </div>
+            <footer class="footer">
   <section class="container">
     
         
@@ -1064,18 +1035,15 @@ sda
   </section>
 </footer>
 
-    </main>
+        </main>
+        
 
-    
+        
+        
+        <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
+        
+        <script type="text/javascript" src="/scripts/coder.js"></script>
 
-    
-    <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
-    
-    <script type="text/javascript" src="/scripts/coder.js"></script>
-
-
-  </body>
-
+    </body>
 </html>
-

@@ -1,5 +1,6 @@
 +++
 type = "talk"
+fullscreen = true
 status = "published"
 date = "2016-01-28"
 
