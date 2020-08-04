@@ -1,22 +1,53 @@
-+++ 
++++
 type = "post"
 status = "in_progress"
 date = "2020-01-08"
 
-slug = "yubi-key-gpg" 
+slug = "yubi-key-gpg"
 title = "Guide to using YubiKey for GPG and SSH"
 foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 description = ""
 tags = ["yubikey","gpg","pass" ]
-categories = ["COPY"]
-series = ["COPY"]
+categories = ["LINUX"]
+series = ["GPG"]
 link = "https://github.com/drduh/YubiKey-Guide"
-
+credits = [
+    "https://alexcabal.com/creating-the-perfect-gpg-keypair/",
+    "https://blog.habets.se/2013/02/GPG-and-SSH-with-Yubikey-NEO",
+    "https://blog.josefsson.org/2014/06/23/offline-gnupg-master-key-and-subkeys-on-yubikey-neo-smartcard/",
+    "https://blog.onefellow.com/post/180065697833/yubikey-forwarding-ssh-keys",
+    "https://developers.yubico.com/PGP/Card_edit.html",
+    "https://developers.yubico.com/PIV/Introduction/Admin_access.html",
+    "https://developers.yubico.com/yubico-piv-tool/YubiKey_PIV_introduction.html",
+    "https://developers.yubico.com/yubikey-personalization/",
+    "https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html",
+    "https://evilmartians.com/chronicles/stick-with-security-yubikey-ssh-gnupg-macos",
+    "https://gist.github.com/ageis/14adc308087859e199912b4c79c4aaa4",
+    "https://github.com/herlo/ssh-gpg-smartcard-config",
+    "https://github.com/tomlowenthal/documentation/blob/master/gpg/smartcard-keygen.md",
+    "https://help.riseup.net/en/security/message-security/openpgp/best-practices",
+    "https://jclement.ca/articles/2015/gpg-smartcard/",
+    "https://rnorth.org/gpg-and-ssh-with-yubikey-for-mac",
+    "https://trmm.net/Yubikey",
+    "https://www.bootc.net/archives/2013/06/09/my-perfect-gnupg-ssh-agent-setup/",
+    "https://www.esev.com/blog/post/2015-01-pgp-ssh-key-on-yubikey-neo/",
+    "https://www.hanselman.com/blog/HowToSetupSignedGitCommitsWithAYubiKeyNEOAndGPGAndKeybaseOnWindows.aspx",
+    "https://www.void.gr/kargig/blog/2013/12/02/creating-a-new-gpg-key-with-subkeys/",
+    "https://mlohr.com/gpg-agent-forwarding/",
+]
 [style]
-    accent = "#fc50f6"
+    accent = "#5f5fff"
     theme = "dark"
 
 +++
+
+
+{{< hide title="Disclaimer !!" >}}
+This is not a post of mine. Its completely A to Z copy and paste from the amazing drduh (https://github.com/drduh) post (link in the title). This is too amazing to be left just in one place, the interent is very fragile place, it might get broken anytime, so haveing in two places is better, ironic right?? This is internet too, but whatever fude. And is faster for me to find it.
+{{< /hide >}}
+
+
+
 
 This is a guide to using [YubiKey](https://www.yubico.com/products/yubikey-hardware/) as a [SmartCard](https://security.stackexchange.com/questions/38924/how-does-storing-gpg-ssh-private-keys-on-smart-cards-compare-to-plain-usb-drives) for storing GPG encryption, signing and authentication keys, which can also be used for SSH. Many of the principles in this document are applicable to other smart card devices.
 
@@ -2014,30 +2045,3 @@ scd apdu 00 44 00 00
 - If SSH authentication still fails - add up to 3 `-v` flags to the `ssh` client to increase verbosity.
 
 - If it still fails, it may be useful to stop the background `sshd` daemon process service on the server (e.g. using `sudo systemctl stop sshd`) and instead start it in the foreground with extensive debugging output, using `/usr/sbin/sshd -eddd`. Note that the server will not fork and will only process one connection, therefore has to be re-started after every `ssh` test.
-
-
-# Links
-
-* https://alexcabal.com/creating-the-perfect-gpg-keypair/
-* https://blog.habets.se/2013/02/GPG-and-SSH-with-Yubikey-NEO
-* https://blog.josefsson.org/2014/06/23/offline-gnupg-master-key-and-subkeys-on-yubikey-neo-smartcard/
-* https://blog.onefellow.com/post/180065697833/yubikey-forwarding-ssh-keys
-* https://developers.yubico.com/PGP/Card_edit.html
-* https://developers.yubico.com/PIV/Introduction/Admin_access.html
-* https://developers.yubico.com/yubico-piv-tool/YubiKey_PIV_introduction.html
-* https://developers.yubico.com/yubikey-personalization/
-* https://developers.yubico.com/yubikey-piv-manager/PIN_and_Management_Key.html
-* https://evilmartians.com/chronicles/stick-with-security-yubikey-ssh-gnupg-macos
-* https://gist.github.com/ageis/14adc308087859e199912b4c79c4aaa4
-* https://github.com/herlo/ssh-gpg-smartcard-config
-* https://github.com/tomlowenthal/documentation/blob/master/gpg/smartcard-keygen.md
-* https://help.riseup.net/en/security/message-security/openpgp/best-practices
-* https://jclement.ca/articles/2015/gpg-smartcard/
-* https://rnorth.org/gpg-and-ssh-with-yubikey-for-mac
-* https://trmm.net/Yubikey
-* https://www.bootc.net/archives/2013/06/09/my-perfect-gnupg-ssh-agent-setup/
-* https://www.esev.com/blog/post/2015-01-pgp-ssh-key-on-yubikey-neo/
-* https://www.hanselman.com/blog/HowToSetupSignedGitCommitsWithAYubiKeyNEOAndGPGAndKeybaseOnWindows.aspx
-* https://www.void.gr/kargig/blog/2013/12/02/creating-a-new-gpg-key-with-subkeys/
-* https://mlohr.com/gpg-agent-forwarding/
-
