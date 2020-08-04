@@ -32,7 +32,7 @@
         
 
         <link rel="icon" type="image/png" href="/images/favicon.svg">
-        <meta name="generator" content="Hugo 0.63.1" />
+        <meta name="generator" content="Hugo 0.74.0" />
         
         
     </head>
@@ -168,17 +168,24 @@
 
 
 
+
 <div class="imageframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%);" >
     <div class="imageimageframe" style="
         width: 70%;
-        margin: 0 auto; height:100%;
+        height:100%;
+        margin: 0 auto;
         border-radius: 10px;
+        padding: 0px;
         box-shadow:1px 1px 20px 3px #181818;
-        border: 1px solid  var(--accent-color) ;
-        background-image: url(https://i.imgur.com/momvy3U.png);
-        background-size: cover;" >
+        border: 1px solid  var(--accent-color) ;" >
         <style> @media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } } </style>
-        <img src="https://i.imgur.com/momvy3U.png" alt="" style="visibility: hidden;, height=100%;" >
+        <div style="
+            margin: 0 auto;
+            border-radius: 10px;
+            background-image: url(https://i.imgur.com/momvy3U.png);
+            background-size: cover" >
+            <img src="https://i.imgur.com/momvy3U.png" alt="" style="visibility: hidden;">
+        </div>
     </div>
         <div class="imagetextframe" style="text-align: center; font-style: italic; font-weight: 300; margin-top:.2%; margin-bottom: 1%;" > Rofi menu: Listing all active projects </div>
 </div>
@@ -284,21 +291,20 @@ smething goes here
     
     
     
-    <div class="hidenote" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
+    <div class="hide_box" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
             <details>
-            <summary style="font-size:1.2em; color:var(--accent-color);" >note</summary>
+            <summary style="font-size:1.2em; color:var(--accent-color);" >WARN</summary>
             <div style="padding-top:2em;" >
                 
-smething goes here
+smething goes hereeee
 
             </div>
             </details>
         </div>
     </div>
-<style> @media only screen and (max-width : 768px) { .hidenote { width: 90% !important; } } </style>
+<style> @media only screen and (max-width : 768px) { .hide_box { width: 90% !important; } } </style>
 </div>
-
 
 <p>We&rsquo;ll start with creating a new site with a very basic template. Then we&rsquo;ll add in a few pages and posts. With small variations on that, you will be able to create many different types of web sites.</p>
 <p>In this tutorial, commands that you enter will start with the &ldquo;$&rdquo; prompt. The output will follow. Lines that start with &ldquo;#&rdquo; are comments that I&rsquo;ve added to explain a point. When I show updates to a file, the &ldquo;:wq&rdquo; on the last line means to save the file.</p>
@@ -307,7 +313,7 @@ smething goes here
 
 <span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
 
-<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Hello, World!&#34;</span><span class="p">)</span>
 <span class="p">}</span></code></pre></div>
 <h1 id="some-definitions">Some Definitions</h1>

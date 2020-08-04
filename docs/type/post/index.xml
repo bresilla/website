@@ -6,10 +6,20 @@
     <description>Recent content in post on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 23 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 01 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/type/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Next-Gen system container management</title>
+      <link>/posts/linux/lxd-lxc/</link>
+      <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/linux/lxd-lxc/</guid>
+      <description>The why? So, lately i&amp;rsquo;ve been deeply involved with *nix&amp;rsquo;s namespaces and cgrpups. I am trying to build ths tool called: tent, which basically at high level is a chroot clone but with modern flare. So it has some automatic mounting points, user directora manupilations etc&amp;hellip;
+Along the way, i got to learn quite a lot how linux handles containers, especially with liblxc. The way i was going with it was by trying to understand how Canonical&amp;rsquo;s lxd (lxc) works.</description>
+    </item>
     
     <item>
       <title>Hosting a website in the Inter Planetary File System</title>
@@ -27,7 +37,7 @@
       
       <guid>/posts/linux/gpg-yubikey-tomb/</guid>
       <description>In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.
-Steps that we&#39;&amp;lsquo;ll go through are:
+Steps that we&#39;&amp;rsquo;ll go through are:
  Generate a live secure enviroiment (TAILS) Generate GPG-Keys Diging secure tombs and forging keys Backing-up keys and revocation certificates Backing up keys in crypto LUKS drive  SECURE ENVIRONMENT Lets make a working folder where we create file, keys, tombs ad so on.</description>
     </item>
     
@@ -57,7 +67,7 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
       <pubDate>Mon, 23 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/posts/dev/direnv-nixshel-proji/</guid>
-      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }   Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
+      <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }    Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
     </item>
     
   </channel>
