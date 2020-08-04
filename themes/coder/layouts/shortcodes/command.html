@@ -2,9 +2,25 @@
     {{ $width := default "100" (.Get "width") }}
     {{ $type := default "" (.Get "type") }}
     {{ $radius := default "5" (.Get "radius") }}
-    <div class="textframe{{ $type }}" style="width: {{ $width }}%; margin: 0 auto; padding: 1%; border-radius: {{ $radius }}px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
         {{ if (.Get "color") }} background-color: {{ .Get "color" }} {{ else }} background-color: var(--accent-color) {{ end }};
-        {{ if (.Get "font") }} color: {{ .Get "font" }} {{ else }} color: var(--bg-color) {{ end }};
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe{{ $type }}" style="width: {{ $width }}%; margin: 0 auto; padding: 1%; border-radius: {{ $radius }}px;
+        {{ if (.Get "font") }} color: {{ .Get "font" }} {{ else }} color: var(--fg-color) {{ end }};
         " > &nbsp;&nbsp;$&nbsp;&nbsp;{{ .Inner }}</div>
 </div>
-

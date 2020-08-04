@@ -1,9 +1,9 @@
-+++ 
++++
 type = "post"
 status = "published"
 date = "2019-12-23"
 
-slug = "direnv-nixshel-proji" 
+slug = "direnv-nixshel-proji"
 title = "How to manage projexts, the *NIX way!"
 foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 categories = ["DEV"]
@@ -55,7 +55,7 @@ smething goes here
 something
 
 {{< hide title="WARN" >}}
-smething goes here
+smething goes hereeee
 {{< /hide >}}
 
 

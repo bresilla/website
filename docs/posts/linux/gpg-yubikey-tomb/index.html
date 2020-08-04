@@ -32,7 +32,7 @@
         
 
         <link rel="icon" type="image/png" href="/images/favicon.svg">
-        <meta name="generator" content="Hugo 0.63.1" />
+        <meta name="generator" content="Hugo 0.74.0" />
         
         
     </head>
@@ -200,7 +200,7 @@
         </header>
         <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
             <p>In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.</p>
-<p>Steps that we'&lsquo;ll go through are:</p>
+<p>Steps that we'&rsquo;ll go through are:</p>
 <ul>
 <li>Generate a live secure enviroiment (TAILS)</li>
 <li>Generate GPG-Keys</li>
@@ -216,12 +216,28 @@
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; gpg --expert --full-generate-key </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Please <span class="k">select</span> what kind of key you want:
    <span class="o">(</span>1<span class="o">)</span> RSA and RSA <span class="o">(</span>default<span class="o">)</span>
@@ -288,12 +304,28 @@ uid                      Bruce Wayne <span class="o">(</span>JLA Launch Code PGP
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; gpg --expert --edit-key bruce.wayne@waynecorp.com </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">What keysize do you want? (2048) 4096
 Requested keysize is 4096 bits
@@ -465,12 +497,28 @@ ssb  rsa4096/CC964AFC82754FD0
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">  Syntax: tomb <span class="o">[</span>options<span class="o">]</span> <span class="nb">command</span> <span class="o">[</span>arguments<span class="o">]</span>
   Commands:
@@ -511,12 +559,28 @@ ssb  rsa4096/CC964AFC82754FD0
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb forge master.key </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Commanded to forge key master.key with cipher algorithm AES256
 tomb <span class="o">[</span>W<span class="o">]</span> This operation takes time. Keep using this computer on other tasks.
@@ -539,12 +603,28 @@ tomb <span class="o">(</span>*<span class="o">)</span> Your key is ready:
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb dig -s 100 master.tomb </div>
 </div>
-
 </p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Commanded to dig tomb master.tomb
 tomb <span class="o">(</span>*<span class="o">)</span> Creating a new tomb in master.tomb
@@ -563,12 +643,28 @@ tomb  .  tomb lock master.tomb -k master.key
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb lock master.tomb -k master.key </div>
 </div>
-
 </p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Commanded to lock tomb master.tomb
 tomb  .  Checking <span class="k">if</span> the tomb is empty <span class="o">(</span>we never step on somebody <span class="k">else</span><span class="err">&#39;</span>s bones<span class="o">)</span>.
@@ -589,12 +685,28 @@ tomb <span class="o">(</span>*<span class="o">)</span> Your tomb is ready in mas
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb open master.tomb -k master.key </div>
 </div>
-
 </p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Commanded to open tomb master.tomb
 tomb  .  Valid tomb file found: master.tomb
@@ -619,48 +731,112 @@ first forge key:
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb forge subkey.key </div>
 </div>
-
 
 then, create the tomb:
 <div class="commandframeholder" >
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb dig -s 100 subkey.tomb </div>
 </div>
-
 
 then, lock the tomb with the key:
 <div class="commandframeholder" >
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb lock subkey.tomb -k subkey.key </div>
 </div>
-
 
 then, opening the tomb:
 <div class="commandframeholder" >
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb open master.tomb -k master.key </div>
 </div>
-
 
 At the end we have another drive mouted on <code>/media/subkey/</code> where we can save subkeys key.</p>
 <h2 id="slam-everything">SLAM EVERYTHING</h2>
@@ -669,12 +845,28 @@ At the end we have another drive mouted on <code>/media/subkey/</code> where we 
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; tomb slam </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb <span class="o">(</span>*<span class="o">)</span> Slamming tomb <span class="o">[</span>master<span class="o">]</span> mounted on /media/master
 tomb  .  Closing tomb <span class="o">[</span>master<span class="o">]</span> mounted on /media/master
@@ -690,14 +882,30 @@ tomb <span class="o">(</span>*<span class="o">)</span> Tomb <span class="o">[</s
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 gpg --armor --export bruce.wayne@waynecorp.com > $TEMP/public.asc
 </div>
 </div>
-
 
 <h2 id="subkey-backup">SUBKEY BACKUP</h2>
 <p>From last step, before we close/slam the tomb, we have mounted/opened the tomb on <code>/media/subkey</code>, and that&rsquo;s where we are going to back up the SUBKEYS:</p>
@@ -705,28 +913,60 @@ gpg --armor --export bruce.wayne@waynecorp.com > $TEMP/public.asc
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/subkey/subkeys.asc
 </div>
 </div>
-
 
 <p>and then we close the tomb:</p>
 <div class="commandframeholder" >
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 tomb close subkey
 </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Closing tomb <span class="o">[</span>subkey<span class="o">]</span> mounted on /media/subkey
 tomb <span class="o">(</span>*<span class="o">)</span> Tomb <span class="o">[</span>subkey<span class="o">]</span> closed: your bones will rest in peace.
@@ -736,14 +976,30 @@ tomb <span class="o">(</span>*<span class="o">)</span> Tomb <span class="o">[</s
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/master/private.asc
 </div>
 </div>
-
 
 <p>Now here, we dont close the tomb just yet, as we need to create an invocation certificate.</p>
 <h2 id="invocation-certificate">INVOCATION CERTIFICATE</h2>
@@ -752,14 +1008,30 @@ gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/master/pr
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 gpg --armor --gen-revoke bruce.wayne@waynecorp.com > /media/master/revoke.cert
 </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sec  rsa4096/8E1C7857051C93A2 2020-01-10 Bruce Wayne <span class="o">(</span>JLA Launch Code PGP<span class="o">)</span> &lt;bruce.wayne@waynecorp.com&gt;
 Create a revocation certificate <span class="k">for</span> this key? <span class="o">(</span>y/N<span class="o">)</span> y
@@ -785,14 +1057,30 @@ Revocation certificate created.
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 tomb close master
 </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">tomb  .  Closing tomb <span class="o">[</span>master<span class="o">]</span> mounted on /run/media/bresilla/master
 tomb <span class="o">(</span>*<span class="o">)</span> Tomb <span class="o">[</span>master<span class="o">]</span> closed: your bones will rest in peace.
@@ -801,14 +1089,30 @@ tomb <span class="o">(</span>*<span class="o">)</span> Tomb <span class="o">[</s
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 lsblk
 </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
 sda                                                                               
@@ -819,19 +1123,35 @@ sdb         iso9660     2019-04-20-02-16-46-00
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo cryptsetup luksFormat /dev/sdb
 </div>
 </div>
 
-
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">WARNING: Device /dev/sdb already contains a <span class="s1">&#39;iso9660&#39;</span> superblock signature.
 WARNING: Device /dev/sdb already contains a <span class="s1">&#39;dos&#39;</span> partition signature.
 WARNING!
-<span class="o">=</span><span class="o">=</span><span class="o">=</span><span class="o">=</span><span class="o">=</span><span class="o">=</span><span class="o">=</span><span class="o">=</span>
+<span class="o">========</span>
 This will overwrite data on /dev/sdb irrevocably.
 Are you sure? <span class="o">(</span>Type uppercase yes<span class="o">)</span>: YES
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Enter passphrase <span class="k">for</span> /dev/sdb: 
@@ -840,14 +1160,30 @@ Verify passphrase:
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 lsblk
 </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
 sda                                                                         
@@ -858,14 +1194,30 @@ sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo cryptsetup open /dev/sdb usb
 </div>
 </div>
-
 
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">Enter passphrase <span class="k">for</span> /dev/sdb:
 </code></pre></div><p>and <code>lsblk</code> gives:</p>
@@ -879,14 +1231,30 @@ sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo mkfs.btrfs -f /dev/mapper/usb
 </div>
 </div>
-
 
 <p>after format, <code>lsblk</code> gives:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
@@ -899,28 +1267,60 @@ sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo mount /dev/mapper/usb /media/usb
 </div>
 </div>
-
 
 <p>and after we have the drive mounted in <code>/media/usb/</code></p>
 <div class="commandframeholder" >
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo cp -acp $TEMP/{master.tomb, master.key, subkey.tomb, subkey.key, public.asc} /media/usb/
 </div>
 </div>
-
 
 <p><code>lsblk</code> outputs:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
@@ -933,14 +1333,30 @@ sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo umount /media/usb
 </div>
 </div>
-
 
 <p><code>lsblk</code> outputs:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
@@ -953,14 +1369,30 @@ sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 sudo cryptsetup close usb
 </div>
 </div>
-
 
 <p><code>lsblk</code> outputs:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
@@ -972,14 +1404,30 @@ sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
     
     
     
-    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
          background-color: var(--accent-color) ;
-         color: var(--bg-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
         " > &nbsp;&nbsp;$&nbsp;&nbsp; 
 udisksctl power-off -b /dev/sdb
 </div>
 </div>
-
 
 <p><code>lsblk</code> outputs:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
@@ -991,7 +1439,7 @@ sda
         
         <div style="padding-top:2%;" >
             <div style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
-                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 2px dashed var(--accent-color); color: var(--accent-color);" >
+                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color);" >
                 <details class="references" style="padding-left:2%;" >
                     <summary style="font-size:1.2em;" > References</summary>
                     <div style="padding:1%;" >
