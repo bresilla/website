@@ -1,6 +1,7 @@
 +++
-title = "Copy"
-slug = "copycat"
+title = "Crypto"
+slug = "cryptography"
+folders = true
 foot = "Here goes some very important quote"
 
 
