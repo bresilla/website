@@ -15,15 +15,23 @@
             {{ else if $taxo }}
                 {{ $listt = where .Paginator.Pages ".Params.status" "==" "published" }}
             {{ end }}
-            {{ range $listt }}
-                {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
-                <li style="margin:1%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color:{{ .Params.style.accent }}; cursor: pointer;" onclick="myhref('{{ $pagelink }}');" >
-                    <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.5%;" >
-                        <div class="listertitle" style="font-size: 1em;" >{{ .Title }}</div>
-                        <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
-                    </div>
-                </li>
-                {{ end }}
+                <table style="width: 100%;">
+                    {{ range $listt }}
+                    {{ $pagelink := .Params.ExternalLink | default .RelPermalink }}
+                        <tr style="cursor: pointer;" onclick="myhref('{{ $pagelink }}');">
+                            <td style="background-color: var(--bg-color); text-align: right; border: 1px solid var(--bg-color); width: 20%; padding: 0;">
+                                <span style="padding: 1%; color: var(--bg-color); background-color:{{ .Params.style.accent }};">
+                                    &nbsp;{{ .Date.Format (.Site.Params.dateFormat | default "January 1, 2020" ) }}&nbsp;
+                                </span>
+                            </td>
+                            <td style="background-color: var(--bg-color); text-align: left; font-weight: bold; border: 1px solid var(--bg-color); padding: 0.2%; padding-left:2%;">
+                                <a href="{{ $pagelink }}">
+                                    {{ .Title }}
+                                </a>
+                            </td>
+                        </tr>
+                    {{ end }}
+                </table>
             </ul>
             {{ partial "pagination.html" . }}
         </div>
