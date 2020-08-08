@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" style="
+     --accent-color:#ffd7d7 ;
+    
+        
+            --bg-color:#080a0f; --fg-color:#c4d0d1;
+        
+     ">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+    Using nix-shell as package manager for any language · bresilla
+</title>
+        <meta name="author" content="Trim Bresilla">
+        <meta name="description" content="Personal website &amp; bolg">
+        <meta name="keywords" content="blog,developer,personal">
+         <base href="/post/dev/nix/nix-pckgs/"> 
+         <link rel="canonical" href="/post/dev/nix/nix-pckgs/"> 
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+        
+            
+            
+            <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
+        
+
+        
+        
+
+        <link rel="icon" type="image/png" href="/images/favicon.svg">
+        <meta name="generator" content="Hugo 0.74.0" />
+        
+        
+    </head>
+    <body >
+            
+
+        
+            
+                
+                
+                
+            
+        
+
+        
+        
+        <main id="main" class="wrapper nix-pckgs">
+            <nav class="navigation">
+  <section class="container">
+      <label class="title">
+          <a class="navigation-title" href="/">
+              bresilla
+          </a>
+      </label>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">about</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/resume">resume</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/post/">blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/talk/">talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+            <div class="content">
+                
+    
+    
+        <section class="container page estate" >
+    <article>
+        <header>
+            
+                <h1 class="nix-pckgs title glitchtitle"  data-text="Using nix-shell as package manager for any language" >Using nix-shell as package manager for any language</h1>
+            
+            
+            <div class="undertitle" style="padding-left:2%;" >
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
+
+                        
+                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
+                            Category: 
+                            
+                                
+                                
+                                    <a href="/categories/dev/" >DEV</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
+                             Tags: 
+                            
+                                
+                                
+                                <a href="/tags/direnv/" >direnv</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/nix-shell/" >nix-shell</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/package/" >package</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/language/" >language</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        
+                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
+                            Series: 
+                            
+                                
+                                
+                                <a href="/series/nix-shell/" >NIX-SHELL</a>
+                                
+                            
+                            
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART 1&nbsp;</span>
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                    </summary>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#enter-nix">Enter NIX</a></li>
+    <li><a href="#enter-nix-1">Enter NIX</a></li>
+  </ul>
+</nav>
+                </details>
+            </div>
+            
+        </header>
+        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
+            
+                <div style="padding:3% 0 3% 0">
+                    Getting a working development environment is often far from an easy task. Actually, setting up projects can take days before getting everything working together on a development machine.
+                </div>
+                <div class="hideframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                    <div class="hide_box" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
+                        <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <details>
+                            <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
+                            <div style="padding-top:2em; text-align: justify;" >
+                                <div>
+                                    The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    As per usual, a lot of text is copied and pasted from other resources, combined here in a hot mess of everything, however EVERYTHING is properly cited at the end. I use this as "notes" going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.
+                                </div>
+                            </div>
+                            </details>
+                        </div>
+                    </div>
+                <style> @media only screen and (max-width : 768px) { .hide_box { width: 90% !important; } } </style>
+                </div>
+                
+                    <div style="padding-top:2em;text-align: justify;">
+                        In this short post, were gonna talk how to: use NIX tools such as: NixOS itself, nix-shell and nix-pkgs in a development environment.
+                    </div>
+                
+                
+                    <div style="text-align: justify; padding-top:2em;">
+                        <span style="color:var(--accent-color); font-size: 3.2rem; line-height: 3.6rem; text-decoration: underline dashed var(--titlecolor) 2px;">
+                            TL;DR
+                        </span>
+                    <div>
+                    <div style="text-align: justify; padding-top:2em;">
+                        THING ARE ABOUT TO GET MESSY
+                    </div>
+                
+            
+            <h1 id="enter-nix">Enter NIX</h1>
+<p>It’s difficult to categorize Nix. On the website, it is presented as a “purely functional package manager”. However, it could also be thought of as a programming language, a configuration tool, and a build tool. In a nutshell, Nix expressions are programs written in a purely functional programming language and can return a single derivation or a set of derivations.</p>
+<p>This difficulty to categorize comes due to a few different projects sharing similar names. So, lets just touch them breifly before we dig in:</p>
+<ul>
+<li>Nix: the package manager that installs software, and the associated programming language. This project can be installed on any Linux distribution, along with OS X.</li>
+<li>Nixpkgs: the common repository of software that defines how to install GHC, Emacs, etc.</li>
+<li>NixOS: an operating system that uses all the power of Nix and Nixpkgs, but also provides configuration management.</li>
+</ul>
+<h1 id="enter-nix-1">Enter NIX</h1>
+
+        </span>
+        
+        <div style="padding-top:2%;" >
+        </div>
+            <div style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color);" >
+                <details class="references" style="" >
+                    <summary style="font-size:1.2em;" > References</summary>
+                    <div style="padding:1%;" >
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://ocharles.org.uk/blog/posts/2014-02-04-how-i-develop-with-nixos.html" > https://ocharles.org.uk/blog/posts/2014-02-04-how-i-develop-with-nixos.html </a>
+                        </div>
+                        
+                    </div>
+                    <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <div style="text-align: justify;" >
+                                <div>
+                                    © bresilla (this year 😛). All rights reserved.
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                </div>
+                    <style> @media only screen and (max-width : 768px) { .references { width: 90% !important; } } </style>
+            </div>
+        </div>
+        
+    </article>
+</section>
+
+    
+
+            </div>
+            <footer class="footer">
+  <section class="container">
+    
+        
+        <a href="/quotes"><p>There are more dead people than living, and their numbers are increasing - Eugene Ionesco</p></a>
+        
+    
+  </section>
+</footer>
+
+        </main>
+        
+
+        
+        
+        <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
+        
+        <script type="text/javascript" src="/scripts/coder.js"></script>
+
+    </body>
+</html>

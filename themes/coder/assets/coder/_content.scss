@@ -437,7 +437,7 @@
     }
 }
 
-.page {
+#TableOfContents {
     ul {
         counter-reset: section;
         padding-left: 2%;
@@ -451,6 +451,13 @@
 }
 
 .blogpost {
+    ul {
+        padding-left: 2%;
+    }
+    li {
+        padding: .5%;
+        list-style: circle inside none;
+    }
     ul li:before {
        content: none;
     }

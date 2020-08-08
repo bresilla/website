@@ -108,7 +108,7 @@ disqusShortname = "kushtrimbresilla"
 [[menu.main]]
     name = "blog"
     weight = 4
-    url = "posts/"
+    url = "post/"
 
 [[menu.main]]
     name = "talks"

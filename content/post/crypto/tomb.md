@@ -1,35 +1,31 @@
-+++ 
++++
 type = "post"
 status = "published"
 date = "2020-01-08"
 
-slug = "gpg-yubikey-tomb" 
+slug = "gpg-yubikey-tomb"
 title = "Backing up GPG key with YubiKey, Tomb and Cryptosetup"
 foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
-description= ""
 categories = ["LINUX"]
 series = ["GPG"]
 part="1"
 tags = ["yubikey","gpg","pass", "tomb", "cryptosetup" ]
+
+description= "generate secure GPG keys using secure liunx enviroiment and other secure linux tools"
+punchline = "Identity-based encryption is a type of public-key encryption in which a user can generate a public key from a known unique identifier such as an email address), and a trusted third-party server calculates the corresponding private key from the public key. In this way, there is no need to distribute public keys ahead of exchanging encrypted data. The sender can simply use the unique identifier of the receiver to generate a public key and encrypt the data. "
+
 credits = [
     "https://www.dyne.org/software/tomb/",
     "https://github.com/drduh/YubiKey-Guide",
     "https://spin.atomicobject.com/2013/11/24/secure-gpg-keys-guide/",
 ]
 
+tldr = "Were are gonna generate strong and private GPG keay by using a live environment 'TAILS'. Those keys will serve you for everthing, including singing documents, using as 2FA devices, unlocking computers... Since they are very important, we are gonna see how to back them up securely in a external usb drive, using built-in linux tool called 'cryptosetup'. But before that we are gonna use another layer of security by digging tombs and forging keys."
+
 [style]
     accent = "#8e2a8b"
     theme = "light"
 +++
-
-In this short post, i will show how to generate secure GPG keys using secure liunx enviroiment and other secure linux tools.
-
-Steps that we''ll go through are:
-- Generate a live secure enviroiment (TAILS)
-- Generate GPG-Keys
-- Diging secure tombs and forging keys
-- Backing-up keys and revocation certificates
-- Backing up keys in crypto LUKS drive
 
 # SECURE ENVIRONMENT
 
@@ -56,16 +52,16 @@ Please select what kind of key you want:
   (14) Existing key from card
 Your selection? 8
 --------------------------------
-Possible actions for a RSA key: Sign Certify Encrypt Authenticate 
-Current allowed actions: Sign Certify Encrypt 
+Possible actions for a RSA key: Sign Certify Encrypt Authenticate
+Current allowed actions: Sign Certify Encrypt
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
    (A) Toggle the authenticate capability
    (Q) Finished
 Your selection? E
 --------------------------------
-Possible actions for a RSA key: Sign Certify Encrypt Authenticate 
-Current allowed actions: Sign Certify 
+Possible actions for a RSA key: Sign Certify Encrypt Authenticate
+Current allowed actions: Sign Certify
 
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
@@ -73,8 +69,8 @@ Current allowed actions: Sign Certify
    (Q) Finished
 Your selection? S
 --------------------------------
-Possible actions for a RSA key: Sign Certify Encrypt Authenticate 
-Current allowed actions: Certify 
+Possible actions for a RSA key: Sign Certify Encrypt Authenticate
+Current allowed actions: Certify
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
    (A) Toggle the authenticate capability
@@ -133,7 +129,7 @@ gpg: public key of ultimately trusted key FE80CE51B8A1EE02 not found
 gpg: marginals needed: 3  completes needed: 1  trust model: pgp
 gpg: depth: 0  valid:   3  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 3u
 sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C   
+     created: 2020-01-10  expires: never       usage: C
      trust: ultimate      validity: ultimate
 [ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
 ```
@@ -170,17 +166,17 @@ Key expires at Sat 09 Jan 2021 11:04:05 AM CET
 After the sign subkey is added we get this:
 ```bash
 sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C   
+     created: 2020-01-10  expires: never       usage: C
      trust: ultimate      validity: ultimate
 ssb  rsa4096/9E6A1C2867590559
-     created: 2020-01-10  expires: 2021-01-09  usage: S   
+     created: 2020-01-10  expires: 2021-01-09  usage: S
 [ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
 ```
 
 ### ENCRYPTION SUB-KEY
 
 ```bash
-gpg> addkey                                                                                                                                    
+gpg> addkey
 Please select what kind of key you want:
    (3) DSA (sign only)
    (4) RSA (sign only)
@@ -202,9 +198,9 @@ Requested keysize is 4096 bits
 Please specify how long the key should be valid.
          0 = key does not expire
       <n>  = key expires in n days
-      <n>w = key expires in n weeks 
+      <n>w = key expires in n weeks
       <n>m = key expires in n months
-      <n>y = key expires in n years 
+      <n>y = key expires in n years
 Key is valid for? (0) 1y
 Key expires at Sat 09 Jan 2021 12:20:57 PM CET
 ```
@@ -213,12 +209,12 @@ After the encrypt subkey is added we get this:
 
 ```bash
 sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C   
+     created: 2020-01-10  expires: never       usage: C
      trust: ultimate      validity: ultimate
 ssb  rsa4096/9E6A1C2867590559
-     created: 2020-01-10  expires: 2021-01-09  usage: S   
+     created: 2020-01-10  expires: 2021-01-09  usage: S
 ssb  rsa4096/1FAA09C20C96A6E6
-     created: 2020-01-10  expires: 2021-01-09  usage: E   
+     created: 2020-01-10  expires: 2021-01-09  usage: E
 [ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
 ```
 
@@ -240,32 +236,32 @@ Please select what kind of key you want:
   (14) Existing key from card
 Your selection? 8
 --------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate 
-Current allowed actions: Sign Encrypt 
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions: Sign Encrypt
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
    (A) Toggle the authenticate capability
    (Q) Finished
 Your selection? S
 --------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate 
-Current allowed actions: Encrypt 
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions: Encrypt
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
    (A) Toggle the authenticate capability
    (Q) Finished
 Your selection? E
 --------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate 
-Current allowed actions: 
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions:
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
    (A) Toggle the authenticate capability
    (Q) Finished
 Your selection? A
 --------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate 
-Current allowed actions: Authenticate 
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions: Authenticate
    (S) Toggle the sign capability
    (E) Toggle the encrypt capability
    (A) Toggle the authenticate capability
@@ -289,14 +285,14 @@ Key expires at Sat 09 Jan 2021 12:27:57 PM CET
 After the authentication subkey is added we get this:
 ```bash
 sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C   
+     created: 2020-01-10  expires: never       usage: C
      trust: ultimate      validity: ultimate
 ssb  rsa4096/9E6A1C2867590559
-     created: 2020-01-10  expires: 2021-01-09  usage: S   
+     created: 2020-01-10  expires: 2021-01-09  usage: S
 ssb  rsa4096/1FAA09C20C96A6E6
-     created: 2020-01-10  expires: 2021-01-09  usage: E   
+     created: 2020-01-10  expires: 2021-01-09  usage: E
 ssb  rsa4096/CC964AFC82754FD0
-     created: 2020-01-10  expires: 2021-01-09  usage: A   
+     created: 2020-01-10  expires: 2021-01-09  usage: A
 [ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
 
 ```
@@ -470,21 +466,21 @@ tomb (*) Tomb [subkey] closed: your bones will rest in peace.
 Now that we have the tombs open, we can back up our GPG.
 
 ## PUBICKEY BACKUP
-{{< command >}} 
+{{< command >}}
 gpg --armor --export bruce.wayne@waynecorp.com > $TEMP/public.asc
 {{< /command >}}
 
 ## SUBKEY BACKUP
 From last step, before we close/slam the tomb, we have mounted/opened the tomb on `/media/subkey`, and that's where we are going to back up the SUBKEYS:
 
-{{< command >}} 
+{{< command >}}
 gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/subkey/subkeys.asc
 {{< /command >}}
 
 
 and then we close the tomb:
 
-{{< command >}} 
+{{< command >}}
 tomb close subkey
 {{< /command >}}
 
@@ -497,7 +493,7 @@ tomb (*) Tomb [subkey] closed: your bones will rest in peace.
 ## MASTERKEY BACKUP
 Since we didn't `tomb slam` to close all tombs, we only closed `subkey` tomb with close comand, so we have `master` tomb still open on `/media/subkey`, and that's where we are going to back up the MASTERKEY, and same time, we are going to back up there an INVOCATION CAETIFICATE, in case anytime the master is compromised we can use it, and procedures are the same like for `subkey`:
 
-{{< command >}} 
+{{< command >}}
 gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/master/private.asc
 {{< /command >}}
 
@@ -508,7 +504,7 @@ Now here, we dont close the tomb just yet, as we need to create an invocation ce
 
 To generate an revocation certificate, we use the command: (it will prompt for the GPG pasphrase)
 
-{{< command >}} 
+{{< command >}}
 gpg --armor --gen-revoke bruce.wayne@waynecorp.com > /media/master/revoke.cert
 {{< /command >}}
 
@@ -523,10 +519,10 @@ Please select the reason for the revocation:
   3 = Key is no longer used
   Q = Cancel
 (Probably you want to select 1 here)
-Your decision? 
+Your decision?
 --------------------------------
 Enter an optional description; end it with an empty line:
-> 
+>
 Reason for revocation: Key has been compromised
 (No description given)
 --------------------------------
@@ -536,9 +532,9 @@ Revocation certificate created.
 
 and lastly we close the tomb:
 
-{{< command >}} 
+{{< command >}}
 tomb close master
-{{< /command >}} 
+{{< /command >}}
 
 ```bash
 tomb  .  Closing tomb [master] mounted on /run/media/bresilla/master
@@ -546,21 +542,21 @@ tomb (*) Tomb [master] closed: your bones will rest in peace.
 ```
 
 # CRYPTOLUKS
-{{< command >}} 
+{{< command >}}
 lsblk
-{{< /command >}} 
+{{< /command >}}
 ```
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                               
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         iso9660     2019-04-20-02-16-46-00                              
+sdb         iso9660     2019-04-20-02-16-46-00
 ```
 
 
-{{< command >}} 
+{{< command >}}
 sudo cryptsetup luksFormat /dev/sdb
-{{< /command >}} 
+{{< /command >}}
 ```bash
 WARNING: Device /dev/sdb already contains a 'iso9660' superblock signature.
 WARNING: Device /dev/sdb already contains a 'dos' partition signature.
@@ -571,106 +567,105 @@ Are you sure? (Type uppercase yes): YES
 ```
 
 ```bash
-Enter passphrase for /dev/sdb: 
-Verify passphrase: 
+Enter passphrase for /dev/sdb:
+Verify passphrase:
 ```
 
-{{< command >}} 
+{{< command >}}
 lsblk
-{{< /command >}} 
+{{< /command >}}
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262  
+sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
 ```
 
-{{< command >}} 
+{{< command >}}
 sudo cryptsetup open /dev/sdb usb
-{{< /command >}} 
+{{< /command >}}
 ```bash
 Enter passphrase for /dev/sdb:
 ```
 and `lsblk` gives:
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262                
-└─usb  
+sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
+└─usb
 ```
-{{< command >}} 
+{{< command >}}
 sudo mkfs.btrfs -f /dev/mapper/usb
-{{< /command >}} 
+{{< /command >}}
 
 after format, `lsblk` gives:
 
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262                
-└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194 
+sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
+└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194
 ```
 
-{{< command >}} 
+{{< command >}}
 sudo mount /dev/mapper/usb /media/usb
-{{< /command >}} 
+{{< /command >}}
 
 and after we have the drive mounted in `/media/usb/`
 
-{{< command >}} 
+{{< command >}}
 sudo cp -acp $TEMP/{master.tomb, master.key, subkey.tomb, subkey.key, public.asc} /media/usb/
-{{< /command >}} 
+{{< /command >}}
 
 `lsblk` outputs:
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262                
+sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
 └─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194   15.3G     0% /media/usb
 ```
 
-{{< command >}} 
+{{< command >}}
 sudo umount /media/usb
-{{< /command >}} 
+{{< /command >}}
 
 `lsblk` outputs:
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262                
-└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194  
+sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
+└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194
 ```
-{{< command >}} 
+{{< command >}}
 sudo cryptsetup close usb
-{{< /command >}} 
+{{< /command >}}
 
 `lsblk` outputs:
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262                
+sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
 ```
 
-{{< command >}} 
+{{< command >}}
 udisksctl power-off -b /dev/sdb
-{{< /command >}} 
+{{< /command >}}
 
 `lsblk` outputs:
 ```bash
 NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda                                                                         
+sda
 ├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
 └─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
 ```
-

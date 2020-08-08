@@ -13,10 +13,10 @@
     
     <item>
       <title>Next-Gen system container management</title>
-      <link>/posts/linux/lxd-lxc/</link>
+      <link>/post/linux/lxd-lxc/</link>
       <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/posts/linux/lxd-lxc/</guid>
+      <guid>/post/linux/lxd-lxc/</guid>
       <description>The why? So, lately i&amp;rsquo;ve been deeply involved with *nix&amp;rsquo;s namespaces and cgrpups. I am trying to build ths tool called: tent, which basically at high level is a chroot clone but with modern flare. So it has some automatic mounting points, user directora manupilations etc&amp;hellip;
 Along the way, i got to learn quite a lot how linux handles containers, especially with liblxc. The way i was going with it was by trying to understand how Canonical&amp;rsquo;s lxd (lxc) works.</description>
     </item>
