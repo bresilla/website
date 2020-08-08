@@ -22,6 +22,9 @@ credits = [
     "https://www.linode.com/docs/applications/containers/beginners-guide-to-lxd-reverse-proxy/"
 ]
 
+
+punchline = "Software deployment has been a major problem for decades. On the client side and the server side too. To ease things, containers are in the process of revolutionizing this. Containers integrate smoothly into DevOps; streamlining and stabilizing the move from source code in client side to deployable assets in server side."
+
 [style]
     accent = "#d78700"
     theme = "dark"
@@ -32,12 +35,6 @@ credits = [
 So, lately i've been deeply involved with \*nix's namespaces and cgrpups. I am trying to build ths tool called: [tent](https://github.com/bresilla/tent), which basically at high level is a [chroot](https://wiki.archlinux.org/index.php/Chroot) clone but with modern flare. So it has some automatic mounting points, user directora manupilations etc...
 
 Along the way, i got to learn quite a lot how linux handles containers, especially with ***liblxc***. The way i was going with it was by trying to understand how Canonical's `lxd` (`lxc`) works. And as usual, in order to remeber what i learned, i decided to document it, so here it goes.
-
-
-{{< hide title="Disclaimer !!" >}}
-As per usual, a lot of text is copied and pased from other resources, combined all here in a hot mess of everything (see references the end, everything is properly cited). I use this as notes going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.
-{{< /hide >}}
-
 
 
 # Linux Containers

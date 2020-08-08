@@ -1,7 +1,7 @@
 +++
 type = "post"
 status = "published"
-date = "2019-12-23"
+date = "2020-07-25"
 
 slug = "direnv-nixshel-proji"
 title = "How to manage projexts, the *NIX way!"

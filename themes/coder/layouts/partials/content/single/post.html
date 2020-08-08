@@ -58,13 +58,53 @@
             {{ end }}
         </header>
         <span class="{{ if .Params.type }} blogpost {{ end }}" style=" --titlecolor: var(--accent-color);" >
+            {{ if .Params.punchline }}
+                <div style="padding:3% 0 3% 0">
+                    {{ .Params.punchline }}
+                </div>
+                <div class="hideframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                    <div class="hide_box" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
+                        <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <details>
+                            <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
+                            <div style="padding-top:2em; text-align: justify;" >
+                                <div>
+                                    The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    As per usual, a lot of text is copied and pasted from other resources, combined here in a hot mess of everything, however EVERYTHING is properly cited at the end. I use this as "notes" going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.
+                                </div>
+                            </div>
+                            </details>
+                        </div>
+                    </div>
+                <style> @media only screen and (max-width : 768px) { .hide_box { width: 90% !important; } } </style>
+                </div>
+                {{ if .Params.description }}
+                    <div style="padding-top:2em;text-align: justify;">
+                        In this short post, were gonna talk how to: {{ .Params.description }}
+                    </div>
+                {{ end }}
+                {{ if .Params.tldr }}
+                    <div style="text-align: justify; padding-top:2em;">
+                        <span style="color:var(--accent-color); font-size: 3.2rem; line-height: 3.6rem; text-decoration: underline dashed var(--titlecolor) 2px;">
+                            TL;DR
+                        </span>
+                    <div>
+                    <div style="text-align: justify; padding-top:2em;">
+                        {{ .Params.tldr }}
+                    </div>
+                {{ end }}
+            {{ end }}
             {{ .Content }}
         </span>
         {{ if .Params.credits }}
         <div style="padding-top:2%;" >
+        </div>
             <div style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
                 <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color);" >
-                <details class="references" style="padding-left:2%;" >
+                <details class="references" style="" >
                     <summary style="font-size:1.2em;" > References</summary>
                     <div style="padding:1%;" >
                         {{ range .Params.credits }}
@@ -72,6 +112,19 @@
                             - <a href="{{ . }}" > {{ . }} </a>
                         </div>
                         {{ end }}
+                    </div>
+                    <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <div style="text-align: justify;" >
+                                <div>
+                                    © bresilla (this year 😛). All rights reserved.
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </details>
                 </div>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NIX on bresilla</title>
+    <link>/post/dev/nix/</link>
+    <description>Recent content in NIX on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 07 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/post/dev/nix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using nix-shell as package manager for any language</title>
+      <link>/post/dev/nix/nix-pckgs/</link>
+      <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/dev/nix/nix-pckgs/</guid>
+      <description>Enter NIX It’s difficult to categorize Nix. On the website, it is presented as a “purely functional package manager”. However, it could also be thought of as a programming language, a configuration tool, and a build tool. In a nutshell, Nix expressions are programs written in a purely functional programming language and can return a single derivation or a set of derivations.
+This difficulty to categorize comes due to a few different projects sharing similar names.</description>
+    </item>
+    
+  </channel>
+</rss>

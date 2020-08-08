@@ -1,9 +1,9 @@
-+++ 
++++
 type = "post"
 status = "published"
-date = "2019-12-24"
+date = "2020-06-24"
 
-slug = "direnv-anaconda" 
+slug = "direnv-anaconda"
 title = "Using *direnv* with Anaconda"
 foot = "Artificial Intelligence is no match for natural stupidity - AI itself"
 description = "How to use direnv to manage, arranga, list... projects"
