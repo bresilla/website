@@ -1,0 +1,84 @@
+{{ $number := default "6" ( .Params.number ) }}
+<section class="container list estate">
+    {{ $taxo := false }}
+    <article style="padding-top: 5%;">
+        {{- if eq .Kind "taxonomy" -}}
+            {{ $taxo = true }}
+            <h1 class="title" style="margin:0 !important;"> {{- i18n .Data.Singular | title -}} {{- print ": " -}}</h1>
+        {{- end -}}
+        <h1 class="title glitchtitle" style="margin:0 !important;" data-text="{{ .Title }}">{{ .Title }}</h1>
+        <div class="thelist">
+            {{ $dirr := "" }} {{ with .File }} {{ $dirr = .Dir }} {{ end }}
+            {{ $base := first 1 ( split $dirr "/" ) }}
+            {{ $listt := .Paginator.Pages }}
+            {{ if .Params.folders }}
+                {{ $slicee := where (where .Site.Pages ".Params.type" "in" $base) ".Params.status" "==" "published" }}
+                {{ $listt = slice }}
+                {{ range $slicee }}
+                    {{ $dir2 := "" }} {{ with .File }} {{ $dir2 = .Dir }} {{ end }}
+                    {{ if hasPrefix $dir2 $dirr }}
+                        {{ $listt = $listt | append . }}
+                    {{ end }}
+                {{ end }}
+                {{ $listt = first $number $listt }}
+            {{ else if $taxo }}
+                {{ $listt = where .Paginator.Pages ".Params.status" "==" "published" }}
+            {{ end }}
+            <div class="gridlist" style="padding: 1%; margin-top: 4%;">
+                {{ range $listt }}
+                    {{- partial "content/list/card.html" . -}}
+                {{ end }}
+            </div>
+            {{ partial "pagination.html" . }}
+        </div>
+
+
+        {{ $thedir := "content/" }} {{ with .File }} {{ $thedir = (path.Join $thedir .Dir) }} {{ end }}
+        {{ $actdir := "/" }} {{ with .File }} {{ $actdir = (path.Join $actdir .Dir) }} {{ end }}
+        {{ $curdir := strings.TrimRight "/" $dirr }}
+        {{ $listt = slice }}{{ range (readDir $thedir) }}
+            {{ if .IsDir }}{{ $listt = $listt | append . }}{{ end }}
+        {{ end }}
+        {{ $dirlist := split $actdir "/" }}
+        {{ if .Params.folders }}
+            {{ if gt (len $listt) 0 }}
+                <h3 style="padding-top: 5%; margin:0 !important;">
+                    <span>
+                        Folders on:
+                    </span>
+                    <span>
+                        {{ $list2 := slice }}
+                        {{ range after 1 $dirlist }}
+                            {{ $list2 = $list2 | append "/" . }}
+                            <a href="{{ delimit $list2 "" }}" style="text-decoration:none !important;">
+                                {{ . }}
+                            </a>
+                            /
+                        {{ end }}
+                    </span>
+                </h3>
+                <div class="mainflex" >
+                        <div class="innerflex" >
+                        {{ range $listt }}
+                            <div style="margin:1%; padding:.2%; border-radius: 5px; with:100%; color: var(--bg-color); background-color: var(--accent-color); cursor: pointer;" onclick="flexref('{{ $actdir }}/{{ .Name }}');">
+                                <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.5%;" >
+                                    <i class="far fa-folder" style="padding:.5%; display: block; float: left;"></i>
+                                    <div class="listertitle" style="font-size: 1em;" >{{ .Name }}</div>
+                                    <script type="text/javascript"> function myhref(web) {window.location.href = web;} </script>
+                                </div>
+                            </div>
+                        {{ end }}
+                        </div>
+                    <script type="text/javascript">
+                        function flexref(web) {
+                            window.location.href = web;
+                        }
+                    </script>
+                </div>
+            {{ end }}
+        {{ end }}
+        <div>
+            {{ .Content }}
+        </div>
+    </article>
+</section>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" style="
+     --accent-color:#ffd7d7 ;
+    
+        
+            --bg-color:#080a0f; --fg-color:#c4d0d1;
+        
+     ">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+    Using nix-shell as package manager for any language · bresilla
+</title>
+        <meta name="author" content="Trim Bresilla">
+        <meta name="description" content="Personal website &amp; bolg">
+        <meta name="keywords" content="blog,developer,personal">
+         <base href="/post/software/dev/nix/nix-pckgs/"> 
+         <link rel="canonical" href="/post/software/dev/nix/nix-pckgs/"> 
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+        
+            
+            
+            <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
+        
+
+        
+        
+
+        <link rel="icon" type="image/png" href="/images/favicon.svg">
+        <meta name="generator" content="Hugo 0.86.0" />
+        
+        
+    </head>
+    <body >
+            
+
+        
+            
+                
+                
+                
+            
+        
+
+        
+        
+        <main id="main" class="wrapper nix-pckgs">
+            <nav class="navigation">
+  <section class="container">
+      <label class="title">
+          <a class="navigation-title" href="/">
+              bresilla
+          </a>
+      </label>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">about</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/resume">resume</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/post/">blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/talk/">talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+            <div class="content">
+                
+    
+    
+        <section class="container page estate" >
+    <article>
+        <header>
+            
+                <h1 class="nix-pckgs title glitchtitle"  data-text="Using nix-shell as package manager for any language" >Using nix-shell as package manager for any language</h1>
+            
+            
+            <div class="undertitle" style="padding-left:2%;" >
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
+
+                        
+                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
+                            Category: 
+                            
+                                
+                                
+                                    <a href="/categories/dev/" >DEV</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
+                             Tags: 
+                            
+                                
+                                
+                                <a href="/tags/direnv/" >direnv</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/nix-shell/" >nix-shell</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/package/" >package</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/language/" >language</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        
+                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
+                            Series: 
+                            
+                                
+                                
+                                <a href="/series/nix-shell/" >NIX-SHELL</a>
+                                
+                            
+                            
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART 1&nbsp;</span>
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                    </summary>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#software-development">Software development</a>
+      <ul>
+        <li><a href="#dependencies">Dependencies</a></li>
+        <li><a href="#dependency-hell">Dependency hell</a></li>
+        <li><a href="#the-trap">The trap</a>
+          <ul>
+            <li><a href="#the-app">The App</a></li>
+            <li><a href="#the-trap-1">The Trap</a></li>
+            <li><a href="#the-trouble">The Trouble</a></li>
+          </ul>
+        </li>
+        <li><a href="#froms">Froms</a></li>
+        <li><a href="#so-what-now">So what now??</a></li>
+      </ul>
+    </li>
+    <li><a href="#enter-nix">Enter NIX</a></li>
+    <li><a href="#enter-nix-1">Enter NIX</a></li>
+  </ul>
+</nav>
+                </details>
+            </div>
+            
+        </header>
+        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
+            
+                <div style="padding:3% 0 3% 0; text-align: justify;">
+                    Getting a working development environment is often far from an easy task. Actually, setting up projects can take days before getting everything working together on a development machine.
+                </div>
+                <div class="hideframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                    <div class="hide_box" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
+                        <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <details>
+                            <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
+                            <div style="padding-top:2em; text-align: justify;" >
+                                <div>
+                                    The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    As per usual, a lot of text is copied and pasted from other resources, combined here in a hot mess of everything, however EVERYTHING is properly cited at the end. I use this as "notes" going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.
+                                </div>
+                            </div>
+                            </details>
+                        </div>
+                    </div>
+                <style> @media only screen and (max-width : 768px) { .hide_box { width: 90% !important; } } </style>
+                </div>
+                
+                    <div style="padding-top:2em;text-align: justify;">
+                        In this short post, were gonna talk how to: use NIX tools such as: NixOS itself, nix-shell and nix-pkgs in a development environment.
+                    </div>
+                
+                
+                    <div style="text-align: justify; padding-top:2em;">
+                        <span style="color:var(--accent-color); font-size: 3.2rem; line-height: 3.6rem; text-decoration: underline dashed var(--titlecolor) 2px;">
+                            TL;DR
+                        </span>
+                    <div>
+                    <div style="text-align: justify; padding-top:2em;">
+                        THINGS ARE ABOUT TO GET MESSY
+                    </div>
+                
+            
+            <div style="padding-top:2em; padding-bottom:2em;">
+                <hr size="1" width="60%" style="color: var(--accent-color);">
+            </div>
+
+            <h1 id="software-development">Software development</h1>
+<p>Software design and development is a very complicated process. It is a set of related activities that let to the production of an application or software. Those activites may involve the development of the software from scratch or a more tidious process of modyfiying an existing system.</p>
+<p>Software might be the first kind of knowledge that can be composed. It is hard to develop, but it is often easy to use, and is not even that hard to combine. And the latter is what brings the real magic. It is the closest thing to “building on the shoulders of giants” in the realm of really building stuff.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>A good practice in software design is to build software from smaller, single-purpose modules that exposes well-defined interfaces. This is also in the spirit of software reuse. With the widespread adoption of open source software, often applications or modules depend on other applications and modules. Thus, to build an application we need to bring in all parts on which it depends, including language libraries and remote third-party modules.</p>
+<p>so:</p>
+<div class="textframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+    
+    
+    
+    <div class="textframefill" style="width: 48%; margin: 0 auto; padding: .4%; border-radius: 5px;
+         border: 1px solid var(--accent-color) ;
+        
+             background-color: var(--accent-color) ;
+             color: var(--bg-color) ;
+        
+        " >
+Every applicaiton on a computer implicitly depends on a whole bunch of other things on the same computer.
+</div>
+<style> @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } } </style>
+</div>
+
+
+<p>thus:</p>
+<ul>
+<li>All software exists in a graph of dependencies.</li>
+<li>Most of the time, this graph is implicit.</li>
+</ul>
+<h2 id="dependency-hell">Dependency hell</h2>
+<p>“Dependency hell” is a term for the frustration that arises from problems with transitive (indirect) dependencies.</p>
+<p>Sharing commonly-used code in the form of libraries is one of the key aspects of software development. Ease of sharing code libraries combined with easy discovery build ecosystems is one of the greates value for an ecosystem to be successfully be that a programming language or a framework. There are many good examples like: NodeJS’s npm, Rust’s crates, Python’s PyPI among many of them.</p>
+<p>The big problem is the fact that small even the smallest libraries pull in additional depedencies on which they rely in order to avoid too much code duplication And as those packages or modules or libraries increases in adoption, they get bundled in more and more packages. While this is a nice thing to have, the flip side is that we see multiple levels of dependencies build up as these packages are in turn used by others and those by others.</p>
+<div class="textframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+    
+    
+    
+    <div class="textframefill" style="width: 48%; margin: 0 auto; padding: .4%; border-radius: 5px;
+         border: 1px solid var(--accent-color) ;
+        
+             background-color: var(--accent-color) ;
+             color: var(--bg-color) ;
+        
+        " >
+If not carefull with dependency management, one may end up with a spaghetti of them.
+</div>
+<style> @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } } </style>
+</div>
+
+
+<h2 id="the-trap">The trap</h2>
+<p>Lets just describe a very simple dependency hell [credits goes to <a href="https://medium.com/@simon.maxen/avoiding-dependency-hell-4121d2716918">this guy</a>]:</p>
+<h3 id="the-app">The App</h3>
+<p>We have a deployable application <code>A</code>, that depends on <code>j-1.0</code> and <code>k-1.0</code> which in turn depends on <code>d-1.0</code> and there is only one version of everything and all projects live in their own version control.</p>
+<h3 id="the-trap-1">The Trap</h3>
+<p>Now we have an a new version of <code>j-2.0</code> added to the system that depends on a new version of <code>d-2.0</code>. As application <code>A</code> does not use the new version of <code>j-2.0</code> but still uses <code>j-1.0</code>, everything is still working fine.</p>
+<h3 id="the-trouble">The Trouble</h3>
+<p>The application <code>A</code> developer now wants to use the latest version of <code>j-2.0</code> as it has some great performance improvements. However we now have a problem as <code>j-2.0</code> depends on <code>d-2.0</code> and <code>k-1.0</code> depends on <code>d-1.0</code> but only one version of <code>d</code> can be used.</p>
+<h2 id="froms">Froms</h2>
+<p>Dependeny hell has many forms. The example above is what is calld a diamond dependency. According to Wikipedia there are 6 kind of hell (sorry <a href="https://en.wikipedia.org/wiki/Inferno_(Dante)">Dante</a>):</p>
+<ul>
+<li>Many dependencies</li>
+<li>Long chains of dependencies</li>
+<li>Conflicting dependencies</li>
+<li>Circular dependencies</li>
+<li>Package manager dependencies</li>
+<li>Diamond dependency</li>
+</ul>
+<h2 id="so-what-now">So what now??</h2>
+<p>But it&rsquo;s not trivial to ensure that we have all necessary dependencies, particularly when dependencies themselves depend on others. This is why we need a Dependency Manager.</p>
+<div class="textframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+    
+    
+    
+    <div class="textframefill" style="width: 48%; margin: 0 auto; padding: .4%; border-radius: 5px;
+         border: 1px solid var(--accent-color) ;
+        
+             background-color: var(--accent-color) ;
+             color: var(--bg-color) ;
+        
+        " >
+Dependency management is a technique for declaring, resolving and using dependencies required by the project in an automated fashion.
+</div>
+<style> @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } } </style>
+</div>
+
+
+<p>Dependency managers bring together all necessary project dependencies before passing them to the compiler or interpreter. In this sense, their work is somewhat a preprocessing phase before the actual build happens.</p>
+<h1 id="enter-nix">Enter NIX</h1>
+<p>It’s difficult to categorize Nix. On the website, it is presented as a “purely functional package manager”. However, it could also be thought of as a programming language, a configuration tool, and a build tool. In a nutshell, Nix expressions are programs written in a purely functional programming language and can return a single derivation or a set of derivations.</p>
+<p>This difficulty to categorize comes due to a few different projects sharing similar names. So, lets just touch them breifly before we dig in:</p>
+<ul>
+<li>Nix: A purely functional package manager with the associated programming language called Nix expression.</li>
+<li>NixOS: an operating system that uses the power of Nix and Nix expressions to provide system configuration management.</li>
+<li>Nix-pkgs: the common repository of software that defines how to install rust, go, vim, pip, etc.</li>
+<li>Nix-shell: starts an interactive shell based on a Nix expression that either builds or fetches cached builds of dependencies and adds them to the Nix store.</li>
+<li>Nix-store: is the path where immutable build packages are stored. Since every build/version has its own path, packages are atomic.</li>
+</ul>
+<p>The key take-away of NIS it&rsquo;s deterministic and reproducable builds. Meaning that, given some Nix-expression, it doesn’t matter on what computer or what time you attempt to build it, it will produce the same result. Nix has gone to great lengths to ensure reproducible builds, where not just the project’s direct dependencies are locked, but practically every external dependency up to and including the global system. It formalizes and encapsulates these tools in a way that they are locked to a given version.</p>
+<h1 id="enter-nix-1">Enter NIX</h1>
+
+        </span>
+        
+        <div style="padding-top:2%;" >
+        </div>
+            <div style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color);" >
+                <details class="references" style="" >
+                    <summary style="font-size:1.2em;" > References</summary>
+                    <div style="padding:1%;" >
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://ocharles.org.uk/blog/posts/2014-02-04-how-i-develop-with-nixos.html" > https://ocharles.org.uk/blog/posts/2014-02-04-how-i-develop-with-nixos.html </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://en.wikipedia.org/wiki/Dependency_hell" > https://en.wikipedia.org/wiki/Dependency_hell </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://medium.com/swlh/dependency-management-a6cce61660d" > https://medium.com/swlh/dependency-management-a6cce61660d </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://devopedia.org/dependency-manager" > https://devopedia.org/dependency-manager </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://medium.com/omarelgabrys-blog/software-engineering-software-process-and-software-process-models-part-2-4a9d06213fdc" > https://medium.com/omarelgabrys-blog/software-engineering-software-process-and-software-process-models-part-2-4a9d06213fdc </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://medium.com/@simon.maxen/avoiding-dependency-hell-4121d2716918" > https://medium.com/@simon.maxen/avoiding-dependency-hell-4121d2716918 </a>
+                        </div>
+                        
+                    </div>
+                    <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <div style="text-align: justify;" >
+                                <div>
+                                    © bresilla (this year 😛). All rights reserved.
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                </div>
+                    <style> @media only screen and (max-width : 768px) { .references { width: 90% !important; } } </style>
+            </div>
+        </div>
+        
+    </article>
+</section>
+
+    
+
+            </div>
+            <footer class="footer">
+  <section class="container">
+    
+        
+        <a href="/quotes"><p>There are more dead people than living, and their numbers are increasing - Eugene Ionesco</p></a>
+        
+    
+  </section>
+</footer>
+
+        </main>
+        
+
+        
+        
+        <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
+        
+        <script type="text/javascript" src="/scripts/coder.js"></script>
+        <script type="text/javascript" src="/scripts/hr.js"></script>
+    </body>
+</html>

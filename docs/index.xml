@@ -6,75 +6,91 @@
     <description>Recent content on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running the Nix package manager inside a Docker Container</title>
+      <link>/post/software/dev/nix/docker/</link>
+      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/software/dev/nix/docker/</guid>
+      <description>Creators The Universal Serial Bus (USB) is a specification developed by Compaq, Intel, Microsoft and NEC, joined later by Hewlett-Packard, Lucent and Philips. These companies formed the USB Implementers Forum, Inc as a non-profit corporation to publish the specifications and organise further development in USB.
+Versioning Despite how long the USB standard has been around, the USB standard hasn’t really gone through a whole lot of major versions although there have been quite a few smaller revisions within each version.</description>
+    </item>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Setup a Raspberry Pi as a USB-over-IP server</title>
+      <link>/post/hardware/raspberry/usbip/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/hardware/raspberry/usbip/</guid>
+      <description>Creators The Universal Serial Bus (USB) is a specification developed by Compaq, Intel, Microsoft and NEC, joined later by Hewlett-Packard, Lucent and Philips. These companies formed the USB Implementers Forum, Inc as a non-profit corporation to publish the specifications and organise further development in USB.
+Versioning Despite how long the USB standard has been around, the USB standard hasn’t really gone through a whole lot of major versions although there have been quite a few smaller revisions within each version.</description>
+    </item>
     
     <item>
       <title>Using nix-shell as package manager for any language</title>
-      <link>/post/dev/nix/nix-pckgs/</link>
+      <link>/post/software/dev/nix/nix-pckgs/</link>
       <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/dev/nix/nix-pckgs/</guid>
-      <description>Enter NIX It’s difficult to categorize Nix. On the website, it is presented as a “purely functional package manager”. However, it could also be thought of as a programming language, a configuration tool, and a build tool. In a nutshell, Nix expressions are programs written in a purely functional programming language and can return a single derivation or a set of derivations.
-This difficulty to categorize comes due to a few different projects sharing similar names.</description>
+      <guid>/post/software/dev/nix/nix-pckgs/</guid>
+      <description>Software development Software design and development is a very complicated process. It is a set of related activities that let to the production of an application or software. Those activites may involve the development of the software from scratch or a more tidious process of modyfiying an existing system.
+Software might be the first kind of knowledge that can be composed. It is hard to develop, but it is often easy to use, and is not even that hard to combine.</description>
     </item>
     
     <item>
       <title>Next-Gen system container management</title>
-      <link>/post/linux/lxd-lxc/</link>
+      <link>/post/software/chroot/lxd-lxc/</link>
       <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/linux/lxd-lxc/</guid>
+      <guid>/post/software/chroot/lxd-lxc/</guid>
       <description>The why? So, lately i&amp;rsquo;ve been deeply involved with *nix&amp;rsquo;s namespaces and cgrpups. I am trying to build ths tool called: tent, which basically at high level is a chroot clone but with modern flare. So it has some automatic mounting points, user directora manupilations etc&amp;hellip;
 Along the way, i got to learn quite a lot how linux handles containers, especially with liblxc. The way i was going with it was by trying to understand how Canonical&amp;rsquo;s lxd (lxc) works.</description>
     </item>
     
     <item>
       <title>How to manage projexts, the *NIX way!</title>
-      <link>/post/dev/direnv-nixshel-proji/</link>
+      <link>/post/software/dev/direnv-nixshel-proji/</link>
       <pubDate>Sat, 25 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/dev/direnv-nixshel-proji/</guid>
+      <guid>/post/software/dev/direnv-nixshel-proji/</guid>
       <description>@media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } }    Rofi menu: Listing all active projects   Finished skills smething goes here    @media only screen and (max-width : 768px) { .textframefill { width: 90% !important; } }   Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content.</description>
     </item>
     
     <item>
       <title>Using *direnv* with Anaconda</title>
-      <link>/post/dev/direnv-anaconda/</link>
+      <link>/post/software/dev/direnv-anaconda/</link>
       <pubDate>Wed, 24 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/dev/direnv-anaconda/</guid>
+      <guid>/post/software/dev/direnv-anaconda/</guid>
       <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
 We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
     </item>
     
     <item>
       <title>Hosting a website in the Inter Planetary File System</title>
-      <link>/post/linux/web-ipfs/</link>
+      <link>/post/software/web-ipfs/</link>
       <pubDate>Thu, 23 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/linux/web-ipfs/</guid>
-      <description>THE WHY Here is the thing, I have no secrets of my own! Zero, zilch, zip, nada, nothing. However, this does not mean I am open to anyone to browse what I do and how I do. I like my life to be private. If somebody asks me anything (even a personal query), and if I find it reasonable (which most of the cases I do), I give the answer. I am very careful about what share and how I share.</description>
+      <guid>/post/software/web-ipfs/</guid>
+      <description>The why Here is the thing, I have no secrets of my own! Zero, zilch, zip, nada, nothing. However, this does not mean I am open to anyone to browse what I do and how I do. I like my life to be private. If somebody asks me anything (even a personal query), and if I find it reasonable (which most of the cases I do), I give the answer. I am very careful about what share and how I share.</description>
     </item>
     
     <item>
       <title>Backing up GPG key with YubiKey, Tomb and Cryptosetup</title>
-      <link>/post/crypto/gpg-yubikey-tomb/</link>
+      <link>/post/software/crypto/gpg-yubikey-tomb/</link>
       <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/crypto/gpg-yubikey-tomb/</guid>
+      <guid>/post/software/crypto/gpg-yubikey-tomb/</guid>
       <description>SECURE ENVIRONMENT Lets make a working folder where we create file, keys, tombs ad so on. Lets call it /home/$USER/TEMP and export as variable export GPGPATH=/home/$USER/TEMP
 GPG-KEYS MASTERKEY  .commandframeholder { position: relative; } .commandframeholder::after { content: &#39;&#39;; width: 100%; height: 100%; background-color: var(--accent-color) ; opacity: 0.3; position: absolute; border-radius: 5px; top: 0; left: 0; z-index: -1; }  &amp;nbsp;&amp;nbsp;$&amp;nbsp;&amp;nbsp; gpg --expert --full-generate-key   Please select what kind of key you want: (1) RSA and RSA (default) (2) DSA and Elgamal (3) DSA (sign only) (4) RSA (sign only) (7) DSA (set your own capabilities) (8) RSA (set your own capabilities) (9) ECC and ECC (10) ECC (sign only) (11) ECC (set your own capabilities) (13) Existing key (14) Existing key from card Your selection?</description>
     </item>
     
     <item>
       <title>Guide to using YubiKey for GPG and SSH</title>
-      <link>/post/crypto/yubi-key-gpg/</link>
+      <link>/post/software/crypto/yubi-key-gpg/</link>
       <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/crypto/yubi-key-gpg/</guid>
+      <guid>/post/software/crypto/yubi-key-gpg/</guid>
       <description>Disclaimer !! This is not a post of mine. Its completely A to Z copy and paste from the amazing drduh (https://github.com/drduh) post (link in the title). This is too amazing to be left just in one place, the interent is very fragile place, it might get broken anytime, so haveing in two places is better, ironic right?? This is internet too, but whatever fude. And is faster for me to find it.</description>
     </item>
     

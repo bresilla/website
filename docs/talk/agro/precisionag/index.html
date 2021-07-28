@@ -31,7 +31,7 @@
         
 
         <link rel="icon" type="image/png" href="/images/favicon.svg">
-        <meta name="generator" content="Hugo 0.74.0" />
+        <meta name="generator" content="Hugo 0.86.0" />
         
         
     </head>
@@ -50,7 +50,7 @@
     <link rel="stylesheet" href="/reveal-js/css/reveal.css">
 
     
-    <link rel="stylesheet" href="/css/slide_theme.min.4adaea7566152113b5417b496d7fcb4b9d69cd657a96586155f8ee5fe588e636.css" id="theme"><link rel="stylesheet" href="/highlight-js/arta.min.css">
+    <link rel="stylesheet" href="/css/slide_theme.min.a99359142a754c13f3ffef5476ec0d6c60fa92ba73a6ac3614df9dd2259570ff.css" id="theme"><link rel="stylesheet" href="/highlight-js/arta.min.css">
 
     <div class="reveal bordeline">
         <div class="line top"></div>
@@ -92,13 +92,13 @@
 No separate build process is required, which means you can iterate on your theme and your content at the same time.</p>
 </section><section>
 <p>To set a custom theme and use Hugo to compile it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">reveal_hugo</span><span class="p">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">reveal_hugo</span><span class="p">]</span>
 <span class="nx">custom_theme</span> <span class="p">=</span> <span class="s2">&#34;custom-theme.scss&#34;</span>
 <span class="nx">custom_theme_compile</span> <span class="p">=</span> <span class="kc">true</span>
 </code></pre></div><p><code>custom-theme.scss</code> must live in the <code>assets</code> folder.</p>
 </section><section>
 <p>To pass compilation options, use the <code>custom_theme_options</code> param:</p>
-<div class="highlight"><pre class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">reveal_hugo</span><span class="p">.</span><span class="nx">custom_theme_options</span><span class="p">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-toml" data-lang="toml"><span class="p">[</span><span class="nx">reveal_hugo</span><span class="p">.</span><span class="nx">custom_theme_options</span><span class="p">]</span>
 <span class="nx">targetPath</span> <span class="p">=</span> <span class="s2">&#34;css/custom-theme.css&#34;</span>
 <span class="nx">enableSourceMap</span> <span class="p">=</span> <span class="kc">true</span>
 </code></pre></div><p>See all the <a href="https://gohugo.io/hugo-pipes/scss-sass/#options">available options</a>.</p>
@@ -110,7 +110,7 @@ No separate build process is required, which means you can iterate on your theme
 <p>Note: to use a custom theme that doesn&rsquo;t need compilation, put it in the <code>static</code> directory and do not set the <code>custom_theme_compile</code> parameter. It will be served to the browser directly.</p>
 </section><section>
 <p>Write a custom Reveal.js theme in four steps:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">1. Import `mixins` and `settings` from the templates directory
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">1. Import `mixins` and `settings` from the templates directory
 2. Override variables and functions for colors, fonts and sizes
 3. Import `theme` from the templates directory
 4. Add any additional selectors to override the built CSS
@@ -184,6 +184,6 @@ No separate build process is required, which means you can iterate on your theme
         <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
         
         <script type="text/javascript" src="/scripts/coder.js"></script>
-
+        <script type="text/javascript" src="/scripts/hr.js"></script>
     </body>
 </html>

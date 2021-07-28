@@ -1,336 +1,250 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/categories/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/categories/dev/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/dev/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/software/dev/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/docker/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/linux/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/nix/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/software/dev/nix/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/nix/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/type/post/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/software/dev/nix/docker/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/software/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/type/</loc>
+    <lastmod>2021-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/fuse/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/categories/fuse/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/hardware/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/hardware/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/network/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/hardware/raspberry/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/post/hardware/raspberry/usbip/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/series/usb/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/usb/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/usbip/</loc>
+    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/direnv/</loc>
     <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/language/</loc>
     <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/dev/nix/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/series/nix-shell/</loc>
     <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/nix-shell/</loc>
     <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/package/</loc>
     <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/type/post/</loc>
+  </url><url>
+    <loc>/post/software/dev/nix/nix-pckgs/</loc>
     <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/series/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/type/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/dev/nix/nix-pckgs/</loc>
-    <lastmod>2020-08-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/cgrpups/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>/post/software/chroot/</loc>
+    <lastmod>2020-08-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/container/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/series/containers/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/categories/linux/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/linux/</loc>
-    <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/lxc/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/lxd/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/namespace/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/linux/lxd-lxc/</loc>
+  </url><url>
+    <loc>/post/software/chroot/lxd-lxc/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/wm/</loc>
     <lastmod>2020-08-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/series/direnv/</loc>
     <lastmod>2020-07-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/dev/direnv-nixshel-proji/</loc>
+  </url><url>
+    <loc>/post/software/dev/direnv-nixshel-proji/</loc>
     <lastmod>2020-07-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/proji/</loc>
     <lastmod>2020-07-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/anaconda/</loc>
     <lastmod>2020-06-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/python/</loc>
     <lastmod>2020-06-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/dev/direnv-anaconda/</loc>
+  </url><url>
+    <loc>/post/software/dev/direnv-anaconda/</loc>
     <lastmod>2020-06-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/blockchain/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/crypto/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/gpg/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/linux/web-ipfs/</loc>
+  </url><url>
+    <loc>/post/software/web-ipfs/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/series/ipfs/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/ipfs/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/p2p/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/website/</loc>
     <lastmod>2020-01-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/crypto/gpg-yubikey-tomb/</loc>
+  </url><url>
+    <loc>/post/software/crypto/gpg-yubikey-tomb/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/crypto/</loc>
+  </url><url>
+    <loc>/post/software/crypto/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/cryptosetup/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/series/gpg/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/crypto/yubi-key-gpg/</loc>
+  </url><url>
+    <loc>/post/software/crypto/yubi-key-gpg/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/pass/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/tomb/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/yubikey/</loc>
     <lastmod>2020-01-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/talk/agro/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/agriculture/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/categories/agro/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/series/pom/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/precision/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/talk/agro/precisionag/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/resume/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/type/resume/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/type/talk/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/talk/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/tags/templte/</loc>
     <lastmod>2016-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/logo/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/pgp/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/about/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/talk/code/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/folder/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/type/front/</loc>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>/post/hardware/hacking/</loc>
+  </url><url>
     <loc>/quotes/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/progress/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>/lists/</loc>
   </url>
-  
 </urlset>

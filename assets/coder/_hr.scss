@@ -1,0 +1,85 @@
+//hr colors
+$barColor:      var(--fg-color);
+$barColorHover: var(--accent-color);
+$barTextColor:  var(--accent-color);
+
+//hr size
+$barHeight:      2px;
+$barHeightHover: 2px;
+
+//hr transition
+$barTransition: .5s;
+
+
+.progress_hr { 
+  border: none;
+  height: $barHeight;
+  width: 100%;
+  // background: $barColor;
+  $color: var(--accent-color);
+  color: $color;
+  background-image: linear-gradient(
+    90deg,
+    currentColor,
+    currentColor 33.33%,
+    transparent 33.33%,
+    transparent 100%);
+  background-size: 12px 100%;
+  margin: 0;
+  border-top: 35px solid var(--bg-color);
+  border-bottom: 35px solid var(--bg-color);
+  transition: $barTransition;
+  &::before, 
+  &::after {
+    opacity: 0;
+    font-size: .65em;
+    margin-top: 12px;
+    width: 50%;
+    text-align: center;
+    color: $barTextColor;
+    position: absolute;
+    transition: $barTransition;
+  }
+  &::before {
+    content: attr(data-percent);
+    left: 20px;
+    width: 100%;
+    border-top: 30px solid transparent;
+    margin-top: -18px;
+    transform: translateY(5px);
+  } 
+  &::after {
+    content: attr(data-readtime);
+    right: 20px;
+    transform: translateY(5px);
+  }
+  
+  &:hover {
+    &::before, 
+    &::after {
+      opacity: 1;
+      transition: $barTransition;
+    }
+    &::before {
+      transform: translateY(-5px);
+    }
+    &::after {
+      transform: translateY(-5px);
+    }
+  }
+  
+  &.active {
+    height: $barHeightHover;
+    background: $barColorHover;
+  }
+  &.nactive {
+    height: $barHeightHover;
+    background: rgba(200, 54, 54, 0.2);
+  }
+} 
+
+.explanation {
+  position: absolute;
+  font-size: .6em;
+  color: #919191;
+}

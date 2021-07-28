@@ -1,0 +1,9 @@
+<label for="sn-proprietary-monotype-bembo" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="sn-proprietary-monotype-bembo" class="margin-toggle"/>
+<span class="sidenote" style="padding: 0 2% 0 2%;"> 
+        {{ if (.Get "link") }}
+            <a href='{{ .Get "link" }}'>{{ .Inner }}</a>
+        {{ else }}
+            {{ .Inner }}
+        {{ end }}
+</span>

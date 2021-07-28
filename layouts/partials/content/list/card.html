@@ -1,0 +1,20 @@
+<a class="p-2" href="{{ .Permalink }}">
+    <div class="relative" style="background-color:{{ .Params.style.accent }};">
+        {{ $theme := "#000000" }}
+        {{ if eq .Params.style.theme "light" }} {{ $theme = "#FFFFFF" }} {{ end }}
+        <div class="card_box" style="border: .1em dashed {{ $theme }};">
+            {{ if .Params.thumbnail }}
+            <img src="{{ .Params.thumbnail }}" alt="{{ .Params.title }}" class="card_image" />
+            {{ else }}
+            <img src="https://picsum.photos/id/1015/400/250" alt="{{ .Params.title }}" class="card_image" />
+            {{ end }}
+            <div class="card_date" style="background-color:{{ .Params.style.accent }}; color: {{ $theme }};"> 
+                {{ .Params.date.Format "Jan 2, 06" }} 
+            </div>
+            <div class="card_time" style="background-color:{{ .Params.style.accent }}; color: {{ $theme }};">
+                <i class="fas fa-clock"></i> {{ .ReadingTime }}' 
+            </div>
+            <div class="card_title" style="color: {{ $theme }} ">{{ .Params.title }}</div>
+        </div>
+    </div>
+</a>

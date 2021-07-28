@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" style="
+     --accent-color:#a9771f ;
+    
+        
+            --bg-color:#c4d0d1; --fg-color:#080a0f;
+        
+     ">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+    Running the Nix package manager inside a Docker Container · bresilla
+</title>
+        <meta name="author" content="Trim Bresilla">
+        <meta name="description" content="Personal website &amp; bolg">
+        <meta name="keywords" content="blog,developer,personal">
+         <base href="/post/software/dev/nix/docker/"> 
+         <link rel="canonical" href="/post/software/dev/nix/docker/"> 
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+        
+            
+            
+            <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
+        
+
+        
+        
+
+        <link rel="icon" type="image/png" href="/images/favicon.svg">
+        <meta name="generator" content="Hugo 0.86.0" />
+        
+        
+    </head>
+    <body >
+            
+
+        
+            
+                
+                
+                
+            
+        
+
+        
+        
+        <main id="main" class="wrapper docker">
+            <nav class="navigation">
+  <section class="container">
+      <label class="title">
+          <a class="navigation-title" href="/">
+              bresilla
+          </a>
+      </label>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">about</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/resume">resume</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/post/">blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/talk/">talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+            <div class="content">
+                
+    
+    
+        <section class="container page estate" >
+    <article>
+        <header>
+            
+                <h1 class="docker title glitchtitle"  data-text="Running the Nix package manager inside a Docker Container" >Running the Nix package manager inside a Docker Container</h1>
+            
+            
+            <div class="undertitle" style="padding-left:2%;" >
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
+
+                        
+                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
+                            Category: 
+                            
+                                
+                                
+                                    <a href="/categories/dev/" >DEV</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
+                             Tags: 
+                            
+                                
+                                
+                                <a href="/tags/docker/" >docker</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/linux/" >linux</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/nix/" >nix</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        
+                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
+                            Series: 
+                            
+                                
+                                
+                                <a href="/series/nix/" >NIX</a>
+                                
+                            
+                            
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART 1&nbsp;</span>
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                    </summary>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#creators">Creators</a></li>
+    <li><a href="#versioning">Versioning</a></li>
+    <li><a href="#standards">Standards</a>
+      <ul>
+        <li><a href="#host-is-master">Host is Master</a></li>
+        <li><a href="#on-the-go">On-The-Go</a></li>
+        <li><a href="#other-standards">Other standards</a>
+          <ul>
+            <li><a href="#wusb-wireless">WUSB (Wireless)</a></li>
+            <li><a href="#usb-pd-power-delivery">USB PD (Power Delivery)</a></li>
+            <li><a href="#usb-alt-mode">USB Alt Mode</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#usbip">USB/IP</a>
+      <ul>
+        <li><a href="#setting-up-the-usbip-server">Setting up the USB/IP server</a>
+          <ul>
+            <li><a href="#server-requirements">Server Requirements</a></li>
+            <li><a href="#server-process">Server Process</a></li>
+          </ul>
+        </li>
+        <li><a href="#setting-up-the-usbip-client">Setting up the USB/IP client</a>
+          <ul>
+            <li><a href="#client-requirements">Client Requirements</a></li>
+            <li><a href="#client-process">Client Process</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+                </details>
+            </div>
+            
+        </header>
+        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
+            
+                <div style="padding:3% 0 3% 0; text-align: justify;">
+                    To share USB devices between computers with their full functionality, USB/IP encapsulates &#39;USB I/O messages&#39; into TCP/IP payloads and transmits them between computers. USB-over-IP can be useful for virtual machines, for example, that don&#39;t have access to the host system&#39;s hardware - USB-over-IP allows virtual machines to use remote USB devices.
+                </div>
+                <div class="hideframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                    <div class="hide_box" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
+                        <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <details>
+                            <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
+                            <div style="padding-top:2em; text-align: justify;" >
+                                <div>
+                                    The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    As per usual, a lot of text is copied and pasted from other resources, combined here in a hot mess of everything, however EVERYTHING is properly cited at the end. I use this as "notes" going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.
+                                </div>
+                            </div>
+                            </details>
+                        </div>
+                    </div>
+                <style> @media only screen and (max-width : 768px) { .hide_box { width: 90% !important; } } </style>
+                </div>
+                
+                    <div style="padding-top:2em;text-align: justify;">
+                        In this short post, were gonna talk how to: setup a Raspberry Pi or any Linux server for that matter, to share it&#39;s existing usb port through network (USB-over-IP server) and how to access it from another computer (USB-over-IP client)
+                    </div>
+                
+                
+                    <div style="text-align: justify; padding-top:2em;">
+                        <span style="color:var(--accent-color); font-size: 3.2rem; line-height: 3.6rem; text-decoration: underline dashed var(--titlecolor) 2px;">
+                            TL;DR
+                        </span>
+                    <div>
+                    <div style="text-align: justify; padding-top:2em;">
+                        THINGS ARE ABOUT TO GET MESSY
+                    </div>
+                
+            
+            <div style="padding-top:2em; padding-bottom:2em;">
+                <hr size="1" width="60%" style="color: var(--accent-color);">
+            </div>
+
+            <h1 id="creators">Creators</h1>
+<p>The Universal Serial Bus (USB) is a specification developed by Compaq, Intel, Microsoft and NEC, joined later by Hewlett-Packard, Lucent and Philips. These companies formed the USB Implementers Forum, Inc as a non-profit corporation to publish the specifications and organise further development in USB.</p>
+<h1 id="versioning">Versioning</h1>
+<p>Despite how long the USB standard has been around, the USB standard hasn’t really gone through a whole lot of major versions although there have been quite a few smaller revisions within each version. Either way, the most important information you’ll probably want to know about a USB version is its maximum theoretical bandwidth/speed.</p>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>AKA</th>
+<th>Year</th>
+<th>Speed</th>
+<th>Connector</th>
+<th>Power</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB 1.1</td>
+<td>Basic Speed USB</td>
+<td>1995</td>
+<td>12 Mbps</td>
+<td>USB-A USB-B</td>
+<td>2.5W</td>
+</tr>
+<tr>
+<td>USB 2.0</td>
+<td>Hi-Speed USB</td>
+<td>2000</td>
+<td>480 Mbps</td>
+<td>USB-A USB-B USB Micro-A USB Micro-B USB Mini-A USB Mini-B</td>
+<td>2.5W</td>
+</tr>
+<tr>
+<td>USB 3.2 Gen 1</td>
+<td>USB 3.0 USB 3.1 Gen 1 SuperSpeed USB</td>
+<td>2008</td>
+<td>5 Gbps</td>
+<td>USB-A USB-B USB Micro-B USB-C</td>
+<td>4.5W</td>
+</tr>
+<tr>
+<td>USB 3.2 Gen 2</td>
+<td>USB 3.0 USB 3.1 Gen 1 SuperSpeed USB</td>
+<td>2013</td>
+<td>10 Gbps</td>
+<td>USB-A USB-B USB Micro-B USB-C</td>
+<td>100W</td>
+</tr>
+<tr>
+<td>USB 3.2 Gen 2x2</td>
+<td>USB 3.2 SuperSpeed USB 20Gbps</td>
+<td>2017</td>
+<td>20 Gbps</td>
+<td>USB-C</td>
+<td>100W</td>
+</tr>
+<tr>
+<td>USB 4</td>
+<td>USB 4</td>
+<td>2019</td>
+<td>40 Gbps</td>
+<td>USB-C</td>
+<td>100W</td>
+</tr>
+</tbody>
+</table>
+
+<div class="imageframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%);" >
+    <div class="imageimageframe" style="
+        width: 100%;
+        height:100%;
+        margin: 0 auto;">
+         <hr class="progress_hr" />
+    </div>
+</div>
+
+<h1 id="standards">Standards</h1>
+<p>One<label for="sn-proprietary-monotype-bembo" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="sn-proprietary-monotype-bembo" class="margin-toggle"/>
+<span class="sidenote" style="padding: 0 2% 0 2%;"> 
+        
+            <a href='http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt'> well this is odd </a>
+        
+</span>
+</p>
+<h2 id="host-is-master">Host is Master</h2>
+<p>All communications of this standard are initiated by the host. This means, for example, that there can be no communication directly between USB devices.</p>
+<p>A device cannot initiate a transfer, but must wait to be asked to transfer data by the host. The only exception to this is when a device has been put into &lsquo;suspend&rsquo; (a low power state) by the host then the device can signal a &lsquo;remote wakeup&rsquo;.</p>
+<h2 id="on-the-go">On-The-Go</h2>
+<p>An extension to the USB specification has been defined, to allow a device to also become a limited role host. USB OTG allows mobile devices such as a smartphone or tablet to act as a host to other USB devices such as flash drives, keyboards and mice. With USB OTG, a mobile device can utilize the functionality of the peripherals while still being able to connect to a computer and present itself as a mass storage device to be used on the computer.</p>
+<h2 id="other-standards">Other standards</h2>
+<p>On the most basic level, USB standards simply let a host, such as your computer or tablet, communicate with peripherals and other devices. But as specifications evolve, USB has become more than a mere data interface. Below are the latest USB functions available on many of today&rsquo;s devices. A device may support one or more of these functions:</p>
+<h3 id="wusb-wireless">WUSB (Wireless)</h3>
+<p>A short range  high speed radio communications protocol ( 480 Mbit/s up to 3 m and 110 Mbit/s up to 10 ) which seems to aim to compete with Bluetooth and Wi-Fi.</p>
+<h3 id="usb-pd-power-delivery">USB PD (Power Delivery)</h3>
+<p>Up to 100W of power can be delivered across a single USB cable, eliminating the need for a separate power brick. This is especially useful for peripherals that draw higher power levels, such as hard drives and printers. Not all devices will support USB Power Delivery, however; consult your device&rsquo;s specifications chart or owner&rsquo;s manual if you are uncertain.</p>
+<h3 id="usb-alt-mode">USB Alt Mode</h3>
+<p>With Alt Mode, USB-C connectors and cables have the ability to transmit both USB data and VGA, DVI, HDMI or DisplayPort video and/or audio. Adapters are available to connect DisplayPort over USB-C to VGA, DVI, HDMI and DisplayPort monitors. DisplayPort Alt Mode does not require the use of drivers, making it plug-and-play.</p>
+
+<div class="imageframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%);" >
+    <div class="imageimageframe" style="
+        width: 100%;
+        height:100%;
+        margin: 0 auto;">
+         <hr class="progress_hr" />
+    </div>
+</div>
+
+<h1 id="usbip">USB/IP</h1>
+<p>USB/IP Project aims to develop a general USB device sharing system over IP network. To share USB devices between computers with their full functionality, USB/IP encapsulates &ldquo;USB I/O messages&rdquo; into TCP/IP payloads and transmits them between computers.</p>
+<p>The goal here is to create a USB over IP service on a Raspberry Pi, plug the USB radio(s) into the Pi, then place that device on your network somewhere close to the controlled devices. Then Home Assistant can run wherever you like while controlling your devices over an IP link to the radio(s).</p>
+<h2 id="setting-up-the-usbip-server">Setting up the USB/IP server</h2>
+<h3 id="server-requirements">Server Requirements</h3>
+<ul>
+<li>Raspberry Pi running Rasbian (or something like it)
+<label for="mn-figure-1" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-figure-1" class="margin-toggle"/>
+<span class="marginnote">
+    <div style="padding: 0 2% 0 2%;">
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn-learn.adafruit.com%2Fassets%2Fassets%2F000%2F017%2F954%2Fmedium800%2Fraspberry_pi_Pi_side_01_ORIG.jpg%3F1405293037&amp;f=1&amp;nofb=1" alt=""/>
+        
+Raspberry Pi and USB ports
+
+    </div>
+</span>
+</li>
+<li>USB dongle to share</li>
+</ul>
+<h3 id="server-process">Server Process</h3>
+<p>SSH to raspbian and execute the following commands:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">sudo -s
+lsusb
+</code></pre></div><p>lsusb should show a list of attached USB devices, here’s what mine looks like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Bus 001 Device 006: ID 10c4:8a2a Cygnal Integrated Products, Inc.
+Bus 001 Device 005: ID 0557:2306 ATEN International Co., Ltd
+Bus 001 Device 004: ID 0781:5583 SanDisk Corp.
+Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. SMSC9512/9514 Fast Ethernet Adapter
+Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp.
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+</code></pre></div><p>We’re looking for the device identifier for the USB radio, which in my case is that Cygnal Integrated Products, Inc. device with an ID of 10c4:8a2a. We’ll then setup a systemd service definition that is going to search for that device string and attach it to the USBIPd service. If you’re using a different USB device, change the device ID in the lines below for ExecStartPost and ExecStop</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Install usbip and setup the kernel module to load at startup</span>
+apt-get install usbip
+modprobe usbip_host
+<span class="nb">echo</span> <span class="s1">&#39;usbip_host&#39;</span> &gt;&gt; /etc/modules
+
+<span class="c1"># Create a systemd service</span>
+vi /lib/systemd/system/usbipd.service
+</code></pre></div><p>Copy and paste the following service definition:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>usbip host daemon
+<span class="nv">After</span><span class="o">=</span>network.target
+
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">Type</span><span class="o">=</span>forking
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/sbin/usbipd -D
+<span class="nv">ExecStartPost</span><span class="o">=</span>/bin/sh -c <span class="s2">&#34;/usr/sbin/usbip bind --</span><span class="k">$(</span>/usr/sbin/usbip list -p -l <span class="p">|</span> grep <span class="s1">&#39;#usbid=10c4:8a2a#&#39;</span> <span class="p">|</span> cut <span class="s1">&#39;-d#&#39;</span> -f1<span class="k">)</span><span class="s2">&#34;</span>
+<span class="nv">ExecStop</span><span class="o">=</span>/bin/sh -c <span class="s2">&#34;/usr/sbin/usbip unbind --</span><span class="k">$(</span>/usr/sbin/usbip list -p -l <span class="p">|</span> grep <span class="s1">&#39;#usbid=10c4:8a2a#&#39;</span> <span class="p">|</span> cut <span class="s1">&#39;-d#&#39;</span> -f1<span class="sb">`</span><span class="o">)</span><span class="p">;</span> killall usbipd<span class="s2">&#34;
+</span><span class="s2">
+</span><span class="s2">[Install]
+</span><span class="s2">WantedBy=multi-user.target
+</span></code></pre></div><p>Save that file, then run the following commands in your shell:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># reload systemd, enable, then start the service</span>
+sudo systemctl --system daemon-reload
+sudo systemctl <span class="nb">enable</span> usbipd.service
+sudo systemctl start usbipd.service
+</code></pre></div><h2 id="setting-up-the-usbip-client">Setting up the USB/IP client</h2>
+<h3 id="client-requirements">Client Requirements</h3>
+<ul>
+<li>Linux server/desktop (Tested on Ubuntu server 17.04. There are some Windows builds but I couldn’t get any of them to work reliably under Win10/Server 2016)</li>
+<li>IP address of your RPi running as a server. Here I’m using 192.168.0.10.</li>
+</ul>
+<h3 id="client-process">Client Process</h3>
+<p>SSH to the Linux server and execute the following commands:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo -s
+apt-get install linux-tools-generic -y
+modprobe vhci-hcd
+<span class="nb">echo</span> <span class="s1">&#39;vhci-hcd&#39;</span> &gt;&gt; /etc/modules
+</code></pre></div><p>Much like we did on the server, we’re going to need to modify the ExecStart and ExecStop lines below to search for the correct USB device ID that’s being presented by your USB/IP server. Likewise, change the IP 192.168.0.10 to match your RPi USB server.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">vi /lib/systemd/system/usbip.service
+</code></pre></div><p>Copy and paste the following service definition:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>Unit<span class="o">]</span>
+<span class="nv">Description</span><span class="o">=</span>usbip client
+<span class="nv">After</span><span class="o">=</span>network.target
+
+<span class="o">[</span>Service<span class="o">]</span>
+<span class="nv">Type</span><span class="o">=</span>oneshot
+<span class="nv">RemainAfterExit</span><span class="o">=</span>yes
+<span class="nv">ExecStart</span><span class="o">=</span>/bin/sh -c <span class="s2">&#34;/usr/lib/linux-tools/</span><span class="k">$(</span>uname -r<span class="k">)</span><span class="s2">/usbip attach -r 192.168.0.10 -b </span><span class="k">$(</span>/usr/lib/linux-tools/<span class="k">$(</span>uname -r<span class="k">)</span>/usbip list -r 192.168.0.10 <span class="p">|</span> grep <span class="s1">&#39;10c4:8a2a&#39;</span> <span class="p">|</span> cut -d: -f1<span class="k">)</span><span class="s2">&#34;</span>
+<span class="nv">ExecStop</span><span class="o">=</span>/bin/sh -c <span class="s2">&#34;/usr/lib/linux-tools/</span><span class="k">$(</span>uname -r<span class="k">)</span><span class="s2">/usbip detach --port=</span><span class="k">$(</span>/usr/lib/linux-tools/<span class="k">$(</span>uname -r<span class="k">)</span>/usbip port <span class="p">|</span> grep <span class="s1">&#39;&lt;Port in Use&gt;&#39;</span> <span class="p">|</span> sed -E <span class="s1">&#39;s/^Port ([0-9][0-9]).*/\1/&#39;</span><span class="k">)</span><span class="s2">&#34;</span>
+
+<span class="o">[</span>Install<span class="o">]</span>
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</code></pre></div><p>Save that file, then run the following commands in your shell:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># reload systemd, enable, then start the service</span>
+sudo systemctl --system daemon-reload
+sudo systemctl <span class="nb">enable</span> usbip.service
+sudo systemctl start usbip.service
+</code></pre></div><p>You should now be able to access the USB device over the network as if the device was plugged in locally, and you have an auto-starting systemd service to control things.)</p>
+
+        </span>
+        
+        <div style="padding-top:2%;" >
+        </div>
+            <div style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color);" >
+                <details class="references" style="" >
+                    <summary style="font-size:1.2em;" > References</summary>
+                    <div style="padding:1%;" >
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://derushadigital.com/other%20projects/2019/02/19/RPi-USBIP-ZWave.html" > https://derushadigital.com/other%20projects/2019/02/19/RPi-USBIP-ZWave.html </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="http://www.usbmadesimple.co.uk/ums_1.htm" > http://www.usbmadesimple.co.uk/ums_1.htm </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://beyondlogic.org/usbnutshell/usb3.shtml" > https://beyondlogic.org/usbnutshell/usb3.shtml </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://www.gearprimer.com/technology/usb-connector-types-explained/" > https://www.gearprimer.com/technology/usb-connector-types-explained/ </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://www.tripplite.com/products/usb-connectivity-types-standards" > https://www.tripplite.com/products/usb-connectivity-types-standards </a>
+                        </div>
+                        
+                    </div>
+                    <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <div style="text-align: justify;" >
+                                <div>
+                                    © bresilla (this year 😛). All rights reserved.
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                </div>
+                    <style> @media only screen and (max-width : 768px) { .references { width: 90% !important; } } </style>
+            </div>
+        </div>
+        
+    </article>
+</section>
+
+    
+
+            </div>
+            <footer class="footer">
+  <section class="container">
+    
+        
+        <a href="/quotes"><p>The more I want to get something done, the less I call it work -- Richard Bach</p></a>
+        
+    
+  </section>
+</footer>
+
+        </main>
+        
+
+        
+        
+        <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
+        
+        <script type="text/javascript" src="/scripts/coder.js"></script>
+        <script type="text/javascript" src="/scripts/hr.js"></script>
+    </body>
+</html>
