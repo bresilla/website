@@ -1,6 +1,6 @@
 baseurl = "/"
 title = "bresilla"
-theme = "coder"
+# theme = "coder"
 # theme = "coder-portfolio"
 languagecode = "en"
 defaultcontentlanguage = "en"

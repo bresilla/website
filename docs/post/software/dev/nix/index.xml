@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nix on bresilla</title>
+    <link>/post/software/dev/nix/</link>
+    <description>Recent content in Nix on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/software/dev/nix/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running the Nix package manager inside a Docker Container</title>
+      <link>/post/software/dev/nix/docker/</link>
+      <pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/post/software/dev/nix/docker/</guid>
+      <description>Creators The Universal Serial Bus (USB) is a specification developed by Compaq, Intel, Microsoft and NEC, joined later by Hewlett-Packard, Lucent and Philips. These companies formed the USB Implementers Forum, Inc as a non-profit corporation to publish the specifications and organise further development in USB.
+Versioning Despite how long the USB standard has been around, the USB standard hasn’t really gone through a whole lot of major versions although there have been quite a few smaller revisions within each version.</description>
+    </item>
+    
+    <item>
+      <title>Using nix-shell as package manager for any language</title>
+      <link>/post/software/dev/nix/nix-pckgs/</link>
+      <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/software/dev/nix/nix-pckgs/</guid>
+      <description>Software development Software design and development is a very complicated process. It is a set of related activities that let to the production of an application or software. Those activites may involve the development of the software from scratch or a more tidious process of modyfiying an existing system.
+Software might be the first kind of knowledge that can be composed. It is hard to develop, but it is often easy to use, and is not even that hard to combine.</description>
+    </item>
+    
+  </channel>
+</rss>

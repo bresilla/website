@@ -6,19 +6,15 @@
     <description>Recent content in package on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 07 Aug 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/package/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 07 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/package/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using nix-shell as package manager for any language</title>
-      <link>/post/dev/nix/nix-pckgs/</link>
+      <link>/post/software/dev/nix/nix-pckgs/</link>
       <pubDate>Fri, 07 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/dev/nix/nix-pckgs/</guid>
-      <description>Enter NIX It’s difficult to categorize Nix. On the website, it is presented as a “purely functional package manager”. However, it could also be thought of as a programming language, a configuration tool, and a build tool. In a nutshell, Nix expressions are programs written in a purely functional programming language and can return a single derivation or a set of derivations.
-This difficulty to categorize comes due to a few different projects sharing similar names.</description>
+      <guid>/post/software/dev/nix/nix-pckgs/</guid>
+      <description>Software development Software design and development is a very complicated process. It is a set of related activities that let to the production of an application or software. Those activites may involve the development of the software from scratch or a more tidious process of modyfiying an existing system.
+Software might be the first kind of knowledge that can be composed. It is hard to develop, but it is often easy to use, and is not even that hard to combine.</description>
     </item>
     
   </channel>

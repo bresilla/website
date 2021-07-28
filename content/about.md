@@ -15,7 +15,7 @@ foot = "We are what we repeatedly do. Excellence, then, is not an act, but a hab
 
 Lets pretend you are a real person, and I'll pretend to introduce myself and impress you (in third person). For your information, I am very much a real person, to prove it, there is a picture of me (seeeee, i am in the left, computer is in the right).
 
-<hr size="1" width="30%" style="color: #04f977;">
+<hr size="1" width="30%" style="color: var(--accent-color);">
 <h4 style="color: black;"><span style="background: #04f977; padding-right: 10%; padding-left: 4px;">$ whoami _</span></h4>
 
 The name is Trim, Trim BRESILLA (pun intended), and he's currently working as a PostDoc at University of Bologna. He's got some degrees and cerificates, but who doesn't nowdays, and it just represents the past. By trade, he's a robotics engineer and plant physiologist, however he tries to do more than he can and pretends to do much more in the future. <i> Kids nowadays right??? Remind me, how does the saying go ... em ... found it... <q>Jack of all trades, master of none</q></i>.

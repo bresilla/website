@@ -162,29 +162,6 @@ blockquote {
   font-weight: 400;
   font-style: italic; }
 
-th, td {
-  padding: 1.6rem; }
-
-table {
-  border-collapse: collapse; }
-
-table td, table th {
-  border: 2px solid var(--fg-color); }
-
-table tr:first-child th {
-  border-top: 0; }
-
-table tr:last-child td {
-  border-bottom: 0; }
-
-table tr td:first-child,
-table tr th:first-child {
-  border-left: 0; }
-
-table tr td:last-child,
-table tr th:last-child {
-  border-right: 0; }
-
 img {
   max-width: 100%; }
 
@@ -218,6 +195,24 @@ img {
 
 .fas {
   font-weight: 900; }
+
+table {
+  margin: 50px auto;
+  border-collapse: collapse; }
+
+tr:nth-of-type(odd) {
+  background: var(--bg-color); }
+
+th {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  font-weight: bold;
+  text-align: center; }
+
+td, th {
+  padding: 2px;
+  text-align: left;
+  border: 1px solid var(--accent-color); }
 
 .footer {
   width: 100%;

@@ -6,27 +6,23 @@
     <description>Recent content in yubikey on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/yubikey/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 08 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/yubikey/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Backing up GPG key with YubiKey, Tomb and Cryptosetup</title>
-      <link>/post/crypto/gpg-yubikey-tomb/</link>
+      <link>/post/software/crypto/gpg-yubikey-tomb/</link>
       <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/crypto/gpg-yubikey-tomb/</guid>
+      <guid>/post/software/crypto/gpg-yubikey-tomb/</guid>
       <description>SECURE ENVIRONMENT Lets make a working folder where we create file, keys, tombs ad so on. Lets call it /home/$USER/TEMP and export as variable export GPGPATH=/home/$USER/TEMP
 GPG-KEYS MASTERKEY  .commandframeholder { position: relative; } .commandframeholder::after { content: &#39;&#39;; width: 100%; height: 100%; background-color: var(--accent-color) ; opacity: 0.3; position: absolute; border-radius: 5px; top: 0; left: 0; z-index: -1; }  &amp;nbsp;&amp;nbsp;$&amp;nbsp;&amp;nbsp; gpg --expert --full-generate-key   Please select what kind of key you want: (1) RSA and RSA (default) (2) DSA and Elgamal (3) DSA (sign only) (4) RSA (sign only) (7) DSA (set your own capabilities) (8) RSA (set your own capabilities) (9) ECC and ECC (10) ECC (sign only) (11) ECC (set your own capabilities) (13) Existing key (14) Existing key from card Your selection?</description>
     </item>
     
     <item>
       <title>Guide to using YubiKey for GPG and SSH</title>
-      <link>/post/crypto/yubi-key-gpg/</link>
+      <link>/post/software/crypto/yubi-key-gpg/</link>
       <pubDate>Wed, 08 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/crypto/yubi-key-gpg/</guid>
+      <guid>/post/software/crypto/yubi-key-gpg/</guid>
       <description>Disclaimer !! This is not a post of mine. Its completely A to Z copy and paste from the amazing drduh (https://github.com/drduh) post (link in the title). This is too amazing to be left just in one place, the interent is very fragile place, it might get broken anytime, so haveing in two places is better, ironic right?? This is internet too, but whatever fude. And is faster for me to find it.</description>
     </item>
     

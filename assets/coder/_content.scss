@@ -1,0 +1,564 @@
+.estate {
+    max-width: 130rem;
+    padding: 0 5% 0 5%;
+    @media only screen and (max-width : 768px) {
+        max-width: 100%;
+    }
+}
+
+#nodec {
+    a:after {
+        border-bottom: 0px solid $accent-color;
+    }
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    margin-top: 1.6rem;
+    margin-bottom: 3.2rem;
+    .highlight{
+        position: relative;
+        &:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            opacity: 0.1;
+            position: absolute;
+            border-radius: 5px;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .chroma {
+            // border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            padding: 2%;
+            color: var(--fg-color);
+        }
+    }
+    p{
+        code {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            border-radius: 2px;
+        }
+    }
+    article {
+        header {
+            margin-top: 6.4rem;
+            margin-bottom: 3.2rem;
+            h1 {
+                font-size: 4.2rem;
+                line-height: 4.6rem;
+                margin: 0;
+                @media only screen and (max-width : 768px) {
+                font-size: 4.0rem;
+                line-height: 4.4rem;
+                }
+            }
+        }
+        footer {
+            margin-top: 4.0rem;
+            .see-also {
+                margin: 3.2rem 0;
+                h3 {
+                margin: 3.2rem 0;
+                }
+            }
+        }
+    }
+    .post {
+        font-family: $text-font-family;
+        font-weight: 900;
+        a {
+            font-family: $code-font-family;
+            color: $accent-color;
+            font-weight: 900;
+        }
+        .post-title {
+        margin-bottom: .75em;
+        }
+        .post-meta {
+        i {
+            text-align: center;
+            width: 1.6rem;
+            margin-left: 0;
+            margin-right: 0.5rem;
+        }
+        .date {
+            font-family: $code-font-family;
+            .posted-on {
+            margin-left: 0;
+            margin-right: 1.5rem;
+            }
+        }
+        }
+    }
+    figure {
+        margin: 0;
+        padding: 0;
+    }
+    figcaption p {
+        text-align: center;
+        font-style: italic;
+        font-size: 1.6rem;
+        margin: 0;
+    }
+}
+
+.list {
+    ul {
+        list-style: none;
+        padding: 0;
+        li {
+        font-size: 1.8rem;
+        @media only screen and (max-width : 768px) {
+            margin: 1.6rem 0 1.6rem 0;
+        }
+        .date {
+            font-family: $code-font-family;
+            display: inline-block;
+            width: 20.0rem;
+            text-align: right;
+            margin-right: 3.0rem;
+            @media only screen and (max-width : 768px) {
+            display: block;
+            text-align: left;
+            }
+        }
+        .title {
+            font-size: 1.8rem;
+            color: $fg-color;
+            font-family: $text-font-family;
+            font-weight: 700;
+            &:hover,
+            &:focus {
+            color: $accent-color
+            }
+        }
+        }
+    }
+}
+
+.gridlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 2em;
+    .relative {
+        padding: 0.1em;
+        margin: 0.1em;
+        border-radius: .5rem;
+        position: relative;
+        .card_box {
+            border-radius: .8rem;
+            padding: 0.1rem;
+            margin: 0.1rem;
+        }
+        .card_image {
+            padding: 0.2rem;
+            object-fit: cover;
+            border-radius: .8rem;
+            width: 100%;
+            height: 18rem;
+        }
+        .card_date, .card_time {
+            background-color: rgb(23, 25, 26);
+            border-radius: .5rem;
+            // font-size: .875rem;
+            // line-height: 1.25rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            right: 1rem;
+            position: absolute;
+            font-weight: bold;
+        }
+        .card_date { top: 1rem; }
+        .card_time { top: 15rem; }
+        .card_title {
+            padding: 5%;
+            font-weight: bold;
+        }
+    }
+    a, a:after {
+        border-bottom:none !important;
+    }
+}
+
+.centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @media only screen and (max-width : 768px) {
+        padding-top:0 !important;
+    }
+    .about {
+        text-align: center;
+        .avatar .logo img{
+            width: 50rem;
+            height: auto;
+            border-radius: 50%;
+            padding-bottom: 5%;
+            @media only screen and (max-width : 768px) {
+                width: 30rem;
+            }
+        }
+        .brand{
+            height: 10em;
+            @media only screen and (max-width : 768px) {
+                height: 10%;
+            }
+            .author {
+                margin-top: 5%;
+                margin-bottom: 2%;
+                .nametext{
+                    font-size: 6em;
+                    font-family: $thin-font-family;
+                    font-weight: 300;
+                    text-transform: uppercase;
+                    animation: glitch 6s steps(100) infinite;
+                    a {
+                        line-height: 4rem;
+                        text-transform:uppercase
+                    }
+                    @media only screen and (max-width : 768px) {
+                        font-size: 10vw;
+                    }
+                }
+                .glitch {
+                    position: relative;
+                    color: white;
+                    mix-blend-mode: lighten;
+
+                    &:before,
+                    &:after {
+                        content: attr(data-text);
+                        position: absolute;
+                        top: 0;
+                        width: 100%;
+                        background: black;
+                        clip: rect(0, 0, 0, 0);
+                    }
+                    &:before {
+                        left: -1px;
+                    }
+                    &:after {
+                        left: 1px;
+                    }
+                    &:hover {
+                        &:before {
+                        text-shadow: 4px 0 rgba(red,0.7);
+                        animation: glitch-loop-1 3s infinite ease-in-out alternate-reverse;
+                        }
+                        &:after {
+                        text-shadow: -5px 0 rgba(blue,0.7);
+                        animation: glitch-loop-2 3s infinite ease-in-out alternate-reverse;
+                        }
+                    }
+                }
+
+                @keyframes glitch-loop-1 {
+                    0% { clip: rect(36px, 9999px, 9px, 0) }
+                    25% { clip: rect(25px, 9999px, 99px, 0) }
+                    50% { clip: rect(50px, 9999px, 102px, 0) }
+                    75% { clip: rect(30px, 9999px, 92px, 0) }
+                    100% { clip: rect(91px, 9999px, 98px, 0) }
+                    }
+                @keyframes glitch-loop-2 {
+                    0% { top: -1px; left: 1px; clip: rect(65px, 9999px, 119px, 0) }
+                    25% { top: -6px; left: 4px; clip: rect(79px, 9999px, 19px, 0) }
+                    50% { top: -3px; left: 2px; clip: rect(68px, 9999px, 11px, 0) }
+                    75% { top: 0px; left: -4px; clip: rect(95px, 9999px, 53px, 0) }
+                    100% { top: -1px; left: -1px; clip: rect(31px, 9999px, 149px, 0) }
+                    }
+                @keyframes glitch {
+                    0% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    1% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    2% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    3% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    4% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    5% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    6% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    7% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    8% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    9% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    10% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    11% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    12% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    13% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    14% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0);}
+                    15% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0);}
+                    16% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    17% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    18% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    19% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    20% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    21% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    22% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    23% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    24% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    25% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    26% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0.5px);}
+                    27% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0.5px);}
+                    28% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    29% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    30% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    31% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    32% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    33% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    34% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    35% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0.5px);}
+                    36% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0.5px);}
+                    37% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0.5px);}
+                    38% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    39% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    40% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    41% { text-shadow: 45px 0 0 #0c33f5, -45px 0 0 lime; filter: blur(0);}
+                    42% { text-shadow: 45px 0 0 #0c33f5, -45px 0 0 lime; filter: blur(0);}
+                    43% { text-shadow: 0 0 0 #0c33f5, 0 0 0 lime; filter: blur(0);}
+                    44% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0);}
+                    45% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0);}
+                    46% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    47% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0.5px);}
+                    48% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    49% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    50% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    51% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    52% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    53% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    54% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    55% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0.5px);}
+                    56% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0.5px);}
+                    57% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0.5px);}
+                    58% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    59% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    60% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    61% { text-shadow: 30px 0 0 red, -30px 0 0 lime; filter: blur(0);}
+                    62% { text-shadow: 30px 0 0 white, -30px 0 0 lime; filter: blur(0);}
+                    63% { text-shadow: 0 0 0 red, 0 0 0 lime; filter: blur(0);}
+                    64% { text-shadow: 1px 0 0 red, -1px 0 0 #0c33f5; filter: blur(0);}
+                    65% { text-shadow: 1px 0 0 red, -1px 0 0 #0c33f5; filter: blur(0);}
+                    66% { text-shadow: 1px 0 0 red, -1px 0 0 #0c33f5; filter: blur(0.5px);}
+                    67% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0.5px);}
+                    68% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    69% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    70% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    71% { text-shadow: 50px 0 0 red, -50px 0 0 #0c33f5; filter: blur(0);}
+                    72% { text-shadow: 0 0 0 red, 0 0 0 #0c33f5; filter: blur(0);}
+                    73% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    74% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    75% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    76% { text-shadow: 3px 0 0 red, -3px 0 0 #0c33f5; filter: blur(0);}
+                    77% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    78% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    79% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    80% { text-shadow: -3px 0 0 red, 3px 0 0 #0c33f5; filter: blur(0);}
+                    81% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0);}
+                    82% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0);}
+                    83% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    84% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    85% { text-shadow: 1px 0 0 red, -1px 0 0 lime; filter: blur(0.5px);}
+                    86% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0.5px);}
+                    87% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0.5px);}
+                    88% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    89% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    90% { text-shadow: -3px 0 0 red, 3px 0 0 lime; filter: blur(0);}
+                    91% { text-shadow: 60px 0 0 lime, -60px 0 0 #0c33f5; filter: blur(0);}
+                    92% { text-shadow: 0 0 0 lime, 0 0 0 #0c33f5; filter: blur(0);}
+                    92% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    93% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    94% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    95% { text-shadow: 0.8px 0 0 #0c33f5, -0.8px 0 0 lime; filter: blur(0);}
+                    96% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    97% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    98% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    99% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);}
+                    100% { text-shadow: -3px 0 0 #0c33f5, 3px 0 0 lime; filter: blur(0);} }
+                }
+            .info{
+                min-height: 3em !important;
+                .typewriter {
+                    font-family: $code-font-family;
+                    letter-spacing: .1em;
+                    color: var(--accent-color);
+                    margin: 0;
+                    @media only screen and (max-width : 768px) {
+                        font-size: 2rem;
+                    }
+                }
+            }
+        }
+
+        .socials{
+            font-size: 3.2rem;
+            display: table;
+            margin: 0 auto;
+            width: 60%;
+            list-style: none;
+            @media only screen and (max-width : 768px) {
+                font-size: 2.5rem;
+                width: 80%;
+            }
+            li {
+                display: table-cell;
+                a {
+                    display: block;
+                }
+            }
+        }
+  }
+
+}
+.homesection{
+    .latest {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .latestchild{
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.title {
+    font-size: 4.2rem;
+    font-family: $heading-font-family;
+    font-weight: 300;
+}
+
+.glitchtitle {
+    position: relative;
+    color: $fg-color;
+    @include textGlitch("example-two", 30, var(--fg-color), var(--bg-color), white, green, 450, 115);
+    animation: glitch-anim1 0.1s infinite linear alternate-reverse;
+    &::before{
+        @include duplicate;
+        left: $glitchsize;
+        color: $glitch-color;
+        clip: rect(44px, 450px, 56px, 0);
+        text-shadow: $glitchsize 40 $glitch-color, $glitchsize+2 $glitchsize+2 var(--glitch-color);
+        animation: glitch-anim1 5s infinite linear alternate-reverse;
+        animation-fill-mode: backwards;
+    }
+
+    &::after {
+        @include textGlitch("example-two", 42, var(--accent-color), var(--bg-color), white, green, 154, 540);
+        @include duplicate;
+        right: $glitchsize;
+        text-shadow: $glitchsize 20 $glitch-color, $glitchsize $glitchsize red;
+        animation: glitch-anim2 3s infinite linear normal;
+    }
+}
+
+@keyframes glitch-anim1 {
+    $steps: 30;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                transform: skew((random(100) / 100) + deg);
+        }
+    }
+}
+
+@keyframes glitch-anim2 {
+    $steps: 20;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        clip: rect(random(100)+px, 9999px, random(100)+px, 0);
+                transform: skew((random(100) / 100) + deg);
+        }
+    }
+}
+
+@keyframes glitch-skew {
+    $steps: 100;
+    @for $i from 0 through $steps {
+        #{percentage($i*(1/$steps))} {
+        transform: skew((random(10) - 5) + deg);
+        }
+    }
+}
+
+#TableOfContents {
+    ul {
+        counter-reset: section;
+        padding-left: 2%;
+    }
+
+    li:before {
+        counter-increment: section;
+        content: counters(section, ".") " ";
+        color: var(--accent-color);
+    }
+}
+
+.blogpost {
+    ul {
+        padding-left: 2%;
+    }
+    li {
+        padding: .5%;
+        list-style: circle inside none;
+    }
+    ul li:before {
+       content: none;
+    }
+    counter-reset: section;
+    h1{
+        text-decoration: underline dashed var(--titlecolor) 2px;
+        padding-left: 1%;
+        counter-reset: sub-section
+    }
+    h2{
+        text-decoration: underline dashed var(--titlecolor) 2px;
+        padding-left: 2%;
+        counter-reset: composite
+    }
+    h3{
+        text-decoration: underline dashed var(--titlecolor) 2px;
+        padding-left: 3%;
+        counter-reset: detail
+    }
+    h4{
+        text-decoration: underline dashed var(--titlecolor) 2px;
+        padding-left: 4%;
+        counter-reset: list
+    }
+    h5{
+        text-decoration: underline dashed var(--titlecolor) 2px;
+        padding-left: 5%;
+        counter-reset: point
+    }
+    h6{
+        text-decoration: underline dashed var(--titlecolor) 2px;
+        padding-left: 6%;
+    }
+
+    h1:before{
+        counter-increment: section;
+        content: counter(section) " ";
+    }
+    h2:before{
+        counter-increment: sub-section;
+        content: counter(section) "." counter(sub-section) " ";
+    }
+    h3:before{
+        counter-increment: composite;
+        content: counter(section) "." counter(sub-section) "." counter(composite) " ";
+    }
+    h4:before{
+        counter-increment: detail;
+        content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";
+    }
+    h5:before{
+        counter-increment: list;
+        content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(list) " ";
+    }
+    h6:before{
+        counter-increment: point;
+        content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(list) "." counter(point) " ";
+    }
+
+}

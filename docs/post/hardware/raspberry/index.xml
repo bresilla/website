@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Raspberry Pi on bresilla</title>
+    <link>/post/hardware/raspberry/</link>
+    <description>Recent content in Raspberry Pi on bresilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="/post/hardware/raspberry/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Setup a Raspberry Pi as a USB-over-IP server</title>
+      <link>/post/hardware/raspberry/usbip/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/hardware/raspberry/usbip/</guid>
+      <description>Creators The Universal Serial Bus (USB) is a specification developed by Compaq, Intel, Microsoft and NEC, joined later by Hewlett-Packard, Lucent and Philips. These companies formed the USB Implementers Forum, Inc as a non-profit corporation to publish the specifications and organise further development in USB.
+Versioning Despite how long the USB standard has been around, the USB standard hasn’t really gone through a whole lot of major versions although there have been quite a few smaller revisions within each version.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -5,10 +5,6 @@
     <link>/talk/code/</link>
     <description>Recent content in Coding on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    
-	<atom:link href="/talk/code/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en</language><atom:link href="/talk/code/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

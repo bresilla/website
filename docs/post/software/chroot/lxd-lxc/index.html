@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en" style="
+     --accent-color:#d78700 ;
+    
+        
+            --bg-color:#080a0f; --fg-color:#c4d0d1;
+        
+     ">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+    Next-Gen system container management · bresilla
+</title>
+        <meta name="author" content="Trim Bresilla">
+        <meta name="description" content="Personal website &amp; bolg">
+        <meta name="keywords" content="blog,developer,personal">
+         <base href="/post/software/chroot/lxd-lxc/"> 
+         <link rel="canonical" href="/post/software/chroot/lxd-lxc/"> 
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
+        
+            
+            
+            <link rel="stylesheet" href="/coder/coder.min.css" integrity="" crossorigin="anonymous" media="screen" />
+        
+
+        
+        
+
+        <link rel="icon" type="image/png" href="/images/favicon.svg">
+        <meta name="generator" content="Hugo 0.86.0" />
+        
+        
+    </head>
+    <body >
+            
+
+        
+            
+                
+                
+                
+            
+        
+
+        
+        
+        <main id="main" class="wrapper lxd-lxc:">
+            <nav class="navigation">
+  <section class="container">
+      <label class="title">
+          <a class="navigation-title" href="/">
+              bresilla
+          </a>
+      </label>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">about</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/resume">resume</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/post/">blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/talk/">talks</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+            <div class="content">
+                
+    
+    
+        <section class="container page estate" >
+    <article>
+        <header>
+            
+                <h1 class="lxd-lxc: title glitchtitle"  data-text="Next-Gen system container management" >Next-Gen system container management</h1>
+            
+            
+            <div class="undertitle" style="padding-left:2%;" >
+                <details class="dropdown" >
+                    <summary>
+                        <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
+                        <span style="color:var(--fg-color)">|</span>
+
+                        
+                        <span id="title_categories" style="color:var(--accent-color) display:inline-block;" >
+                            Category: 
+                            
+                                
+                                
+                                    <a href="/categories/linux/" >LINUX</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        <span id="title_tags" style="color:var(--accent-color) display:inline-block;" >
+                             Tags: 
+                            
+                                
+                                
+                                <a href="/tags/container/" >container</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/wm/" >wm</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/lxd/" >lxd</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/lxc/" >lxc</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/namespace/" >namespace</a>
+                                
+                            
+                                
+                                
+                                <a href="/tags/cgrpups/" >cgrpups</a>
+                                
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                        
+                        
+                        <span id="title_series" style="color:var(--accent-color) display:inline-block;" >
+                            Series: 
+                            
+                                
+                                
+                                <a href="/series/containers/" >CONTAINERS</a>
+                                
+                            
+                            
+                                <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer;" >&nbsp;PART 1&nbsp;</span>
+                            
+                            <span style="color:var(--fg-color)">|</span>
+                        </span>
+                    </summary>
+                    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-why">The why?</a></li>
+    <li><a href="#linux-containers">Linux Containers</a></li>
+    <li><a href="#lxdlxc">LXD/LXC</a></li>
+    <li><a href="#lxc-vs-siblings">LXC vs siblings</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#configutation">Configutation</a>
+      <ul>
+        <li><a href="#managing-containers">Managing containers</a>
+          <ul>
+            <li><a href="#accessing-the-container">Accessing the Container</a></li>
+            <li><a href="#stop-or-delete-the-container">Stop or delete the Container</a></li>
+          </ul>
+        </li>
+        <li><a href="#managing-virtual-machines">Managing virtual machines</a>
+          <ul>
+            <li><a href="#creating-a-vm">Creating a VM</a></li>
+            <li><a href="#accessing-the-vm">Accessing the VM</a></li>
+            <li><a href="#example-windows-10">Example: WINDOWS 10</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#files">Files</a>
+      <ul>
+        <li><a href="#direct-file-acces">Direct file acces</a></li>
+        <li><a href="#copyingmoving-from-and-to-container">Copying/Moving from and to container</a></li>
+      </ul>
+    </li>
+    <li><a href="#profiles">Profiles</a></li>
+    <li><a href="#snapshots">Snapshots</a></li>
+    <li><a href="#other-features">Other features</a></li>
+  </ul>
+</nav>
+                </details>
+            </div>
+            
+        </header>
+        <span class=" blogpost " style=" --titlecolor: var(--accent-color);" >
+            
+                <div style="padding:3% 0 3% 0; text-align: justify;">
+                    Software deployment has been a major problem for decades. On the client side and the server side too. To ease things, containers are in the process of revolutionizing this. Containers integrate smoothly into DevOps; streamlining and stabilizing the move from source code in client side to deployable assets in server side.
+                </div>
+                <div class="hideframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                    <div class="hide_box" style="width:40%; margin: 0 auto; padding:.1%; border-radius:5px; border: 1px solid var(--accent-color); color:var(--bg-color); background:linear-gradient(var(--bg-color) 0%, var(--bg-color) 3.5em, var(--accent-color) 3.5em, var(--accent-color) 100%);" >
+                        <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <details>
+                            <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
+                            <div style="padding-top:2em; text-align: justify;" >
+                                <div>
+                                    The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    As per usual, a lot of text is copied and pasted from other resources, combined here in a hot mess of everything, however EVERYTHING is properly cited at the end. I use this as "notes" going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.
+                                </div>
+                            </div>
+                            </details>
+                        </div>
+                    </div>
+                <style> @media only screen and (max-width : 768px) { .hide_box { width: 90% !important; } } </style>
+                </div>
+                
+                
+            
+            <div style="padding-top:2em; padding-bottom:2em;">
+                <hr size="1" width="60%" style="color: var(--accent-color);">
+            </div>
+
+            <h1 id="the-why">The why?</h1>
+<p>So, lately i&rsquo;ve been deeply involved with *nix&rsquo;s namespaces and cgrpups. I am trying to build ths tool called: <a href="https://github.com/bresilla/tent">tent</a>, which basically at high level is a <a href="https://wiki.archlinux.org/index.php/Chroot">chroot</a> clone but with modern flare. So it has some automatic mounting points, user directora manupilations etc&hellip;</p>
+<p>Along the way, i got to learn quite a lot how linux handles containers, especially with <em><strong>liblxc</strong></em>. The way i was going with it was by trying to understand how Canonical&rsquo;s <code>lxd</code> (<code>lxc</code>) works. And as usual, in order to remeber what i learned, i decided to document it, so here it goes.</p>
+<h1 id="linux-containers">Linux Containers</h1>
+<p>Linux containers (LXC) is an operating-system-level virtualization method for running multiple isolated Linux systems (containers) on a single control host (LXC host). It does not provide a virtual machine, but rather provides a virtual environment that has its own CPU, memory, block I/O, network, etc. space and the resource control mechanism. This is provided by the namespaces and cgroups features in the Linux kernel on the LXC host. It is similar to a chroot, but offers much more isolation.</p>
+<h1 id="lxdlxc">LXD/LXC</h1>
+<p>LXD (pronounced “Lex-Dee”) is a system container manager build on top of Linux Containers (LXC). The goal of LXD is to provide an experience similar to a virtual machine but through containerization rather than hardware virtualization. Compared to Docker for delivering applications, LXD offers nearly full operating-system functionality with additional features such as snapshots, live migrations, and storage management. It also offers a simple REST API, network and storage management, project views and easy clustering to dozen of hosts&hellip;</p>
+
+
+
+
+
+<div class="imageframeholder" style="width: 99.6vw; position: relative; left: calc(-50vw + 50%);" >
+    <div class="imageimageframe" style="
+        width: 30%;
+        height:100%;
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow:1px 1px 20px 3px #181818;
+        border: 1px solid  var(--accent-color) ;" >
+        <style> @media only screen and (max-width : 768px) { .imageimageframe { width: 90% !important; } } </style>
+        <div style="
+            margin: 0 auto;
+            border-radius: 10px;
+            background-image: url(https://linuxcontainers.org/static/img/containers.png);
+            background-size: cover" >
+            <img src="https://linuxcontainers.org/static/img/containers.png" alt="" style="visibility: hidden;">
+        </div>
+    </div>
+        <div class="imagetextframe" style="text-align: center; font-style: italic; font-weight: 300; margin-top:.2%; margin-bottom: 1%;" > LXD Logo. </div>
+</div>
+
+<p>LXD is an open source system container manager, developed by the team behind LXC and supportet by Canonical, written in Go and that&rsquo;s been around for quite some time now. Containers are created from images with prebuilt images available for most Linux distributions. Multiple hosts can easily be clustered together to form one large virtual host, exposing the exact same API as a single host would. Storage pools and networks can also be created and managed through LXD and resources can be segmented into projects.</p>
+<h1 id="lxc-vs-siblings">LXC vs siblings</h1>
+<p>Compared to other container syblings, LXD offers plenty of admin-appealing features, such as:</p>
+<pre><code>- Secured using unprivileged containers, resource restrictions and much more
+- Scalable up to thousands of compute nodes
+- Intuitive with a straightforward CLI
+- Numerous images from which to pull
+- Cross-host container and image transfer support
+- Advanced resource control for cpu, memory, network I/O, block I/O, disk usage and kernel resources
+- Device passthrough for USB, GPU, unix character and block devices, NICs, disks and paths
+- Network management for bridge creation and configuration, cross-host tunnels, and more
+- Storage management support for multiple storage backends, storage pools and storage volumes
+- Uses LXC through liblxc and its Go binding to create and manage the containers
+</code></pre>
+<h1 id="installation">Installation</h1>
+<p>The first thing to be done is the installation of LXD. As this tool is found in the standard repositories, it can be installed from the package manager of your distro:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">arch:        pacman -S lxd
+debian:      apt install lxd
+fedora:      dnf install lxd
+alpine:      apk add lxd
+</code></pre></div><p>Once installed, you&rsquo;ll need to add your user to the lxd group and log-out and back in:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+sudo usermod -aG lxd $USER
+</div>
+</div>
+
+<h1 id="configutation">Configutation</h1>
+<p>To go through the initial LXD configuration, run:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+sudo lxd init
+</div>
+</div>
+
+<p>You will then be asked a number of questions. Unless you need a specific configuration for your setup, the defaults should work just fine. Those questions are:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">Would you like to use LXD clustering? (yes/no) [default=no]: no
+Do you want to configure a new storage pool? (yes/no) [default=yes]: yes
+Name of the new storage pool [default=default]: default
+Name of the storage backend to use (btrfs, ceph, dir, lvm, zfs) [default=zfs]: zfs
+Create a new ZFS pool? (yes/no) [default=yes]: yes
+Would you like to use an existing block device? (yes/no) [default=no]: no
+Size in GB of the new loop device (1GB minimum) [default=15GB]: 15GB
+Would you like to connect to a MAAS server? (yes/no) [default=no]: no
+Would you like to create a new local network bridge? (yes/no) [default=yes]:
+What should the new bridge be called? [default=lxdbr0]:
+What IPv4 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]:
+What IPv6 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]:
+Would you like LXD to be available over the network? (yes/no) [default=no]:
+Would you like stale cached images to be updated automatically? (yes/no) [default=yes]
+Would you like a YAML &#34;lxd init&#34; preseed to be printed? (yes/no) [default=no]: yes
+</code></pre></div><p>Verify that the lxc client is talking to the LXD daemon: <code>lxc list</code> and you&rsquo;lle get an output like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">+------+-------+------+------+------+-----------+
+| NAME | STATE | IPV4 | IPV6 | TYPE | SNAPSHOTS |
++------+-------+------+------+------+-----------+
+</code></pre></div><h2 id="managing-containers">Managing containers</h2>
+<p>The syntax is as follows to create your first container:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc launch images:{distro}/{version}/{arch} {container-name-here}
+</div>
+</div>
+
+<p>The easiest way is to use a built-in remote image server.</p>
+<p>You can get a list of built-in image servers with:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc remote list
+</div>
+</div>
+
+<p>and the output will be:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">+-----------------+------------------------------------------+---------------+-------------+--------+--------+
+|      NAME       |                   URL                    |   PROTOCOL    |  AUTH TYPE  | PUBLIC | STATIC |
++-----------------+------------------------------------------+---------------+-------------+--------+--------+
+| images          | https://images.linuxcontainers.org       | simplestreams | none        | YES    | NO     |
++-----------------+------------------------------------------+---------------+-------------+--------+--------+
+| local (default) | unix://                                  | lxd           | file access | NO     | YES    |
++-----------------+------------------------------------------+---------------+-------------+--------+--------+
+| ubuntu          | https://cloud-images.ubuntu.com/releases | simplestreams | none        | YES    | YES    |
++-----------------+------------------------------------------+---------------+-------------+--------+--------+
+| ubuntu-daily    | https://cloud-images.ubuntu.com/daily    | simplestreams | none        | YES    | YES    |
++-----------------+------------------------------------------+---------------+-------------+--------+--------+
+</code></pre></div><p>The one we are interested is the first column, <code>images</code>, so to list all available images for various Linux distro, notice the <code>:</code> at the end of the command:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc image list images:
+</div>
+</div>
+
+<p>Each image contains a basic operating system (for example a linux distribution) and some other LXD-related information.</p>
+<p>Let&rsquo;s say you want to launch a container using the Ubuntu image:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc launch ubuntu CONTAINER_NAME
+</div>
+</div>
+
+<p>Where <code>CONTAINER_NAME</code> is the name assigned to your container. To get the name of the newly created contaners, list all containers with <code>lxc list</code>.</p>
+<p>If it already exists then we start it with:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc start CONTAINER_NAME
+</div>
+</div>
+
+<h3 id="accessing-the-container">Accessing the Container</h3>
+<p>If you want to access the shell of your new container (so you can start developing with it), issue the command:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc exec CONTAINER_NAME -- /bin/bash
+</div>
+</div>
+
+<p>We&rsquo;re not just limited using lxc exec as a method of dropping into a container, however. Should we need to run a one-off command, we can do so directly:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc exec CONTAINER_NAME -- apt install neovim -y
+</div>
+</div>
+
+<p>Do note, however, that chaining commands with <code>&amp;&amp;</code> or <code>|</code> operands does take some small tweaking of the command, using double quotes <code>&quot;</code>.
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc exec CONTAINER_NAME -- "apt update && apt install neovim -y"
+</div>
+</div>
+</p>
+<h3 id="stop-or-delete-the-container">Stop or delete the Container</h3>
+<p>To stop the container, issue the commands:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc stop CONTAINER_NAME
+</div>
+</div>
+</p>
+<p>Or if you want to delete:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc delete CONTAINER_NAME
+</div>
+</div>
+
+<h2 id="managing-virtual-machines">Managing virtual machines</h2>
+<p>Starting with LXD 4.0, virtual machines are suported natively,and thanks to a built-in agent, they behave almost just like containers 🤯 🤯.</p>
+<h3 id="creating-a-vm">Creating a VM</h3>
+<p>Creating a VM is as simple as the following command. It is the standard <code>lxc launch</code> command, with the addition of the <code>--vm</code> option to create a virtual machine (instead of a system container). We specify the default profile (whichever base configuration you use in your LXD installation). Depending on your computer’s specifications, it takes a few seconds to launch the container/vm, and then less than 10 seconds for the VM to boot up and receive the IP address from your network.</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc launch images:ubuntu/focal ubuntu WM_NAME --vm
+</div>
+</div>
+
+<p>or</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc launch images:centos/8 centos WM_NAME --vm
+</div>
+</div>
+
+<p>now, running <code>lxc list</code> will output:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">+--------+---------+------+------+-----------------+-----------+
+|  NAME  |  STATE  | IPV4 | IPV6 |      TYPE       | SNAPSHOTS |
++--------+---------+------+------+-----------------+-----------+
+| ubuntu | RUNNING |      |      | VIRTUAL-MACHINE | 0         |
++--------+---------+------+------+-----------------+-----------+
+</code></pre></div><h3 id="accessing-the-vm">Accessing the VM</h3>
+<p>You can see your VM boot with:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc console WM_NAME
+</div>
+</div>
+
+<p>(detach with ctrl+a-q)</p>
+<p>Once booted, VMs with the agent built-in will also respond to:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc exec WM_NAME bash
+</div>
+</div>
+
+<p>By installing the LXD agent inside the LXD VM, we can run the usual LXD commands such as <code>lxc exec</code>, <code>lxc file</code>, etc. Here is how to get a shell, either using the built-in alias <code>lxc shell</code>, or <code>lxc exec</code> to get a shell with the non-root account of the container images.</p>
+<h3 id="example-windows-10">Example: WINDOWS 10</h3>
+<p>It is possible to build Windows images for LXD, but this process is currently very very manual and involves either a bunch of custom raw.qemu flags to get a temporary graphical console to perform the install or using a separate QEMU process to prepare the image.</p>
+<p>The basic steps are:</p>
+<pre><code>- Grab a [Windows ISO image](https://www.microsoft.com/en-ca/software-download/windows10ISO) from Microsoft
+- Grab the [latest virtio drivers](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/archive-virtio/virtio-win-0.1.173-9/virtio-win.iso) for Windows
+- Create an empty VM with beefier CPU/RAM and SecureBoot disabled: `lxc init win10 --empty --vm -c security.secureboot=false -c limits.cpu=4 -c limits.memory=4GB`
+- Grow its root disk to a reasonable size: `lxc config device override win10 root size=20GB`
+- Enable temporary graphical output and pass the install and drivers media: `echo -n '-device virtio-vga -vnc :1 -drive file=/path/to/Win10_1909_English_x64.iso,index=0,media=cdrom,if=ide -drive file=/path/to/virtio-win-0.1.173.iso,index=1,media=cdrom,if=ide' | lxc config set win10 raw.qemu - `
+- Start the VM: `lxc start win10`
+- Immediately attach using `lxc console win10` and hit ESC until presented with a boot menu
+- Select Boot Manager and then the `QM00001` drive. Then hit ENTER a few times to answer an invisible boot prompt.
+- Use a VNC client to connect to `localhost:1`, you’ll see the installer boot
+- During the installation, load the virtio-scsi driver to access the hard disk
+- Once installed and configured to allow RDP/SSH access, you can remove the various workarounds with: `lxc config unset win10 raw.qemu`
+- Boot the system to confirm it all works, install all the other drivers from the virtio drive, then run the Windows sysprep tool
+- Finally publish your VM as an image with: `lxc publish win10 --alias win10`
+</code></pre>
+<h1 id="files">Files</h1>
+<p>When configuring any container, being able to run commands is only part of the picture. We also need to be able to update and add files. While we could do this by dropping into a shell on our container and working, but LXD also offers us some more streamlined options for working with files on our containers.</p>
+<h2 id="direct-file-acces">Direct file acces</h2>
+<p>We can directly edit (using the default <code>$EDITOR</code>) a specific file in the container:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc file edit INSTANCE_NAME/etc/nginx/sites-available/default
+</div>
+</div>
+</p>
+<p>Or completely delete file with:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc file delete INSTANCE_NAME/etc/nginx/sites-available/default
+</div>
+</div>
+</p>
+<h2 id="copyingmoving-from-and-to-container">Copying/Moving from and to container</h2>
+<p>Copy from an instance to host by using <code>pull</code></p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc file pull INSTANCE_NAME/path-in-container path-on-host
+</div>
+</div>
+
+<p>Pull a folder with:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc file pull -r INSTANCE_NAME/path-in-container path-on-host
+</div>
+</div>
+
+<p>Copy from host to instance by using <code>push</code></p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc file push path-on-host INSTANCE_NAME/path-in-container
+</div>
+</div>
+
+<p>Push a folder with:</p>
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc file push -r path-on-host INSTANCE_NAME/path-in-container
+</div>
+</div>
+
+<h1 id="profiles">Profiles</h1>
+<p>When we create a container, where and how it&rsquo;s created and configured is dependent upon its profile. Up until now, we&rsquo;ve been using the default profile to assign the storage pool, network, and other information to our containers:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile list
+</div>
+</div>
+
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile show default
+</div>
+</div>
+</p>
+<p>But we can create specialized profiles to suit our needs.  Let&rsquo;s start by creating a YFS pool:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc storage create zfs-test zfs source=/dev/nvme1n1
+</div>
+</div>
+</p>
+<p>From here, we can use the default profile as a base by creating our zfs-test storage pool via the copy command:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile copy default zfs-test
+</div>
+</div>
+</p>
+<p>Let&rsquo;s now update our new profile to use the appropriate storage pool:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile edit zfs-test
+</div>
+</div>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback">  root:
+    path: /
+    pool: zfs-test
+    type: disk
+</code></pre></div><p>Now let&rsquo;s launch a new container based on this profile:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc launch alpine3.10 test2 -p zfs-test
+</div>
+</div>
+</p>
+<p>We&rsquo;re not just limited to the existing configurations presented in the default profile, however. We can make a quick <code>NEW_PROFILE</code> profile in only a few commands:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile copy default NEW_PROFILE
+</div>
+</div>
+
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile set NEW_PROFILE boot.autostart.priority 50
+</div>
+</div>
+
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile set NEW_PROFILE boot.stop.priority 50
+</div>
+</div>
+
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile set NEW_PROFILE environment.EDITOR vim
+</div>
+</div>
+</p>
+<p>To add the profile to our container, we can just use:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile add INSTANCE_NAME NEW_PROFILE
+</div>
+</div>
+</p>
+<p>Let&rsquo;s also remove the existing default profile from our <code>INSTANCE_NAME</code> container:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile remove INSTANCE_NAME default
+</div>
+</div>
+</p>
+<p>As you may have guessed by now, many of the lxc profile commands follow the same conventions as storage and config. Remember, should we ever need a refresher, we can view a full list with:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc profile --help
+</div>
+</div>
+</p>
+<h1 id="snapshots">Snapshots</h1>
+<p>Rarely when working with containers are we working with one-off, individualized configurations. One of the benefits of containers, after all, is the ability to launch many of them very quickly. We don&rsquo;t want these to be stock, unconfigured containers, however. And while we can enroll our containers in a configuration management system, we are more likely to launch our containers based on preconfigured images. These preconfigured images, in turn, are generally created from a configured container. Snapshots can use any naming convention you desire, but is good practise to keep to version numbers. So let&rsquo;s say this snapshot is version 1.0 of our container:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc snapshot INSTANCE_NAME 1.0
+</div>
+</div>
+</p>
+<p>To confirm, we can use the lxc info command, which lists all snapshots associated with the defined container:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc info INSTANCE_NAME
+</div>
+</div>
+</p>
+<p>We can now create a duplicate of this container with lxc copy:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc copy INSTANCE_NAME/1.0 INSTANCE_NAME_BACKUP
+</div>
+</div>
+</p>
+<p>We could also use cp in place of copy. Notice, however, when we view our current list of containers, that our new INSTANCE_NAME_BACKUP container exists, but is not automatically started. We can remedy this with a lxc start:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc start INSTANCE_NAME_BACKUP
+</div>
+</div>
+</p>
+<p>Finally, we can remove any unneeded snapshots with the lxc delete command, the same command we use to remove containers themselves. Instead of listing only the container name, however, we&rsquo;ll list the name and version in the same format we used when copying the snapshot:
+<div class="commandframeholder" >
+    
+    
+    
+    <style>
+    .commandframeholder {
+        position: relative;
+    }
+    .commandframeholder::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+         background-color: var(--accent-color) ;
+        opacity: 0.3;
+        position: absolute;
+        border-radius: 5px;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
+    </style>
+    <div class="textframe" style="width: 100%; margin: 0 auto; padding: 1%; border-radius: 5px;
+         color: var(--fg-color) ;
+        " > &nbsp;&nbsp;$&nbsp;&nbsp;
+lxc delete INSTANCE_NAME_BACKUP/1.0
+</div>
+</div>
+</p>
+<h1 id="other-features">Other features</h1>
+<p>You can attach nic and disk devices to them, grow their CPU &amp; RAM, take snapshots, move them between hosts, use them in a cluster, publish them as images, …
+VM should pretty much all behave as you would expect a LXD instance, just a bit slower because you’re dealing with a full virtual machine.</p>
+
+        </span>
+        
+        <div style="padding-top:2%;" >
+        </div>
+            <div style="width: 99.6vw; position: relative; left: calc(-50vw + 50%); height=100%;" >
+                <div class="references" style="width: 50%; margin: 0 auto; padding: .4%; border-radius: 5px; border: 1px dashed var(--accent-color); color: var(--accent-color);" >
+                <details class="references" style="" >
+                    <summary style="font-size:1.2em;" > References</summary>
+                    <div style="padding:1%;" >
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://linuxacademy.com/course/lxc-lxd-deep-dive/" > https://linuxacademy.com/course/lxc-lxd-deep-dive/ </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://discuss.linuxcontainers.org/t/running-virtual-machines-with-lxd-4-0/7519" > https://discuss.linuxcontainers.org/t/running-virtual-machines-with-lxd-4-0/7519 </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://blog.simos.info/how-to-use-virtual-machines-in-lxd/" > https://blog.simos.info/how-to-use-virtual-machines-in-lxd/ </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://wiki.archlinux.org/index.php/Chroot" > https://wiki.archlinux.org/index.php/Chroot </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://github.com/bresilla/tent" > https://github.com/bresilla/tent </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://wiki.archlinux.org/index.php/Linux_Containers" > https://wiki.archlinux.org/index.php/Linux_Containers </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://www.techrepublic.com/article/how-to-use-lxd-to-deploy-containers/" > https://www.techrepublic.com/article/how-to-use-lxd-to-deploy-containers/ </a>
+                        </div>
+                        
+                        <div style="padding:.2%; padding-left:2%;" >
+                            - <a href="https://www.linode.com/docs/applications/containers/beginners-guide-to-lxd-reverse-proxy/" > https://www.linode.com/docs/applications/containers/beginners-guide-to-lxd-reverse-proxy/ </a>
+                        </div>
+                        
+                    </div>
+                    <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                            <div style="text-align: justify;" >
+                                <div>
+                                    © bresilla (this year 😛). All rights reserved.
+                                </div>
+                                <hr style="height:1px; border-width:0; background-color:var(--bg-color);">
+                                <div>
+                                    Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+                </div>
+                    <style> @media only screen and (max-width : 768px) { .references { width: 90% !important; } } </style>
+            </div>
+        </div>
+        
+    </article>
+</section>
+
+    
+
+            </div>
+            <footer class="footer">
+  <section class="container">
+    
+        
+        <a href="/quotes"><p>God is a comic playing to an audience that's afraid to laugh - Voltaire</p></a>
+        
+    
+  </section>
+</footer>
+
+        </main>
+        
+
+        
+        
+        <script type="text/javascript" src="/jquery/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="/jquery/jquery.typedjs-2.0.11.min.js"></script>
+        
+        <script type="text/javascript" src="/scripts/coder.js"></script>
+        <script type="text/javascript" src="/scripts/hr.js"></script>
+    </body>
+</html>

@@ -6,17 +6,13 @@
     <description>Recent content in lxd on bresilla</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Aug 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/lxd/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 01 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/lxd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Next-Gen system container management</title>
-      <link>/post/linux/lxd-lxc/</link>
+      <link>/post/software/chroot/lxd-lxc/</link>
       <pubDate>Sat, 01 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/linux/lxd-lxc/</guid>
+      <guid>/post/software/chroot/lxd-lxc/</guid>
       <description>The why? So, lately i&amp;rsquo;ve been deeply involved with *nix&amp;rsquo;s namespaces and cgrpups. I am trying to build ths tool called: tent, which basically at high level is a chroot clone but with modern flare. So it has some automatic mounting points, user directora manupilations etc&amp;hellip;
 Along the way, i got to learn quite a lot how linux handles containers, especially with liblxc. The way i was going with it was by trying to understand how Canonical&amp;rsquo;s lxd (lxc) works.</description>
     </item>
