@@ -1,3 +1,11 @@
+.container {
+  margin: 0 auto;
+  max-width: 90.0rem;
+  width: 100%;
+  padding-left: 2.0rem;
+  padding-right: 2.0rem;
+}
+
 .estate {
     max-width: 130rem;
     padding: 0 5% 0 5%;
@@ -49,6 +57,11 @@
         header {
             margin-top: 6.4rem;
             margin-bottom: 3.2rem;
+            width: 100%;
+            width: 99.6vw;
+            position: relative; 
+            left: calc(-50vw + 50%);
+            text-align: center;
             h1 {
                 font-size: 4.2rem;
                 line-height: 4.6rem;
@@ -151,17 +164,26 @@
         margin: 0.1em;
         border-radius: .5rem;
         position: relative;
-        .card_box {
-            border-radius: .8rem;
-            padding: 0.1rem;
-            margin: 0.1rem;
+        text-align: center;
+        &:hover { 
+            box-shadow: 0 4px 8px 0 #000000, 0 6px 20px 0 #000000; 
         }
         .card_image {
-            padding: 0.2rem;
+            padding: 0.25rem;
             object-fit: cover;
             border-radius: .8rem;
             width: 100%;
             height: 18rem;
+        }
+        hr {
+            border-style: none; 
+            // margin-left: 5%;
+            // margin-right: 5%;
+        }
+        .card_box {
+            padding: 1%;
+            font-weight: bold;
+            color: var(--bg-color);
         }
         .card_date, .card_time {
             background-color: rgb(23, 25, 26);
@@ -170,20 +192,19 @@
             // line-height: 1.25rem;
             padding-left: 1rem;
             padding-right: 1rem;
-            right: 1rem;
+            right: 1.8rem;
             position: absolute;
             font-weight: bold;
         }
-        .card_date { top: 1rem; }
-        .card_time { top: 15rem; }
+        .card_date { top: 1.8rem; }
+        .card_time { top: 14rem; }
         .card_title {
+            // background-color: var(--accent-color);
+            border-radius: .8rem;
             padding: 5%;
-            font-weight: bold;
         }
     }
-    a, a:after {
-        border-bottom:none !important;
-    }
+    a, a:after { border-bottom:none !important; }
 }
 
 .centered {

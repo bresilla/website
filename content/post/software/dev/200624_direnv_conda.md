@@ -14,7 +14,7 @@ tags = ["direnv", "anaconda", "python" ]
 
 
 [style]
-    accent = "#00af60"
+    accent = "#ee82ee"
     theme = "dark"
     width="60%"
 +++

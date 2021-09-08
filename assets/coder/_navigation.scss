@@ -1,13 +1,14 @@
 .navigation {
-height: 6.0rem;
-width: 100%;
-a, span {
-    display: inline;
-    font-size: 1.6rem;
-    font-family: $code-font-family;
-    font-weight: 900;
-    line-height: 6.0rem;
-    color: $fg-color;
+    // background-color: darken($bg-color, 20%);
+    height: 6.0rem;
+    width: 100%;
+    a, span {
+        display: inline;
+        font-size: 1.6rem;
+        font-family: $code-font-family;
+        font-weight: 900;
+        line-height: 6.0rem;
+        color: $fg-color;
 }
 a {
     &:hover,

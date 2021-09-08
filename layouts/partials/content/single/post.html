@@ -2,11 +2,13 @@
     <article>
         <header>
             {{ if .Params.title }}
+            <div style="background-color:red !important;">
                 <h1 class="{{ .Slug }} title glitchtitle"  data-text="{{ .Title }}" >{{ .Title }}</h1>
+            </div>
             {{ end }}
             {{ if .Params.type }}
             <div class="undertitle" style="padding-left:2%;" >
-                <details class="dropdown" >
+                <details class="dropdown">
                     <summary>
                         <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
                         <span style="color:var(--fg-color)">|</span>
@@ -52,7 +54,9 @@
                             <span style="color:var(--fg-color)">|</span>
                         </span>
                     </summary>
-                    {{ .TableOfContents }}
+                    <div  style="text-align: left; padding-left: 40%;">
+                        {{ .TableOfContents }}
+                    </div>
                 </details>
             </div>
             {{ end }}
@@ -67,7 +71,7 @@
                         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
                             <details>
                             <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
-                            <div style="padding-top:2em; text-align: justify;" >
+                            <div style="padding-left:1em; padding-right:1em; padding-top:2em; text-align: justify;" >
                                 <div>
                                     The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
                                 </div>
@@ -118,7 +122,7 @@
                         {{ end }}
                     </div>
                     <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
-                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:2%;" >
                             <div style="text-align: justify;" >
                                 <div>
                                     © bresilla (this year 😛). All rights reserved.

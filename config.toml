@@ -52,9 +52,11 @@ disqusShortname = "kushtrimbresilla"
 [params.style]
     accent = "#ff9000"
     theme = "dark"
-    bg = "#080a0f"
-    fg = "#c4d0d1"
+    bg = "#18191c"
+    fg = "#f3f3f3"
     min = "60em"
+    dark = "#131417"
+    light = "#e5e8e8"
 
 [taxonomies]
   type = "type"

@@ -3,9 +3,9 @@
     {{ if .Params.style.accent }} --accent-color:{{ .Params.style.accent }} {{ else if .Site.Params.style.accent }} --accent-color:{{ .Site.Params.style.accent }} {{ end }};
     {{ if .Params.style.theme }}
         {{ if eq .Params.style.theme "dark" }}
-            --bg-color:#080a0f; --fg-color:#c4d0d1;
+            --bg-color: {{ .Site.Params.style.bg }}; --fg-color: {{ .Site.Params.style.fg }};
         {{ else if eq .Params.style.theme "light" }}
-            --bg-color:#c4d0d1; --fg-color:#080a0f;
+            --bg-color: {{ .Site.Params.style.fg }}; --fg-color: {{ .Params.style.bg }};
         {{ end }}
     {{ else }}
         {{ if .Params.style.bg }} --bg-color:{{ .Params.style.bg }} {{ else if .Site.Params.style.bg }} --bg-color:{{ .Site.Params.style.bg }} {{ end }};
