@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" style="
-     --accent-color:#afd75f ;
+     --accent-color:#04f977 ;
     
         
-            --bg-color:#080a0f; --fg-color:#c4d0d1;
+            --bg-color: #18191c; --fg-color: #f3f3f3;
         
      ">
 
@@ -32,7 +32,7 @@
         
 
         <link rel="icon" type="image/png" href="/images/favicon.svg">
-        <meta name="generator" content="Hugo 0.86.0" />
+        <meta name="generator" content="Hugo 0.87.0" />
         
         
     </head>
@@ -50,7 +50,10 @@
         
         
         <main id="main" class="wrapper usbip">
-            <nav class="navigation">
+            
+
+
+<nav class="navigation" style="background-color: #131417; box-shadow: inset 0 -8px 16px 0 #00000048 ">
   <section class="container">
       <label class="title">
           <a class="navigation-title" href="/">
@@ -92,11 +95,13 @@
     <article>
         <header>
             
+            <div style="background-color:red !important;">
                 <h1 class="usbip title glitchtitle"  data-text="Setup a Raspberry Pi as a USB-over-IP server" >Setup a Raspberry Pi as a USB-over-IP server</h1>
+            </div>
             
             
             <div class="undertitle" style="padding-left:2%;" >
-                <details class="dropdown" >
+                <details class="dropdown">
                     <summary>
                         <span id="title_part" style="color:var(--bg-color); background-color:var(--accent-color); cursor: pointer; display:inline-block;" >&nbsp;INDEX&nbsp;</span>
                         <span style="color:var(--fg-color)">|</span>
@@ -164,7 +169,8 @@
                             <span style="color:var(--fg-color)">|</span>
                         </span>
                     </summary>
-                    <nav id="TableOfContents">
+                    <div  style="text-align: left; padding-left: 40%;">
+                        <nav id="TableOfContents">
   <ul>
     <li><a href="#creators">Creators</a></li>
     <li><a href="#versioning">Versioning</a></li>
@@ -199,6 +205,7 @@
     </li>
   </ul>
 </nav>
+                    </div>
                 </details>
             </div>
             
@@ -213,7 +220,7 @@
                         <div style="border: 2px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
                             <details>
                             <summary style="font-size:1.2em; color:var(--accent-color);" >Disclaimer!</summary>
-                            <div style="padding-top:2em; text-align: justify;" >
+                            <div style="padding-left:1em; padding-right:1em; padding-top:2em; text-align: justify;" >
                                 <div>
                                     The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).
                                 </div>
@@ -478,7 +485,7 @@ sudo systemctl start usbip.service
                         
                     </div>
                     <div class="hide_box" style="margin: 0 auto; padding:.2%; border-radius: 5px; border: 1px solid var(--accent-color); color:var(--bg-color); background-color:var(--accent-color);" >
-                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:.9%;" >
+                        <div style="border: 1px dashed var(--bg-color); border-radius: 5px; padding:2%;" >
                             <div style="text-align: justify;" >
                                 <div>
                                     © bresilla (this year 😛). All rights reserved.
@@ -502,7 +509,10 @@ sudo systemctl start usbip.service
     
 
             </div>
-            <footer class="footer">
+            
+
+
+<footer class="footer" style="background-color: #131417; box-shadow: inset 0 8px 16px 0 #00000048">
   <section class="container">
     
         

@@ -1,4 +1,7 @@
-<footer class="footer">
+{{ $theme := .Site.Params.style.dark }}
+{{ $shadow := "#00000048" }}
+{{ if eq .Params.style.theme "light" }} {{ $theme = .Site.Params.style.light }} {{ $shadow = "#11121628"}} {{ end }}
+<footer class="footer" style="background-color: {{ $theme }}; box-shadow: inset 0 8px 16px 0 {{ $shadow }}">
   <section class="container">
     {{ if .Params.foot }}
         {{ with .Params.foot | safeHTML }}

@@ -19,8 +19,8 @@
   font-weight: 200; }
 
 :root {
-  --bg-color: #080a0f;
-  --fg-color: #fafafa;
+  --bg-color: #18191c;
+  --fg-color: #f3f3f3;
   --accent-color: #ff9000;
   --glitch-color: var(--fg-color);
   --titlecolor: var(--fg-color);
@@ -171,13 +171,6 @@ img {
   min-height: 100vh;
   width: 100%; }
 
-.container {
-  margin: 0 auto;
-  max-width: 90.0rem;
-  width: 100%;
-  padding-left: 2.0rem;
-  padding-right: 2.0rem; }
-
 .fab {
   font-weight: 400; }
 
@@ -219,7 +212,7 @@ td, th {
   font-family: "Iosevka Term SS01", "Lucida Console", monospace;
   font-weight: 900;
   line-height: 2.0rem;
-  margin-bottom: 1.0rem;
+  padding-bottom: 1.0rem;
   font-size: 1.7rem; }
   .footer a {
     color: var(--fg-color);

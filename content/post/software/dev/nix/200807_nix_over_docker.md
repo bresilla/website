@@ -8,7 +8,7 @@ title = "Running the Nix package manager inside a Docker Container"
 foot = "The more I want to get something done, the less I call it work -- Richard Bach"
 categories = ["DEV"]
 series = ["NIX"]
-part="1"
+part="4"
 tags = ["docker", "linux", "nix" ]
 thumbnail = "https://picsum.photos/id/1015/400/250"
 
@@ -26,7 +26,7 @@ credits = [
 ]
 
 [style]
-    accent = "#a9771f"
+    accent = "#f72c4a"
     theme = "light"
     width="60%"
 
