@@ -11,7 +11,7 @@ series = ["GPG"]
 part="1"
 tags = ["yubikey","gpg","pass", "tomb", "cryptosetup" ]
 
-description= "generate secure GPG keys using secure liunx enviroiment and other secure linux tools"
+description= "generate secure GPG keys using secure Linux environment and other secure Linux tools"
 punchline = "Identity-based encryption is a type of public-key encryption in which a user can generate a public key from a known unique identifier such as an email address), and a trusted third-party server calculates the corresponding private key from the public key. In this way, there is no need to distribute public keys ahead of exchanging encrypted data. The sender can simply use the unique identifier of the receiver to generate a public key and encrypt the data. "
 
 credits = [
@@ -20,7 +20,7 @@ credits = [
     "https://spin.atomicobject.com/2013/11/24/secure-gpg-keys-guide/",
 ]
 
-tldr = "Were are gonna generate strong and private GPG keay by using a live environment 'TAILS'. Those keys will serve you for everthing, including singing documents, using as 2FA devices, unlocking computers... Since they are very important, we are gonna see how to back them up securely in a external usb drive, using built-in linux tool called 'cryptosetup'. But before that we are gonna use another layer of security by digging tombs and forging keys."
+tldr = "Were are gonna generate strong and private GPG key by using a live environment 'TAILS'. Those keys will serve you for everything, including singing documents, using as 2FA devices, unlocking computers... Since they are very important, we are gonna see how to back them up securely in a external usb drive, using built-in Linux tool called 'cryptosetup'. But before that we are gonna use another layer of security by digging tombs and forging keys."
 
 [style]
     accent = "#8e2a8b"
@@ -102,7 +102,7 @@ You selected this USER-ID:
 Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
 ```
 
-Depending on what OS/Distro you are using, a keyring window will open asking you to give the pasphrase for this newly generated key, and after that the key will be generated and will be something similar to this:
+Depending on what OS/Distro you are using, a keyring window will open asking you to give the passphrase for this newly generated key, and after that the key will be generated and will be something similar to this:
 ```bash
 pub   rsa4096 2020-01-10 [C]
       6E1214FB62C67F9576BD2E008E1C7857051C93A2
@@ -301,7 +301,7 @@ ssb  rsa4096/CC964AFC82754FD0
 
 Tomb is a free and open source system for file encryption on GNU/Linux. I is written in shell code that is easy to look and review. It works by generating encrypted storage folders to be opened and closed using their associated keyfiles, which are also generated with tomb and protected with a password chosen by the user. A tomb is like a locked folder that can be safely transported and hidden in a filesystem; its keys can be kept separate, for instance keeping the tomb file on your computer harddisk and the key files on a USB stick.
 
-You can get tomb through any of your prefered package manader for your distro (apt,yum,yay) which, obviously, I am not gonna show it here. Once you have it installed you can test is by calling it:
+You can get tomb through any of your preferred package manager for your distro (apt,yum,yay) which, obviously, I am not gonna show it here. Once you have it installed you can test is by calling it:
 
 {{< command >}} tomb {{< /command >}}
 ```bash
@@ -342,7 +342,7 @@ You can get tomb through any of your prefered package manader for your distro (a
 
 Now, let's think how to save our GPG keys.
 
-The best way is to create two tombs, one for SUBKEYS `subkey.tomb`/`subkey.key` and the other one for MASTERKEY  `master.tomb`/`master.key`. Eventhoug, the USBKEY where will GPG keys be saved is gonna be LUKS encrypted (more on that later), still its good to have separation between SUBKEYS and MASTERKEY. As mentioned before, the masterkey is the one used only to issue subkeys, and this will potentially be living as long as you live (unless quantum qomputers break RSA, then we all are f**ked). So its important to have a separation. One good case that comes to mind is, when formatting main machine, we want again to setup/copy/work with subkeys, and if in those times there is a malware lurking in the machine it can compromise not only the subkeys, but masterkey too.
+The best way is to create two tombs, one for SUBKEYS `subkey.tomb`/`subkey.key` and the other one for MASTERKEY  `master.tomb`/`master.key`. Even though, the usb key where will GPG keys be saved is gonna be LUKS encrypted (more on that later), still its good to have separation between SUBKEYS and MASTERKEY. As mentioned before, the master key is the one used only to issue subkeys, and this will potentially be living as long as you live (unless quantum computers break RSA, then we all are f**ked). So its important to have a separation. One good case that comes to mind is, when formatting main machine, we want again to setup/copy/work with subkeys, and if in those times there is a malware lurking in the machine it can compromise not only the subkeys, but MASTERKEY too.
 
 ## FORGING KEYS
 
@@ -361,7 +361,7 @@ tomb [W] If you are on a server, you can use an Entropy Generation Daemon.
 tomb (*) Choose the password of your key: master.key
 tomb  .  (You can also change it later using 'tomb passwd'.)
 ```
-Then you get a prompt (keyring based on your OS/Distro) to give a passphrase to this key. Since the key itself is encrypted, and cant be opened without the pasphrase. After that you the password is created:
+Then you get a prompt (keyring based on your OS/Distro) to give a passphrase to this key. Since the key itself is encrypted, and cant be opened without the passphrase. After that you the password is created:
 
 ```bash
 tomb  .  Key is valid.
@@ -371,7 +371,7 @@ tomb (*) Your key is ready:
 ```
 ## DIG A TOMB
 
-Now, after we have forged the keys, we ned to create the tombs:
+Now, after we have forged the keys, we need to create the tombs:
 {{< command >}} tomb dig -s 100 master.tomb {{< /command >}}
 ```bash
 tomb  .  Commanded to dig tomb master.tomb
@@ -388,7 +388,7 @@ tomb  .  tomb lock master.tomb -k master.key
 ```
 ## LOCK THE TOMB
 
-And finally lets lock the tomb with the foged key:
+And finally lets lock the tomb with the forged key:
 {{< command >}} tomb lock master.tomb -k master.key {{< /command >}}
 ```bash
 tomb  .  Commanded to lock tomb master.tomb
@@ -424,7 +424,7 @@ tomb  .  Cipher is "aes" mode "xts-plain64" hash "sha512"
 tomb  .  A password is required to use key master.key
 ```
 
-Again, it will prompt the keyring for keyphrase to unlock the fogeed key:
+Again, it will prompt the keyring for keyphrase to unlock the forged key:
 ```bash
 tomb  .  Password OK.
 tomb (*) Success unlocking tomb master
@@ -433,7 +433,7 @@ fsck from util-linux 2.34
 master: clean, 11/25168 files, 8831/100352 blocks
 tomb (*) Success opening master.tomb on /media/master
 ```
-Now we have aa drive mouted on `/media/master/` where we can save secret key.
+Now we have a drive mounted on `/media/master/` where we can save secret key.
 
 The exact same procedures are for subkeys too:
 
@@ -446,7 +446,7 @@ then, lock the tomb with the key:
 {{< command >}} tomb lock subkey.tomb -k subkey.key {{< /command >}}
 then, opening the tomb:
 {{< command >}} tomb open master.tomb -k master.key {{< /command >}}
-At the end we have another drive mouted on `/media/subkey/` where we can save subkeys key.
+At the end we have another drive mounted on `/media/subkey/` where we can save subkeys key.
 
 
 ## SLAM EVERYTHING
@@ -465,7 +465,7 @@ tomb (*) Tomb [subkey] closed: your bones will rest in peace.
 # BACKING-UP KEYS
 Now that we have the tombs open, we can back up our GPG.
 
-## PUBICKEY BACKUP
+## PUBLICKEY BACKUP
 {{< command >}}
 gpg --armor --export bruce.wayne@waynecorp.com > $TEMP/public.asc
 {{< /command >}}
@@ -491,18 +491,18 @@ tomb (*) Tomb [subkey] closed: your bones will rest in peace.
 
 
 ## MASTERKEY BACKUP
-Since we didn't `tomb slam` to close all tombs, we only closed `subkey` tomb with close comand, so we have `master` tomb still open on `/media/subkey`, and that's where we are going to back up the MASTERKEY, and same time, we are going to back up there an INVOCATION CAETIFICATE, in case anytime the master is compromised we can use it, and procedures are the same like for `subkey`:
+Since we didn't `tomb slam` to close all tombs, we only closed `subkey` tomb with close command, so we have `master` tomb still open on `/media/subkey`, and that's where we are going to back up the MASTERKEY, and same time, we are going to back up there an INVOCATION CERTIFICATE, in case anytime the master is compromised we can use it, and procedures are the same like for `subkey`:
 
 {{< command >}}
 gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/master/private.asc
 {{< /command >}}
 
 
-Now here, we dont close the tomb just yet, as we need to create an invocation certificate.
+Now here, we don't close the tomb just yet, as we need to create an invocation certificate.
 
 ## INVOCATION CERTIFICATE
 
-To generate an revocation certificate, we use the command: (it will prompt for the GPG pasphrase)
+To generate an revocation certificate, we use the command: (it will prompt for the GPG passphrase)
 
 {{< command >}}
 gpg --armor --gen-revoke bruce.wayne@waynecorp.com > /media/master/revoke.cert

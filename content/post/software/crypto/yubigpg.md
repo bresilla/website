@@ -43,7 +43,7 @@ credits = [
 
 
 {{< hide title="Disclaimer !!" >}}
-This is not a post of mine. Its completely A to Z copy and paste from the amazing drduh (https://github.com/drduh) post (link in the title). This is too amazing to be left just in one place, the interent is very fragile place, it might get broken anytime, so haveing in two places is better, ironic right?? This is internet too, but whatever fude. And is faster for me to find it.
+This is not a post of mine. Its completely A to Z copy and paste from the amazing drduh (https://github.com/drduh) post (link in the title). This is too amazing to be left just in one place, the internet is very fragile place, it might get broken anytime, so having in two places is better, ironic right?? This is internet too, but whatever dude. And is faster for me to find it.
 {{< /hide >}}
 
 
@@ -222,7 +222,7 @@ $ cat /proc/sys/kernel/random/entropy_avail
 849
 ```
 
-Most operating systems use software-based pseudorandom number generators. A hardware random number generator like [OneRNG](https://onerng.info/onerng/) will [increase the speed](https://lwn.net/Articles/648550/) of entropy generation and possibly the quality.
+Most operating systems use software-based pseudo-random number generators. A hardware random number generator like [OneRNG](https://onerng.info/onerng/) will [increase the speed](https://lwn.net/Articles/648550/) of entropy generation and possibly the quality.
 
 Install and configure OneRNG software:
 
@@ -1296,7 +1296,7 @@ $ sudo srm -r $GNUPGHOME || sudo rm -rf $GNUPGHOME
 $ gpg --delete-secret-key $KEYID
 ```
 
-**Important** Make sure you have securely erased all generated keys and revocation certificates if an ephemeral enviroment was not used!
+**Important** Make sure you have securely erased all generated keys and revocation certificates if an ephemeral environment was not used!
 
 # Using keys
 
@@ -1464,7 +1464,7 @@ Primary key fingerprint: 011C E16B D45B 27A5 5BA8  776D FF3E 7D88 647E BCDB
 
 # Rotating keys
 
-PGP does not provide forward secrecy - a compromised key may be used to decrypt all past messages. Although keys stored on YubiKey are difficult to steal, it is not impossible - the key and PIN could be taken, or a vulnerability may be discovered in key hardware or random number generator used to create them, for example. Therefore, it is good practice to occassionally rotate sub-keys.
+PGP does not provide forward secrecy - a compromised key may be used to decrypt all past messages. Although keys stored on YubiKey are difficult to steal, it is not impossible - the key and PIN could be taken, or a vulnerability may be discovered in key hardware or random number generator used to create them, for example. Therefore, it is good practice to occasionally rotate sub-keys.
 
 When a sub-key expires, it can either be renewed or replaced. Both actions require access to the offline master key. Renewing sub-keys by updating their expiration date indicates you are still in possession of the offline master key and is more convenient.
 
