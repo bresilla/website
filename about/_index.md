@@ -34,15 +34,6 @@ He is focused on research for the moment. Trying to utilize/develop tools to und
 - Brain-Computer interfaces, biological cognition ???
 - Quantum computing ???
 
- Here is where he tracks what he's currently learning, what skills already has obtained, and what has in plan for the future:
-
-{{< button url="/progress/" text="PROGRESS" position="center" >}}
-
 <h4 style="background-color: #04f977; color: black; padding: 4px;">$ find $HOME -type f -name "everyday" _</h4>
 
 In real life, he's a huge "space and time" nerd, "why do we exist" kind of guy, or better one: "do we actually exist, and if we do, can we prove it". He reads tons of physiosophy books. Basically, when in party, he's a buzz kiler, but in the bright side, he's very self-aware, and usually dosn't speak unless asked.
-
-
-If you wanna know him better, so if in case you meet in physical world(s) sometime (again, he's am a real person), you can check his lists below. Cos, he's wierd and likes to top list everything. And like his grandfather used to say: "Tell me what you do, and i tell you if you're my friend"
-
-{{< button url="/lists/" text="LISTS" position="center" >}}

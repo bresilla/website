@@ -84,17 +84,6 @@ The layout returns to the full slide after `reset_layout`.
 
 <!-- end_slide -->
 
-Local video, standard link
-==========================
-
-[Play the animated Bresilla logo](../../identity/bresilla.mp4)
-
-Presenterm keeps this as a normal link. FAQE recognizes the local video extension and upgrades it to an embedded, keyboard-reachable browser player.
-
-<!-- speaker_note: Interacting with the video controls must not advance the slide. -->
-
-<!-- end_slide -->
-
 Tables and structured content
 =============================
 

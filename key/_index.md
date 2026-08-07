@@ -9,10 +9,6 @@ foot = "In the kingdom of the blind, the one-eyed man is king"
     bg = "#000000"
 +++
 
-Well well well, what do we have here. As far as I can imagine, you either clicked the key icon, and now you dont understand what all of this is, or you actually do understand it very well. If the later, then send me an encrypted "hi".
-
-{{< button url="/public.asc" text="PUBLIC PGP KEY" position="center" >}}
-
 ```
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
