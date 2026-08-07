@@ -1,0 +1,116 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#5fd7ff;--chromatic-a:#5fd7ff;--chromatic-b:#ff5fd7;--bg-color:#18191c;--fg-color:#f3f3f3;--glitch-color:#f3f3f3;--interactive-color:#5fd7ff;--accent-text-color:#000000"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-15bb72d9e01c9c6a.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Use Nix for project tools while leaving Cargo, pip, npm, and other language package managers to manage source dependencies."><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#18191c"><meta property="og:title" content="Using Nix as a package manager for any language · bresilla"><meta property="og:description" content="Use Nix for project tools while leaving Cargo, pip, npm, and other language package managers to manage source dependencies."><meta property="og:type" content="article"><meta property="article:published_time" content="2020-08-07T00:00:00Z"><meta property="article:tag" content="direnv"><meta property="article:tag" content="nix-shell"><meta property="article:tag" content="package"><meta property="article:tag" content="language"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Using Nix as a package manager for any language · bresilla"><meta name="twitter:description" content="Use Nix for project tools while leaving Cargo, pip, npm, and other language package managers to manage source dependencies."><meta property="og:url" content="https://bresilla.com/post/software/dev/nix/nix-pckgs/"><link rel="canonical" href="https://bresilla.com/post/software/dev/nix/nix-pckgs/"><meta property="og:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta property="og:image:alt" content="Using Nix as a package manager for any language"><meta name="twitter:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta name="twitter:image:alt" content="Using Nix as a package manager for any language"><title>Using Nix as a package manager for any language · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-4aeec26e6edb292b.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>Using Nix as a package manager for any language</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#the-dependency-nobody-wrote-down">The dependency nobody wrote down</a></li><li><a href="#borrow-a-package-for-one-command">Borrow a package for one command</a></li><li><a href="#commit-a-development-shell">Commit a development shell</a></li><li><a href="#the-same-shell-as-a-flake">The same shell as a flake</a></li><li><a href="#examples-by-language">Examples by language</a></li><li><a href="#load-it-automatically">Load it automatically</a></li><li><a href="#what-reproducible-means-here">What reproducible means here</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-dependency-nobody-wrote-down">The dependency nobody wrote down</h2>
+<p>A Python project may have a perfect <code>requirements.txt</code> and still fail because <code>libpq</code> is missing. A Rust project can pin every crate and still need Clang, CMake, Protobuf, or OpenSSL from the host. JavaScript packages occasionally assume a C compiler exists. Even a shell script quietly depends on the exact behavior of <code>sed</code>, <code>curl</code>, and whatever else happens to be in <code>PATH</code>.</p>
+<p>Language package managers handle language packages well. I do not want Nix to replace Cargo or pip merely because it can. I want Nix to describe the layer they usually ignore: interpreters, compilers, command-line tools, native libraries, and environment variables.</p>
+<p>That split keeps the setup understandable:</p>
+<ul>
+<li>Nix provides system-level project tools.</li>
+<li>Cargo, pip, npm, Go modules, and similar tools provide source dependencies.</li>
+<li>Each side commits its own lock file.</li>
+</ul>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="borrow-a-package-for-one-command">Borrow a package for one command</h2>
+<p>Suppose <code>jq</code> is not installed. There is no need to add it to the whole system:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix-shell</span> <span class="ts-constant">-p</span> jq
+</code></pre></div>
+<p>Inside that shell:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">jq</span> <span class="ts-constant">--version</span>
+</code></pre></div>
+<p>Exit and it disappears from <code>PATH</code>. Run a command without entering an interactive shell:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix-shell</span> <span class="ts-constant">-p</span> jq curl <span class="ts-constant">--run</span> <span class="ts-string">&#39;curl -s https://api.github.com | jq .current_user_url&#39;</span>
+</code></pre></div>
+<p>The newer command interface expresses the same idea like this:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> shell nixpkgs#jq nixpkgs#curl
+</code></pre></div>
+<p>These commands are convenient, not reproducible by themselves. If <code>nixpkgs</code> is not pinned, running the command next year may select different package versions.</p>
+<p>Use <a href="https://search.nixos.org/packages" rel="noopener noreferrer">search.nixos.org</a> to find package attribute names. The executable and package names are not always identical.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="commit-a-development-shell">Commit a development shell</h2>
+<p>For a project, write the environment down. This <code>shell.nix</code> gives a C project Meson, Ninja, pkg-config, and OpenSSL headers:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">let
+  nixpkgs = fetchTarball &quot;https://github.com/NixOS/nixpkgs/tarball/nixos-26.05&quot;;
+  pkgs = import nixpkgs { config = {}; overlays = []; };
+in
+pkgs.mkShell {
+  packages = with pkgs; [
+    meson
+    ninja
+    pkg-config
+  ];
+
+  buildInputs = with pkgs; [
+    openssl
+  ];
+}
+</code></pre></div>
+<p>Run:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix-shell</span>
+<span class="ts-function">meson</span> setup build
+<span class="ts-function">ninja</span> <span class="ts-constant">-C</span> build
+</code></pre></div>
+<p>The pinned Nixpkgs release is much better than importing <code>&lt;nixpkgs&gt;</code>, which depends on the user’s channel. For stronger reproducibility, replace the release branch with an exact Git commit and a fixed hash, or use a flake lock.</p>
+<p><code>packages</code> is the right home for tools executed during development. Libraries used for compilation often belong in <code>buildInputs</code>. Nix’s compiler wrappers then supply the necessary search flags. The exact distinction matters more for packaging than for a simple shell, but using it correctly avoids confusion later.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-same-shell-as-a-flake">The same shell as a flake</h2>
+<p>Flakes put input locking into the normal workflow:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">{
+  description = &quot;C development environment&quot;;
+
+  inputs.nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-26.05&quot;;
+
+  outputs = { self, nixpkgs }:
+    let
+      system = &quot;x86_64-linux&quot;;
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          meson
+          ninja
+          pkg-config
+        ];
+        buildInputs = with pkgs; [ openssl ];
+      };
+    };
+}
+</code></pre></div>
+<p>Create and commit the lock file:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> flake lock
+<span class="ts-function">git</span> add flake.nix flake.lock
+</code></pre></div>
+<p>Enter with:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> develop
+</code></pre></div>
+<p>The example names <code>x86_64-linux</code> directly to keep the Nix code readable. A real multi-platform repository should generate shells for every supported system rather than pretending one platform string is portable.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="examples-by-language">Examples by language</h2>
+<p>The pattern stays the same even when the tools change.</p>
+<p>Python with native numerical libraries:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">pkgs.mkShell {
+  packages = with pkgs; [ python312 uv ];
+  buildInputs = with pkgs; [ stdenv.cc.cc.lib ];
+}
+</code></pre></div>
+<p>Rust with bindgen:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">pkgs.mkShell {
+  packages = with pkgs; [ cargo rustc rustfmt clang pkg-config ];
+  LIBCLANG_PATH = &quot;${pkgs.libclang.lib}/lib&quot;;
+}
+</code></pre></div>
+<p>Node with a database client used by migrations:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">pkgs.mkShellNoCC {
+  packages = with pkgs; [ nodejs_22 pnpm postgresql_16 ];
+}
+</code></pre></div>
+<p>These snippets do not replace <code>uv.lock</code>, <code>Cargo.lock</code>, or <code>pnpm-lock.yaml</code>. They make sure the expected interpreter and external tools exist before the language package manager starts.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="load-it-automatically">Load it automatically</h2>
+<p>Direnv can load the shell when entering the repository. With a <code>shell.nix</code>, create <code>.envrc</code> containing:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">use</span> nix
+</code></pre></div>
+<p>With nix-direnv and a flake:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">use</span> flake
+</code></pre></div>
+<p>Then approve it:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">direnv</span> allow
+</code></pre></div>
+<p>Read <code>.envrc</code> and the Nix expression before approving them. Nix builds are designed for isolation, but development shells can execute <code>shellHook</code> code and expose whatever credentials already exist in the environment.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-reproducible-means-here">What reproducible means here</h2>
+<p>A pinned Nix input fixes the package definitions. Nix store paths include hashes derived from build inputs, so conflicting versions can coexist instead of fighting over <code>/usr/lib</code>. This removes a large class of “works on my machine” failures.</p>
+<p>It does not freeze the universe. A development command can still download unpinned data, contact a mutable service, read files outside the repository, or behave differently across operating systems. Reproducibility comes from closing those gaps one by one, not from adding the word Nix to a README.</p>
+<p>I usually start with <code>nix-shell -p</code> when exploring. Once the tool list stops changing every five minutes, I move it into <code>shell.nix</code> or a flake and pin the input. That is enough for most projects: no global compiler pile, no mystery <code>PATH</code>, and no attempt to force every language dependency through one package manager.</p>
+</main></div><script type="module" src="/assets/bootstrap-3452e0888c06c1be.js"></script></body></html>

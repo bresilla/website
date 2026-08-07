@@ -1,0 +1,133 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#fef460;--chromatic-a:#fef460;--chromatic-b:#60fef4;--bg-color:#18191c;--fg-color:#f3f3f3;--glitch-color:#f3f3f3;--interactive-color:#fef460;--accent-text-color:#000000"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-15bb72d9e01c9c6a.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="A small project registry, automatic Nix development shells, and a Rofi launcher without a giant IDE workspace."><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#18191c"><meta property="og:title" content="How to manage projects, the *NIX way! · bresilla"><meta property="og:description" content="A small project registry, automatic Nix development shells, and a Rofi launcher without a giant IDE workspace."><meta property="og:type" content="article"><meta property="article:published_time" content="2020-07-25T00:00:00Z"><meta property="article:tag" content="direnv"><meta property="article:tag" content="nix-shell"><meta property="article:tag" content="nix-direnv"><meta property="article:tag" content="rofi"><meta property="article:tag" content="projects"><meta property="article:tag" content="proji"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="How to manage projects, the *NIX way! · bresilla"><meta name="twitter:description" content="A small project registry, automatic Nix development shells, and a Rofi launcher without a giant IDE workspace."><meta property="og:url" content="https://bresilla.com/post/software/dev/direnv-nixshel-proji/"><link rel="canonical" href="https://bresilla.com/post/software/dev/direnv-nixshel-proji/"><meta property="og:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta property="og:image:alt" content="How to manage projects, the *NIX way!"><meta name="twitter:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta name="twitter:image:alt" content="How to manage projects, the *NIX way!"><title>How to manage projects, the *NIX way! · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-4aeec26e6edb292b.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>How to manage projects, the *NIX way!</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#the-itch">The itch</a></li><li><a href="#give-projects-a-home">Give projects a home</a></li><li><a href="#put-the-environment-in-the-repository">Put the environment in the repository</a></li><li><a href="#let-direnv-do-the-repetitive-bit">Let direnv do the repetitive bit</a></li><li><a href="#build-the-launcher">Build the launcher</a></li><li><a href="#add-projects-without-editing-tsv-by-hand">Add projects without editing TSV by hand</a></li><li><a href="#what-this-setup-does-not-do">What this setup does not do</a></li></ul></nav><figure class="imageframeholder"><div class="imageimageframe" style="--faqe-image-width:70%;--faqe-image-radius:10px;--faqe-image-border:1px"><img alt="A Rofi menu listing active projects" src="/assets/content/projects-menu-c8e72038064c6f13.png"></div><figcaption class="imagetextframe"> A Rofi menu listing active projects </figcaption></figure>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-itch">The itch</h2>
+<p>My projects never lived in one language, one editor, or even one sensible directory. A robotics experiment might need Python, a compiler project wants Rust and LLVM, and an old blog tool still expects something I installed three years ago and immediately forgot about. The code is usually easy to find. Reconstructing the exact environment is the annoying part.</p>
+<p>I originally called my little project manager <strong>Proji</strong>. That repository is retired now, but the useful idea was much smaller than the program: keep projects in predictable places, store the environment beside the code, and generate the launcher menu from data instead of maintaining it by hand.</p>
+<p>The current version of that workflow uses four boring pieces:</p>
+<ul>
+<li>Git owns the project.</li>
+<li>Nix describes the tools.</li>
+<li>direnv activates them when I enter the directory.</li>
+<li>A tiny index feeds Rofi, <code>fzf</code>, or any other menu.</li>
+</ul>
+<p>No database is required. This is project management in the literal sense of “where did I put the thing?”</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="give-projects-a-home">Give projects a home</h2>
+<p>I use a shallow directory tree grouped by broad purpose:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">text</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-text" data-lang="text">~/code/
+├── experiments/
+├── research/
+├── tools/
+└── websites/
+</code></pre></div>
+<p>The categories are not taxonomy. They are there so <code>find ~/code -maxdepth 3</code> remains useful. A project should not move every time my opinion about it changes.</p>
+<p>For a small setup, the filesystem itself can be the registry:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">find</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">HOME</span>/code&quot;</span> <span class="ts-constant">-mindepth</span> 2 <span class="ts-constant">-maxdepth</span> 2 <span class="ts-constant">-type</span> d <span class="ts-constant">-name</span> .git <span class="ts-constant">-printf</span> <span class="ts-string">&#39;%h\n&#39;</span>
+</code></pre></div>
+<p>I prefer an explicit file because it lets me hide archived repositories and attach a short label. Save this as <code>~/.config/projects.tsv</code>:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">text</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-text" data-lang="text">faqe	/home/me/code/tools/faqe
+website	/home/me/code/websites/website
+plant-model	/home/me/code/research/plant-model
+</code></pre></div>
+<p>Tabs separate the label and path. That is enough structure for a menu and still easy to edit without a special client.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="put-the-environment-in-the-repository">Put the environment in the repository</h2>
+<p>Here is a minimal <code>flake.nix</code> for a Rust project:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">{
+  description = &quot;project development shell&quot;;
+
+  inputs.nixpkgs.url = &quot;github:NixOS/nixpkgs/nixos-unstable&quot;;
+
+  outputs = { self, nixpkgs }:
+    let
+      system = &quot;x86_64-linux&quot;;
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          cargo
+          rustc
+          rustfmt
+          pkg-config
+        ];
+      };
+    };
+}
+</code></pre></div>
+<p>Run <code>nix flake lock</code> once and commit both files. The lock file pins the inputs; without it, “use nixpkgs unstable” means a different package set later.</p>
+<p>Enter manually with:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> develop
+</code></pre></div>
+<p>For an older project that uses <code>shell.nix</code>, the equivalent is:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">nix</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-nix" data-lang="nix">let
+  nixpkgs = fetchTarball &quot;https://github.com/NixOS/nixpkgs/tarball/nixos-26.05&quot;;
+  pkgs = import nixpkgs {};
+in
+pkgs.mkShell {
+  packages = with pkgs; [ git jq ];
+}
+</code></pre></div>
+<p>Then run <code>nix-shell</code>. Flakes and <code>shell.nix</code> solve the same immediate problem here: the repository states which tools belong in its development shell.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="let-direnv-do-the-repetitive-bit">Let direnv do the repetitive bit</h2>
+<p>Install direnv and hook it into the interactive shell. For Bash:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">eval</span> <span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">direnv</span> hook bash)</span>&quot;</span>
+</code></pre></div>
+<p>For Zsh:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">zsh</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-zsh" data-lang="zsh"><span class="ts-function">eval</span> <span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">direnv</span> hook zsh)</span>&quot;</span>
+</code></pre></div>
+<p>With nix-direnv installed, a flake-backed <code>.envrc</code> is one line:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">use</span> flake
+</code></pre></div>
+<p>For <code>shell.nix</code>:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">use</span> nix
+</code></pre></div>
+<p>Approve it after reading it:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">direnv</span> allow
+</code></pre></div>
+<p>Now <code>cd</code> into the project. The tools appear. Leave it and they disappear from <code>PATH</code>. When <code>flake.nix</code>, <code>flake.lock</code>, or <code>shell.nix</code> changes, direnv reloads the environment.</p>
+<p>The approval step matters because <code>.envrc</code> is executable shell code. Never auto-approve every repository you clone. That would turn a useful safety check into theatre.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="build-the-launcher">Build the launcher</h2>
+<p>This script reads the registry, asks Rofi to choose a label, and opens the selected project in a terminal. Save it as <code>~/.local/bin/project-menu</code>:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-comment">#!/usr/bin/env bash</span>
+<span class="ts-function">set</span> <span class="ts-constant">-euo</span> pipefail
+
+<span class="ts-property">registry</span>=<span class="ts-string">&quot;<span class="ts-embedded">${<span class="ts-property">XDG_CONFIG_HOME</span>:-<span class="ts-operator">$</span><span class="ts-property">HOME</span>/.config}</span>/projects.tsv&quot;</span>
+<span class="ts-property">choice</span>=<span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">cut</span> <span class="ts-constant">-f1</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span> <span class="ts-operator">|</span> <span class="ts-function">rofi</span> <span class="ts-constant">-dmenu</span> <span class="ts-constant">-i</span> <span class="ts-constant">-p</span> <span class="ts-string">&#39;project&#39;</span>)</span>&quot;</span>
+<span class="ts-function">test</span> <span class="ts-constant">-n</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">choice</span>&quot;</span> || <span class="ts-function">exit</span> 0
+
+<span class="ts-property">path</span>=<span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">awk</span> <span class="ts-constant">-F</span> <span class="ts-string">&#39;\t&#39;</span> <span class="ts-constant">-v</span> name=<span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">choice</span>&quot;</span> <span class="ts-string">&#39;$1 == name { print $2; exit }&#39;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span>)</span>&quot;</span>
+<span class="ts-function">test</span> <span class="ts-constant">-d</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">path</span>&quot;</span> || {
+  <span class="ts-function">printf</span> <span class="ts-string">&#39;project path does not exist: %s\n&#39;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">path</span>&quot;</span> &gt;&amp;2
+  <span class="ts-function">exit</span> 1
+}
+
+<span class="ts-function">exec</span> foot <span class="ts-constant">--working-directory=<span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">path</span>&quot;</span></span>
+</code></pre></div>
+<p>Replace <code>foot</code> with the terminal you actually use. For example, Kitty accepts <code>kitty --directory &quot;$path&quot;</code>, while Alacritty accepts <code>alacritty --working-directory &quot;$path&quot;</code>.</p>
+<p>Make it executable:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">chmod</span> +x ~/.local/bin/project-menu
+</code></pre></div>
+<p>Bind that script to a desktop shortcut. I use the menu for old projects more than active ones; active projects are already sitting in a terminal somewhere.</p>
+<p>If Rofi is not available, the same registry works with <code>fzf</code>:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-property">choice</span>=<span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">cut</span> <span class="ts-constant">-f1</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span> <span class="ts-operator">|</span> <span class="ts-function">fzf</span> <span class="ts-constant">--prompt=<span class="ts-string">&#39;project&gt; &#39;</span></span>)</span>&quot;</span>
+</code></pre></div>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="add-projects-without-editing-tsv-by-hand">Add projects without editing TSV by hand</h2>
+<p>A helper keeps the registry free of duplicate labels:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-comment">#!/usr/bin/env bash</span>
+<span class="ts-function">set</span> <span class="ts-constant">-euo</span> pipefail
+
+<span class="ts-property">name</span>=<span class="ts-string">&quot;<span class="ts-embedded">${<span class="ts-property">1</span>:?usage: project-add NAME PATH}</span>&quot;</span>
+<span class="ts-property">path</span>=<span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">realpath</span> <span class="ts-string">&quot;<span class="ts-embedded">${<span class="ts-property">2</span>:?usage: project-add NAME PATH}</span>&quot;</span>)</span>&quot;</span>
+<span class="ts-property">registry</span>=<span class="ts-string">&quot;<span class="ts-embedded">${<span class="ts-property">XDG_CONFIG_HOME</span>:-<span class="ts-operator">$</span><span class="ts-property">HOME</span>/.config}</span>/projects.tsv&quot;</span>
+
+<span class="ts-function">mkdir</span> <span class="ts-constant">-p</span> <span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">dirname</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span>)</span>&quot;</span>
+<span class="ts-keyword">if</span> <span class="ts-function">test</span> <span class="ts-constant">-f</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span> <span class="ts-operator">&amp;&amp;</span> <span class="ts-function">cut</span> <span class="ts-constant">-f1</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span> <span class="ts-operator">|</span> <span class="ts-function">grep</span> <span class="ts-constant">-Fxq</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">name</span>&quot;</span>; <span class="ts-keyword">then</span>
+  <span class="ts-function">printf</span> <span class="ts-string">&#39;project already exists: %s\n&#39;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">name</span>&quot;</span> &gt;&amp;2
+  <span class="ts-function">exit</span> 1
+<span class="ts-keyword">fi</span>
+
+<span class="ts-function">printf</span> <span class="ts-string">&#39;%s\t%s\n&#39;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">name</span>&quot;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">path</span>&quot;</span> <span class="ts-operator">&gt;&gt;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span>
+<span class="ts-function">sort</span> <span class="ts-constant">-o</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">registry</span>&quot;</span>
+</code></pre></div>
+<p>There is deliberately no clone command in it. Cloning a repository, choosing its directory, and deciding whether to trust its <code>.envrc</code> should remain visible operations.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-this-setup-does-not-do">What this setup does not do</h2>
+<p>It does not track tasks, issues, time, or project status. GitHub and GitLab already do some of that, and plain text does the rest. It also does not make a Nix shell perfectly reproducible by itself. Pin the package source, commit the lock file, and remember that external services and mutable data still exist.</p>
+<p>What it does give me is a repeatable entrance. Pick a project, land in its directory, and get the tools it declared. Proji was the first version of that idea. The tiny version has survived longer because there is almost nothing to break.</p>
+</main></div><script type="module" src="/assets/bootstrap-3452e0888c06c1be.js"></script></body></html>

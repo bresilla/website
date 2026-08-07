@@ -1,0 +1,80 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#ee82ee;--chromatic-a:#ee82ee;--chromatic-b:#eeee82;--bg-color:#18191c;--fg-color:#f3f3f3;--glitch-color:#f3f3f3;--interactive-color:#ee82ee;--accent-text-color:#000000"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-15bb72d9e01c9c6a.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Activate a project-local Conda environment when entering a directory and cleanly unload it when leaving."><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#18191c"><meta property="og:title" content="Using direnv with Conda · bresilla"><meta property="og:description" content="Activate a project-local Conda environment when entering a directory and cleanly unload it when leaving."><meta property="og:type" content="article"><meta property="article:published_time" content="2020-06-24T00:00:00Z"><meta property="article:tag" content="direnv"><meta property="article:tag" content="anaconda"><meta property="article:tag" content="conda"><meta property="article:tag" content="python"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Using direnv with Conda · bresilla"><meta name="twitter:description" content="Activate a project-local Conda environment when entering a directory and cleanly unload it when leaving."><meta property="og:url" content="https://bresilla.com/post/software/dev/direnv-anaconda/"><link rel="canonical" href="https://bresilla.com/post/software/dev/direnv-anaconda/"><meta property="og:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta property="og:image:alt" content="Using direnv with Conda"><meta name="twitter:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta name="twitter:image:alt" content="Using direnv with Conda"><title>Using direnv with Conda · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-4aeec26e6edb292b.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>Using direnv with Conda</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#why-combine-them">Why combine them?</a></li><li><a href="#install-the-shell-hook">Install the shell hook</a></li><li><a href="#create-a-local-environment">Create a local environment</a></li><li><a href="#add-the-envrc">Add the .envrc</a></li><li><a href="#make-the-environment-reproducible">Make the environment reproducible</a></li><li><a href="#keep-secrets-separate">Keep secrets separate</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="why-combine-them">Why combine them?</h2>
+<p>Conda manages Python interpreters, native libraries, and packages. Direnv watches the current directory and adjusts the shell environment when I enter or leave it. Put them together and each project gets its own Conda environment without the daily ritual of typing <code>conda activate</code> and later forgetting which environment is still active.</p>
+<p>There is no magic daemon hiding behind this. Direnv finds an approved <code>.envrc</code>, evaluates it in a Bash subprocess, and exports the resulting environment difference into the current shell. When I leave the directory, it reverses that difference. Conda activation also works by emitting shell code that changes <code>PATH</code> and a few <code>CONDA_*</code> variables. The two tools fit together rather neatly.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="install-the-shell-hook">Install the shell hook</h2>
+<p>Install Conda and direnv using the method appropriate for your system. Then add the direnv hook to the shell.</p>
+<p>For Bash:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">eval</span> <span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">direnv</span> hook bash)</span>&quot;</span>
+</code></pre></div>
+<p>For Zsh:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">zsh</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-zsh" data-lang="zsh"><span class="ts-function">eval</span> <span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">direnv</span> hook zsh)</span>&quot;</span>
+</code></pre></div>
+<p>Put the matching line near the end of <code>~/.bashrc</code> or <code>~/.zshrc</code>, then start a new shell. Check both commands before touching the project:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">direnv</span> version
+<span class="ts-function">conda</span> <span class="ts-constant">--version</span>
+</code></pre></div>
+<p>I prefer not to auto-activate Conda’s base environment. It keeps the normal shell boring and makes project activation obvious:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">conda</span> config <span class="ts-constant">--set</span> auto_activate_base false
+</code></pre></div>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="create-a-local-environment">Create a local environment</h2>
+<p>From the project root, create the environment inside the project instead of giving it a global name:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">mkdir</span> sensor-model
+<span class="ts-function">cd</span> sensor-model
+<span class="ts-function">conda</span> create <span class="ts-constant">--prefix</span> ./.conda python=3.12 pip
+</code></pre></div>
+<p>The exact Python version is a project decision, not a universal recommendation. The useful part is <code>--prefix ./.conda</code>: the environment now lives beside the project that owns it.</p>
+<p>Do not commit the environment directory. It contains platform-specific binaries and can be rebuilt from a manifest.</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">gitignore</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-gitignore" data-lang="gitignore">.conda/
+.direnv/
+</code></pre></div>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="add-the-envrc">Add the <code>.envrc</code></h2>
+<p>Create <code>.envrc</code> in the project root:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-keyword">if</span> ! <span class="ts-function">has</span> conda; <span class="ts-keyword">then</span>
+  <span class="ts-function">echo</span> <span class="ts-string">&quot;conda is not available in PATH&quot;</span> &gt;&amp;2
+  <span class="ts-function">return</span> 1
+<span class="ts-keyword">fi</span>
+
+<span class="ts-function">eval</span> <span class="ts-string">&quot;<span class="ts-embedded">$(<span class="ts-function">conda</span> shell.bash hook)</span>&quot;</span>
+<span class="ts-function">conda</span> activate <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">PWD</span>/.conda&quot;</span>
+</code></pre></div>
+<p>Even if the interactive shell is Zsh or Fish, direnv evaluates <code>.envrc</code> through Bash. That is why <code>conda shell.bash hook</code> is intentional.</p>
+<p>Direnv refuses to execute a new or modified <code>.envrc</code> until it is approved:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">direnv</span> allow
+</code></pre></div>
+<p>The prompt should now show the Conda environment, depending on the prompt theme. These checks are less pretty but more reliable:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">echo</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">CONDA_PREFIX</span>&quot;</span>
+<span class="ts-function">python</span> <span class="ts-constant">--version</span>
+<span class="ts-function">command</span> <span class="ts-constant">-v</span> python
+</code></pre></div>
+<p><code>CONDA_PREFIX</code> should end in <code>/sensor-model/.conda</code>, and <code>python</code> should resolve inside that directory. Move one directory up and direnv unloads it. Come back and it loads again.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="make-the-environment-reproducible">Make the environment reproducible</h2>
+<p>A local prefix gives isolation, but isolation is not reproducibility. Record the dependencies in <code>environment.yml</code>:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">yaml</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-yaml" data-lang="yaml">name: sensor-model
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - pandas
+  - pip
+  - pip:
+      - pyserial
+</code></pre></div>
+<p>Create the local prefix from that file:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">conda</span> env create <span class="ts-constant">--prefix</span> ./.conda <span class="ts-constant">--file</span> environment.yml
+<span class="ts-function">direnv</span> reload
+</code></pre></div>
+<p>After changing the manifest, update the existing environment and remove dependencies that disappeared from the file:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">conda</span> env update <span class="ts-constant">--prefix</span> ./.conda <span class="ts-constant">--file</span> environment.yml <span class="ts-constant">--prune</span>
+</code></pre></div>
+<p>Conda’s solver may still select newer package builds over time unless the inputs are locked. For a research project that must be reconstructed exactly, generate platform-specific lock files with a dedicated lock tool or export an explicit package list alongside the readable <code>environment.yml</code>. I keep the readable file as the source of intent and use a lock only where exact binary reproduction matters.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="keep-secrets-separate">Keep secrets separate</h2>
+<p><code>.envrc</code> is shell code. Read it before running <code>direnv allow</code>, especially after pulling somebody else’s repository. Approval is a safety boundary, not an annoying confirmation dialog.</p>
+<p>Do not put tokens in the committed file. Load a private companion file instead:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">source_env_if_exists</span> .envrc.private
+</code></pre></div>
+<p>Then ignore it:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">gitignore</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-gitignore" data-lang="gitignore">.envrc.private
+</code></pre></div>
+<p>Direnv now owns directory-based activation, Conda owns the Python environment, and Git owns the small files needed to rebuild it. That is the whole setup. More importantly, leaving the project puts the shell back the way it was.</p>
+</main></div><script type="module" src="/assets/bootstrap-3452e0888c06c1be.js"></script></body></html>

@@ -1,0 +1,94 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#04f977;--chromatic-a:#04f977;--chromatic-b:#7704f9;--bg-color:#18191c;--fg-color:#f3f3f3;--glitch-color:#f3f3f3;--interactive-color:#04f977;--accent-text-color:#000000"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-15bb72d9e01c9c6a.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Share a USB device from a Raspberry Pi and attach it to another Linux machine over a trusted network."><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#18191c"><meta property="og:title" content="Set up a Raspberry Pi as a USB-over-IP server · bresilla"><meta property="og:description" content="Share a USB device from a Raspberry Pi and attach it to another Linux machine over a trusted network."><meta property="og:type" content="article"><meta property="article:published_time" content="2020-08-09T00:00:00Z"><meta property="article:tag" content="usbip"><meta property="article:tag" content="linux"><meta property="article:tag" content="hardware"><meta property="article:tag" content="usb"><meta property="article:tag" content="network"><meta property="article:tag" content="FUSE"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Set up a Raspberry Pi as a USB-over-IP server · bresilla"><meta name="twitter:description" content="Share a USB device from a Raspberry Pi and attach it to another Linux machine over a trusted network."><meta property="og:url" content="https://bresilla.com/post/hardware/raspberry/usbip/"><link rel="canonical" href="https://bresilla.com/post/hardware/raspberry/usbip/"><meta property="og:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta property="og:image:alt" content="Set up a Raspberry Pi as a USB-over-IP server"><meta name="twitter:image" content="https://bresilla.com/assets/content/thumbnail-a90bd4f91b5efd6e.png"><meta name="twitter:image:alt" content="Set up a Raspberry Pi as a USB-over-IP server"><title>Set up a Raspberry Pi as a USB-over-IP server · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-4aeec26e6edb292b.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>Set up a Raspberry Pi as a USB-over-IP server</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#why-i-use-usbip">Why I use USB/IP</a></li><li><a href="#the-two-halves">The two halves</a></li><li><a href="#configure-the-raspberry-pi">Configure the Raspberry Pi</a></li><li><a href="#attach-the-device-from-linux">Attach the device from Linux</a></li><li><a href="#survive-a-reboot">Survive a reboot</a></li><li><a href="#what-works-and-what-gets-weird">What works, and what gets weird</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="why-i-use-usbip">Why I use USB/IP</h2>
+<p>Sometimes the machine that needs a USB device is nowhere near the device. A virtual machine may not have useful USB passthrough, a home server may sit in a cupboard, or a Raspberry Pi may simply be the only computer in the right room.</p>
+<p>USB/IP solves that awkward little problem. The Pi exports a physical USB device, and another Linux machine imports it through a virtual host controller. Applications on the client see an ordinary USB device; they do not need a special network-aware driver.</p>
+<p>There is one important catch: USB/IP is transport, not a secure tunnel. Do not expose its TCP port to the internet. I use it only on a trusted LAN or through a VPN, with a firewall limiting which client may connect.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-two-halves">The two halves</h2>
+<p>The names become much easier once the direction is clear:</p>
+<ul>
+<li>The <strong>server</strong> has the physical USB device and runs <code>usbipd</code>.</li>
+<li>The <strong>client</strong> loads <code>vhci-hcd</code> and attaches the remote device.</li>
+<li>The device’s normal driver runs on the client.</li>
+</ul>
+<p>The examples below use Raspberry Pi OS or another Debian-family system on both ends. Package names differ on some distributions, but the USB/IP commands are the same.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="configure-the-raspberry-pi">Configure the Raspberry Pi</h2>
+<p>Install the userspace tools:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> apt update
+<span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> apt install usbip
+</code></pre></div>
+<p>Load the server-side kernel modules:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> modprobe usbip-core
+<span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> modprobe usbip-host
+</code></pre></div>
+<p>If <code>modprobe</code> reports that a module does not exist, check that the running kernel includes USB/IP support and that its matching modules package is installed. Mixing a newly installed module package with an old, still-running kernel is an easy way to waste an afternoon; reboot into the new kernel before debugging anything stranger.</p>
+<p>Now inspect the local devices:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">usbip</span></span> list <span class="ts-constant">--local</span>
+ <span class="ts-constant">-</span> busid 1-1.2 (<span class="ts-function">1050:0407</span>)
+   <span class="ts-function">Yubico.com</span> : Yubikey 4/5 OTP+U2F+CCID (<span class="ts-function">1050:0407</span>)
+</code></pre></div>
+<p>The value after <code>busid</code> is what matters. Mine is <code>1-1.2</code>; yours will probably be different. Before exporting a storage device, unmount every filesystem on it. Before exporting anything else, stop local programs that are using it.</p>
+<p>Bind the device to the USB/IP host driver, then start the daemon:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> usbip bind <span class="ts-constant">--busid</span> 1-1.2
+<span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> usbipd <span class="ts-constant">--daemon</span>
+</code></pre></div>
+<p>Binding disconnects the device from its normal driver on the Pi. That is expected: while exported, it belongs to the remote client rather than both machines at once.</p>
+<p>Confirm that it is available:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">usbip</span></span> list <span class="ts-constant">--remote</span> 127.0.0.1
+</code></pre></div>
+<p>By default <code>usbipd</code> listens on TCP port <code>3240</code>. Allow that port only from the client or the VPN subnet. The exact firewall command depends on what already manages the Pi’s firewall; do not paste an <code>iptables</code> rule into a machine whose rules are owned by nftables, UFW, or a router.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="attach-the-device-from-linux">Attach the device from Linux</h2>
+<p>On the client, install the tools and load the virtual host controller:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> apt update
+<span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> apt install usbip
+<span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> modprobe vhci-hcd
+</code></pre></div>
+<p>Ask the Pi what it exports. Replace <code>pi-usb.lan</code> with its hostname or address:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">usbip</span></span> list <span class="ts-constant">--remote</span> pi-usb.lan
+</code></pre></div>
+<p>Attach the bus ID reported by that command:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> usbip attach <span class="ts-constant">--remote</span> pi-usb.lan <span class="ts-constant">--busid</span> 1-1.2
+</code></pre></div>
+<p>At this point <code>lsusb</code>, <code>udevadm</code>, and the application’s normal tools should see the device locally. <code>usbip port</code> shows the imported devices and their virtual port numbers:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">usbip</span></span> port
+</code></pre></div>
+<p>To disconnect cleanly, use the port number from that output, not the remote bus ID:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> usbip detach <span class="ts-constant">--port</span> 0
+</code></pre></div>
+<p>Then release the device on the Pi so its local driver can claim it again:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> usbip unbind <span class="ts-constant">--busid</span> 1-1.2
+</code></pre></div>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="survive-a-reboot">Survive a reboot</h2>
+<p>The modules can load automatically at boot. On the Pi:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">printf</span></span> <span class="ts-string">&#39;%s\n&#39;</span> usbip-core usbip-host <span class="ts-operator">|</span> <span class="ts-function">sudo</span> tee /etc/modules-load.d/usbip-server.conf
+</code></pre></div>
+<p>On the client:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">echo</span></span> vhci-hcd <span class="ts-operator">|</span> <span class="ts-function">sudo</span> tee /etc/modules-load.d/usbip-client.conf
+</code></pre></div>
+<p>Some distributions ship a service for <code>usbipd</code>; enable that if it exists. Otherwise a tiny local systemd unit is enough for the daemon:</p>
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">ini</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-ini" data-lang="ini">[Unit]
+Description=USB/IP daemon
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/usbipd --daemon
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div>
+<p>Save it as <code>/etc/systemd/system/usbipd.service</code>, then run:</p>
+<div class="highlight ts-highlight" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">console</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-console" data-lang="console"><span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> systemctl daemon-reload
+<span class="ts-function"><span class="ts-operator">$</span> <span class="ts-property">sudo</span></span> systemctl enable <span class="ts-constant">--now</span> usbipd.service
+</code></pre></div>
+<p>I deliberately keep the <code>usbip bind</code> step separate. A bus ID describes the device’s position in the current USB topology and can change when hubs or ports move. For a permanent appliance, bind from a carefully tested udev rule that matches the device’s vendor, product, and preferably serial number. A service hard-coded to <code>1-1.2</code> will eventually export the wrong thing or nothing at all.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-works-and-what-gets-weird">What works, and what gets weird</h2>
+<p>Keyboards, security tokens, serial adapters, programmers, and modest storage devices are usually straightforward. Latency-sensitive audio, webcams, and other isochronous devices are much less forgiving. Network jitter still exists even when the USB device appears local.</p>
+<p>When an attach fails, I check these in order:</p>
+<ol>
+<li><code>usbip list --remote HOST</code> can reach the daemon.</li>
+<li>TCP port <code>3240</code> is allowed only along the intended path.</li>
+<li><code>usbip-host</code> is loaded on the Pi and <code>vhci-hcd</code> on the client.</li>
+<li>The device is bound on the Pi and not already attached elsewhere.</li>
+<li><code>journalctl -u usbipd</code>, <code>dmesg</code>, and <code>usbip port</code> agree about what happened.</li>
+</ol>
+<p>That is the whole trick. The network link may be remote, but ownership is still exclusive and the usual USB rules still apply. Treat the cable as longer, slower, and considerably less trustworthy.</p>
+</main></div><script type="module" src="/assets/bootstrap-3452e0888c06c1be.js"></script></body></html>

@@ -1,0 +1,54 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#45e0ff;--chromatic-a:#45e0ff;--chromatic-b:#ff4fd8;--bg-color:#070a12;--fg-color:#f7f8ff;--glitch-color:#f7f8ff;--interactive-color:#45e0ff;--accent-text-color:#000000"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-15bb72d9e01c9c6a.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="One source file, styled for the web and the terminal"><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#070a12"><meta property="og:title" content="FAQE presentation theme · bresilla"><meta property="og:description" content="One source file, styled for the web and the terminal"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="FAQE presentation theme · bresilla"><meta name="twitter:description" content="One source file, styled for the web and the terminal"><meta property="og:url" content="https://bresilla.com/talk/code/theme-showcase/"><link rel="canonical" href="https://bresilla.com/talk/code/theme-showcase/"><meta property="og:image" content="https://bresilla.com/assets/content/logo-0fb7a39075bac801.png"><meta property="og:image:alt" content="FAQE presentation theme"><meta name="twitter:image" content="https://bresilla.com/assets/content/logo-0fb7a39075bac801.png"><meta name="twitter:image:alt" content="FAQE presentation theme"><title>FAQE presentation theme · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-4aeec26e6edb292b.css"><link data-faqe-mode="talk" rel="stylesheet" href="/assets/theme-bresilla-talk-7158886d164ccd4a.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>FAQE presentation theme</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#same-source-two-renderers">Same source, two renderers</a></li><li><a href="#accent-driven-surfaces">Accent-driven surfaces</a></li><li><a href="#images-are-ordinary-markdown">Images are ordinary Markdown</a></li><li><a href="#columns-use-presenterm-commands">Columns use Presenterm commands</a></li><li><a href="#tables-and-structured-content">Tables and structured content</a></li><li><a href="#one-file-everywhere">One file everywhere</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="same-source-two-renderers">Same source, two renderers</h2>
+<p>This deck uses Presenterm’s Markdown contract directly.</p>
+
+<p>FAQE keeps the terminal-friendly source and adds the chromatic browser layer.</p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="accent-driven-surfaces">Accent-driven surfaces</h2>
+
+<ul>
+<li>Headings, borders, controls, and progress inherit the accent.</li>
+<li>The second palette color drives the chromatic split.</li>
+<li>Foreground and background come from the Presenterm theme override.</li>
+</ul>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="images-are-ordinary-markdown">Images are ordinary Markdown</h2>
+<p><img alt="image:width:52%" src="/assets/content/ipfs-logo-b257f9b92b7a7f2b.jpg"></p>
+<p>Presenterm displays this through the terminal graphics protocol; FAQE fingerprints and frames the same local asset.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="columns-use-presenterm-commands">Columns use Presenterm commands</h2>
+
+
+<div class="highlight ts-highlight" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">rust</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-rust" data-lang="rust">fn palette(accent: Color, surface: Color) -&gt; Theme {
+    Theme {
+        text: surface.best_contrast(),
+        accent: accent.make_accessible_on(surface),
+    }
+}
+</code></pre></div>
+<ul>
+<li>Same Markdown</li>
+<li>Same source paths</li>
+<li>Different native renderer</li>
+</ul>
+
+<p><img alt="image:width:100%" src="/assets/content/projects-menu-c8e72038064c6f13.png"></p>
+
+<p>The layout returns to the full slide after <code>reset_layout</code>.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="tables-and-structured-content">Tables and structured content</h2>
+<table><thead><tr><th>Surface</th><th>Text</th><th>Accent</th></tr></thead><tbody>
+<tr><td>Dark</td><td>Light</td><td>Contrast adjusted</td></tr>
+<tr><td>Light</td><td>Dark</td><td>Contrast adjusted</td></tr>
+<tr><td>Media</td><td>Inherited</td><td>Palette driven</td></tr>
+</tbody></table>
+<blockquote>
+<p>A presentation theme should follow the content palette without making the author fight every slide.</p>
+</blockquote>
+
+
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="one-file-everywhere">One file everywhere</h2>
+<p>Run it in the terminal with <code>make present</code> or open the generated talk route in the browser.</p>
+</main></div><script type="module" src="/assets/bootstrap-3452e0888c06c1be.js"></script></body></html>
