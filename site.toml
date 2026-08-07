@@ -1,4 +1,5 @@
 site_url = "https://bresilla.com"
+theme = "bresilla"
 author = "Trim Bresilla"
 description = "Personal website & blog"
 keywords = ["blog", "developer", "personal"]
