@@ -1,0 +1,49 @@
+name: publish
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: website-publish
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out content
+        uses: actions/checkout@v4
+
+      - name: Check out faqe
+        uses: actions/checkout@v4
+        with:
+          repository: bresilla/faqe
+          ref: main
+          path: .faqe
+
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+
+      - name: Build faqe
+        working-directory: .faqe
+        run: nix develop --impure -c make release-build
+
+      - name: Validate content
+        run: ./.faqe/target/release/faqe check .
+
+      - name: Generate static website
+        run: ./.faqe/target/release/faqe build . --output "$RUNNER_TEMP/faqe-site"
+
+      - name: Publish gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ${{ runner.temp }}/faqe-site
+          force_orphan: true
