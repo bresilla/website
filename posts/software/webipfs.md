@@ -2,35 +2,25 @@
 type = "post"
 status = "published"
 date = "2020-01-23"
-readingtime = 6
+readingtime = 8
 
 slug = "web-ipfs"
-title = "Hosting a website in the Inter Planetary File System"
+title = "Hosting a website on the InterPlanetary File System"
 thumbnail = "thumbnail.png"
 foot = "Between 'I want to be alone' and 'I want to be let alone' there is huge difference - Greta Garbo"
 categories = ["LINUX"]
 series = ["IPFS"]
-part="1"
-tags = ["ipfs","website","gpg", "blockchain", "p2p", "crypto" ]
-
-
-description = "host a website on IPFS and how to keep it online using a combination of Cloudflare and Pinata."
-punchline = "Centralized internet relies on servers. A decentralized version would rely on a peer-to-peer network built on a community of users. Their internet-connected devices would host the internet. Each website would be spread out across hundreds of nodes on different devices, erasing the possibility of the erver shout-down and your website with it."
-tldr = ""
-
-
-
+part = "1"
+tags = ["ipfs", "website", "dnslink", "p2p", "crypto", "gpg", "blockchain"]
+description = "Publish a static site to IPFS, pin it, test it through a gateway, and point a human-readable DNSLink name at the current CID."
+punchline = "IPFS gives content an address derived from the content itself. That makes a static build verifiable and easy to mirror, but somebody still has to keep the blocks online."
+tldr = "Build with relative or subdomain-safe URLs, add the output directory to IPFS, pin the root CID, and publish dnslink=/ipfs/CID in a _dnslink TXT record."
 credits = [
-    "https://developers.cloudflare.com/distributed-web/ipfs-gateway/",
-    "https://medium.com/pinata/how-to-easily-host-a-website-on-ipfs-9d842b5d6a01",
-    "https://hackernoon.com/getting-to-know-ipfs-21009f018f2e",
-    "https://teetotality.blog/posts/why-ipfs/",
-    "https://tech.co/news/decentralized-internet-guide-2018-02",
-    "https://www.thewindowsclub.com/centralized-vs-decentralized-internet",
-    "https://101blockchains.com/centralized-vs-decentralized-internet-networks/",
-    "https://medium.com/noia/the-internet-was-not-developed-it-just-happened-part-1-a123fe4628",
-    "https://medium.com/coinmonks/a-hands-on-introduction-to-ipfs-ee65b594937",
-    "https://onezero.medium.com/why-decentralization-matters-5e3f79f7638e",
+    "https://docs.ipfs.tech/",
+    "https://docs.ipfs.tech/quickstart/pin/",
+    "https://docs.ipfs.tech/how-to/websites-on-ipfs/custom-domains/",
+    "https://docs.ipfs.tech/how-to/websites-on-ipfs/dnslink-gateway/",
+    "https://docs.ipfs.tech/how-to/websites-on-ipfs/dnslink-action/",
 ]
 
 [style]
@@ -38,40 +28,154 @@ credits = [
     theme = "dark"
 +++
 
+# Why I wanted a second route to the site
 
-# The why
+I do not expect GitHub Pages to vanish tomorrow. That was never the interesting argument for me. The interesting bit is that a normal URL says *where* to ask for a file, while an IPFS CID says *which bytes* I expect to receive.
 
-Here is the thing, I have no secrets of my own! Zero, zilch, zip, nada, nothing. However, this does not mean I am open to anyone to browse what I do and how I do. I like my life to be private. If somebody asks me anything (even a personal query), and if I find it reasonable (which most of the cases I do), I give the answer. I am very careful about what share and how I share. Sometimes, one's opinion, even though meant to be harmless can cause trouble. This is because, right and wrong are just a matter of perspective. There is no line between good and evil, like there isn't one between black and white. One's views are influenced by many many factors, from the day one is born, to the way is risen, place where is risen, beliefs it has and so on 'n on. Example, if one has Asiatic origins, in one's views dragons are magical, all powerful creatures, that represent health, good life, excellence and royalty. But if one is of a Western origins, one's views dragons as a symbol of evil. They fly and breathe fire, it represents the dark side of humanity, greed, lust, and violence. This is an excellence example of how people can have different views. But what happens when one's views and beliefs do not align with somebody else's, and because he/she might have more power, he/she may <a href="https://en.wikipedia.org/wiki/2017_block_of_Wikipedia_in_Turkey"> not want your views to be heard?</a>.
+If two machines provide the same CID, either can serve the content. A local IPFS node can verify the blocks instead of trusting whichever HTTP server answered first. That is useful for a static website because a finished build is just a directory of immutable files.
 
-{{< image url="privacy.png" border="1" width="20" >}} Today's online privacy in a nutshell {{< /image >}}
+There are limits. IPFS does not make a site immortal, private, or magically distributed. Publishing a CID does not guarantee that anybody else stores it. Public gateways can log requests and may remove cached data. Dynamic server code does not fit this deployment model. The practical goal is smaller: publish a verifiable static copy that can be pinned by more than one provider.
 
-Sometimes, the same opinion can be intentionally interpreted wrongly by third party. This might be because one wants to manipulate in someone's name, or want to shame on the other's dignity, or other that I can't think of. Thats why signatures were made. Signatures have been an important part of human creativity and identity for literally thousands of years, and in modern day we use them to do everything from sign receipts to authenticate documents, sign autographs and write birthday cards. The legal definition of the signature is: A mark or sign made by an individual on an instrument or document to signify knowledge, approval, acceptance, or obligation. This is crucial in todays world where things like <a href="https://faceswap.dev/">deepfakes</a> exist.
+{{< image url="ipfs-logo.jpg" border="1" width="30" >}} IPFS logo {{< /image >}}
 
+# The pieces
 
-# The what
+The terms are easy to mix up:
 
-If you are like me, then you'd ask the question, what can one do about it??
+- A **CID** identifies content. Change one byte and the CID changes.
+- A **node** stores and exchanges blocks with peers.
+- A **pin** tells a node or pinning service to retain content instead of garbage-collecting it.
+- A **gateway** exposes IPFS content over HTTP for browsers that do not speak IPFS directly.
+- **DNSLink** maps a DNS name to an `/ipfs/...` or `/ipns/...` path through a TXT record.
 
-Well, in this short post I am going to share my opinions, knowledge and experience on how I set up a copy of my personal website above the IPFS. So, my main domain is <a href="https://bresilla.com">bresilla.com</a> and it is directed to a <a href="https://gohugo.io">hugo</a> static site hosted in <a href="https://github.com/bresilla/website">github</a> sites. However, this is a centralized site. Whenever Github wants can turn it off, or whenever a powerful player wants can shut down Github entirely (most likely this wont ever happen), or maybe some powerful government entities think that Github is security risk and block it, then my website cant be accessed either. For this reason i created <a href="https://bresilla.xyz">bresilla.xyz</a> (in differnet dommain, uses .xyz compared to .com). It is the exact replica but instead of being centralized (on a server), it is decentralized, it used Inter Planetary File Syste (IPFS).
+IPFS is not a blockchain, and a site does not need one. The content graph uses cryptographic hashes and links between blocks. Consensus about a global ledger is a different problem.
 
-{{< image url="ipfs-logo.jpg" border="1" width="30" >}} IPFS Logo {{< /image >}}
+# Prepare the static build
 
-## Internet itself
-The early days of Internet were based around different groups of people and organizations. They were isolated standalone networks that might or might not connect with other networks. Thus, the control over the different parts of Internet was limited to different people across groups. The Internet grew up at a fast pace and is now completely centralized. The internet is not fully and physically “centralized,” since no single corporation actually owns the entire internet. But relatively few large, physical servers (associated or operated by relatively few large corporations) are responsible for hosting essential elements of what we consider the internet. These web hosting and cloud computing servers are responsible for keeping our email, social media, and webpages available to all — and that means that the companies that own those servers have an outsized impact on how the internet runs. Centralized internet connection has since given rise to a string of issues that appear to be getting out of hand by the day. In addition to potential loss of connection, given the centralization of such services, privacy and data security concerns continue to cause havoc. Here is the main idea to take with:
+Start with a site that can be served from static files. Build it into a clean directory such as `dist/`:
 
-{{< block type="fill" >}} The Internet was not planned for what it is and not well developed. It was a time necessity and it just happened. {{< /block >}}
+```bash
+faqe build ./content --output ./dist
+```
 
-There is this <a href="https://medium.com/noia/the-internet-was-not-developed-it-just-happened-part-1-a123fe4628">great article</a> hosted by <a href="https://noia.network/">NOIA Network</a>, that I'll be refering quite often, goes into technical details on why internet is fundamentally broken, and how it came to be.
+The exact build command depends on the generator. Inspect the output before adding it to IPFS:
 
-{{< image url="network-topology.svg" border="0" width="50" >}} A controlled-centralized network <a href="https://noia.network">Credit: NOIA Network</a> {{< /image >}}
+```bash
+find dist -maxdepth 2 -type f | sort | sed -n '1,40p'
+```
 
-## Decentralization
+Routing is the common trap. A site viewed through a path gateway may live below `/ipfs/CID/`. Root-relative links such as `/about/` point at the gateway root rather than the CID path. There are three reasonable fixes:
 
-Centralized internet relies on servers. Decentralized internet connection, on the other hand, relies on a peer-to-peer network built on a community of users whereby no one single entity is ever in control. In this case, various internet devices act as host of the internet, rather than a group of powered servers. What this means is that any website is spread’ across hundreds of nodes erasing the possibility of a single server acting as the single custodian of a particular subset of data. It takes accessibility of data to another level as there are hundreds if not thousands of nodes through which one can gain access to, to access data. Decentralized internet is the sort of idea that works great once everyone is on board with using it. But until then, the sheer fact that no one is using something tends to function as a Catch-22: No one wants to use it because no one is already using it.
+1. Build with relative links.
+2. Build for the `/ipfs/CID/` base path after the CID is known, which is awkward because changing the build changes the CID.
+3. Use a subdomain gateway such as `https://CID.ipfs.dweb.link/`, where the CID gets its own origin and `/about/` remains inside that origin.
 
-## Inter-Planetary
-IPFS or Inter-Planetary File System, works by connecting all devices on the network to the same file structure. This file structure is a Merkle DAG, which combines Merkle trees (used in blockchains to ensure immutability), and Directed Acyclic Graphs (used in Git version control, which also allows users to see the versions of content on IPFS). Think of it as a large BitTorrent swarm.
+I prefer subdomain gateways for testing and a DNSLink-aware domain for humans. They also give each site an isolated browser origin; path gateways cannot provide the same isolation between arbitrary CIDs.
 
-Imagine you want to read the IPFS whitepaper. What you would normally do is type in a URL, which can be resolved to an IP address, which provides information about the location of the file (would be the IPFS servers, if they had those), which then allows your client to make a connection with the host and get the file. There are numerous ways in which this can go wrong, a lot of which have been discussed above.
+# Add the directory with Kubo
 
-Now, imagine accessing it from the IPFS network. The file, and all of its blocks, are identified by a unique cryptographic hash of the content itself. The whole system is based around a key-value data store. This is what allows for the content addressing: anyone can host the key no matter the origin of the information. So, you would connect to the swarm and request to the network that file. It would first look to the peers closest to you, because chances are they have a copy of that file. If they don’t, however, you will connect with the node that originally uploaded the file, since he’s the one that hosts it.
+Install [Kubo](https://docs.ipfs.tech/install/command-line/), initialize it once, and start the daemon:
+
+```bash
+ipfs init
+ipfs daemon
+```
+
+In another terminal, add the build directory:
+
+```bash
+CID="$(ipfs add --recursive --quieter --cid-version=1 dist | tail -n 1)"
+printf '%s\n' "$CID"
+```
+
+CIDv1 is useful for subdomain gateways because its lowercase base32 representation is DNS-safe. Confirm the root is pinned locally:
+
+```bash
+ipfs pin ls "$CID"
+```
+
+Open it through the local gateway:
+
+```text
+http://127.0.0.1:8080/ipfs/YOUR_CID/
+```
+
+Also try a public subdomain gateway:
+
+```text
+https://YOUR_CID.ipfs.dweb.link/
+```
+
+Do not declare victory after seeing only the home page. Open a nested post directly, reload it, inspect images, and check the browser console. Static-site routing bugs love direct URLs.
+
+# Pin it somewhere that stays online
+
+My laptop is not infrastructure. If it sleeps, goes offline, or garbage-collects the blocks, availability depends on some other node already having them.
+
+A pinning service runs an IPFS node and retains the CID for an account. Upload the `dist/` directory through the provider's interface or use its current CLI/API instructions, then verify that the provider reports the same root CID. Pinning services differ in authentication and upload tools, but the invariant is simple: the published root CID must match the build tested locally.
+
+For content I care about, I pin it in at least two independent places: my own Kubo node and a remote pinning service. Two pins are not decentralization theatre if they are genuinely independent machines. One provider with two product names does not count.
+
+Test availability without relying on the local node. Stop the daemon temporarily or use another network, then request the CID through a gateway.
+
+# Add a human-readable name with DNSLink
+
+A CID is an excellent identifier and a terrible thing to say aloud. DNSLink puts the current CID behind a DNS name.
+
+For `example.com`, publish this TXT record:
+
+```text
+Name:  _dnslink.example.com
+Type:  TXT
+Value: dnslink=/ipfs/YOUR_CID
+```
+
+DNS control panels disagree about whether the name should be `_dnslink`, `_dnslink.example.com`, or `_dnslink.example.com.`. Check the result instead of trusting the form:
+
+```bash
+dig +short TXT _dnslink.example.com
+```
+
+The output should contain:
+
+```text
+"dnslink=/ipfs/YOUR_CID"
+```
+
+You can then resolve it through a DNSLink-capable gateway:
+
+```text
+https://ipfs.io/ipns/example.com/
+```
+
+Serving the bare custom domain directly over HTTPS still requires an HTTP endpoint that knows how to resolve DNSLink. The current IPFS documentation describes running Kubo behind Caddy for that purpose. Another sensible setup is to keep the ordinary site on GitHub Pages or Cloudflare Pages and publish DNSLink alongside it. Normal browsers get the conventional site; IPFS-aware clients and gateways can discover the content-addressed copy.
+
+# Updating the site
+
+Every build produces a new CID when the output changes. The update procedure is therefore:
+
+```bash
+faqe build ./content --output ./dist
+NEW_CID="$(ipfs add -Qr --cid-version=1 dist)"
+printf '%s\n' "$NEW_CID"
+```
+
+Then:
+
+1. Pin `NEW_CID` locally and remotely.
+2. Test important routes through that CID.
+3. Update the `_dnslink` TXT record.
+4. Wait for DNS caches according to the record TTL.
+5. Unpin old builds only after deciding they are no longer useful.
+
+Keeping a few old CIDs gives the site cheap, immutable release history. A DNSLink update changes what the friendly name resolves to; it does not mutate the old build.
+
+This sequence is easy to automate in CI, but DNS credentials deserve care. Use a token that can edit only the required DNS zone or record. Never print it in build logs, and pin the action versions used by the workflow.
+
+# What IPFS proves, and what it does not
+
+Fetching a CID through a verifying client proves that the returned blocks match that CID. It does not prove who created the site. Publish the CID through a domain you control, a signed release, or another authenticated channel if authorship matters.
+
+An ordinary public gateway is also a trusted HTTP service from the browser's point of view. It may return the correct bytes, but the browser itself is not necessarily verifying the block graph. A local Kubo node or a verifying gateway changes that trust model.
+
+That distinction is why I keep both versions. The conventional site is convenient. The IPFS copy is addressable by content, easy to mirror, and much harder to silently alter after I publish its CID. Neither one makes the other obsolete.

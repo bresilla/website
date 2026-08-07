@@ -2,116 +2,208 @@
 type = "post"
 status = "published"
 date = "2020-08-07"
-readingtime = 5
+readingtime = 8
 
 slug = "nix-pckgs"
-title = "Using nix-shell as package manager for any language"
+title = "Using Nix as a package manager for any language"
 thumbnail = "thumbnail.png"
 foot = "There are more dead people than living, and their numbers are increasing - Eugene Ionesco"
 categories = ["DEV"]
 series = ["NIX-SHELL"]
-part="1"
-tags = ["direnv", "nix-shell", "package", "language" ]
-
-
-description = "use NIX tools such as: NixOS itself, nix-shell and nix-pkgs in a development environment."
-punchline = "Getting a working development environment is often far from an easy task. Actually, setting up projects can take days before getting everything working together on a development machine."
-tldr = "THINGS ARE ABOUT TO GET MESSY"
-
+part = "1"
+tags = ["direnv", "nix-shell", "package", "language"]
+description = "Use Nix for project tools while leaving Cargo, pip, npm, and other language package managers to manage source dependencies."
+punchline = "A project depends on more than its language libraries. Nix can supply the compiler, database client, code generator, and native libraries without installing them globally."
+tldr = "Start with nix-shell -p for temporary tools, commit a pinned shell.nix or flake for projects, and keep language lock files for language dependencies."
 credits = [
-    "https://ocharles.org.uk/blog/posts/2014-02-04-how-i-develop-with-nixos.html",
-    "https://en.wikipedia.org/wiki/Dependency_hell",
-    "https://medium.com/swlh/dependency-management-a6cce61660d",
-    "https://devopedia.org/dependency-manager",
-    "https://medium.com/omarelgabrys-blog/software-engineering-software-process-and-software-process-models-part-2-4a9d06213fdc",
-    "https://medium.com/@simon.maxen/avoiding-dependency-hell-4121d2716918",
+    "https://nix.dev/tutorials/first-steps/ad-hoc-shell-environments.html",
+    "https://nix.dev/tutorials/first-steps/declarative-shell.html",
+    "https://nix.dev/guides/recipes/direnv.html",
+    "https://search.nixos.org/packages",
 ]
 
 [style]
     accent = "#5fd7ff"
     theme = "dark"
-    width="60%"
-
+    width = "60%"
 +++
 
+# The dependency nobody wrote down
 
-# Software development
+A Python project may have a perfect `requirements.txt` and still fail because `libpq` is missing. A Rust project can pin every crate and still need Clang, CMake, Protobuf, or OpenSSL from the host. JavaScript packages occasionally assume a C compiler exists. Even a shell script quietly depends on the exact behavior of `sed`, `curl`, and whatever else happens to be in `PATH`.
 
-Software design and development is a very complicated process. It is a set of related activities that let to the production of an application or software. Those activites may involve the development of the software from scratch or a more tidious process of modyfiying an existing system.
+Language package managers handle language packages well. I do not want Nix to replace Cargo or pip merely because it can. I want Nix to describe the layer they usually ignore: interpreters, compilers, command-line tools, native libraries, and environment variables.
 
-Software might be the first kind of knowledge that can be composed. It is hard to develop, but it is often easy to use, and is not even that hard to combine. And the latter is what brings the real magic. It is the closest thing to “building on the shoulders of giants” in the realm of really building stuff.
+That split keeps the setup understandable:
 
-## Dependencies
-A good practice in software design is to build software from smaller, single-purpose modules that exposes well-defined interfaces. This is also in the spirit of software reuse. With the widespread adoption of open source software, often applications or modules depend on other applications and modules. Thus, to build an application we need to bring in all parts on which it depends, including language libraries and remote third-party modules.
+- Nix provides system-level project tools.
+- Cargo, pip, npm, Go modules, and similar tools provide source dependencies.
+- Each side commits its own lock file.
 
-so:
+# Borrow a package for one command
 
+Suppose `jq` is not installed. There is no need to add it to the whole system:
 
-{{< block type="fill" >}}
-Every applicaiton on a computer implicitly depends on a whole bunch of other things on the same computer.
-{{< /block >}}
+```bash
+nix-shell -p jq
+```
 
-thus:
+Inside that shell:
 
-- All software exists in a graph of dependencies.
-- Most of the time, this graph is implicit.
+```bash
+jq --version
+```
 
-## Dependency hell
-“Dependency hell” is a term for the frustration that arises from problems with transitive (indirect) dependencies.
+Exit and it disappears from `PATH`. Run a command without entering an interactive shell:
 
-Sharing commonly-used code in the form of libraries is one of the key aspects of software development. Ease of sharing code libraries combined with easy discovery build ecosystems is one of the greates value for an ecosystem to be successfully be that a programming language or a framework. There are many good examples like: NodeJS’s npm, Rust’s crates, Python’s PyPI among many of them.
+```bash
+nix-shell -p jq curl --run 'curl -s https://api.github.com | jq .current_user_url'
+```
 
-The big problem is the fact that small even the smallest libraries pull in additional depedencies on which they rely in order to avoid too much code duplication And as those packages or modules or libraries increases in adoption, they get bundled in more and more packages. While this is a nice thing to have, the flip side is that we see multiple levels of dependencies build up as these packages are in turn used by others and those by others.
+The newer command interface expresses the same idea like this:
 
-{{< block type="fill" >}}
-If not carefull with dependency management, one may end up with a spaghetti of them.
-{{< /block >}}
+```bash
+nix shell nixpkgs#jq nixpkgs#curl
+```
 
-## The trap
+These commands are convenient, not reproducible by themselves. If `nixpkgs` is not pinned, running the command next year may select different package versions.
 
-Lets just describe a very simple dependency hell [credits goes to [this guy](https://medium.com/@simon.maxen/avoiding-dependency-hell-4121d2716918)]:
+Use [search.nixos.org](https://search.nixos.org/packages) to find package attribute names. The executable and package names are not always identical.
 
-### The App
-We have a deployable application `A`, that depends on `j-1.0` and `k-1.0` which in turn depends on `d-1.0` and there is only one version of everything and all projects live in their own version control.
+# Commit a development shell
 
-### The Trap
-Now we have an a new version of `j-2.0` added to the system that depends on a new version of `d-2.0`. As application `A` does not use the new version of `j-2.0` but still uses `j-1.0`, everything is still working fine.
+For a project, write the environment down. This `shell.nix` gives a C project Meson, Ninja, pkg-config, and OpenSSL headers:
 
-### The Trouble
-The application `A` developer now wants to use the latest version of `j-2.0` as it has some great performance improvements. However we now have a problem as `j-2.0` depends on `d-2.0` and `k-1.0` depends on `d-1.0` but only one version of `d` can be used.
+```nix
+let
+  nixpkgs = fetchTarball "https://github.com/NixOS/nixpkgs/tarball/nixos-26.05";
+  pkgs = import nixpkgs { config = {}; overlays = []; };
+in
+pkgs.mkShell {
+  packages = with pkgs; [
+    meson
+    ninja
+    pkg-config
+  ];
 
-## Froms
-Dependeny hell has many forms. The example above is what is calld a diamond dependency. According to Wikipedia there are 6 kind of hell (sorry [Dante](https://en.wikipedia.org/wiki/Inferno_(Dante))):
+  buildInputs = with pkgs; [
+    openssl
+  ];
+}
+```
 
-- Many dependencies
-- Long chains of dependencies
-- Conflicting dependencies
-- Circular dependencies
-- Package manager dependencies
-- Diamond dependency
+Run:
 
-## So what now??
-But it's not trivial to ensure that we have all necessary dependencies, particularly when dependencies themselves depend on others. This is why we need a Dependency Manager.
+```bash
+nix-shell
+meson setup build
+ninja -C build
+```
 
-{{< block type="fill" >}}
-Dependency management is a technique for declaring, resolving and using dependencies required by the project in an automated fashion.
-{{< /block >}}
+The pinned Nixpkgs release is much better than importing `<nixpkgs>`, which depends on the user's channel. For stronger reproducibility, replace the release branch with an exact Git commit and a fixed hash, or use a flake lock.
 
-Dependency managers bring together all necessary project dependencies before passing them to the compiler or interpreter. In this sense, their work is somewhat a preprocessing phase before the actual build happens.
+`packages` is the right home for tools executed during development. Libraries used for compilation often belong in `buildInputs`. Nix's compiler wrappers then supply the necessary search flags. The exact distinction matters more for packaging than for a simple shell, but using it correctly avoids confusion later.
 
-# Enter NIX
+# The same shell as a flake
 
-It’s difficult to categorize Nix. On the website, it is presented as a “purely functional package manager”. However, it could also be thought of as a programming language, a configuration tool, and a build tool. In a nutshell, Nix expressions are programs written in a purely functional programming language and can return a single derivation or a set of derivations.
+Flakes put input locking into the normal workflow:
 
-This difficulty to categorize comes due to a few different projects sharing similar names. So, lets just touch them breifly before we dig in:
+```nix
+{
+  description = "C development environment";
 
-- Nix: A purely functional package manager with the associated programming language called Nix expression.
-- NixOS: an operating system that uses the power of Nix and Nix expressions to provide system configuration management.
-- Nix-pkgs: the common repository of software that defines how to install rust, go, vim, pip, etc.
-- Nix-shell: starts an interactive shell based on a Nix expression that either builds or fetches cached builds of dependencies and adds them to the Nix store.
-- Nix-store: is the path where immutable build packages are stored. Since every build/version has its own path, packages are atomic.
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-The key take-away of NIS it's deterministic and reproducable builds. Meaning that, given some Nix-expression, it doesn’t matter on what computer or what time you attempt to build it, it will produce the same result. Nix has gone to great lengths to ensure reproducible builds, where not just the project’s direct dependencies are locked, but practically every external dependency up to and including the global system. It formalizes and encapsulates these tools in a way that they are locked to a given version.
+  outputs = { self, nixpkgs }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [
+          meson
+          ninja
+          pkg-config
+        ];
+        buildInputs = with pkgs; [ openssl ];
+      };
+    };
+}
+```
 
+Create and commit the lock file:
 
-# Enter NIX
+```bash
+nix flake lock
+git add flake.nix flake.lock
+```
+
+Enter with:
+
+```bash
+nix develop
+```
+
+The example names `x86_64-linux` directly to keep the Nix code readable. A real multi-platform repository should generate shells for every supported system rather than pretending one platform string is portable.
+
+# Examples by language
+
+The pattern stays the same even when the tools change.
+
+Python with native numerical libraries:
+
+```nix
+pkgs.mkShell {
+  packages = with pkgs; [ python312 uv ];
+  buildInputs = with pkgs; [ stdenv.cc.cc.lib ];
+}
+```
+
+Rust with bindgen:
+
+```nix
+pkgs.mkShell {
+  packages = with pkgs; [ cargo rustc rustfmt clang pkg-config ];
+  LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
+}
+```
+
+Node with a database client used by migrations:
+
+```nix
+pkgs.mkShellNoCC {
+  packages = with pkgs; [ nodejs_22 pnpm postgresql_16 ];
+}
+```
+
+These snippets do not replace `uv.lock`, `Cargo.lock`, or `pnpm-lock.yaml`. They make sure the expected interpreter and external tools exist before the language package manager starts.
+
+# Load it automatically
+
+Direnv can load the shell when entering the repository. With a `shell.nix`, create `.envrc` containing:
+
+```bash
+use nix
+```
+
+With nix-direnv and a flake:
+
+```bash
+use flake
+```
+
+Then approve it:
+
+```bash
+direnv allow
+```
+
+Read `.envrc` and the Nix expression before approving them. Nix builds are designed for isolation, but development shells can execute `shellHook` code and expose whatever credentials already exist in the environment.
+
+# What reproducible means here
+
+A pinned Nix input fixes the package definitions. Nix store paths include hashes derived from build inputs, so conflicting versions can coexist instead of fighting over `/usr/lib`. This removes a large class of "works on my machine" failures.
+
+It does not freeze the universe. A development command can still download unpinned data, contact a mutable service, read files outside the repository, or behave differently across operating systems. Reproducibility comes from closing those gaps one by one, not from adding the word Nix to a README.
+
+I usually start with `nix-shell -p` when exploring. Once the tool list stops changing every five minutes, I move it into `shell.nix` or a flake and pin the input. That is enough for most projects: no global compiler pile, no mystery `PATH`, and no attempt to force every language dependency through one package manager.

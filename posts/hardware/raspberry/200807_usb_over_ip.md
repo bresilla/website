@@ -2,199 +2,184 @@
 type = "post"
 status = "published"
 date = "2020-08-09"
-readingtime = 6
+readingtime = 8
 
 slug = "usbip"
-title = "Setup a Raspberry Pi as a USB-over-IP server"
+title = "Set up a Raspberry Pi as a USB-over-IP server"
 thumbnail = "thumbnail.png"
 foot = "It's all right letting yourself go as long as you can let yourself back - Mick Jagger"
 categories = ["FUSE"]
 series = ["USB"]
-part="1"
-tags = ["usbip", "linux", "hardware", "usb", "network", "FUSE" ]
+part = "1"
+tags = ["usbip", "linux", "hardware", "usb", "network", "FUSE"]
 
-
-description = "setup a Raspberry Pi or any Linux server for that matter, to share it's existing usb port through network (USB-over-IP server) and how to access it from another computer (USB-over-IP client)"
-punchline = "To share USB devices between computers with their full functionality, USB/IP encapsulates 'USB I/O messages' into TCP/IP payloads and transmits them between computers. USB-over-IP can be useful for virtual machines, for example, that don't have access to the host system's hardware - USB-over-IP allows virtual machines to use remote USB devices."
-tldr = "THINGS ARE ABOUT TO GET MESSY"
+description = "Share a USB device from a Raspberry Pi and attach it to another Linux machine over a trusted network."
+punchline = "USB/IP carries USB requests over a TCP connection. The device stays plugged into the Raspberry Pi, but the client talks to it as if it were local."
+tldr = "Export on the Pi, attach on the client, and keep TCP port 3240 away from untrusted networks."
 
 credits = [
-    "https://derushadigital.com/other%20projects/2019/02/19/RPi-USBIP-ZWave.html",
-    "http://www.usbmadesimple.co.uk/ums_1.htm",
-    "https://beyondlogic.org/usbnutshell/usb3.shtml",
-    "https://www.gearprimer.com/technology/usb-connector-types-explained/",
-    "https://www.tripplite.com/products/usb-connectivity-types-standards",
+    "https://docs.kernel.org/usb/usbip_protocol.html",
+    "https://manpages.debian.org/unstable/usbip/usbip.8.en.html",
+    "https://manpages.debian.org/unstable/usbip/usbipd.8.en.html",
 ]
 
 [style]
     accent = "#04f977"
     theme = "dark"
-    width="60%"
-
+    width = "60%"
 +++
 
-# Creators
-The Universal Serial Bus (USB) is a specification developed by Compaq, Intel, Microsoft and NEC, joined later by Hewlett-Packard, Lucent and Philips. These companies formed the USB Implementers Forum, Inc as a non-profit corporation to publish the specifications and organise further development in USB.
+# Why I use USB/IP
 
-# Versioning
-Despite how long the USB standard has been around, the USB standard hasn’t really gone through a whole lot of major versions although there have been quite a few smaller revisions within each version. Either way, the most important information you’ll probably want to know about a USB version is its maximum theoretical bandwidth/speed.
+Sometimes the machine that needs a USB device is nowhere near the device. A virtual machine may not have useful USB passthrough, a home server may sit in a cupboard, or a Raspberry Pi may simply be the only computer in the right room.
 
-| Standard        | AKA                                  | Year | Speed    | Connector                                                 | Power |
-|-----------------|--------------------------------------|------|----------|-----------------------------------------------------------|-------|
-| USB 1.1         | Basic Speed USB                      | 1995 | 12 Mbps  | USB-A USB-B                                               | 2.5W  |
-| USB 2.0         | Hi-Speed USB                         | 2000 | 480 Mbps | USB-A USB-B USB Micro-A USB Micro-B USB Mini-A USB Mini-B | 2.5W  |
-| USB 3.2 Gen 1   | USB 3.0 USB 3.1 Gen 1 SuperSpeed USB | 2008 | 5 Gbps   | USB-A USB-B USB Micro-B USB-C                             | 4.5W  |
-| USB 3.2 Gen 2   | USB 3.0 USB 3.1 Gen 1 SuperSpeed USB | 2013 | 10 Gbps  | USB-A USB-B USB Micro-B USB-C                             | 100W  |
-| USB 3.2 Gen 2x2 | USB 3.2 SuperSpeed USB 20Gbps        | 2017 | 20 Gbps  | USB-C                                                     | 100W  |
-| USB 4           | USB 4                                | 2019 | 40 Gbps  | USB-C                                                     | 100W  |
+USB/IP solves that awkward little problem. The Pi exports a physical USB device, and another Linux machine imports it through a virtual host controller. Applications on the client see an ordinary USB device; they do not need a special network-aware driver.
 
-{{< hr >}}
-# Standards
+There is one important catch: USB/IP is transport, not a secure tunnel. Do not expose its TCP port to the internet. I use it only on a trusted LAN or through a VPN, with a firewall limiting which client may connect.
 
-One{{< sidenote link="http://www.edwardtufte.com/bboard/q-and-a-fetch-msg?msg_id=0000Vt" >}} well this is odd {{< /sidenote >}}
+# The two halves
 
-## Host is Master
-All communications of this standard are initiated by the host. This means, for example, that there can be no communication directly between USB devices.
+The names become much easier once the direction is clear:
 
-A device cannot initiate a transfer, but must wait to be asked to transfer data by the host. The only exception to this is when a device has been put into 'suspend' (a low power state) by the host then the device can signal a 'remote wakeup'.
+- The **server** has the physical USB device and runs `usbipd`.
+- The **client** loads `vhci-hcd` and attaches the remote device.
+- The device's normal driver runs on the client.
 
-## On-The-Go
- An extension to the USB specification has been defined, to allow a device to also become a limited role host. USB OTG allows mobile devices such as a smartphone or tablet to act as a host to other USB devices such as flash drives, keyboards and mice. With USB OTG, a mobile device can utilize the functionality of the peripherals while still being able to connect to a computer and present itself as a mass storage device to be used on the computer.
+The examples below use Raspberry Pi OS or another Debian-family system on both ends. Package names differ on some distributions, but the USB/IP commands are the same.
 
-## Other standards
-On the most basic level, USB standards simply let a host, such as your computer or tablet, communicate with peripherals and other devices. But as specifications evolve, USB has become more than a mere data interface. Below are the latest USB functions available on many of today's devices. A device may support one or more of these functions:
+# Configure the Raspberry Pi
 
-### WUSB (Wireless)
-A short range  high speed radio communications protocol ( 480 Mbit/s up to 3 m and 110 Mbit/s up to 10 ) which seems to aim to compete with Bluetooth and Wi-Fi.
+Install the userspace tools:
 
-### USB PD (Power Delivery)
-Up to 100W of power can be delivered across a single USB cable, eliminating the need for a separate power brick. This is especially useful for peripherals that draw higher power levels, such as hard drives and printers. Not all devices will support USB Power Delivery, however; consult your device's specifications chart or owner's manual if you are uncertain.
-
-
-### USB Alt Mode
-With Alt Mode, USB-C connectors and cables have the ability to transmit both USB data and VGA, DVI, HDMI or DisplayPort video and/or audio. Adapters are available to connect DisplayPort over USB-C to VGA, DVI, HDMI and DisplayPort monitors. DisplayPort Alt Mode does not require the use of drivers, making it plug-and-play.
-
-{{< hr >}}
-# USB/IP
-USB/IP Project aims to develop a general USB device sharing system over IP network. To share USB devices between computers with their full functionality, USB/IP encapsulates "USB I/O messages" into TCP/IP payloads and transmits them between computers.
-
-The goal here is to create a USB over IP service on a Raspberry Pi, plug the USB radio(s) into the Pi, then place that device on your network somewhere close to the controlled devices. Then Home Assistant can run wherever you like while controlling your devices over an IP link to the radio(s).
-
-## Setting up the USB/IP server
-### Server Requirements
-
-- Raspberry Pi running Rasbian (or something like it)
-{{< sideimage url="raspberry-pi-side.jpg" >}}
-Raspberry Pi and USB ports
-{{< /sideimage >}}
-- USB dongle to share
-
-### Server Process
-
-SSH to raspbian and execute the following commands:
-```
-sudo -s
-lsusb
+```console
+$ sudo apt update
+$ sudo apt install usbip
 ```
 
+Load the server-side kernel modules:
 
-lsusb should show a list of attached USB devices, here’s what mine looks like:
-
-```
-Bus 001 Device 006: ID 10c4:8a2a Cygnal Integrated Products, Inc.
-Bus 001 Device 005: ID 0557:2306 ATEN International Co., Ltd
-Bus 001 Device 004: ID 0781:5583 SanDisk Corp.
-Bus 001 Device 003: ID 0424:ec00 Standard Microsystems Corp. SMSC9512/9514 Fast Ethernet Adapter
-Bus 001 Device 002: ID 0424:9514 Standard Microsystems Corp.
-Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+```console
+$ sudo modprobe usbip-core
+$ sudo modprobe usbip-host
 ```
 
+If `modprobe` reports that a module does not exist, check that the running kernel includes USB/IP support and that its matching modules package is installed. Mixing a newly installed module package with an old, still-running kernel is an easy way to waste an afternoon; reboot into the new kernel before debugging anything stranger.
 
-We’re looking for the device identifier for the USB radio, which in my case is that Cygnal Integrated Products, Inc. device with an ID of 10c4:8a2a. We’ll then setup a systemd service definition that is going to search for that device string and attach it to the USBIPd service. If you’re using a different USB device, change the device ID in the lines below for ExecStartPost and ExecStop
+Now inspect the local devices:
 
-```bash
-# Install usbip and setup the kernel module to load at startup
-apt-get install usbip
-modprobe usbip_host
-echo 'usbip_host' >> /etc/modules
-
-# Create a systemd service
-vi /lib/systemd/system/usbipd.service
+```console
+$ usbip list --local
+ - busid 1-1.2 (1050:0407)
+   Yubico.com : Yubikey 4/5 OTP+U2F+CCID (1050:0407)
 ```
 
-Copy and paste the following service definition:
+The value after `busid` is what matters. Mine is `1-1.2`; yours will probably be different. Before exporting a storage device, unmount every filesystem on it. Before exporting anything else, stop local programs that are using it.
 
-```bash
+Bind the device to the USB/IP host driver, then start the daemon:
+
+```console
+$ sudo usbip bind --busid 1-1.2
+$ sudo usbipd --daemon
+```
+
+Binding disconnects the device from its normal driver on the Pi. That is expected: while exported, it belongs to the remote client rather than both machines at once.
+
+Confirm that it is available:
+
+```console
+$ usbip list --remote 127.0.0.1
+```
+
+By default `usbipd` listens on TCP port `3240`. Allow that port only from the client or the VPN subnet. The exact firewall command depends on what already manages the Pi's firewall; do not paste an `iptables` rule into a machine whose rules are owned by nftables, UFW, or a router.
+
+# Attach the device from Linux
+
+On the client, install the tools and load the virtual host controller:
+
+```console
+$ sudo apt update
+$ sudo apt install usbip
+$ sudo modprobe vhci-hcd
+```
+
+Ask the Pi what it exports. Replace `pi-usb.lan` with its hostname or address:
+
+```console
+$ usbip list --remote pi-usb.lan
+```
+
+Attach the bus ID reported by that command:
+
+```console
+$ sudo usbip attach --remote pi-usb.lan --busid 1-1.2
+```
+
+At this point `lsusb`, `udevadm`, and the application's normal tools should see the device locally. `usbip port` shows the imported devices and their virtual port numbers:
+
+```console
+$ usbip port
+```
+
+To disconnect cleanly, use the port number from that output, not the remote bus ID:
+
+```console
+$ sudo usbip detach --port 0
+```
+
+Then release the device on the Pi so its local driver can claim it again:
+
+```console
+$ sudo usbip unbind --busid 1-1.2
+```
+
+# Survive a reboot
+
+The modules can load automatically at boot. On the Pi:
+
+```console
+$ printf '%s\n' usbip-core usbip-host | sudo tee /etc/modules-load.d/usbip-server.conf
+```
+
+On the client:
+
+```console
+$ echo vhci-hcd | sudo tee /etc/modules-load.d/usbip-client.conf
+```
+
+Some distributions ship a service for `usbipd`; enable that if it exists. Otherwise a tiny local systemd unit is enough for the daemon:
+
+```ini
 [Unit]
-Description=usbip host daemon
+Description=USB/IP daemon
 After=network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/sbin/usbipd -D
-ExecStartPost=/bin/sh -c "/usr/sbin/usbip bind --$(/usr/sbin/usbip list -p -l | grep '#usbid=10c4:8a2a#' | cut '-d#' -f1)"
-ExecStop=/bin/sh -c "/usr/sbin/usbip unbind --$(/usr/sbin/usbip list -p -l | grep '#usbid=10c4:8a2a#' | cut '-d#' -f1`); killall usbipd"
+ExecStart=/usr/sbin/usbipd --daemon
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-Save that file, then run the following commands in your shell:
+Save it as `/etc/systemd/system/usbipd.service`, then run:
 
-```bash
-# reload systemd, enable, then start the service
-sudo systemctl --system daemon-reload
-sudo systemctl enable usbipd.service
-sudo systemctl start usbipd.service
+```console
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable --now usbipd.service
 ```
 
-## Setting up the USB/IP client
-### Client Requirements
+I deliberately keep the `usbip bind` step separate. A bus ID describes the device's position in the current USB topology and can change when hubs or ports move. For a permanent appliance, bind from a carefully tested udev rule that matches the device's vendor, product, and preferably serial number. A service hard-coded to `1-1.2` will eventually export the wrong thing or nothing at all.
 
-- Linux server/desktop (Tested on Ubuntu server 17.04. There are some Windows builds but I couldn’t get any of them to work reliably under Win10/Server 2016)
-- IP address of your RPi running as a server. Here I’m using 192.168.0.10.
+# What works, and what gets weird
 
-### Client Process
+Keyboards, security tokens, serial adapters, programmers, and modest storage devices are usually straightforward. Latency-sensitive audio, webcams, and other isochronous devices are much less forgiving. Network jitter still exists even when the USB device appears local.
 
-SSH to the Linux server and execute the following commands:
+When an attach fails, I check these in order:
 
-```bash
-sudo -s
-apt-get install linux-tools-generic -y
-modprobe vhci-hcd
-echo 'vhci-hcd' >> /etc/modules
-```
+1. `usbip list --remote HOST` can reach the daemon.
+2. TCP port `3240` is allowed only along the intended path.
+3. `usbip-host` is loaded on the Pi and `vhci-hcd` on the client.
+4. The device is bound on the Pi and not already attached elsewhere.
+5. `journalctl -u usbipd`, `dmesg`, and `usbip port` agree about what happened.
 
-Much like we did on the server, we’re going to need to modify the ExecStart and ExecStop lines below to search for the correct USB device ID that’s being presented by your USB/IP server. Likewise, change the IP 192.168.0.10 to match your RPi USB server.
-
-```bash
-vi /lib/systemd/system/usbip.service
-```
-
-Copy and paste the following service definition:
-
-```bash
-[Unit]
-Description=usbip client
-After=network.target
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/bin/sh -c "/usr/lib/linux-tools/$(uname -r)/usbip attach -r 192.168.0.10 -b $(/usr/lib/linux-tools/$(uname -r)/usbip list -r 192.168.0.10 | grep '10c4:8a2a' | cut -d: -f1)"
-ExecStop=/bin/sh -c "/usr/lib/linux-tools/$(uname -r)/usbip detach --port=$(/usr/lib/linux-tools/$(uname -r)/usbip port | grep '<Port in Use>' | sed -E 's/^Port ([0-9][0-9]).*/\1/')"
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Save that file, then run the following commands in your shell:
-
-```bash
-# reload systemd, enable, then start the service
-sudo systemctl --system daemon-reload
-sudo systemctl enable usbip.service
-sudo systemctl start usbip.service
-```
-
-You should now be able to access the USB device over the network as if the device was plugged in locally, and you have an auto-starting systemd service to control things.)
+That is the whole trick. The network link may be remote, but ownership is still exclusive and the usual USB rules still apply. Treat the cable as longer, slower, and considerably less trustworthy.

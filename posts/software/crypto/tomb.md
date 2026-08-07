@@ -2,674 +2,222 @@
 type = "post"
 status = "published"
 date = "2020-01-08"
-readingtime = 19
+readingtime = 14
 
 slug = "gpg-yubikey-tomb"
-title = "Backing up GPG key with YubiKey, Tomb and Cryptosetup"
+title = "Back up OpenPGP keys with Tomb and cryptsetup"
 thumbnail = "thumbnail.png"
 foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 categories = ["LINUX"]
 series = ["GPG"]
-part="1"
-tags = ["yubikey","gpg","pass", "tomb", "cryptosetup" ]
+part = "1"
+tags = ["yubikey", "gpg", "tomb", "cryptsetup", "backup", "pass", "cryptosetup"]
 
-description= "generate secure GPG keys using secure liunx enviroiment and other secure linux tools"
-punchline = "Identity-based encryption is a type of public-key encryption in which a user can generate a public key from a known unique identifier such as an email address), and a trusted third-party server calculates the corresponding private key from the public key. In this way, there is no need to distribute public keys ahead of exchanging encrypted data. The sender can simply use the unique identifier of the receiver to generate a public key and encrypt the data. "
+description = "Create an offline OpenPGP primary key, daily-use subkeys, an encrypted Tomb archive, and a separate LUKS2 backup."
+punchline = "A hardware token is useful only after the keys that went onto it have a tested recovery and revocation plan."
+tldr = "Keep the certification key offline, use replaceable subkeys day to day, store encrypted backups in more than one place, and test a restore before trusting any of it."
 
 credits = [
-    "https://www.dyne.org/software/tomb/",
+    "https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html",
+    "https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration.html",
+    "https://dyne.org/docs/tomb/",
+    "https://gitlab.com/cryptsetup/cryptsetup/-/blob/main/FAQ.md",
     "https://github.com/drduh/YubiKey-Guide",
-    "https://spin.atomicobject.com/2013/11/24/secure-gpg-keys-guide/",
 ]
-
-tldr = "Were are gonna generate strong and private GPG keay by using a live environment 'TAILS'. Those keys will serve you for everthing, including singing documents, using as 2FA devices, unlocking computers... Since they are very important, we are gonna see how to back them up securely in a external usb drive, using built-in linux tool called 'cryptosetup'. But before that we are gonna use another layer of security by digging tombs and forging keys."
 
 [style]
     accent = "#8e2a8b"
     theme = "light"
 +++
 
-# SECURE ENVIRONMENT
+# Start with the recovery plan
 
-Lets make a working folder where we create file, keys, tombs ad so on. Lets call it `/home/$USER/TEMP` and export as variable `export GPGPATH=/home/$USER/TEMP`
+The dangerous part of an OpenPGP setup is not generating keys. It is discovering, after a lost laptop or dead YubiKey, that the only recoverable copy was never actually recoverable.
 
-# GPG-KEYS
+My preferred layout is simple:
 
-## MASTERKEY
+- One **primary certification key** stays offline. It creates and revokes subkeys.
+- Separate **signing, encryption, and authentication subkeys** do daily work.
+- A YubiKey holds those daily subkeys, not the only copy of them.
+- Encrypted backups live on at least two independent devices or locations.
+- A revocation certificate stays private but accessible during an emergency.
 
-{{< command >}} gpg --expert --full-generate-key {{< /command >}}
+This is not identity-based encryption, and piling several encryption tools on top of each other does not make a backup immortal. OpenPGP protects the exported key material; Tomb gives me a portable encrypted archive; LUKS2 encrypts the removable device. The useful part is separation and redundancy, not the number of padlocks in the diagram.
 
-```bash
-Please select what kind of key you want:
-   (1) RSA and RSA (default)
-   (2) DSA and Elgamal
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (7) DSA (set your own capabilities)
-   (8) RSA (set your own capabilities)
-   (9) ECC and ECC
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (13) Existing key
-  (14) Existing key from card
-Your selection? 8
---------------------------------
-Possible actions for a RSA key: Sign Certify Encrypt Authenticate
-Current allowed actions: Sign Certify Encrypt
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? E
---------------------------------
-Possible actions for a RSA key: Sign Certify Encrypt Authenticate
-Current allowed actions: Sign Certify
+# Use a clean GnuPG home
 
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? S
---------------------------------
-Possible actions for a RSA key: Sign Certify Encrypt Authenticate
-Current allowed actions: Certify
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? Q
+I do this work on a trusted Linux system, preferably offline, with current packages. A live environment can reduce the amount of state left behind, but it does not make compromised firmware, a malicious image, or a shoulder surfer disappear.
+
+Create a temporary GnuPG home with strict permissions:
+
+```console
+$ export GNUPGHOME="$HOME/openpgp-offline"
+$ install -d -m 700 "$GNUPGHOME"
+$ gpg --version
 ```
 
-```bash
-RSA keys may be between 1024 and 4096 bits long.
-What keysize do you want? (2048) 4096
-Requested keysize is 4096 bits
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 0
-Key does not expire at all
+Record the GnuPG version and the hash of the operating-system image in the backup notes. Future me should not need to guess what produced the files.
+
+# Generate the primary key and subkeys
+
+Set the identity exactly as it should appear on the public key:
+
+```console
+$ IDENTITY='Bruce Wayne <bruce.wayne@waynecorp.example>'
+$ gpg --quick-generate-key "$IDENTITY" ed25519 cert 2y
 ```
 
-```bash
-GnuPG needs to construct a user ID to identify your key.
-Real name: Bruce Wayne
-Email address: bruce.wayne@waynecorp.com
-Comment: JLA Launch Code PGP
-You selected this USER-ID:
-    "Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>"
-Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+Use a long, unique passphrase. An expiry date is not a self-destruct timer; it is a reason to revisit the key while the offline primary key is still available.
+
+Get the full fingerprint rather than relying on a short key ID:
+
+```console
+$ FPR="$(gpg --with-colons --list-keys "$IDENTITY" | awk -F: '$1 == "fpr" {print $10; exit}')"
+$ printf '%s\n' "$FPR"
+$ gpg --fingerprint "$FPR"
 ```
 
-Depending on what OS/Distro you are using, a keyring window will open asking you to give the pasphrase for this newly generated key, and after that the key will be generated and will be something similar to this:
-```bash
-pub   rsa4096 2020-01-10 [C]
-      6E1214FB62C67F9576BD2E008E1C7857051C93A2
-uid                      Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
+Read the fingerprint from the second command and compare it with what the variable contains. Then add one subkey for each job:
+
+```console
+$ gpg --quick-add-key "$FPR" ed25519 sign 1y
+$ gpg --quick-add-key "$FPR" cv25519 encr 1y
+$ gpg --quick-add-key "$FPR" ed25519 auth 1y
 ```
 
-## SUBKEYS
+Hardware support varies by YubiKey generation and firmware. Check the device's supported algorithms before choosing them. RSA is still the compatibility escape hatch when a target card or old SSH stack cannot handle the curve keys.
 
-{{< command >}} gpg --expert --edit-key bruce.wayne@waynecorp.com {{< /command >}}
+Inspect the finished key:
 
-```bash
-RSA keys may be between 1024 and 4096 bits long.
-What keysize do you want? (2048) 4096
-Requested keysize is 4096 bits
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 1y
-Key expires at Sat 09 Jan 2021 12:27:57 PM CET
-Secret key is available.
-gpg: checking the trustdb
-gpg: public key of ultimately trusted key FE80CE51B8A1EE02 not found
-gpg: marginals needed: 3  completes needed: 1  trust model: pgp
-gpg: depth: 0  valid:   3  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 3u
-sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C
-     trust: ultimate      validity: ultimate
-[ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
-```
-### SIGNING SUB-KEY
-```bash
-gpg> addkey
-Please select what kind of key you want:
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (5) Elgamal (encrypt only)
-   (6) RSA (encrypt only)
-   (7) DSA (set your own capabilities)
-   (8) RSA (set your own capabilities)
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (12) ECC (encrypt only)
-  (13) Existing key
-  (14) Existing key from card
-Your selection? 4
---------------------------------
-RSA keys may be between 1024 and 4096 bits long.
-What keysize do you want? (2048) 4096
-Requested keysize is 4096 bits
---------------------------------
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 1y
-Key expires at Sat 09 Jan 2021 11:04:05 AM CET
-```
-After the sign subkey is added we get this:
-```bash
-sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C
-     trust: ultimate      validity: ultimate
-ssb  rsa4096/9E6A1C2867590559
-     created: 2020-01-10  expires: 2021-01-09  usage: S
-[ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
+```console
+$ gpg --list-options show-usage --list-secret-keys "$FPR"
 ```
 
-### ENCRYPTION SUB-KEY
+The primary key should show certification capability, while the subkeys cover signing, encryption, and authentication.
 
-```bash
-gpg> addkey
-Please select what kind of key you want:
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (5) Elgamal (encrypt only)
-   (6) RSA (encrypt only)
-   (7) DSA (set your own capabilities)
-   (8) RSA (set your own capabilities)
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (12) ECC (encrypt only)
-  (13) Existing key
-  (14) Existing key from card
-Your selection? 6
---------------------------------
-RSA keys may be between 1024 and 4096 bits long.
-What keysize do you want? (2048) 4096
-Requested keysize is 4096 bits
---------------------------------
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 1y
-Key expires at Sat 09 Jan 2021 12:20:57 PM CET
+# Export everything needed for recovery
+
+Make a staging directory that never enters cloud sync or version control:
+
+```console
+$ export BACKUP="$HOME/openpgp-backup-$FPR"
+$ install -d -m 700 "$BACKUP"
 ```
 
-After the encrypt subkey is added we get this:
+Export the public key, a full secret backup, a daily-use subkey backup, and ownertrust:
 
-```bash
-sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C
-     trust: ultimate      validity: ultimate
-ssb  rsa4096/9E6A1C2867590559
-     created: 2020-01-10  expires: 2021-01-09  usage: S
-ssb  rsa4096/1FAA09C20C96A6E6
-     created: 2020-01-10  expires: 2021-01-09  usage: E
-[ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
+```console
+$ gpg --armor --export "$FPR" > "$BACKUP/public.asc"
+$ gpg --armor --export-secret-keys "$FPR" > "$BACKUP/secret-primary-and-subkeys.asc"
+$ gpg --armor --export-secret-subkeys "$FPR" > "$BACKUP/secret-subkeys.asc"
+$ gpg --export-ownertrust > "$BACKUP/ownertrust.txt"
 ```
 
-### AUTHENTICATION SUB-KEY
+The armored secret exports are still protected by their GnuPG passphrases, but I treat them as raw secrets. Anyone holding one can attempt an offline passphrase attack forever.
 
-```bash
-gpg> addkey
-Please select what kind of key you want:
-   (3) DSA (sign only)
-   (4) RSA (sign only)
-   (5) Elgamal (encrypt only)
-   (6) RSA (encrypt only)
-   (7) DSA (set your own capabilities)
-   (8) RSA (set your own capabilities)
-  (10) ECC (sign only)
-  (11) ECC (set your own capabilities)
-  (12) ECC (encrypt only)
-  (13) Existing key
-  (14) Existing key from card
-Your selection? 8
---------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate
-Current allowed actions: Sign Encrypt
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? S
---------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate
-Current allowed actions: Encrypt
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? E
---------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate
-Current allowed actions:
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? A
---------------------------------
-Possible actions for a RSA key: Sign Encrypt Authenticate
-Current allowed actions: Authenticate
-   (S) Toggle the sign capability
-   (E) Toggle the encrypt capability
-   (A) Toggle the authenticate capability
-   (Q) Finished
-Your selection? Q
---------------------------------
-RSA keys may be between 1024 and 4096 bits long.
-What keysize do you want? (2048) 4096
-Requested keysize is 4096 bits
---------------------------------
-Please specify how long the key should be valid.
-         0 = key does not expire
-      <n>  = key expires in n days
-      <n>w = key expires in n weeks
-      <n>m = key expires in n months
-      <n>y = key expires in n years
-Key is valid for? (0) 1y
-Key expires at Sat 09 Jan 2021 12:27:57 PM CET
+Modern GnuPG normally creates a revocation certificate under `openpgp-revocs.d` when the primary key is generated. Copy it into the backup:
+
+```console
+$ cp "$GNUPGHOME/openpgp-revocs.d/$FPR.rev" "$BACKUP/revocation-certificate.rev"
 ```
 
-After the authentication subkey is added we get this:
-```bash
-sec  rsa4096/8E1C7857051C93A2
-     created: 2020-01-10  expires: never       usage: C
-     trust: ultimate      validity: ultimate
-ssb  rsa4096/9E6A1C2867590559
-     created: 2020-01-10  expires: 2021-01-09  usage: S
-ssb  rsa4096/1FAA09C20C96A6E6
-     created: 2020-01-10  expires: 2021-01-09  usage: E
-ssb  rsa4096/CC964AFC82754FD0
-     created: 2020-01-10  expires: 2021-01-09  usage: A
-[ultimate] (1). Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
+If that file is absent, create a replacement interactively:
 
+```console
+$ gpg --armor --output "$BACKUP/revocation-certificate.asc" --generate-revocation "$FPR"
 ```
 
-# DIGGING TOMBS AND FORGING KEYS
+Never publish the revocation certificate as a casual backup. A person who obtains it can invalidate the public key even without learning the private-key passphrase.
 
-Tomb is a free and open source system for file encryption on GNU/Linux. I is written in shell code that is easy to look and review. It works by generating encrypted storage folders to be opened and closed using their associated keyfiles, which are also generated with tomb and protected with a password chosen by the user. A tomb is like a locked folder that can be safely transported and hidden in a filesystem; its keys can be kept separate, for instance keeping the tomb file on your computer harddisk and the key files on a USB stick.
+Add a small text file containing the fingerprint, identity, creation date, algorithms, expiry policy, and recovery steps. Then create checksums to catch accidental corruption:
 
-You can get tomb through any of your prefered package manader for your distro (apt,yum,yay) which, obviously, I am not gonna show it here. Once you have it installed you can test is by calling it:
-
-{{< command >}} tomb {{< /command >}}
-```bash
-  Syntax: tomb [options] command [arguments]
-  Commands:
-   dig          create a new empty TOMB file of size -s in MiB
-   forge        create a new KEY file and set its password
-   lock         installs a lock on a TOMB to use it with KEY
-   open         open an existing TOMB (-k KEY file or - for stdin)
-   index        update the search indexes of tombs
-   search       looks for filenames matching text patterns
-   list         list of open TOMBs and information on them
-   ps           list of running processes inside open TOMBs
-   close        close a specific TOMB (or 'all')
-   slam         slam a TOMB killing all programs using it
-   resize       resize a TOMB to a new size -s (can only grow)
-   passwd       change the password of a KEY (needs old pass)
-   setkey       change the KEY locking a TOMB (needs old key and pass)
-   bury         hide a KEY inside a JPEG image (for use with -k)
-   exhume       extract a KEY from a JPEG image (prints to stdout)
-
-  Options:
-   -s           size of the tomb file when creating/resizing one (in MiB)
-   -k           path to the key to be used ('-k -' to read from stdin)
-   -n           don't launch the execution hooks found in tomb
-   -p           preserve the ownership of all files in tomb
-   -o           options passed to commands: open, lock, forge (see man)
-   -f           force operation (i.e. even if swap is active)
-   -g           use a GnuPG key to encrypt a tomb key
-   -r           provide GnuPG recipients (separated by comma)
-   -R           provide GnuPG hidden recipients (separated by comma)
-   -h           print this help
-   -v           print version, license and list of available ciphers
-   -q           run quietly without printing informations
-   -D           print debugging information at runtime
+```console
+$ cd "$BACKUP"
+$ sha256sum public.asc secret-primary-and-subkeys.asc secret-subkeys.asc \
+    ownertrust.txt revocation-certificate.* > SHA256SUMS
 ```
 
+A checksum stored beside the files detects bit rot and copying mistakes. It does not stop an attacker who can replace both the files and the checksum.
 
-Now, let's think how to save our GPG keys.
+# Put the bundle in a Tomb
 
-The best way is to create two tombs, one for SUBKEYS `subkey.tomb`/`subkey.key` and the other one for MASTERKEY  `master.tomb`/`master.key`. Eventhoug, the USBKEY where will GPG keys be saved is gonna be LUKS encrypted (more on that later), still its good to have separation between SUBKEYS and MASTERKEY. As mentioned before, the masterkey is the one used only to issue subkeys, and this will potentially be living as long as you live (unless quantum qomputers break RSA, then we all are f**ked). So its important to have a separation. One good case that comes to mind is, when formatting main machine, we want again to setup/copy/work with subkeys, and if in those times there is a malware lurking in the machine it can compromise not only the subkeys, but masterkey too.
+[Tomb](https://dyne.org/docs/tomb/) creates a LUKS-backed encrypted file and keeps its key in a separate file. Choose a size with room for notes and future exports; `128` MiB is ample for keys:
 
-## FORGING KEYS
-
-{{< command >}} tomb forge master.key {{< /command >}}
-
-
-```bash
-tomb  .  Commanded to forge key master.key with cipher algorithm AES256
-tomb [W] This operation takes time. Keep using this computer on other tasks.
-tomb [W] Once done you will be asked to choose a password for your tomb.
-tomb [W] To make it faster you can move the mouse around.
-tomb [W] If you are on a server, you can use an Entropy Generation Daemon.
-512+0 records in
-512+0 records out
-512 bytes copied, 0.00186594 s, 274 kB/s
-tomb (*) Choose the password of your key: master.key
-tomb  .  (You can also change it later using 'tomb passwd'.)
-```
-Then you get a prompt (keyring based on your OS/Distro) to give a passphrase to this key. Since the key itself is encrypted, and cant be opened without the pasphrase. After that you the password is created:
-
-```bash
-tomb  .  Key is valid.
-tomb  .  Done forging master.key
-tomb (*) Your key is ready:
--rw------- 1 bruce bruce 855 Jan 10 13:24 master.key
-```
-## DIG A TOMB
-
-Now, after we have forged the keys, we ned to create the tombs:
-{{< command >}} tomb dig -s 100 master.tomb {{< /command >}}
-```bash
-tomb  .  Commanded to dig tomb master.tomb
-tomb (*) Creating a new tomb in master.tomb
-tomb  .  Generating master.tomb of 100MiB
-100+0 records in
-100+0 records out
-104857600 bytes (105 MB, 100 MiB) copied, 0.611086 s, 172 MB/s
-
--rw------- 1 bruce bruce 100M Jan 10 14:01 master.tomb
-tomb (*) Done digging master
-tomb  .  Your tomb is not yet ready, you need to forge a key and lock it.
-tomb  .  tomb lock master.tomb -k master.key
-```
-## LOCK THE TOMB
-
-And finally lets lock the tomb with the foged key:
-{{< command >}} tomb lock master.tomb -k master.key {{< /command >}}
-```bash
-tomb  .  Commanded to lock tomb master.tomb
-tomb  .  Checking if the tomb is empty (we never step on somebody else's bones).
-tomb  .  Fine, this tomb seems empty.
-tomb  .  Key is valid.
-tomb  .  Locking using cipher: aes-xts-plain64
-tomb  .  A password is required to use key master.key
-```
-Now it will prompt the keyring for the keyphrase of the key:
-
-```bash
-tomb  .  Password OK.
-tomb (*) Locking master.tomb with master.key
-tomb  .  Formatting Luks mapped device.
-tomb  .  Formatting your Tomb with Ext3/Ext4 filesystem.
-tomb  .  Done locking master using Luks dm-crypt aes-xts-plain64
-tomb (*) Your tomb is ready in master.tomb and secured with key master.key
+```console
+$ cd "$HOME"
+$ tomb dig -s 128 openpgp-backup.tomb
+$ tomb forge openpgp-backup.tomb.key
+$ tomb lock openpgp-backup.tomb -k openpgp-backup.tomb.key
 ```
 
-## OPEN THE TOMB
+Open it, copy the staging directory, and close it:
 
-Now, to open a tomb:
-{{< command >}} tomb open master.tomb -k master.key {{< /command >}}
-```bash
-tomb  .  Commanded to open tomb master.tomb
-tomb  .  Valid tomb file found: master.tomb
-tomb  .  Key is valid.
-tomb  .  Mountpoint not specified, using default: /media/master
-tomb (*) Opening master on /media/master
-tomb  .  This tomb is a valid LUKS encrypted device.
-tomb  .  Cipher is "aes" mode "xts-plain64" hash "sha512"
-tomb  .  A password is required to use key master.key
+```console
+$ tomb open openpgp-backup.tomb -k openpgp-backup.tomb.key
+$ cp -a "$BACKUP" /media/openpgp-backup/
+$ sync
+$ tomb close openpgp-backup
 ```
 
-Again, it will prompt the keyring for keyphrase to unlock the fogeed key:
-```bash
-tomb  .  Password OK.
-tomb (*) Success unlocking tomb master
-tomb  .  Checking filesystem via /dev/loop0
-fsck from util-linux 2.34
-master: clean, 11/25168 files, 8831/100352 blocks
-tomb (*) Success opening master.tomb on /media/master
-```
-Now we have aa drive mouted on `/media/master/` where we can save secret key.
+Tomb may choose a different mount path if that name is already in use. Read its output instead of assuming the path.
 
-The exact same procedures are for subkeys too:
+The `.tomb` file and `.key` file are deliberately separate. I keep one copy of the Tomb on offline storage and its key on another device, with documented recovery copies in different physical locations. If both pieces always travel together, that separation adds little.
 
-The same goes for `subkey.tomb`
-first forge key:
-{{< command >}} tomb forge subkey.key {{< /command >}}
-then, create the tomb:
-{{< command >}} tomb dig -s 100 subkey.tomb {{< /command >}}
-then, lock the tomb with the key:
-{{< command >}} tomb lock subkey.tomb -k subkey.key {{< /command >}}
-then, opening the tomb:
-{{< command >}} tomb open master.tomb -k master.key {{< /command >}}
-At the end we have another drive mouted on `/media/subkey/` where we can save subkeys key.
+Securely erasing the staging directory on an SSD, copy-on-write filesystem, or journaled filesystem is not something `rm` can promise. The safer pattern is to create the staging area inside an encrypted temporary volume from the beginning, then close and discard that volume.
 
+# Add an encrypted removable drive
 
-## SLAM EVERYTHING
-When finished, you could close each tomb with `tomb close {tombname}`, or you can all close at the same time, and kill all processes using it by issuing the command:
+This section destroys the selected partition. I identify it by model, serial number, and size with `lsblk` before running anything. A pasted `/dev/sdX` from a blog is not a device-discovery strategy.
 
-{{< command >}} tomb slam {{< /command >}}
-```bash
-tomb (*) Slamming tomb [master] mounted on /media/master
-tomb  .  Closing tomb [master] mounted on /media/master
-tomb (*) Tomb [master] closed: your bones will rest in peace.
+Set a stable by-id path for the partition you deliberately prepared:
 
-tomb (*) Slamming tomb [subkey] mounted on /media/subkey
-tomb  .  Closing tomb [subkey] mounted on /media/subkey
-tomb (*) Tomb [subkey] closed: your bones will rest in peace.
-```
-# BACKING-UP KEYS
-Now that we have the tombs open, we can back up our GPG.
-
-## PUBICKEY BACKUP
-{{< command >}}
-gpg --armor --export bruce.wayne@waynecorp.com > $TEMP/public.asc
-{{< /command >}}
-
-## SUBKEY BACKUP
-From last step, before we close/slam the tomb, we have mounted/opened the tomb on `/media/subkey`, and that's where we are going to back up the SUBKEYS:
-
-{{< command >}}
-gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/subkey/subkeys.asc
-{{< /command >}}
-
-
-and then we close the tomb:
-
-{{< command >}}
-tomb close subkey
-{{< /command >}}
-
-```bash
-tomb  .  Closing tomb [subkey] mounted on /media/subkey
-tomb (*) Tomb [subkey] closed: your bones will rest in peace.
+```console
+$ lsblk --output NAME,PATH,SIZE,MODEL,SERIAL,FSTYPE,MOUNTPOINTS
+$ USB_PART=/dev/disk/by-id/usb-EXAMPLE-part1
 ```
 
+Format it as LUKS2, open it, and create a filesystem:
 
-## MASTERKEY BACKUP
-Since we didn't `tomb slam` to close all tombs, we only closed `subkey` tomb with close comand, so we have `master` tomb still open on `/media/subkey`, and that's where we are going to back up the MASTERKEY, and same time, we are going to back up there an INVOCATION CAETIFICATE, in case anytime the master is compromised we can use it, and procedures are the same like for `subkey`:
-
-{{< command >}}
-gpg --armor --export-secret-subkeys bruce.wayne@waynecorp.com > /media/master/private.asc
-{{< /command >}}
-
-
-Now here, we dont close the tomb just yet, as we need to create an invocation certificate.
-
-## INVOCATION CERTIFICATE
-
-To generate an revocation certificate, we use the command: (it will prompt for the GPG pasphrase)
-
-{{< command >}}
-gpg --armor --gen-revoke bruce.wayne@waynecorp.com > /media/master/revoke.cert
-{{< /command >}}
-
-```bash
-sec  rsa4096/8E1C7857051C93A2 2020-01-10 Bruce Wayne (JLA Launch Code PGP) <bruce.wayne@waynecorp.com>
-Create a revocation certificate for this key? (y/N) y
---------------------------------
-Please select the reason for the revocation:
-  0 = No reason specified
-  1 = Key has been compromised
-  2 = Key is superseded
-  3 = Key is no longer used
-  Q = Cancel
-(Probably you want to select 1 here)
-Your decision?
---------------------------------
-Enter an optional description; end it with an empty line:
->
-Reason for revocation: Key has been compromised
-(No description given)
---------------------------------
-Is this okay? (y/N) y
-Revocation certificate created.
+```console
+$ sudo cryptsetup luksFormat --type luks2 "$USB_PART"
+$ sudo cryptsetup open "$USB_PART" openpgp_backup_usb
+$ sudo mkfs.ext4 -L OPENPGP_BACKUP /dev/mapper/openpgp_backup_usb
+$ sudo install -d /mnt/openpgp-backup
+$ sudo mount /dev/mapper/openpgp_backup_usb /mnt/openpgp-backup
 ```
 
-and lastly we close the tomb:
+Copy the Tomb there. Whether the Tomb key belongs on the same volume depends on the recovery plan; I prefer a separate location:
 
-{{< command >}}
-tomb close master
-{{< /command >}}
-
-```bash
-tomb  .  Closing tomb [master] mounted on /run/media/bresilla/master
-tomb (*) Tomb [master] closed: your bones will rest in peace.
+```console
+$ sudo cp -a "$HOME/openpgp-backup.tomb" /mnt/openpgp-backup/
+$ sync
+$ sudo umount /mnt/openpgp-backup
+$ sudo cryptsetup close openpgp_backup_usb
 ```
 
-# CRYPTOLUKS
-{{< command >}}
-lsblk
-{{< /command >}}
-```
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         iso9660     2019-04-20-02-16-46-00
+LUKS metadata is required to unlock the volume. Back up its header to a different encrypted device:
+
+```console
+$ sudo cryptsetup luksHeaderBackup "$USB_PART" \
+    --header-backup-file /path/on/separate-encrypted-device/openpgp-backup-usb.luks-header
 ```
 
+Protect that header backup like the volume itself. It does not reveal the plaintext on its own, but it enables offline passphrase guessing and may preserve keyslots that were later removed from the live device.
 
-{{< command >}}
-sudo cryptsetup luksFormat /dev/sdb
-{{< /command >}}
-```bash
-WARNING: Device /dev/sdb already contains a 'iso9660' superblock signature.
-WARNING: Device /dev/sdb already contains a 'dos' partition signature.
-WARNING!
-========
-This will overwrite data on /dev/sdb irrevocably.
-Are you sure? (Type uppercase yes): YES
+# Test the restore, then remove the primary key
+
+A backup is only a theory until it restores. On another trusted system, open a copy of the Tomb into a fresh temporary `GNUPGHOME` and run:
+
+```console
+$ export GNUPGHOME="$(mktemp -d)"
+$ chmod 700 "$GNUPGHOME"
+$ gpg --import secret-primary-and-subkeys.asc
+$ gpg --import-ownertrust ownertrust.txt
+$ gpg --fingerprint "$FPR"
 ```
 
-```bash
-Enter passphrase for /dev/sdb:
-Verify passphrase:
-```
+Verify the checksums, inspect the capabilities and expiry dates, sign and verify a disposable file, then destroy that temporary environment appropriately. Also practice locating the revocation certificate without importing it.
 
-{{< command >}}
-lsblk
-{{< /command >}}
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
-```
+Only after the restore works do I copy the daily subkeys to a YubiKey and remove the primary secret key from the online machine. The next article covers that transfer. If the YubiKey is lost, I can revoke only its subkeys with the offline primary key, issue replacements, and keep the identity intact.
 
-{{< command >}}
-sudo cryptsetup open /dev/sdb usb
-{{< /command >}}
-```bash
-Enter passphrase for /dev/sdb:
-```
-and `lsblk` gives:
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
-└─usb
-```
-{{< command >}}
-sudo mkfs.btrfs -f /dev/mapper/usb
-{{< /command >}}
-
-after format, `lsblk` gives:
-
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
-└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194
-```
-
-{{< command >}}
-sudo mount /dev/mapper/usb /media/usb
-{{< /command >}}
-
-and after we have the drive mounted in `/media/usb/`
-
-{{< command >}}
-sudo cp -acp $TEMP/{master.tomb, master.key, subkey.tomb, subkey.key, public.asc} /media/usb/
-{{< /command >}}
-
-`lsblk` outputs:
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
-└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194   15.3G     0% /media/usb
-```
-
-{{< command >}}
-sudo umount /media/usb
-{{< /command >}}
-
-`lsblk` outputs:
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
-└─usb       btrfs       d4d188b9-00ef-49db-aedd-a07fbd80f194
-```
-{{< command >}}
-sudo cryptsetup close usb
-{{< /command >}}
-
-`lsblk` outputs:
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-sdb         crypto_LUKS ac9abe74-2769-4bb8-9805-5910ce7d3262
-```
-
-{{< command >}}
-udisksctl power-off -b /dev/sdb
-{{< /command >}}
-
-`lsblk` outputs:
-```bash
-NAME        FSTYPE      UUID                                 FSAVAIL FSUSE% MOUNTPOINT
-sda
-├─sda1      btrfs       944b1c42-56ea-43f1-9945-a40354dcd1be   50.8G    10% /
-└─sda2      btrfs       d68c9b6c-1dee-4f53-b43f-b2a2dbb15472  103.5G    74% /opt
-```
+The boring pieces are the ones that save the day: two independent backups, keys and passphrases stored separately, clear labels, and a restore drill on the calendar.
