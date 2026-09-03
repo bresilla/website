@@ -1,0 +1,28 @@
+slug = "memory-balthasar"
+thumbnail = "../../posts/software/dev/balthasar-hero.jpg"
+foot = "Memory should return with receipts."
+part = "1"
+tags = ["memory", "neuroscience", "agents", "balthasar"]
+categories = ["software", "research"]
+series = ["EVA-01"]
+credits = [
+    "https://www.ncbi.nlm.nih.gov/books/NBK10925/",
+    "https://www.nature.com/articles/s41386-024-01979-z",
+    "https://www.nature.com/articles/s41583-024-00814-0",
+    "https://www.ncbi.nlm.nih.gov/books/NBK3905/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC12514325/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC7929507/",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC13273176/",
+    "https://arxiv.org/abs/2310.08560",
+    "https://arxiv.org/abs/2405.14831",
+    "https://arxiv.org/abs/2410.10813",
+    "https://xiaowu0162.github.io/longmemeval-v2/",
+    "https://arxiv.org/abs/2502.12110",
+    "https://arxiv.org/abs/2504.19413",
+    "https://arxiv.org/abs/2506.06326",
+    "https://arxiv.org/abs/2507.03724",
+    "https://arxiv.org/abs/2608.03463",
+    "https://github.com/ai-nerv/magi",
+    "https://github.com/ai-nerv/melchior",
+    "https://github.com/ai-nerv/balthasar",
+]

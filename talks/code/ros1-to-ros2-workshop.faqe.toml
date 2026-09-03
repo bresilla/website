@@ -1,0 +1,26 @@
+slug = "ros1-to-ros2-workshop"
+foot = "Migrate the contracts, not only the code."
+tags = ["ros", "ros2", "migration", "rust", "zenoh", "robotics"]
+categories = ["robotics", "software", "workshop"]
+series = ["ROS 2 Migration"]
+part = "1"
+credits = [
+    "https://www.ros.org/blog/noetic-eol/",
+    "https://docs.ros.org/en/rolling/Releases.html",
+    "https://docs.ros.org/en/lyrical/How-To-Guides/Migrating-from-ROS1.html",
+    "https://docs.ros.org/en/lyrical/Concepts/Intermediate/About-Quality-of-Service-Settings.html",
+    "https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Executors.html",
+    "https://docs.ros.org/en/rolling/Tutorials/Intermediate/Composition.html",
+    "https://design.ros2.org/articles/ros2_dds_security.html",
+    "https://github.com/ros2/ros1_bridge",
+    "https://docs.ros.org/en/ros2_packages/kilted/api/rosbag2_storage_mcap/",
+    "https://control.ros.org/jazzy/doc/migration/differences_to_ros1.html",
+    "https://github.com/ros2-rust/ros2_rust",
+    "https://docs.rs/rclrs/latest/rclrs/",
+    "https://docs.ros.org/en/lyrical/Concepts/Intermediate/About-Different-Middleware-Vendors.html",
+    "https://github.com/ros2/rmw_zenoh",
+    "https://zenoh.io/docs/manual/abstractions/",
+    "https://zenoh.io/docs/getting-started/deployment/",
+    "https://zenoh.io/docs/manual/plugin-storage-manager/",
+    "https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds",
+]

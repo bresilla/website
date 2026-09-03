@@ -3,81 +3,58 @@ type = "post"
 status = "published"
 slug = "balthasar-evidence-chain"
 title = "The Balthasar Evidence Chain"
-description = "How Balthasar turns conversation into durable, explainable memory without treating every sentence as truth."
+description = "How Balthasar decides which parts of a conversation may shape the next session, and keeps the evidence behind every decision."
 date = "2026-09-03"
+readingtime = 9
 thumbnail = "balthasar-hero.jpg"
+foot = "Memory should return with its receipts."
 tags = ["balthasar", "memory", "agents", "architecture"]
 categories = ["software"]
+series = ["EVA-01"]
+part = "1"
+punchline = "Saving text is easy. Balthasar's real job is deciding which claims have earned the right to shape the next session."
+tldr = "Keep the full history, promote a claim only when its evidence clears the threshold, and never return memory without showing where it came from."
+credits = [
+    "https://github.com/ai-nerv/balthasar",
+    "https://unsplash.com/photos/f2krpIYBrJc",
+]
 
 [style]
-accent = "#62c7b2"
-chromatic = ["#62c7b2", "#d4a947"]
-background = "#0b1412"
-foreground = "#e8ede9"
-theme = "dark"
+accent = "#d71920"
+chromatic = ["#d71920", "#000000"]
+background = "#ffffff"
+foreground = "#0a0a0a"
+theme = "light"
 +++
-
-```faqe:hero
-eyebrow = "BALTHASAR · MEMORY THAT KEEPS ITS RECEIPTS"
-title = "How a sentence becomes *a fact*"
-standfirst = "An agent hears thousands of statements while it works. Balthasar preserves the history, weighs the evidence, and promotes only the ideas that have earned the right to return as durable memory."
-image = "balthasar-hero.jpg"
-image_alt = "Glowing screens and fragments suspended in a dark network"
-image_caption = "Photo by [Johnny Guitar](https://unsplash.com/@johnnyguitarks) on [Unsplash](https://unsplash.com/photos/f2krpIYBrJc)"
-
-[[stats]]
-label = "Memory layers"
-value = "3"
-
-[[stats]]
-label = "Evidence signals"
-value = "8"
-
-[[stats]]
-label = "Hold floor"
-value = "0.30"
-
-[[stats]]
-label = "Promote floor"
-value = "0.50"
-
-[[stats]]
-label = "Model dependency"
-value = "optional"
-
-[[stats]]
-label = "History"
-value = "preserved"
-```
 
 **THE IDEA**
 
 # Memory that can explain itself
 
-Balthasar is a memory layer for long-running agents. It separates what was merely said from what is reliable enough to influence future work.
+Balthasar is a memory layer for agents whose work lasts longer than one context window. Its first job is to keep “somebody said this” separate from “the agent may rely on this.”
 
 ```faqe:prose
 columns = [
 """
-Most assistants treat memory as a collection of saved snippets. A message is selected, summarized, and placed in a store. Later it returns without much explanation of why it was kept or whether it is still true.
+Most assistant memory starts as a pile of saved snippets. A message gets selected, shortened, and stored. When it turns up again, the agent rarely knows why it was saved or whether it still holds.
 
-Balthasar starts from a different question: **what evidence does this claim have?** A remembered idea is not only text. It carries the events that supported it, the situations in which it appeared, and the confidence those events create together.
+Balthasar asks a fussier question: **what evidence does this claim have?** The answer includes the original events, the contexts in which the claim appeared, and the confidence those events produce together.
 """,
 """
-The complete conversation remains history. Durable memory is the smaller set of claims that crossed an evidence threshold. This distinction lets Balthasar find an old statement without presenting that statement as established truth.
+The complete conversation stays in history. Durable memory is much smaller: only claims that crossed an evidence threshold. Balthasar can therefore find an old statement without quietly upgrading it to fact.
 
-The result is memory with receipts. When a fact returns, the system can explain where it came from, what reinforced it, and whether a newer fact replaced it.
+That is what “memory with receipts” means here. When a claim returns, Balthasar can show its source, the later evidence that strengthened it, and any correction that replaced it.
 """
 ]
 ```
 
-The goal is not to remember everything. The goal is to preserve everything that may matter while being selective about what the agent is allowed to believe.
+Store broadly. Believe carefully. Those are different operations, and Balthasar keeps them separate.
 
 **THE JOURNEY**
 
 # What happens to one remembered idea
 
-A single sentence can stop at several points. Most statements remain part of the historical record. Only a small number become durable memory.
+A sentence does not jump straight from chat into durable memory. Most statements stay in the historical record. A few earn promotion.
 
 ```faqe:timeline
 [[items]]
@@ -101,7 +78,7 @@ tone = "positive"
 [[items]]
 title = "Weak evidence waits"
 meta = "hold floor · 0.30"
-body = "A plausible idea is retained as a candidate. Waiting is different from rejection because another independent event may reinforce it later."
+body = "A plausible idea stays as a candidate. It may gain support from another, independent event later."
 tone = "warning"
 
 [[items]]
@@ -119,17 +96,17 @@ tone = "accent"
 [[items]]
 title = "Recall returns the idea with context"
 meta = "memory plus its supporting history"
-body = "The next session receives the useful claim together with enough provenance to understand why it is present."
+body = "The next session gets the claim together with enough provenance to see why it is there."
 tone = "positive"
 ```
 
-This journey keeps a clean boundary between three ideas: **it happened**, **it may matter**, and **it is reliable enough to assert**.
+These states can look alike in a log, but they mean different things: **it happened**, **it may matter**, and **we have enough evidence to assert it**.
 
 **THE EVIDENCE**
 
 # Eight ways a memory earns trust
 
-The evidence signals are independent witnesses. They are not steps that every memory must complete.
+Each signal is a witness. They are alternative sources of evidence, not a checklist every memory has to complete.
 
 ```faqe:progress
 max = 1.0
@@ -204,14 +181,14 @@ tone = "positive"
 ```faqe:prose
 columns = [
 """
-The strongest evidence crosses alone. If somebody explicitly asks Balthasar to remember a preference, the intent is clear. A confirmed correction is similarly strong because it tells the system that an older belief no longer describes the world.
+Some evidence is strong enough on its own. An explicit request to remember a preference leaves little doubt about intent. A confirmed correction also stands alone because it tells Balthasar that the old belief is wrong or stale.
 
-A costly lesson also crosses alone. If an agent tried something, failed, diagnosed the cause, and repaired it, forgetting that lesson would force a future session to pay the same price again.
+A costly failure can also cross alone. Once an agent has found and repaired the cause, making another session pay for the same mistake would be wasteful.
 """,
 """
-Weaker evidence waits for company. Something leaving the context window may be worth remembering, but age alone does not make it true. If the same lesson independently reappears later, their combined weight can clear the promotion floor.
+Weaker evidence has to wait. A claim that just left the context window may be useful, but age does not make it true. If the lesson turns up independently in a later session, the two events may clear the promotion floor together.
 
-Evidence from one source is capped. Repeating the same sentence many times inside one conversation cannot manufacture certainty.
+One source has a cap. Repeating the same sentence ten times in one conversation still gives Balthasar one source, not ten.
 """
 ]
 ```
@@ -220,7 +197,7 @@ Evidence from one source is capped. Repeating the same sentence many times insid
 
 # Where durable memories come from
 
-There is no single extraction step deciding what matters. Several ordinary events can offer evidence to the same gate.
+There is no magic extraction pass that decides what matters. Ordinary events feed evidence into the same gate.
 
 ```faqe:grid
 columns = 3
@@ -243,7 +220,7 @@ tone = "positive"
 [[items]]
 eyebrow = "consequence"
 title = "A failure taught a lesson"
-body = "The path from mistake to repair produced reusable knowledge."
+body = "The agent found the cause, repaired it, and now has a lesson worth reusing."
 badge = "crosses alone"
 tone = "positive"
 
@@ -271,32 +248,32 @@ tone = "warning"
 [[items]]
 eyebrow = "optional inference"
 title = "A model read between the lines"
-body = "A configured model proposed an implied claim, but the evidence gate still decided its fate."
+body = "A configured model proposed an implied claim. The normal evidence gate still decides whether it survives."
 badge = "waits"
 tone = "warning"
 
 [[items]]
 eyebrow = "trusted collaboration"
 title = "A peer proposed it"
-body = "Another identified participant contributed evidence without gaining authority to declare truth."
+body = "Another identified participant contributed evidence, but did not gain the power to declare truth."
 badge = "waits"
 tone = "warning"
 
 [[items]]
 eyebrow = "deliberate review"
 title = "A person promoted it"
-body = "Someone reviewed the session and deliberately selected an enduring lesson."
+body = "Someone reviewed the session and deliberately selected a lesson for later work."
 badge = "strong evidence"
 tone = "accent"
 ```
 
-> **Many sources, one gate.** The route changes where the evidence came from, not the rules used to judge it.
+> **Many sources, one gate.** The source changes; the admission rules do not.
 
 **THE MEMORY LOOP**
 
-# Everything, connected
+# The whole loop
 
-The important relationships are conceptual: experience creates evidence, evidence changes memory, and memory returns to help the next experience.
+One run produces history and evidence. Some of that evidence changes durable memory, which may return during the next run.
 
 ```faqe:graph
 title = "The Balthasar memory loop"
@@ -458,13 +435,13 @@ label = "context"
 tone = "accent"
 ```
 
-The loop is deliberately asymmetric. Every meaningful event can become history, but only evidence-backed claims become durable memory.
+The imbalance is deliberate. History is broad; durable memory is narrow.
 
 **THE NUMBER**
 
 # Confidence is derived, never assigned
 
-No component is allowed to type a confidence score directly. Confidence is recomputed from the evidence attached to a claim.
+Nobody gets to type in a confidence score. Balthasar recomputes it from the evidence attached to the claim.
 
 > **confidence = combined independent evidence × freshness × scope relevance**
 
@@ -497,13 +474,13 @@ body = "The claim has crossed the promotion floor and may support future work."
 tone = "positive"
 ```
 
-If the evidence changes, the number changes with it. The score cannot drift away from the reasons that produced it.
+Change the evidence and the number changes too. The score cannot wander away from the reasons behind it.
 
 **RECALL**
 
 # Finding is not believing
 
-Balthasar can search broadly while remaining conservative about what it asserts. That separation matters when the history contains guesses, questions, outdated plans, and copied material.
+Balthasar searches more than it trusts. That matters because a transcript contains guesses, questions, abandoned plans, and text copied from elsewhere.
 
 ```faqe:table
 title = "What recall is allowed to do"
@@ -527,13 +504,13 @@ cells = ["Superseded memory", "It used to be true or was once believed", "Only w
 tones = ["neutral", "negative", "neutral"]
 ```
 
-This gives the agent access to more of its past without forcing it to treat the entire past as current fact.
+The agent can inspect more of its past without pretending that every old sentence is still true.
 
 **WHY IT MATTERS**
 
-# More than a longer context window
+# When the context window runs out
 
-A context window is excellent while the relevant history still fits. Durable memory becomes valuable when work lasts long enough for important lessons to fall outside that window.
+If the useful history still fits in context, keep it there. Durable memory starts earning its cost only when the work outlives the window.
 
 ```faqe:grid
 columns = 2
@@ -554,7 +531,7 @@ badge = "memory earns its cost"
 tone = "positive"
 ```
 
-The honest boundary is simple: memory should not compete with a context window when the window still contains everything useful. It should help when the work becomes larger than the window.
+There is no prize for adding memory to a short task. Use it when preferences, corrections, or expensive lessons would otherwise scroll away.
 
 **THE TRADE-OFF**
 
@@ -608,4 +585,4 @@ bullets = [
 tone = "warning"
 ```
 
-> Balthasar treats memory as an evidence problem rather than a storage problem. The useful question is not “can this sentence be saved?” but “what would justify letting this sentence shape the next session?”
+> Saving a sentence is cheap. The hard question is whether that sentence has earned the right to shape the next session.

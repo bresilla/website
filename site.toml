@@ -9,10 +9,10 @@ avatar_hover = "home/logo.png"
 favicon = "home/favicon.svg"
 default_card_thumbnail = "home/logo.png"
 default_foot = "I solemnly swear that I am up to no good"
-disclaimer_title = "Disclaimer!"
+disclaimer_title = "A note on accuracy and authorship"
 disclaimer_paragraphs = [
-  "The intention of this blog is to entertain anyone who might read it and also to provide some sort of encouragement for the author. The opinions it contains are exactly that: OPINIONS, which are mine and mine alone (and of some people that i copied from).",
-  "As per usual, a lot of text is copied and pasted from other resources, combined here in a hot mess of everything, however EVERYTHING is properly cited at the end. I use this as \"notes\" going through the learning process. All the credit goes to the people that made those resources avalible for free for me to copy from them 😛.",
+  "This site is my working notebook, not an authority. Posts reflect my understanding at publication time and may become outdated as tools, projects, and opinions change. Verify commands, security advice, measurements, and external claims against the linked sources before relying on them.",
+  "I write and edit the final posts, sometimes with help from software and AI tools for research, drafting, or code. Sources and borrowed material are credited in the references where available. Mistakes are mine; corrections are welcome.",
 ]
 references_copyright = "© bresilla (this year 😛). All rights reserved."
 references_notice = "Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime."
