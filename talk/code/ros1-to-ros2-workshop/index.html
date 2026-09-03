@@ -1,0 +1,601 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#4f78a6;--chromatic-a:#4f78a6;--chromatic-b:#c65d21;--bg-color:#03060b;--fg-color:#e8edf5;--glitch-color:#e8edf5;--interactive-color:#527aa7;--accent-text-color:#ffffff"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-26e298ae951f39c3.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Architecture, migration, installation, and a practical porting workshop"><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#03060b"><meta property="og:title" content="ROS 1 → ROS 2 · bresilla"><meta property="og:description" content="Architecture, migration, installation, and a practical porting workshop"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="ROS 1 → ROS 2 · bresilla"><meta name="twitter:description" content="Architecture, migration, installation, and a practical porting workshop"><meta property="og:url" content="https://bresilla.com/talk/code/ros1-to-ros2-workshop/"><link rel="canonical" href="https://bresilla.com/talk/code/ros1-to-ros2-workshop/"><meta property="og:image" content="https://bresilla.com/assets/content/logo-0fb7a39075bac801.png"><meta property="og:image:alt" content="ROS 1 → ROS 2"><meta name="twitter:image" content="https://bresilla.com/assets/content/logo-0fb7a39075bac801.png"><meta name="twitter:image:alt" content="ROS 1 → ROS 2"><title>ROS 1 → ROS 2 · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-73aaa92e7893cbcb.css"><link data-faqe-mode="talk" rel="stylesheet" href="/assets/theme-bresilla-talk-c4e530c3288005f4.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>ROS 1 → ROS 2</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#ros-1--ros-2">ROS 1 → ROS 2</a></li><li><a href="#decisions-for-this-migration">Decisions for this migration</a></li><li><a href="#ros-1-support-status">ROS 1 support status</a></li><li><a href="#target-distribution">Target distribution</a></li><li><a href="#migration-scope">Migration scope</a></li><li><a href="#ros-1-graph">ROS 1 graph</a></li><li><a href="#ros-2-graph">ROS 2 graph</a></li><li><a href="#discovery-without-a-master">Discovery without a master</a></li><li><a href="#ros-2-software-layers">ROS 2 software layers</a></li><li><a href="#middleware-selection">Middleware selection</a></li><li><a href="#names-and-namespaces">Names and namespaces</a></li><li><a href="#communication-primitives">Communication primitives</a></li><li><a href="#qos-is-an-interface-contract">QoS is an interface contract</a></li><li><a href="#qos-compatibility">QoS compatibility</a></li><li><a href="#qos-by-data-class">QoS by data class</a></li><li><a href="#discovery-at-product-scale">Discovery at product scale</a></li><li><a href="#domain-isolation-and-security">Domain isolation and security</a></li><li><a href="#interface-definitions">Interface definitions</a></li><li><a href="#node-scoped-parameters">Node-scoped parameters</a></li><li><a href="#ros-2-launch">ROS 2 launch</a></li><li><a href="#catkin-to-ament-and-colcon">Catkin to ament and colcon</a></li><li><a href="#colcon-workflow">Colcon workflow</a></li><li><a href="#overlay-resolution">Overlay resolution</a></li><li><a href="#executors">Executors</a></li><li><a href="#callback-groups-and-deadlocks">Callback groups and deadlocks</a></li><li><a href="#component-containers">Component containers</a></li><li><a href="#managed-lifecycle">Managed lifecycle</a></li><li><a href="#time-and-clocks">Time and clocks</a></li><li><a href="#rosbag2">rosbag2</a></li><li><a href="#security-deployment">Security deployment</a></li><li><a href="#verification-strategy">Verification strategy</a></li><li><a href="#ros1_bridge">ros1_bridge</a></li><li><a href="#bridge-constraints">Bridge constraints</a></li><li><a href="#migration-order">Migration order</a></li><li><a href="#migration-batches">Migration batches</a></li><li><a href="#rust-in-ros-2">Rust in ROS 2</a></li><li><a href="#rclrs-node">rclrs node</a></li><li><a href="#zenoh-options">Zenoh options</a></li><li><a href="#world-model-data-with-zenoh">World-model data with Zenoh</a></li><li><a href="#presentation-summary">Presentation summary</a></li><li><a href="#workshop-installation-and-first-port">Workshop: installation and first port</a></li><li><a href="#installation-paths">Installation paths</a></li><li><a href="#ubuntu-prerequisites">Ubuntu prerequisites</a></li><li><a href="#configure-the-ros-apt-source">Configure the ROS apt source</a></li><li><a href="#install-ros-2-jazzy">Install ROS 2 Jazzy</a></li><li><a href="#set-up-the-shell">Set up the shell</a></li><li><a href="#verify-talker-and-listener">Verify talker and listener</a></li><li><a href="#use-rosdep">Use rosdep</a></li><li><a href="#create-a-workspace">Create a workspace</a></li><li><a href="#ros-on-nix">ROS on Nix</a></li><li><a href="#trims-rosflake">Trim’s rosflake</a></li><li><a href="#what-rosflake-configures">What rosflake configures</a></li><li><a href="#the-package-to-port">The package to port</a></li><li><a href="#inventory-before-editing">Inventory before editing</a></li><li><a href="#translate-packagexml">Translate package.xml</a></li><li><a href="#translate-cmakeliststxt">Translate CMakeLists.txt</a></li><li><a href="#translate-a-message">Translate a message</a></li><li><a href="#translate-node-initialization">Translate node initialization</a></li><li><a href="#translate-a-publisher">Translate a publisher</a></li><li><a href="#translate-a-subscription">Translate a subscription</a></li><li><a href="#replace-the-ros-1-loop">Replace the ROS 1 loop</a></li><li><a href="#translate-parameters">Translate parameters</a></li><li><a href="#select-qos">Select QoS</a></li><li><a href="#translate-a-service">Translate a service</a></li><li><a href="#translate-long-running-work">Translate long-running work</a></li><li><a href="#translate-the-launch-file">Translate the launch file</a></li><li><a href="#translate-a-python-node">Translate a Python node</a></li><li><a href="#build-test-and-compare">Build, test, and compare</a></li><li><a href="#mixed-system-integration">Mixed-system integration</a></li><li><a href="#workshop-acceptance">Workshop acceptance</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-1--ros-2">ROS 1 → ROS 2</h2>
+<figure class="faqe-primitive faqe-grid" data-faqe-primitive="grid"><div class="faqe-grid-items variant-cards" style="--faqe-grid-columns:2"><article class="faqe-grid-item tone-accent"><small>presentation</small><strong>40 slides</strong><div>Architecture, migration, Rust, Zenoh, and world-model data.</div></article><article class="faqe-grid-item tone-warning"><small>workshop</small><strong>30 slides</strong><div>Install ROS 2 and port a small ROS 1 package.</div></article></div></figure>
+<p>Trim Bresilla &amp; Anouk Leunissen</p>
+<p>The first section takes about forty minutes. The practical section uses a small package that everyone can finish during the session.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="decisions-for-this-migration">Decisions for this migration</h2>
+<ol>
+<li>Product distribution and operating-system baseline</li>
+<li>Packages that can be ported mechanically</li>
+<li>Contracts that need redesign</li>
+<li>ROS 1 and ROS 2 coexistence period</li>
+<li>Acceptance evidence for each migration batch</li>
+</ol>
+<p>We will write the answers against the company system during the workshop instead of leaving them as general recommendations.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-1-support-status">ROS 1 support status</h2>
+<ul>
+<li>Official ROS Noetic support ended on 31 May 2025.</li>
+<li>Existing installations and binaries continue to run.</li>
+<li>Later security fixes and platform maintenance are downstream work.</li>
+<li>Vendor drivers and operating-system support now constrain the remaining lifetime.</li>
+</ul>
+<p>An inventory of pinned packages and local patches gives us the real maintenance cost of staying on ROS 1.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="target-distribution">Target distribution</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Distribution</th><th scope="col">Platform</th><th scope="col">EOL</th><th scope="col">Use</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">Jazzy</th><td class="tone-neutral">Ubuntu 24.04</td><td class="tone-neutral">May 2029</td><td class="tone-neutral">Mature LTS</td></tr><tr><th class="tone-neutral" scope="row">Kilted</th><td class="tone-neutral">Ubuntu 24.04</td><td class="tone-neutral">Dec 2026</td><td class="tone-neutral">Existing deployments</td></tr><tr><th class="tone-neutral" scope="row">Lyrical</th><td class="tone-neutral">Ubuntu 26.04</td><td class="tone-neutral">May 2031</td><td class="tone-neutral">New LTS</td></tr><tr><th class="tone-neutral" scope="row">Rolling</th><td class="tone-neutral">moving</td><td class="tone-neutral">continuous</td><td class="tone-neutral">Upstream work</td></tr></tbody></table></div></figure>
+<p>The workshop uses Jazzy on Ubuntu 24.04.</p>
+<p>Before selecting Lyrical, confirm that each camera, fieldbus, GPU, and robot-controller dependency supports Ubuntu 26.04.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="migration-scope">Migration scope</h2>
+<figure class="faqe-primitive faqe-grid" data-faqe-primitive="grid"><div class="faqe-grid-items variant-cards" style="--faqe-grid-columns:2"><article class="faqe-grid-item tone-positive"><small>preserve</small><strong>Proven behavior</strong><ul class="faqe-grid-bullets"><li>algorithms</li><li>calibration</li><li>hardware protocols</li><li>test vectors</li></ul></article><article class="faqe-grid-item tone-accent"><small>review</small><strong>System contracts</strong><ul class="faqe-grid-bullets"><li>delivery</li><li>discovery</li><li>startup</li><li>configuration</li><li>recovery</li></ul></article></div></figure>
+<p>Track porting and redesign as separate work.</p>
+<p>A port should reproduce known behavior first. Architectural changes get their own tests and review.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-1-graph">ROS 1 graph</h2>
+<figure class="faqe-primitive faqe-graph" data-faqe-primitive="graph"><figcaption class="faqe-primitive-caption"><strong>Central registration; peer data path</strong></figcaption><div class="faqe-graph-scroll"><div aria-hidden="true" class="faqe-graph-canvas" style="--faqe-graph-columns:3;--faqe-graph-rows:2;--faqe-graph-ratio:2.4;--faqe-graph-min-width:480px"><svg aria-hidden="true" class="faqe-graph-lines" viewBox="0 0 480 200"><path class="faqe-graph-edge tone-accent" d="M 126.4 121.0 L 193.6 79.0"></path><path class="faqe-graph-arrow tone-accent" d="M 193.6 79.0 L 188.4 87.6 L 183.6 80.0 Z"></path><path class="faqe-graph-edge tone-accent" d="M 353.6 121.0 L 286.4 79.0"></path><path class="faqe-graph-arrow tone-accent" d="M 286.4 79.0 L 296.4 80.0 L 291.6 87.6 Z"></path><path class="faqe-graph-edge tone-accent" d="M 144.0 150.0 L 336.0 150.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 150.0 L 327.0 154.5 L 327.0 145.5 Z"></path><text class="faqe-graph-edge-label" text-anchor="middle" x="240.0" y="144.0">TCPROS / UDPROS</text></svg><ol class="faqe-graph-nodes"><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:2"><strong>publisher</strong></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:2;--faqe-graph-row:1"><strong>ROS master</strong><small>names · lookup</small></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:3;--faqe-graph-row:2"><strong>subscriber</strong></li></ol></div></div><div class="faqe-visually-hidden"><p>Central registration; peer data path</p><ol><li>publisher</li><li>ROS master: names · lookup</li><li>subscriber</li></ol><ul><li>pub to master</li><li>sub to master</li><li>pub to sub: TCPROS / UDPROS</li></ul></div></figure>
+<p>The master handles registration and lookup. Publishers and subscribers exchange application data directly after negotiation.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-2-graph">ROS 2 graph</h2>
+<figure class="faqe-primitive faqe-graph" data-faqe-primitive="graph"><figcaption class="faqe-primitive-caption"><strong>Distributed discovery and middleware transport</strong></figcaption><div class="faqe-graph-scroll"><div aria-hidden="true" class="faqe-graph-canvas" style="--faqe-graph-columns:3;--faqe-graph-rows:2;--faqe-graph-ratio:2.4;--faqe-graph-min-width:480px"><svg aria-hidden="true" class="faqe-graph-lines" viewBox="0 0 480 200"><path class="faqe-graph-edge tone-accent" d="M 126.4 121.0 L 193.6 79.0"></path><path class="faqe-graph-arrow tone-accent" d="M 193.6 79.0 L 188.4 87.6 L 183.6 80.0 Z"></path><path class="faqe-graph-edge tone-accent" d="M 353.6 121.0 L 286.4 79.0"></path><path class="faqe-graph-arrow tone-accent" d="M 286.4 79.0 L 296.4 80.0 L 291.6 87.6 Z"></path><path class="faqe-graph-edge tone-warning" d="M 144.0 150.0 L 336.0 150.0"></path><path class="faqe-graph-arrow tone-warning" d="M 336.0 150.0 L 327.0 154.5 L 327.0 145.5 Z"></path><text class="faqe-graph-edge-label" text-anchor="middle" x="240.0" y="144.0">selected RMW</text></svg><ol class="faqe-graph-nodes"><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:2"><strong>publisher + QoS</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:2;--faqe-graph-row:1"><strong>discovery</strong><small>RMW-specific</small></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:3;--faqe-graph-row:2"><strong>subscriber + QoS</strong></li></ol></div></div><div class="faqe-visually-hidden"><p>Distributed discovery and middleware transport</p><ol><li>publisher + QoS</li><li>discovery: RMW-specific</li><li>subscriber + QoS</li></ol><ul><li>pub to discovery</li><li>sub to discovery</li><li>pub to sub: selected RMW</li></ul></div></figure>
+<p>Each endpoint announces its type and QoS. Matching happens through the selected RMW implementation.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="discovery-without-a-master">Discovery without a master</h2>
+<ul>
+<li><code>ROS_DOMAIN_ID</code> separates logical systems.</li>
+<li>DDS discovery usually uses multicast on a local network.</li>
+<li>Configured peers or discovery servers suit routed networks.</li>
+<li>VPNs, firewalls, containers, and Wi-Fi affect discovery.</li>
+<li><code>ros2 daemon</code> is a CLI graph cache, not a master.</li>
+</ul>
+<p>Use <code>ros2 multicast send</code> and <code>ros2 multicast receive</code> to check basic multicast reachability before debugging a node.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-2-software-layers">ROS 2 software layers</h2>
+<figure class="faqe-primitive faqe-timeline" data-faqe-primitive="timeline"><ol class="faqe-timeline-list"><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>application</strong><div>product nodes</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>client library</strong><div>rclcpp · rclpy · rclrs</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>rcl</strong><div>common C API</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>RMW</strong><div>middleware contract</div></div></li><li class="faqe-timeline-item tone-warning"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>transport</strong><div>DDS · Zenoh</div></div></li></ol></figure>
+<p>The client-library API is shared across RMW implementations. Transport behavior and configuration still vary.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="middleware-selection">Middleware selection</h2>
+<p>Measure candidate RMWs with the same graph and network:</p>
+<ul>
+<li>discovery and restart time;</li>
+<li>latency, loss, throughput, and fragmentation;</li>
+<li>configuration and diagnostic quality;</li>
+<li>security and vendor support;</li>
+<li>application dependence on RMW-specific behavior.</li>
+</ul>
+<p>Keep the raw measurements and configuration files so another engineer can repeat the comparison.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="names-and-namespaces">Names and namespaces</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">ros2</span> run camera_driver camera_node <span class="ts-constant">--ros-args</span> \
+  <span class="ts-constant">-r</span> __ns:=/robot_7 \
+  <span class="ts-constant">-r</span> image_raw:=camera/front/image_raw \
+  <span class="ts-constant">-p</span> frame_id:=camera_front
+</code></pre></div>
+<p>Namespaces support repeated subsystems. Robot identity belongs in deployment configuration.</p>
+<p>The same executable can run as <code>/robot_7/camera</code> or <code>/robot_8/camera</code> without recompilation.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="communication-primitives">Communication primitives</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Primitive</th><th scope="col">Use</th><th scope="col">Avoid</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">Topic</th><td class="tone-neutral">streams and observed state</td><td class="tone-neutral">request/reply</td></tr><tr><th class="tone-neutral" scope="row">Service</th><td class="tone-neutral">short bounded request</td><td class="tone-neutral">long physical work</td></tr><tr><th class="tone-neutral" scope="row">Action</th><td class="tone-neutral">cancellable work with feedback</td><td class="tone-neutral">high-rate data</td></tr></tbody></table></div></figure>
+<p>During migration, verify that each ROS 1 primitive still fits the interface.</p>
+<p>For example, a calibration request can remain a service while a two-minute docking command usually fits an action.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="qos-is-an-interface-contract">QoS is an interface contract</h2>
+<ul>
+<li>Reliability: <code>reliable</code> or <code>best_effort</code></li>
+<li>Durability: <code>volatile</code> or <code>transient_local</code></li>
+<li>History: <code>keep_last</code> or <code>keep_all</code></li>
+<li>Queue depth</li>
+<li>Deadline, lifespan, and liveliness</li>
+</ul>
+<p>Document QoS with the type and topic name.</p>
+<p>Review it whenever payload size, publication rate, network type, or subscriber behavior changes.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="qos-compatibility">QoS compatibility</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Publisher</th><th scope="col">Subscriber</th><th scope="col">Result</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">reliable</th><td class="tone-neutral">reliable</td><td class="tone-neutral">match</td></tr><tr><th class="tone-neutral" scope="row">reliable</th><td class="tone-neutral">best effort</td><td class="tone-neutral">match</td></tr><tr><th class="tone-warning" scope="row">best effort</th><td class="tone-accent">reliable</td><td class="tone-negative">no match</td></tr></tbody></table></div></figure>
+<p>Data flows when the topic type and endpoint QoS policies are compatible.</p>
+<p><code>ros2 topic info --verbose</code> shows the offered and requested policies for every endpoint.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="qos-by-data-class">QoS by data class</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Data</th><th scope="col">Starting profile</th><th scope="col">Reason</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">camera / lidar</th><td class="tone-neutral">best effort, shallow</td><td class="tone-neutral">fresh samples matter</td></tr><tr><th class="tone-neutral" scope="row">commands</th><td class="tone-neutral">reliable, bounded</td><td class="tone-neutral">loss needs handling</td></tr><tr><th class="tone-neutral" scope="row">configuration</th><td class="tone-neutral">reliable, transient local</td><td class="tone-neutral">late joiners need state</td></tr><tr><th class="tone-neutral" scope="row">events</th><td class="tone-neutral">reliable, measured depth</td><td class="tone-neutral">bursts need capacity</td></tr></tbody></table></div></figure>
+<p>Validate profiles under expected load.</p>
+<p>Queue depth should follow measured processing delay and burst size instead of a workspace-wide default.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="discovery-at-product-scale">Discovery at product scale</h2>
+<p>Test simultaneous boot, process restart, Wi-Fi roaming, network partitions, multiple robots per broadcast domain, multi-interface containers, and VPN access.</p>
+<p>Record:</p>
+<ul>
+<li>endpoint discovery time;</li>
+<li>application readiness time;</li>
+<li>traffic generated by discovery;</li>
+<li>recovery after topology changes.</li>
+</ul>
+<p>Run the test once on Ethernet and once on the wireless or routed network used by the product.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="domain-isolation-and-security">Domain isolation and security</h2>
+<p><code>ROS_DOMAIN_ID</code> reduces accidental discovery; it provides no authentication.</p>
+<p>DDS Security can provide identity, encryption, signed governance, and permissions. Deployment still needs certificate issuance, renewal, revocation, auditing, and recovery.</p>
+<p>Domain IDs are useful for test isolation even when the production deployment enables DDS Security.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="interface-definitions">Interface definitions</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">ROS 1</th><th scope="col">ROS 2</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row"><code>Header header</code></th><td class="tone-neutral"><code>std_msgs/Header header</code></td></tr><tr><th class="tone-neutral" scope="row">mixed code and messages</th><td class="tone-neutral">dedicated interface packages</td></tr><tr><th class="tone-neutral" scope="row">implicit dependencies</th><td class="tone-neutral">explicit build and runtime dependencies</td></tr><tr><th class="tone-neutral" scope="row">message generation</th><td class="tone-neutral"><code>rosidl</code> generators and type support</td></tr></tbody></table></div></figure>
+<p>Stabilize shared interfaces before porting consumers.</p>
+<p>Changing a field after several packages have moved creates rebuild work on both sides of the bridge.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="node-scoped-parameters">Node-scoped parameters</h2>
+<p>ROS 2 has no global parameter server.</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">ros2</span> param list /camera
+<span class="ts-function">ros2</span> param get /camera exposure
+<span class="ts-function">ros2</span> param set /camera exposure 1200
+<span class="ts-function">ros2</span> param dump /camera
+</code></pre></div>
+<p>Separate startup configuration, mutable runtime state, and persistent product data.</p>
+<p>Parameter YAML suits deployment configuration. Calibration history usually needs a separate durable store.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-2-launch">ROS 2 launch</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">python</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-python" data-lang="python"><span class="ts-variable">camera</span> <span class="ts-operator">=</span> <span class="ts-function">Node</span>(
+    <span class="ts-variable">package</span><span class="ts-operator">=</span><span class="ts-string">&quot;camera_driver&quot;</span>,
+    <span class="ts-variable">executable</span><span class="ts-operator">=</span><span class="ts-string">&quot;camera_node&quot;</span>,
+    <span class="ts-variable">namespace</span><span class="ts-operator">=</span><span class="ts-string">&quot;robot_7&quot;</span>,
+    <span class="ts-variable">parameters</span><span class="ts-operator">=</span>[<span class="ts-string">&quot;config/camera.yaml&quot;</span>],
+    <span class="ts-variable">remappings</span><span class="ts-operator">=</span>[(<span class="ts-string">&quot;image_raw&quot;</span>, <span class="ts-string">&quot;camera/front/image_raw&quot;</span>)],
+)
+</code></pre></div>
+<p>Launch coordinates deployment. Business logic stays in nodes.</p>
+<p>ROS 2 launch can react to process exit and lifecycle events. That makes startup and recovery sequences explicit.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="catkin-to-ament-and-colcon">Catkin to ament and colcon</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">ROS 1</th><th scope="col">ROS 2</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">catkin package</th><td class="tone-neutral">ament package</td></tr><tr><th class="tone-neutral" scope="row">catkin tools</th><td class="tone-neutral">colcon</td></tr><tr><th class="tone-neutral" scope="row">devel space</th><td class="tone-neutral">install space</td></tr><tr><th class="tone-neutral" scope="row">devel/setup.bash</th><td class="tone-neutral">install/setup.bash</td></tr></tbody></table></div></figure>
+<p>Ament packages install executables, libraries, headers, launch files, and index resources into an install prefix.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="colcon-workflow">Colcon workflow</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">rosdep</span> install <span class="ts-constant">--from-paths</span> src <span class="ts-constant">--ignore-src</span> <span class="ts-constant">-r</span> <span class="ts-constant">-y</span>
+<span class="ts-function">colcon</span> build <span class="ts-constant">--symlink-install</span>
+<span class="ts-function">source</span> install/setup.bash
+<span class="ts-function">colcon</span> test
+<span class="ts-function">colcon</span> test-result <span class="ts-constant">--verbose</span>
+</code></pre></div>
+<p>CI should build from a clean workspace.</p>
+<p>Use <code>--packages-up-to</code> for a focused build and <code>--event-handlers console_direct+</code> when a CI failure needs complete output.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="overlay-resolution">Overlay resolution</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">source</span> /opt/ros/jazzy/setup.bash
+<span class="ts-function">source</span> ~/vendor_ws/install/setup.bash
+<span class="ts-function">source</span> ~/product_ws/install/setup.bash
+</code></pre></div>
+<p>Order changes resolution. Inspect <code>AMENT_PREFIX_PATH</code> when an unexpected package version appears. Build and run with the same underlay chain.</p>
+<p>If a package exists in two prefixes, the last sourced overlay normally wins.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="executors">Executors</h2>
+<p>Executors schedule subscriptions, timers, services, and actions.</p>
+<ul>
+<li>Single-threaded: serialized callbacks</li>
+<li>Multi-threaded: eligible callbacks may overlap</li>
+<li>Callback groups: node-level concurrency constraints</li>
+<li>Long callbacks: delay other work on the same thread</li>
+</ul>
+<p>Existing concurrency and real-time constraints remain after the port.</p>
+<p>List every callback that blocks, locks shared state, or has a deadline before choosing an executor.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="callback-groups-and-deadlocks">Callback groups and deadlocks</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Group</th><th scope="col">Behavior</th><th scope="col">Use</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">Mutually exclusive</th><td class="tone-neutral">one callback at a time</td><td class="tone-neutral">shared device state</td></tr><tr><th class="tone-neutral" scope="row">Reentrant</th><td class="tone-neutral">callbacks may overlap</td><td class="tone-neutral">independent work</td></tr></tbody></table></div></figure>
+<p>Waiting for work assigned to the same mutually exclusive group can deadlock.</p>
+<p>A common case is a callback making a synchronous service call whose completion needs that same group.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="component-containers">Component containers</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Separate process</th><th scope="col">Component container</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">strong fault boundary</th><td class="tone-neutral">lower serialization overhead</td></tr><tr><th class="tone-neutral" scope="row">simple ownership</th><td class="tone-neutral">shared executor and failure domain</td></tr><tr><th class="tone-neutral" scope="row">OS supervision</th><td class="tone-neutral">runtime component loading</td></tr></tbody></table></div></figure>
+<p>Choose after profiling; keep composition out of business logic.</p>
+<p>Composition changes the failure boundary, so measure restart behavior as well as message-copy savings.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="managed-lifecycle">Managed lifecycle</h2>
+<figure class="faqe-primitive faqe-timeline" data-faqe-primitive="timeline"><ol class="faqe-timeline-list"><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>unconfigured</strong><div>process exists</div></div></li><li class="faqe-timeline-item tone-warning"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>inactive</strong><div>resources ready</div></div></li><li class="faqe-timeline-item tone-positive"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>active</strong><div>work enabled</div></div></li><li class="faqe-timeline-item tone-negative"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>finalized</strong><div>shutdown</div></div></li></ol></figure>
+<p>A supervisor must own transitions and retry policy.</p>
+<p>Define what <code>configure</code>, <code>activate</code>, <code>deactivate</code>, and <code>cleanup</code> do for each managed resource.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="time-and-clocks">Time and clocks</h2>
+<ul>
+<li>Use steady time for durations and watchdogs.</li>
+<li>Use ROS time for simulation and playback.</li>
+<li>Set <code>use_sim_time</code> consistently.</li>
+<li>Handle forward and backward time jumps.</li>
+<li>Audit direct wall-clock use.</li>
+</ul>
+<p>Clock choice affects estimators, caches, timeouts, and bag playback.</p>
+<p>Record the clock type beside every timeout and timestamp during the porting review.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="rosbag2">rosbag2</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">ros2</span> bag record /tf /odom /camera/image_raw
+<span class="ts-function">ros2</span> bag info my_bag
+<span class="ts-function">ros2</span> bag play my_bag <span class="ts-constant">--clock</span>
+</code></pre></div>
+<p>Test storage format, compression, QoS overrides, disk throughput, and power-loss recovery over a production-length recording.</p>
+<p>Keep one representative bag as a repeatable input for regression tests.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="security-deployment">Security deployment</h2>
+<figure class="faqe-primitive faqe-timeline" data-faqe-primitive="timeline"><ol class="faqe-timeline-list"><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>identity</strong><div>participant certificates</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>governance</strong><div>protected domains</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>permissions</strong><div>node-level access</div></div></li><li class="faqe-timeline-item tone-warning"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>operations</strong><div>rotate · revoke · audit</div></div></li></ol></figure>
+<p>Test denied communication as well as allowed communication.</p>
+<p>Store keystores outside the application image and rehearse certificate replacement before deployment.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="verification-strategy">Verification strategy</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Layer</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">logic</th><td class="tone-neutral">unit tests and recorded vectors</td></tr><tr><th class="tone-neutral" scope="row">node</th><td class="tone-neutral">launch and parameter tests</td></tr><tr><th class="tone-neutral" scope="row">graph</th><td class="tone-neutral">interfaces, QoS, discovery</td></tr><tr><th class="tone-neutral" scope="row">robot</th><td class="tone-neutral">hardware-in-loop and faults</td></tr><tr><th class="tone-neutral" scope="row">fleet</th><td class="tone-neutral">load, partitions, recovery</td></tr></tbody></table></div></figure>
+<p>Tie every migrated package to evidence at the lowest layer that can expose its failure modes.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros1_bridge">ros1_bridge</h2>
+<figure class="faqe-primitive faqe-graph" data-faqe-primitive="graph"><div class="faqe-graph-scroll"><div aria-hidden="true" class="faqe-graph-canvas" style="--faqe-graph-columns:3;--faqe-graph-rows:1;--faqe-graph-ratio:4.8;--faqe-graph-min-width:480px"><svg aria-hidden="true" class="faqe-graph-lines" viewBox="0 0 480 100"><path class="faqe-graph-edge tone-accent" d="M 144.0 50.0 L 176.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 176.0 50.0 L 167.0 54.5 L 167.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 304.0 50.0 L 336.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 50.0 L 327.0 54.5 L 327.0 45.5 Z"></path></svg><ol class="faqe-graph-nodes"><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:1"><strong>ROS 1</strong></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:2;--faqe-graph-row:1"><strong>ros1_bridge</strong><small>temporary</small></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:3;--faqe-graph-row:1"><strong>ROS 2</strong></li></ol></div></div><div class="faqe-visually-hidden"><p>Diagram</p><ol><li>ROS 1</li><li>ros1_bridge: temporary</li><li>ROS 2</li></ol><ul><li>r1 to bridge</li><li>bridge to r2</li></ul></div></figure>
+<p>Treat each bridge route as a recorded dependency with an owner and removal date.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="bridge-constraints">Bridge constraints</h2>
+<ul>
+<li>Supported platform combinations are limited.</li>
+<li>Custom interfaces must be present when building the bridge.</li>
+<li>Fields and types must map.</li>
+<li>ROS 2 QoS needs an explicit policy.</li>
+<li>Services and actions need separate tests.</li>
+<li>Serialization cost matters for large messages.</li>
+</ul>
+<p>Build the bridge environment early.</p>
+<p>For custom messages, build the ROS 1 and ROS 2 interface packages before compiling the bridge.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="migration-order">Migration order</h2>
+<figure class="faqe-primitive faqe-timeline" data-faqe-primitive="timeline"><ol class="faqe-timeline-list"><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>inventory</strong><div>packages · interfaces · hardware</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>stabilize</strong><div>types and test vectors</div></div></li><li class="faqe-timeline-item tone-accent"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>port leaves</strong><div>tools and endpoints</div></div></li><li class="faqe-timeline-item tone-warning"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>port control</strong><div>hardware and safety</div></div></li><li class="faqe-timeline-item tone-positive"><div aria-hidden="true" class="faqe-timeline-marker"></div><div class="faqe-timeline-content"><strong>retire</strong><div>bridge and ROS 1</div></div></li></ol></figure>
+<p>Porting leaf packages first limits the number of active bridge routes and gives the team an early integration check.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="migration-batches">Migration batches</h2>
+<figure class="faqe-primitive faqe-grid" data-faqe-primitive="grid"><div class="faqe-grid-items variant-cards" style="--faqe-grid-columns:3"><article class="faqe-grid-item tone-accent"><small>input</small><strong>Known boundary</strong><div>Interfaces and hardware are documented.</div></article><article class="faqe-grid-item tone-accent"><small>proof</small><strong>Measured parity</strong><div>Behavior, timing, resources, and recovery.</div></article><article class="faqe-grid-item tone-positive"><small>exit</small><strong>ROS 1 removed</strong><div>Old routes and deployment files are deleted.</div></article></div></figure>
+<p>Keep each batch small enough to compare against ROS 1 on the same hardware and recorded inputs.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="rust-in-ros-2">Rust in ROS 2</h2>
+<p><code>rclrs</code> connects Rust nodes to ROS 2 through the common C layer.</p>
+<ul>
+<li>Ownership clarifies device and callback state.</li>
+<li><code>Result</code> makes failure paths explicit.</li>
+<li>Cargo handles Rust dependencies.</li>
+<li><code>ament_cargo</code> and <code>colcon-cargo</code> provide workspace integration.</li>
+<li>Required ROS features need an API-coverage check.</li>
+</ul>
+<p>Trim actively contributes to and maintains ROS Rust crates.</p>
+<p>Start a Rust pilot by checking message, service, action, parameter, executor, and logging support against the node’s requirements.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="rclrs-node">rclrs node</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">rust</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-rust" data-lang="rust"><span class="ts-keyword">let</span> context = rclrs<span class="ts-punctuation-delimiter">::</span><span class="ts-type">Context</span><span class="ts-punctuation-delimiter">::</span><span class="ts-function">new</span><span class="ts-punctuation-bracket">(</span>std<span class="ts-punctuation-delimiter">::</span>env<span class="ts-punctuation-delimiter">::</span><span class="ts-function">args</span><span class="ts-punctuation-bracket">(</span><span class="ts-punctuation-bracket">)</span><span class="ts-punctuation-bracket">)</span>?<span class="ts-punctuation-delimiter">;</span>
+<span class="ts-keyword">let</span> node = rclrs<span class="ts-punctuation-delimiter">::</span><span class="ts-type">Node</span><span class="ts-punctuation-delimiter">::</span><span class="ts-function">new</span><span class="ts-punctuation-bracket">(</span><span class="ts-operator">&amp;</span>context<span class="ts-punctuation-delimiter">,</span> <span class="ts-string">&quot;rust_talker&quot;</span><span class="ts-punctuation-bracket">)</span>?<span class="ts-punctuation-delimiter">;</span>
+<span class="ts-keyword">let</span> publisher =
+    node<span class="ts-punctuation-delimiter">.</span><span class="ts-function">create_publisher</span><span class="ts-punctuation-delimiter">::</span><span class="ts-punctuation-bracket">&lt;</span>std_msgs<span class="ts-punctuation-delimiter">::</span>msg<span class="ts-punctuation-delimiter">::</span><span class="ts-type">String</span><span class="ts-punctuation-bracket">&gt;</span><span class="ts-punctuation-bracket">(</span><span class="ts-string">&quot;chatter&quot;</span><span class="ts-punctuation-bracket">)</span>?<span class="ts-punctuation-delimiter">;</span>
+publisher<span class="ts-punctuation-delimiter">.</span><span class="ts-function">publish</span><span class="ts-punctuation-bracket">(</span>std_msgs<span class="ts-punctuation-delimiter">::</span>msg<span class="ts-punctuation-delimiter">::</span><span class="ts-type">String</span> <span class="ts-punctuation-bracket">{</span>
+    <span class="ts-property">data</span><span class="ts-punctuation-delimiter">:</span> <span class="ts-string">&quot;hello&quot;</span><span class="ts-punctuation-delimiter">.</span><span class="ts-function">into</span><span class="ts-punctuation-bracket">(</span><span class="ts-punctuation-bracket">)</span><span class="ts-punctuation-delimiter">,</span>
+<span class="ts-punctuation-bracket">}</span><span class="ts-punctuation-bracket">)</span>?<span class="ts-punctuation-delimiter">;</span>
+</code></pre></div>
+<p>A tool, adapter, or leaf node with a stable interface is a suitable first pilot.</p>
+<p>Generated message types follow Rust ownership rules while the ROS graph remains interoperable with C++ and Python nodes.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="zenoh-options">Zenoh options</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Option</th><th scope="col">Code change</th><th scope="col">Boundary</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row"><code>rmw_zenoh</code></th><td class="tone-neutral">select RMW</td><td class="tone-neutral">ROS 2 domain</td></tr><tr><th class="tone-neutral" scope="row">DDS bridge</th><td class="tone-neutral">none for DDS nodes</td><td class="tone-neutral">sites and links</td></tr><tr><th class="tone-neutral" scope="row">native Zenoh</th><td class="tone-neutral">explicit API</td><td class="tone-neutral">non-ROS data</td></tr></tbody></table></div></figure>
+<p>Measure discovery, routing, bandwidth, and recovery.</p>
+<p><code>rmw_zenoh</code> keeps ROS 2 graph APIs; native Zenoh exposes its own key expressions, queries, and storage model.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="world-model-data-with-zenoh">World-model data with Zenoh</h2>
+<figure class="faqe-primitive faqe-graph" data-faqe-primitive="graph"><div class="faqe-graph-scroll"><div aria-hidden="true" class="faqe-graph-canvas" style="--faqe-graph-columns:4;--faqe-graph-rows:1;--faqe-graph-ratio:6.4;--faqe-graph-min-width:640px"><svg aria-hidden="true" class="faqe-graph-lines" viewBox="0 0 640 100"><path class="faqe-graph-edge tone-accent" d="M 144.0 50.0 L 176.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 176.0 50.0 L 167.0 54.5 L 167.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 304.0 50.0 L 336.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 50.0 L 327.0 54.5 L 327.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 464.0 50.0 L 496.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 496.0 50.0 L 487.0 54.5 L 487.0 45.5 Z"></path></svg><ol class="faqe-graph-nodes"><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:1"><strong>ROS 2 robot</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:2;--faqe-graph-row:1"><strong>projection</strong><small>validate · timestamp</small></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:3;--faqe-graph-row:1"><strong>Zenoh</strong><small>pub/sub · query · storage</small></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:4;--faqe-graph-row:1"><strong>consumers</strong><small>fleet · UI · analytics</small></li></ol></div></div><div class="faqe-visually-hidden"><p>Diagram</p><ol><li>ROS 2 robot</li><li>projection: validate · timestamp</li><li>Zenoh: pub/sub · query · storage</li><li>consumers: fleet · UI · analytics</li></ol><ul><li>robot to projection</li><li>projection to zenoh</li><li>zenoh to apps</li></ul></div></figure>
+<p>Durable claims need provenance, source time, validity, and authority.</p>
+<p>A consumer should be able to distinguish a current observation from an older value returned by storage.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="presentation-summary">Presentation summary</h2>
+<ul>
+<li>ROS 2 changes discovery, delivery, scheduling, configuration, and deployment.</li>
+<li>Existing algorithms can stay behind a new integration boundary.</li>
+<li>QoS, executor layout, lifecycle, and security require decisions.</li>
+<li>Bridge routes should shrink after every migration batch.</li>
+<li>Rust, Zenoh, and durable world data need separate acceptance tests.</li>
+</ul>
+<p>Write down unresolved distribution, middleware, QoS, and bridge decisions before the practical section.</p>
+<p>Questions, then a short break. The workshop starts next.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="workshop-installation-and-first-port">Workshop: installation and first port</h2>
+<figure class="faqe-primitive faqe-grid" data-faqe-primitive="grid"><div class="faqe-grid-items variant-cards" style="--faqe-grid-columns:3"><article class="faqe-grid-item tone-accent"><small>checkpoint A</small><strong>Install</strong><div>Working Jazzy demo graph.</div></article><article class="faqe-grid-item tone-accent"><small>checkpoint B</small><strong>Build</strong><div>Clean colcon workspace.</div></article><article class="faqe-grid-item tone-warning"><small>checkpoint C</small><strong>Port</strong><div>Translated ROS 1 package.</div></article></div></figure>
+<p>We will stop at each checkpoint long enough to compare commands and fix environment differences.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="installation-paths">Installation paths</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">Path</th><th scope="col">Workshop role</th><th scope="col">Host</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">Ubuntu deb</th><td class="tone-neutral">primary</td><td class="tone-neutral">Ubuntu 24.04</td></tr><tr><th class="tone-neutral" scope="row">rosflake</th><td class="tone-neutral">alternative</td><td class="tone-neutral">Linux with Nix</td></tr><tr><th class="tone-neutral" scope="row">container</th><td class="tone-neutral">fallback</td><td class="tone-neutral">Docker/Podman</td></tr></tbody></table></div></figure>
+<p>Use one path per shell; each shell should contain either the apt environment or the Nix environment.</p>
+<p>The commands on the next slides assume a clean Ubuntu 24.04 host unless the slide says otherwise.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ubuntu-prerequisites">Ubuntu prerequisites</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">sudo</span> apt update
+<span class="ts-function">sudo</span> apt install locales software-properties-common curl <span class="ts-constant">-y</span>
+<span class="ts-function">sudo</span> locale-gen en_US en_US.UTF-8
+<span class="ts-function">sudo</span> update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+<span class="ts-keyword">export</span> <span class="ts-property">LANG</span>=en_US.UTF-8
+<span class="ts-function">sudo</span> add-apt-repository universe
+</code></pre></div>
+<p>Checkpoint: <code>locale</code> reports UTF-8.</p>
+<p>Open a new shell if the locale still shows <code>C</code> or a non-UTF-8 value.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="configure-the-ros-apt-source">Configure the ROS apt source</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">sudo</span> apt update
+<span class="ts-keyword">export</span> <span class="ts-property">ROS_APT_SOURCE_VERSION</span>=<span class="ts-string">&quot;<span class="ts-embedded">$(
+  <span class="ts-function">curl</span> <span class="ts-constant">-s</span> https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest <span class="ts-operator">|</span>
+  <span class="ts-function">grep</span> <span class="ts-constant">-F</span> <span class="ts-string">&#39;tag_name&#39;</span> <span class="ts-operator">|</span> <span class="ts-function">awk</span> <span class="ts-constant">-F<span class="ts-string">&#39;&quot;&#39;</span></span> <span class="ts-string">&#39;{print $4}&#39;</span>)</span>&quot;</span>
+<span class="ts-function">curl</span> <span class="ts-constant">-L</span> <span class="ts-constant">-o</span> /tmp/ros2-apt-source.deb \
+  <span class="ts-string">&quot;https://github.com/ros-infrastructure/ros-apt-source/releases/download/<span class="ts-embedded">${<span class="ts-property">ROS_APT_SOURCE_VERSION</span>}</span>/ros2-apt-source_<span class="ts-embedded">${<span class="ts-property">ROS_APT_SOURCE_VERSION</span>}</span>.<span class="ts-embedded">$(<span class="ts-function">.</span> /etc/os-release <span class="ts-operator">&amp;&amp;</span> <span class="ts-function">echo</span> <span class="ts-embedded">${<span class="ts-property">UBUNTU_CODENAME</span>:-<span class="ts-embedded">${<span class="ts-property">VERSION_CODENAME</span>}</span>}</span>)</span>_all.deb&quot;</span>
+<span class="ts-function">sudo</span> dpkg <span class="ts-constant">-i</span> /tmp/ros2-apt-source.deb
+</code></pre></div>
+<p>After installation, <code>apt-cache policy ros-jazzy-desktop</code> should show a candidate from the ROS repository.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="install-ros-2-jazzy">Install ROS 2 Jazzy</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">sudo</span> apt update
+<span class="ts-function">sudo</span> apt upgrade
+<span class="ts-function">sudo</span> apt install ros-jazzy-desktop ros-dev-tools
+</code></pre></div>
+<p>Use <code>desktop</code> for the workshop. A product image can later use <code>ros-base</code> or an explicit package set.</p>
+<p>Record the installed package versions before comparing results between workshop machines.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="set-up-the-shell">Set up the shell</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">source</span> /opt/ros/jazzy/setup.bash
+<span class="ts-function">echo</span> <span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">ROS_DISTRO</span>&quot;</span>
+<span class="ts-function">printenv</span> <span class="ts-operator">|</span> <span class="ts-function">grep</span> <span class="ts-constant">-E</span> <span class="ts-string">&#39;^(ROS|AMENT|COLCON)&#39;</span>
+</code></pre></div>
+<p>Optional for Bash:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">echo</span> <span class="ts-string">&#39;source /opt/ros/jazzy/setup.bash&#39;</span> <span class="ts-operator">&gt;&gt;</span> ~/.bashrc
+</code></pre></div>
+<p>Every new terminal needs the selected ROS environment sourced before <code>ros2</code> commands can find packages.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="verify-talker-and-listener">Verify talker and listener</h2>
+<p>Terminal A:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">ros2</span> run demo_nodes_cpp talker
+</code></pre></div>
+<p>Terminal B:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">ros2</span> run demo_nodes_py listener
+</code></pre></div>
+<p>If no data arrives, compare domain IDs, RMW selection, firewalls, and network interfaces.</p>
+<p>Running a C++ publisher with a Python subscriber also checks cross-language message interoperability.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="use-rosdep">Use rosdep</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">sudo</span> rosdep init       <span class="ts-comment"># once per machine</span>
+<span class="ts-function">rosdep</span> update
+<span class="ts-function">cd</span> ~/ros2_ws
+<span class="ts-function">rosdep</span> install <span class="ts-constant">--from-paths</span> src <span class="ts-constant">--ignore-src</span> <span class="ts-constant">-r</span> <span class="ts-constant">-y</span>
+</code></pre></div>
+<p><code>package.xml</code> declares dependencies. <code>rosdep</code> maps the keys to system packages.</p>
+<p>Run it again after changing package manifests so missing system dependencies appear before the build.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="create-a-workspace">Create a workspace</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">mkdir</span> <span class="ts-constant">-p</span> ~/ros2_ws/src
+<span class="ts-function">cd</span> ~/ros2_ws/src
+<span class="ts-function">ros2</span> pkg create <span class="ts-constant">--build-type</span> ament_cmake \
+  <span class="ts-constant">--license</span> Apache-2.0 \
+  <span class="ts-constant">--dependencies</span> rclcpp std_msgs migration_demo
+<span class="ts-function">cd</span> ~/ros2_ws
+<span class="ts-function">colcon</span> build <span class="ts-constant">--symlink-install</span>
+<span class="ts-function">source</span> install/setup.bash
+</code></pre></div>
+<p>Commit the empty package as the workshop baseline.</p>
+<p>That commit gives the group a shared point for comparing each translation step.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="ros-on-nix">ROS on Nix</h2>
+<p><a href="https://github.com/lopsided98/nix-ros-overlay" rel="noopener noreferrer"><code>nix-ros-overlay</code></a> packages ROS inside Nix.</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> develop \
+  github:lopsided98/nix-ros-overlay/master#example-ros2-desktop-jazzy
+<span class="ts-function">ros2</span> launch demo_nodes_cpp talker_listener_launch.xml
+</code></pre></div>
+<p>The environment can pin ROS, compilers, and non-ROS dependencies. Check package and cache coverage.</p>
+<p>Nix is an alternative setup path here; the ported package and ROS interfaces remain the same.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="trims-rosflake">Trim’s rosflake</h2>
+<p><a href="https://github.com/bresilla/rosflake" rel="noopener noreferrer"><code>bresilla/rosflake</code></a> is Trim’s current ROS 2 development environment.</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">git</span> clone https://github.com/bresilla/rosflake.git
+<span class="ts-function">cd</span> rosflake
+<span class="ts-function">nix</span> develop <span class="ts-constant">--impure</span>
+<span class="ts-function">ros2</span> run demo_nodes_cpp talker
+</code></pre></div>
+<p>It selects Jazzy, Cyclone DDS, MoveIt, Ackermann messages, colcon, CMake, Clang, Mold, and stable Rust.</p>
+<p>Use the repository as a working reference, then trim its package set to the needs of the company workspace.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-rosflake-configures">What rosflake configures</h2>
+<figure class="faqe-primitive faqe-grid" data-faqe-primitive="grid"><div class="faqe-grid-items variant-cards" style="--faqe-grid-columns:2"><article class="faqe-grid-item tone-accent"><small>ROS workspace</small><strong>Ament and CMake paths</strong><div>.rosws.nix deduplicates flags and creates a synthetic ament prefix.</div></article><article class="faqe-grid-item tone-warning"><small>graphics</small><strong>Host NVIDIA matching</strong><div>.envrc and .nixgl.nix pin the host driver.</div></article></div></figure>
+<p>The shell selects Cyclone DDS. Graphics detection is why the command uses <code>--impure</code>.</p>
+<p>If the host GPU driver changes, rebuild the environment before investigating ROS visualization failures.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-package-to-port">The package to port</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">text</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-text" data-lang="text">migration_demo/
+├── CMakeLists.txt
+├── package.xml
+├── msg/Status.msg
+├── launch/demo.launch
+└── src/
+    ├── talker.cpp
+    └── listener.cpp
+</code></pre></div>
+<p>It contains one message, parameter, publisher, subscriber, and launch file.</p>
+<p>The package is small enough to finish today while still touching the files found in a normal port.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="inventory-before-editing">Inventory before editing</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">rostopic</span> info /status
+<span class="ts-function">rostopic</span> hz /status
+<span class="ts-function">rosmsg</span> show migration_demo/Status
+<span class="ts-function">rosparam</span> get /talker/rate
+<span class="ts-function">rosnode</span> info /talker
+</code></pre></div>
+<p>Record names, types, rates, queue sizes, latching, parameters, remaps, and shutdown behavior.</p>
+<p>Save the command output beside the package so the ROS 2 result can be compared against the same baseline.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-packagexml">Translate package.xml</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">xml</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-xml" data-lang="xml">&lt;package format=&quot;3&quot;&gt;
+  &lt;name&gt;migration_demo&lt;/name&gt;
+  &lt;version&gt;0.1.0&lt;/version&gt;
+  &lt;maintainer email=&quot;team@example.com&quot;&gt;Robot Team&lt;/maintainer&gt;
+  &lt;license&gt;Apache-2.0&lt;/license&gt;
+  &lt;buildtool_depend&gt;ament_cmake&lt;/buildtool_depend&gt;
+  &lt;depend&gt;rclcpp&lt;/depend&gt;
+  &lt;depend&gt;std_msgs&lt;/depend&gt;
+  &lt;depend&gt;rosidl_default_generators&lt;/depend&gt;
+  &lt;exec_depend&gt;rosidl_default_runtime&lt;/exec_depend&gt;
+  &lt;member_of_group&gt;rosidl_interface_packages&lt;/member_of_group&gt;
+&lt;/package&gt;
+</code></pre></div>
+<p>Format 3 keeps build, execution, and interface-generation dependencies explicit for the ROS 2 package.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-cmakeliststxt">Translate CMakeLists.txt</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cmake</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-cmake" data-lang="cmake">find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+rosidl_generate_interfaces(${PROJECT_NAME}
+  &quot;msg/Status.msg&quot; DEPENDENCIES std_msgs)
+add_executable(talker src/talker.cpp)
+ament_target_dependencies(talker rclcpp std_msgs)
+install(TARGETS talker DESTINATION lib/${PROJECT_NAME})
+ament_package()
+</code></pre></div>
+<p>Generate interfaces before compiling targets that include their headers, and install every executable that launch will resolve.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-a-message">Translate a message</h2>
+<p>ROS 1:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">text</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-text" data-lang="text">Header header
+string state
+float32 temperature
+</code></pre></div>
+<p>ROS 2:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">text</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-text" data-lang="text">std_msgs/Header header
+string state
+float32 temperature
+</code></pre></div>
+<p>Inspect it with <code>ros2 interface show migration_demo/msg/Status</code>.</p>
+<p>The qualified <code>std_msgs/Header</code> name removes the package lookup that ROS 1 performed implicitly.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-node-initialization">Translate node initialization</h2>
+<p>ROS 1:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp">ros::<span class="ts-function">init</span>(<span class="ts-variable">argc</span>, <span class="ts-variable">argv</span>, <span class="ts-string">&quot;talker&quot;</span>);
+ros::<span class="ts-type">NodeHandle</span> <span class="ts-variable">node</span>;
+</code></pre></div>
+<p>ROS 2:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp">rclcpp::<span class="ts-function">init</span>(<span class="ts-variable">argc</span>, <span class="ts-variable">argv</span>);
+<span class="ts-type">auto</span> <span class="ts-variable">node</span> <span class="ts-operator">=</span> rclcpp::<span class="ts-type">Node</span>::<span class="ts-variable">make_shared</span>(<span class="ts-string">&quot;talker&quot;</span>);
+rclcpp::<span class="ts-function">spin</span>(<span class="ts-variable">node</span>);
+rclcpp::<span class="ts-function">shutdown</span>();
+</code></pre></div>
+<p>Larger nodes normally derive from <code>rclcpp::Node</code>.</p>
+<p>Initialize one context per process, keep nodes alive while spinning, and shut the context down on exit.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-a-publisher">Translate a publisher</h2>
+<p>ROS 1:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="ts-type">auto</span> <span class="ts-variable">pub</span> <span class="ts-operator">=</span> <span class="ts-variable">node</span>.<span class="ts-function">advertise</span><span class="ts-operator">&lt;</span>std_msgs::<span class="ts-type">String</span><span class="ts-operator">&gt;</span>(<span class="ts-string">&quot;chatter&quot;</span>, <span class="ts-number">10</span>);
+<span class="ts-variable">pub</span>.<span class="ts-function">publish</span>(<span class="ts-variable">message</span>);
+</code></pre></div>
+<p>ROS 2:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="ts-type">auto</span> <span class="ts-variable">pub</span> <span class="ts-operator">=</span> <span class="ts-variable">node</span><span class="ts-operator">-&gt;</span><span class="ts-function">create_publisher</span><span class="ts-operator">&lt;</span>std_msgs::msg::<span class="ts-type">String</span><span class="ts-operator">&gt;</span>(
+  <span class="ts-string">&quot;chatter&quot;</span>, rclcpp::<span class="ts-function">QoS</span>(<span class="ts-number">10</span>).<span class="ts-function">reliable</span>());
+<span class="ts-variable">pub</span><span class="ts-operator">-&gt;</span><span class="ts-function">publish</span>(<span class="ts-variable">message</span>);
+</code></pre></div>
+<p>Translate the queue depth and review every QoS policy.</p>
+<p>The ROS 2 QoS object replaces the ROS 1 queue integer as the complete delivery configuration.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-a-subscription">Translate a subscription</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="ts-type">auto</span> <span class="ts-variable">sub</span> <span class="ts-operator">=</span> <span class="ts-variable">node</span><span class="ts-operator">-&gt;</span><span class="ts-function">create_subscription</span><span class="ts-operator">&lt;</span>std_msgs::msg::<span class="ts-type">String</span><span class="ts-operator">&gt;</span>(
+  <span class="ts-string">&quot;chatter&quot;</span>, rclcpp::<span class="ts-function">QoS</span>(<span class="ts-number">10</span>).<span class="ts-function">reliable</span>(),
+  [](std_msgs::msg::<span class="ts-type">String</span>::<span class="ts-type">ConstSharedPtr</span> <span class="ts-variable">msg</span>) {
+    <span class="ts-function">RCLCPP_INFO</span>(rclcpp::<span class="ts-function">get_logger</span>(<span class="ts-string">&quot;listener&quot;</span>),
+                <span class="ts-string">&quot;%s&quot;</span>, <span class="ts-variable">msg</span><span class="ts-operator">-&gt;</span><span class="ts-property">data</span>.<span class="ts-function">c_str</span>());
+  });
+</code></pre></div>
+<p>Store the handle; the subscription is destroyed when it leaves scope.</p>
+<p>In a node class, keep the subscription as a member so it lives for as long as the node.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="replace-the-ros-1-loop">Replace the ROS 1 loop</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="ts-variable">timer_</span> <span class="ts-operator">=</span> <span class="ts-function">create_wall_timer</span>(
+  std::chrono::<span class="ts-variable">milliseconds</span>(<span class="ts-number">100</span>),
+  [<span class="ts-variable-builtin">this</span>]() { <span class="ts-function">publish_status</span>(); });
+</code></pre></div>
+<p>ROS 2 timers are executor work. Check the old loop for blocking calls, wall-time use, and callback-dispatch assumptions.</p>
+<p>A timer callback should return quickly or hand slow work to a controlled worker.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-parameters">Translate parameters</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="ts-variable">rate_hz_</span> <span class="ts-operator">=</span> <span class="ts-function">declare_parameter</span><span class="ts-operator">&lt;</span><span class="ts-type">double</span><span class="ts-operator">&gt;</span>(<span class="ts-string">&quot;rate_hz&quot;</span>, <span class="ts-number">10.0</span>);
+<span class="ts-variable">callback_handle_</span> <span class="ts-operator">=</span> <span class="ts-function">add_on_set_parameters_callback</span>(
+  [<span class="ts-variable-builtin">this</span>](<span class="ts-keyword">const</span> <span class="ts-type">auto</span> <span class="ts-operator">&amp;</span> <span class="ts-variable">params</span>) {
+    <span class="ts-keyword">return</span> <span class="ts-function">validate_and_apply</span>(<span class="ts-variable">params</span>);
+  });
+</code></pre></div><div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">ros2</span> param set /talker rate_hz 20.0
+</code></pre></div>
+<p>Reject invalid updates without partially changing state.</p>
+<p>Declare parameters before reading them, then keep validation and application in one transaction.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="select-qos">Select QoS</h2>
+<figure class="faqe-primitive faqe-data-table" data-faqe-primitive="table"><div class="faqe-table-scroll"><table class="variant-comparison"><thead><tr><th scope="col">ROS 1 behavior</th><th scope="col">ROS 2 candidate</th></tr></thead><tbody><tr><th class="tone-neutral" scope="row">TCPROS, queue 10</th><td class="tone-neutral">reliable, keep last 10</td></tr><tr><th class="tone-neutral" scope="row">UDPROS sensor stream</th><td class="tone-neutral">sensor data profile</td></tr><tr><th class="tone-neutral" scope="row">latched state</th><td class="tone-neutral">transient local, depth 1</td></tr></tbody></table></div></figure>
+<p>Verify endpoints with <code>ros2 topic info /status --verbose</code>.</p>
+<p>The latched ROS 1 case needs compatible transient-local durability on both sides to serve late subscribers.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-a-service">Translate a service</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">cpp</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-cpp" data-lang="cpp"><span class="ts-variable">service_</span> <span class="ts-operator">=</span> <span class="ts-function">create_service</span><span class="ts-operator">&lt;</span>example_interfaces::srv::<span class="ts-type">SetBool</span><span class="ts-operator">&gt;</span>(
+  <span class="ts-string">&quot;enable&quot;</span>,
+  [<span class="ts-variable-builtin">this</span>](<span class="ts-keyword">const</span> std::<span class="ts-type">shared_ptr</span><span class="ts-operator">&lt;</span><span class="ts-type">Request</span><span class="ts-operator">&gt;</span> <span class="ts-variable">request</span>,
+         std::<span class="ts-type">shared_ptr</span><span class="ts-operator">&lt;</span><span class="ts-type">Response</span><span class="ts-operator">&gt;</span> <span class="ts-variable">response</span>) {
+    <span class="ts-variable">response</span><span class="ts-operator">-&gt;</span><span class="ts-property">success</span> <span class="ts-operator">=</span> <span class="ts-function">set_enabled</span>(<span class="ts-variable">request</span><span class="ts-operator">-&gt;</span><span class="ts-property">data</span>);
+  });
+</code></pre></div>
+<p>Test with <code>ros2 service call</code>. Use an action for cancellable or long-running work.</p>
+<p>Service callbacks should finish within a bounded time and report application errors in the response.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-long-running-work">Translate long-running work</h2>
+<p>An action defines a goal, feedback, result, and cancellation path.</p>
+<ul>
+<li>Goal acceptance and rejection</li>
+<li>Feedback content and frequency</li>
+<li>Cancellation latency</li>
+<li>Restart behavior</li>
+<li>Concurrent-goal policy</li>
+</ul>
+<p>Define these before replacing a long ROS 1 service.</p>
+<p>The client should observe goal state changes and handle cancellation that arrives during execution.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-the-launch-file">Translate the launch file</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">python</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-python" data-lang="python"><span class="ts-keyword">def</span> <span class="ts-function">generate_launch_description</span>():
+    <span class="ts-keyword">return</span> <span class="ts-function">LaunchDescription</span>([
+        <span class="ts-function">Node</span>(
+            <span class="ts-variable">package</span><span class="ts-operator">=</span><span class="ts-string">&quot;migration_demo&quot;</span>,
+            <span class="ts-variable">executable</span><span class="ts-operator">=</span><span class="ts-string">&quot;talker&quot;</span>,
+            <span class="ts-variable">parameters</span><span class="ts-operator">=</span>[{<span class="ts-string">&quot;rate_hz&quot;</span>: <span class="ts-number">10.0</span>}],
+            <span class="ts-variable">remappings</span><span class="ts-operator">=</span>[(<span class="ts-string">&quot;status&quot;</span>, <span class="ts-string">&quot;/robot/status&quot;</span>)],
+        ),
+    ])
+</code></pre></div>
+<p>Install the launch directory, rebuild, and run it with <code>ros2 launch</code>.</p>
+<p>Keep machine-specific paths and robot identities in launch arguments or parameter files.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="translate-a-python-node">Translate a Python node</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">python</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-python" data-lang="python"><span class="ts-keyword">class</span> <span class="ts-constructor">Listener</span>(<span class="ts-constructor">Node</span>):
+    <span class="ts-keyword">def</span> <span class="ts-function">__init__</span>(<span class="ts-variable">self</span>):
+        <span class="ts-function-builtin">super</span>().<span class="ts-property">__init__</span>(<span class="ts-string">&quot;listener&quot;</span>)
+        <span class="ts-variable">self</span>.<span class="ts-property">subscription</span> <span class="ts-operator">=</span> <span class="ts-variable">self</span>.<span class="ts-property">create_subscription</span>(
+            <span class="ts-constructor">String</span>, <span class="ts-string">&quot;chatter&quot;</span>, <span class="ts-variable">self</span>.<span class="ts-property">on_message</span>, <span class="ts-number">10</span>)
+
+    <span class="ts-keyword">def</span> <span class="ts-function">on_message</span>(<span class="ts-variable">self</span>, <span class="ts-variable">msg</span>):
+        <span class="ts-variable">self</span>.<span class="ts-property">get_logger</span>().<span class="ts-property">info</span>(<span class="ts-variable">msg</span>.<span class="ts-property">data</span>)
+</code></pre></div>
+<p>Initialize <code>rclpy</code>, spin the node, destroy it, then call <code>rclpy.shutdown()</code>.</p>
+<p>Keep the subscription on <code>self</code>; a local variable can be collected after initialization.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="build-test-and-compare">Build, test, and compare</h2>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">colcon</span> build <span class="ts-constant">--symlink-install</span> <span class="ts-constant">--packages-up-to</span> migration_demo
+<span class="ts-function">source</span> install/setup.bash
+<span class="ts-function">colcon</span> test <span class="ts-constant">--packages-select</span> migration_demo
+<span class="ts-function">colcon</span> test-result <span class="ts-constant">--verbose</span>
+<span class="ts-function">ros2</span> launch migration_demo demo.launch.py
+<span class="ts-function">ros2</span> topic hz /robot/status
+</code></pre></div>
+<p>Compare content, rate, startup, shutdown, CPU use, and recovery with ROS 1.</p>
+<p>Use the same hardware, input bag, run length, and load for both measurements.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="mixed-system-integration">Mixed-system integration</h2>
+<ol>
+<li>Build a supported <code>ros1_bridge</code> environment.</li>
+<li>Source ROS 1, ROS 2, and custom interfaces in the documented order.</li>
+<li>Start the routes listed for this batch.</li>
+<li>Repeat functional and load tests across the bridge.</li>
+<li>Give every route a removal condition.</li>
+</ol>
+<p>Record the remaining ROS 1 runtime dependencies.</p>
+<p>When a route passes its final acceptance test, remove it from the bridge configuration in the same change.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="workshop-acceptance">Workshop acceptance</h2>
+<figure class="faqe-primitive faqe-grid" data-faqe-primitive="grid"><div class="faqe-grid-items variant-cards" style="--faqe-grid-columns:2"><article class="faqe-grid-item tone-positive"><small>workshop output</small><strong>Reproducible example</strong><ul class="faqe-grid-bullets"><li>setup notes</li><li>workspace commit</li><li>tests</li><li>known failures</li></ul></article><article class="faqe-grid-item tone-accent"><small>company follow-up</small><strong>First migration batch</strong><ul class="faqe-grid-bullets"><li>owner</li><li>boundary</li><li>bridge routes</li><li>evidence</li><li>retirement date</li></ul></article></div></figure>
+<p>Choose the pilot package, target platform, owner, and review date.</p>
+<p>End the session with the first package named, its baseline captured, and the next review placed on the calendar.</p>
+</main></div><script type="module" src="/assets/bootstrap-65914ba6fe56d6f1.js"></script></body></html>

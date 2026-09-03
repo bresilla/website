@@ -1,0 +1,85 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="light" style="--accent-color:#f72c4a;--chromatic-a:#f72c4a;--chromatic-b:#4af72c;--bg-color:#f3f3f3;--fg-color:#18191c;--glitch-color:#18191c;--interactive-color:#d42640;--accent-text-color:#000000"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-26e298ae951f39c3.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Try Nix without installing it on the host, mount a project into the official image, and keep the Nix store between runs."><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#f3f3f3"><meta property="og:title" content="Running the Nix package manager inside a Docker container · bresilla"><meta property="og:description" content="Try Nix without installing it on the host, mount a project into the official image, and keep the Nix store between runs."><meta property="og:type" content="article"><meta property="article:published_time" content="2021-02-09T00:00:00Z"><meta property="article:tag" content="docker"><meta property="article:tag" content="linux"><meta property="article:tag" content="nix"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Running the Nix package manager inside a Docker container · bresilla"><meta name="twitter:description" content="Try Nix without installing it on the host, mount a project into the official image, and keep the Nix store between runs."><meta property="og:url" content="https://bresilla.com/post/software/dev/nix/docker/"><link rel="canonical" href="https://bresilla.com/post/software/dev/nix/docker/"><meta property="og:image" content="https://bresilla.com/assets/content/docker-thumbnail-3c63a233942b2a90.jpg"><meta property="og:image:alt" content="Running the Nix package manager inside a Docker container"><meta name="twitter:image" content="https://bresilla.com/assets/content/docker-thumbnail-3c63a233942b2a90.jpg"><meta name="twitter:image:alt" content="Running the Nix package manager inside a Docker container"><title>Running the Nix package manager inside a Docker container · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><link rel="stylesheet" href="/assets/theme-bresilla-73aaa92e7893cbcb.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/resume/">cv</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>Running the Nix package manager inside a Docker container</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#why-put-a-package-manager-in-a-container">Why put a package manager in a container?</a></li><li><a href="#start-with-the-official-image">Start with the official image</a></li><li><a href="#work-on-a-host-project">Work on a host project</a></li><li><a href="#keep-the-nix-store">Keep the Nix store</a></li><li><a href="#run-one-command-and-leave">Run one command and leave</a></li><li><a href="#a-small-custom-image">A small custom image</a></li><li><a href="#docker-image-or-nix-image">Docker image or Nix image?</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="why-put-a-package-manager-in-a-container">Why put a package manager in a container?</h2>
+<p>Running Nix inside Docker sounds like putting a toolbox inside another toolbox. It is. Sometimes that is exactly what I want.</p>
+<p>The container gives me a disposable Linux userspace and keeps the experiment away from the host. Nix lets me fetch exact tools or enter a development environment declared by a repository. This is handy on a CI runner, on a machine where I cannot keep Nix installed, or when I simply want to poke it and throw everything away afterward.</p>
+<p>It is not the best way to use Nix every day. Starting a container adds friction, filesystem permissions can become irritating, and macOS still runs the Linux container through Docker’s virtual machine. If Nix is part of the normal workflow, install Nix on the host. Use the container when disposability is the point.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="start-with-the-official-image">Start with the official image</h2>
+<p>The Nix project publishes <code>nixos/nix</code> on Docker Hub. Start an interactive shell:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> run <span class="ts-constant">--rm</span> <span class="ts-constant">-it</span> docker.io/nixos/nix:latest
+</code></pre></div>
+<p>Inside the container:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> <span class="ts-constant">--version</span>
+<span class="ts-function">nix-shell</span> <span class="ts-constant">-p</span> hello <span class="ts-constant">--run</span> hello
+</code></pre></div>
+<p><code>--rm</code> deletes the container after exit. The downloaded store paths disappear with it, which is clean but slow if the same command is run repeatedly.</p>
+<p>For a reproducible CI job, do not rely on <code>latest</code>. Pin a version tag or, better, the image digest recorded by <code>docker image inspect</code> or the registry. Tags are names; digests identify image content.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="work-on-a-host-project">Work on a host project</h2>
+<p>Mount the current directory at <code>/work</code> and make it the working directory:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> run <span class="ts-constant">--rm</span> <span class="ts-constant">-it</span> \
+  <span class="ts-constant">--mount</span> type=bind,src=<span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">PWD</span>&quot;</span>,dst=/work \
+  <span class="ts-constant">--workdir</span> /work \
+  docker.io/nixos/nix:latest
+</code></pre></div>
+<p>The project files are now visible inside the container. A repository with <code>shell.nix</code> can be entered with:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix-shell</span>
+</code></pre></div>
+<p>For a flake development shell:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">nix</span> <span class="ts-constant">--extra-experimental-features</span> <span class="ts-string">&#39;nix-command flakes&#39;</span> develop
+</code></pre></div>
+<p>The command-line flag avoids quietly depending on a host configuration file. A custom image can enable those features permanently, but an explicit flag is useful in examples because it shows the requirement.</p>
+<p>The container runs as root by default. Any files it creates on the bind mount may therefore become root-owned on a Linux host. Most Nix development commands only create <code>result</code> symlinks or write to the Nix store, but build tools may write into the project. Check ownership after running an unfamiliar build. Trying to solve this with <code>--user</code> immediately can break write access to <code>/nix</code>; a deliberately built non-root image is cleaner than a pile of runtime permission flags.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="keep-the-nix-store">Keep the Nix store</h2>
+<p>Create a named volume:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> volume create nix-store
+</code></pre></div>
+<p>Mount it at <code>/nix</code>:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> run <span class="ts-constant">--rm</span> <span class="ts-constant">-it</span> \
+  <span class="ts-constant">--mount</span> type=volume,src=nix-store,dst=/nix \
+  <span class="ts-constant">--mount</span> type=bind,src=<span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">PWD</span>&quot;</span>,dst=/work \
+  <span class="ts-constant">--workdir</span> /work \
+  docker.io/nixos/nix:latest
+</code></pre></div>
+<p>The first container populates the volume. Later containers reuse downloaded store paths, profiles, and database state. Remove it when the cache is no longer useful:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> volume rm nix-store
+</code></pre></div>
+<p>This volume is a cache, not a backup. Anything important should live in the project repository or another intentional storage location.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="run-one-command-and-leave">Run one command and leave</h2>
+<p>An interactive shell is unnecessary in CI. This runs a command in a temporary Nix environment and exits:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> run <span class="ts-constant">--rm</span> \
+  <span class="ts-constant">--mount</span> type=volume,src=nix-store,dst=/nix \
+  docker.io/nixos/nix:latest \
+  nix-shell <span class="ts-constant">-p</span> git jq <span class="ts-constant">--run</span> <span class="ts-string">&#39;git --version &amp;&amp; jq --version&#39;</span>
+</code></pre></div>
+<p>For a mounted flake project:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> run <span class="ts-constant">--rm</span> \
+  <span class="ts-constant">--mount</span> type=volume,src=nix-store,dst=/nix \
+  <span class="ts-constant">--mount</span> type=bind,src=<span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">PWD</span>&quot;</span>,dst=/work \
+  <span class="ts-constant">--workdir</span> /work \
+  docker.io/nixos/nix:latest \
+  nix <span class="ts-constant">--extra-experimental-features</span> <span class="ts-string">&#39;nix-command flakes&#39;</span> develop <span class="ts-constant">--command</span> make test
+</code></pre></div>
+<p>Replace <code>make test</code> with the repository’s own verification command. The important bit is that the flake lock and source tree come from the project, while <code>/nix</code> is disposable cache state.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="a-small-custom-image">A small custom image</h2>
+<p>If every invocation repeats the same options, put them in an image:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">dockerfile</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile">FROM docker.io/nixos/nix:latest
+
+RUN printf &#39;%s\n&#39; \
+    &#39;experimental-features = nix-command flakes&#39; \
+    &#39;sandbox = false&#39; \
+    &gt;&gt; /etc/nix/nix.conf
+
+WORKDIR /work
+</code></pre></div>
+<p>Build it:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> build <span class="ts-constant">-t</span> local/nix-dev .
+</code></pre></div>
+<p>Then use it like the official image:</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="TREE-SITTER"><div aria-hidden="true" class="code-toolbar"><span class="code-language">bash</span><span class="code-engine">TREE-SITTER</span></div><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="ts-function">docker</span> run <span class="ts-constant">--rm</span> <span class="ts-constant">-it</span> \
+  <span class="ts-constant">--mount</span> type=volume,src=nix-store,dst=/nix \
+  <span class="ts-constant">--mount</span> type=bind,src=<span class="ts-string">&quot;<span class="ts-operator">$</span><span class="ts-property">PWD</span>&quot;</span>,dst=/work \
+  local/nix-dev
+</code></pre></div>
+<p>Nix’s own build sandbox is disabled in this example because the process is already inside a restricted container and nested sandbox support varies with the Docker runtime. Docker is still not a security boundary for hostile builds by default. Do not mount the Docker socket, SSH directory, cloud credentials, or the whole home directory into a build you do not trust.</p>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="docker-image-or-nix-image">Docker image or Nix image?</h2>
+<p>This setup uses Nix <em>inside</em> an ordinary container. Nix can also <em>build</em> OCI images with <code>dockerTools</code>, which solves a different problem: producing an image from Nix derivations. I use the official image when I need a quick Nix-capable runner. I use <code>dockerTools</code> when the image itself is a build output that must be described by Nix.</p>
+<p>The nested-toolbox arrangement is not elegant, but it is honest. Docker controls the disposable runtime. Nix controls the tools inside it. When the experiment is over, remove the container and, if desired, the store volume. Nothing else on the host has to know it happened.</p>
+</main></div><script type="module" src="/assets/bootstrap-65914ba6fe56d6f1.js"></script></body></html>
