@@ -21,7 +21,7 @@ options:
   incremental_lists: false
 ---
 
-Memory is not a file
+Functional definition of memory
 ====================
 
 Memory is a **change in a system** that lets the past alter what happens next.
@@ -40,7 +40,7 @@ If any one fails, we experience forgetting.
 
 <!-- end_slide -->
 
-One word, several systems
+Major memory systems
 =========================
 
 ```faqe:grid
@@ -82,7 +82,7 @@ They work together, but each one develops and fails differently.
 
 <!-- end_slide -->
 
-How a moment becomes a memory
+Encoding, consolidation, and retrieval
 =============================
 
 ```faqe:graph
@@ -187,7 +187,7 @@ tone = "warning"
 
 <!-- end_slide -->
 
-Encoding is a bottleneck
+Encoding constraints
 ========================
 
 ```faqe:grid
@@ -215,7 +215,7 @@ tone = "warning"
 [[items]]
 eyebrow = "failure"
 title = "Never encoded"
-body = "Some apparent forgetting is not loss. The information never received deep processing."
+body = "Some apparent forgetting happened during encoding because the information received little attention."
 tone = "negative"
 
 [[items]]
@@ -235,7 +235,7 @@ tone = "neutral"
 
 <!-- end_slide -->
 
-The engram is distributed
+Distributed engrams
 =========================
 
 An **engram** is the physical ensemble changed by learning and capable of contributing to later recall.
@@ -306,11 +306,11 @@ to = "emotion"
 
 We can still identify the memory even while the participating cells and connection strengths change.
 
-<!-- speaker_note: Modern engram research points to sparse, distributed ensembles rather than one memory address. The memory remains recognizable even as its biological implementation shifts. -->
+<!-- speaker_note: Modern engram research describes sparse, distributed ensembles. The participating cells and connection strengths can change while the memory remains identifiable. -->
 
 <!-- end_slide -->
 
-Consolidation happens at two scales
+Consolidation timescales
 ===================================
 
 ```faqe:table
@@ -337,7 +337,7 @@ Consolidation can make a memory last, but the version that lasts may keep the gi
 
 <!-- end_slide -->
 
-Offline does not mean inactive
+Offline consolidation
 ==============================
 
 ```faqe:timeline
@@ -370,7 +370,7 @@ tone = "warning"
 
 <!-- end_slide -->
 
-What retrieval actually is
+Retrieval types
 ==========================
 
 Retrieval is the use of a present cue to **reactivate enough of a past pattern** to guide thought or action.
@@ -420,11 +420,11 @@ tone = "neutral"
 
 <!-- end_slide -->
 
-Retrieval is reconstruction
+Reconstructive retrieval
 ===========================
 
 ```faqe:graph
-title = "A cue does not fetch a pristine recording"
+title = "Retrieval reconstructs from partial evidence"
 columns = 5
 rows = 2
 
@@ -498,7 +498,7 @@ The reconstructed account can be useful and sincerely held without being a liter
 
 <!-- end_slide -->
 
-Context is part of the address
+Context-dependent recall
 ==============================
 
 ```faqe:grid
@@ -520,13 +520,13 @@ bullets = ["different questions", "new examples", "mixed contexts", "explain to 
 tone = "accent"
 ```
 
-> A memory becomes useful when there are **several ways back to it**.
+Recall becomes more reliable when practice creates several usable cues.
 
 <!-- speaker_note: Matching the original context helps, but relying on one cue makes recall brittle. Practice with different questions, examples, and settings. -->
 
 <!-- end_slide -->
 
-Retrieval is also a learning event
+Retrieval practice
 ==================================
 
 ```faqe:timeline
@@ -539,7 +539,7 @@ tone = "accent"
 [[items]]
 title = "Expose the gap"
 meta = "success or failure"
-body = "The attempt diagnoses what is accessible rather than what merely feels familiar."
+body = "The attempt measures what the learner can produce from memory; rereading mainly measures familiarity."
 tone = "warning"
 
 [[items]]
@@ -561,7 +561,7 @@ Rereading changes familiarity. Retrieval practice changes the ability to produce
 
 <!-- end_slide -->
 
-Recall can reopen the trace
+Reconsolidation
 ===========================
 
 ```faqe:graph
@@ -638,7 +638,7 @@ Remembering can strengthen, weaken, distort, or update what will be remembered n
 
 <!-- end_slide -->
 
-Forgetting is a feature with failure modes
+Forgetting mechanisms
 ==========================================
 
 ```faqe:table
@@ -653,19 +653,19 @@ cells = ["Decay / drift", "The trace or its accessibility changed with time", "R
 cells = ["Interference", "Similar memories compete", "Supports abstraction", "Old and new answers collide"]
 
 [[rows]]
-cells = ["Cue failure", "The route back does not match", "Keeps irrelevant traces quiet", "The memory exists but cannot be reached"]
+cells = ["Cue failure", "Available cues fail to reactivate the trace", "Keeps irrelevant traces quiet", "Relevant information remains inaccessible"]
 
 [[rows]]
 cells = ["Inhibition", "Competing content is suppressed", "Protects current goals", "Suppressed content becomes hard to recover"]
 ```
 
-Perfect retention sounds attractive until every old detail starts competing with the present.
+Perfect retention would increase interference between old details and currently relevant information.
 
 <!-- speaker_note: Forgetting can be useful filtering. A workable memory system controls stale and competing material instead of maximizing the number of stored items. -->
 
 <!-- end_slide -->
 
-Memory techniques across time
+History of memory techniques
 =============================
 
 ```faqe:timeline
@@ -791,7 +791,7 @@ The method binds unfamiliar items to a route you already know well. Distinctive 
 
 <!-- end_slide -->
 
-Spacing fights accessibility loss
+Spaced practice
 =================================
 
 ```faqe:graph
@@ -883,7 +883,7 @@ There is no universal spacing interval. It depends on how well you know the mate
 
 <!-- end_slide -->
 
-The productive study loop
+Study sequence
 =========================
 
 ```faqe:progress
@@ -918,13 +918,13 @@ text = "return after enough time for effort"
 tone = "positive"
 ```
 
-The bars describe what each step does. They are not effect sizes.
+The values are illustrative. The labels describe the function of each study step.
 
 <!-- speaker_note: Do not read fake precision into these bars. Rereading gives exposure, recall tests access, feedback repairs mistakes, and spacing chooses when to try again. -->
 
 <!-- end_slide -->
 
-External memory changes the problem
+External memory systems
 ===================================
 
 ```faqe:table
@@ -952,7 +952,7 @@ cells = ["Agent memory", "Past can shape autonomous future action", "Authority, 
 
 <!-- end_slide -->
 
-Machines have at least four memories
+Memory locations in agent systems
 =====================================
 
 ```faqe:grid
@@ -988,13 +988,13 @@ badge = "actionable · governed"
 tone = "warning"
 ```
 
-The hard part is deciding **what may cross each boundary, who allowed it, and what evidence came along**.
+Boundary policy specifies which information may move between these stores, its authority, and its supporting evidence.
 
 <!-- speaker_note: “Agent memory” is not another name for a vector database. Parameters, live context, external records, and learned procedures change at different speeds and carry different risks. -->
 
 <!-- end_slide -->
 
-The modern agent-memory wave
+Recent agent-memory systems
 ============================
 
 ```faqe:timeline
@@ -1039,7 +1039,7 @@ tone = "negative"
 
 <!-- end_slide -->
 
-What long-term memory must do
+Long-term memory requirements
 =============================
 
 ```faqe:grid
@@ -1073,7 +1073,7 @@ tone = "warning"
 [[items]]
 eyebrow = "LongMemEval"
 title = "Abstain"
-body = "Recognize when the history does not support a reliable answer."
+body = "Abstain when the available history cannot support a reliable answer."
 tone = "negative"
 
 [[items]]
@@ -1083,11 +1083,11 @@ body = "Keep untrusted text from silently becoming durable instruction."
 tone = "accent"
 ```
 
-<!-- speaker_note: LongMemEval names the first five abilities. I added the sixth because an acting agent needs an authority boundary, not just better recall. -->
+<!-- speaker_note: LongMemEval defines the first five abilities. The sixth card adds authority and influence control for agents that can act on recalled information. -->
 
 <!-- end_slide -->
 
-Interesting designs, different bets
+Comparison of recent systems
 ===================================
 
 ```faqe:table
@@ -1118,7 +1118,7 @@ cells = ["LeanMem", "Choose memory type and budget per query", "profile, event, 
 
 <!-- end_slide -->
 
-The benchmark changed
+LongMemEval results
 =====================
 
 ```faqe:grid
@@ -1162,13 +1162,13 @@ body = "does an agent improve because it has lived through prior work?"
 tone = "positive"
 ```
 
-The test is no longer “can it remember one sentence?” It is whether an agent can usefully survive a career-length history.
+LongMemEval-V2 evaluates retrieval across histories containing as many as 500 trajectories and 115 million multimodal tokens.
 
 <!-- speaker_note: These are the benchmark authors' figures. Long context will improve, but replaying an entire working life on every query is still a poor systems plan. -->
 
 <!-- end_slide -->
 
-Retrieval is not truth
+Retrieval and evidential status
 ======================
 
 ```faqe:graph
@@ -1241,7 +1241,7 @@ label = "admit"
 tone = "positive"
 ```
 
-**Similarity tells us where to look. Evidence tells us what we may rely on.**
+Similarity ranks possible records. Evidence determines whether a retrieved claim may influence later work.
 
 <!-- speaker_note: This is the turn toward Balthasar. Retrieval finds candidates; Balthasar separately decides which claims may influence later work. -->
 
@@ -1253,9 +1253,9 @@ tone = "positive"
 Balthasar
 =========
 
-**Short-term and long-term agent memory behind one Lua interface.**
+Balthasar exposes short-term and long-term agent memory through a Lua interface.
 
-Balthasar runs as its own program. The harness can use memory without having to become the memory system.
+Balthasar runs as a separate program and exposes memory operations to the harness over a process boundary.
 
 <!-- speaker_note: Pause here. Balthasar belongs to the ai-nerv family, but it is its own binary and store. That boundary is deliberate: memory should outlive any one harness. -->
 
@@ -1339,13 +1339,13 @@ label = "boundary"
 dashed = true
 ```
 
-Each program can be tested or replaced without pulling the whole family apart.
+Each program has an independent test and replacement boundary.
 
 <!-- speaker_note: Magi is the harness, Melchior the agent layer, Balthasar the memory service, and Casper the tools direction. Keeping those jobs separate makes the boundaries visible. -->
 
 <!-- end_slide -->
 
-Balthasar's thesis
+Balthasar evidence model
 ==================
 
 ```faqe:grid
@@ -1355,7 +1355,7 @@ variant = "cards"
 [[items]]
 eyebrow = "preserve broadly"
 title = "History says what happened"
-body = "Keep verbatim turns and searchable spans. A historical statement is evidence that something was said, not proof that it is true."
+body = "Keep verbatim turns and searchable spans. A historical statement records that the words appeared and preserves their source."
 badge = "findable"
 tone = "neutral"
 
@@ -1367,13 +1367,13 @@ badge = "usable"
 tone = "positive"
 ```
 
-> Balthasar stops **asserting** a memory before it stops letting you **find** it.
+Balthasar can keep a record searchable after its confidence falls below the threshold for normal assertion.
 
 <!-- speaker_note: This asymmetry is the core of the design. Old or questionable material remains available for investigation, but cannot quietly return as a current instruction. -->
 
 <!-- end_slide -->
 
-Four stores, four promises
+Storage scopes
 ==========================
 
 ```faqe:graph
@@ -1478,7 +1478,7 @@ tone = "accent"
 
 <!-- end_slide -->
 
-Eight witnesses
+Evidence sources
 ===============
 
 ```faqe:progress
@@ -1551,20 +1551,20 @@ value = 0.5
 tone = "positive"
 ```
 
-The weight describes the evidence event. It does not say how important the sentence sounds.
+The weight applies to the evidence event and is unrelated to how important the sentence sounds.
 
 <!-- speaker_note: SAID, FIX, and SCAR can promote a claim by themselves. The weaker witnesses have to combine. Their names let us inspect the score instead of trusting one mysterious number. -->
 
 <!-- end_slide -->
 
-One claim's life
+Claim lifecycle
 ================
 
 ```faqe:timeline
 [[items]]
 title = "Observed"
 meta = "transcript span"
-body = "The exact statement is retained as history. Preservation is not promotion."
+body = "The exact statement is retained in history. Promotion is evaluated separately."
 tone = "neutral"
 
 [[items]]
@@ -1588,7 +1588,7 @@ tone = "positive"
 [[items]]
 title = "Recomputed"
 meta = "new evidence or time"
-body = "Confidence changes from witnesses, freshness, and scope rather than manual assignment."
+body = "Confidence is computed from witnesses, freshness, and scope."
 tone = "accent"
 
 [[items]]
@@ -1602,7 +1602,7 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Diversity beats volume
+Evidence independence
 ======================
 
 ```faqe:graph
@@ -1675,13 +1675,13 @@ label = "0.55"
 tone = "positive"
 ```
 
-Ten repeats in one session still count as one source.
+Repeated evidence from one session remains subject to the per-source cap.
 
 <!-- speaker_note: Repetition inside one session may have a single cause. When the same lesson appears in an unrelated run, we have better evidence that it generalizes. -->
 
 <!-- end_slide -->
 
-Recall has two lanes
+Historical and durable recall
 ====================
 
 ```faqe:graph
@@ -1778,7 +1778,7 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Why returns receipts
+Inspecting a recalled claim
 ====================
 
 ```text
@@ -1799,13 +1799,13 @@ promoted  SAID 1.00 crossed promote floor 0.50
 current   no contradiction or superseding claim
 ```
 
-This explanation is part of the memory contract, not an optional debugging view.
+The memory contract includes this explanation with every recalled claim.
 
 <!-- speaker_note: The caller gets both the claim and the reason it was admitted. That is the point of the two commands. -->
 
 <!-- end_slide -->
 
-Correction is first-class
+Handling corrections
 =========================
 
 ```faqe:graph
@@ -1885,13 +1885,13 @@ label = "explain"
 tone = "accent"
 ```
 
-A contradiction does not corrupt the store. It records that the world changed, or that our earlier belief was wrong.
+A contradiction records either a change in the world or an error in the earlier belief.
 
 <!-- speaker_note: Keep the old claim because it may explain an earlier decision. The supersession link prevents it from leaking back into current recall. -->
 
 <!-- end_slide -->
 
-Forgetting is explicit
+Forgetting operations
 ======================
 
 ```faqe:table
@@ -1926,7 +1926,7 @@ Only an explicit purge deletes the record itself.
 
 <!-- end_slide -->
 
-Models may retrieve; they do not judge
+Model-assisted retrieval
 ======================================
 
 ```faqe:grid
@@ -1950,13 +1950,13 @@ tone = "accent"
 
 In Balthasar's documented probe, a rewording scored **0.813** while a different claim beside a replacement scored **0.801**.
 
-That difference can help ranking. It is nowhere near safe enough to decide truth.
+That difference can affect ranking but is insufficient for truth classification.
 
 <!-- speaker_note: The optional bge-small-en-v1.5 path makes the binary and deployment heavier. It only retrieves candidates; deterministic evidence still controls admission and lifecycle. -->
 
 <!-- end_slide -->
 
-An honest control arm
+Repository evaluation
 =====================
 
 ```faqe:progress
@@ -1991,13 +1991,13 @@ text = "maximum success available in the fixture"
 tone = "accent"
 ```
 
-The short, 30-session tasks scored **97% vs 97%**. When the window already holds what matters, memory has nothing to brag about.
+The short, 30-session tasks scored **97% vs 97%**, so the memory system produced no gain in that fixture.
 
 <!-- speaker_note: These numbers come from Balthasar's deterministic repository fixture, not an industry benchmark. The long-history arm gains 16 points; the short arm is deliberately tied. -->
 
 <!-- end_slide -->
 
-Safety begins at the boundary
+Process and authority boundaries
 =============================
 
 ```faqe:grid
@@ -2025,7 +2025,7 @@ tone = "negative"
 [[items]]
 eyebrow = "capability"
 title = "No execution"
-body = "The memory layer stores, evaluates, and returns context; it does not execute remembered text."
+body = "The memory layer is limited to storing, evaluating, and returning context."
 tone = "warning"
 
 [[items]]
@@ -2045,7 +2045,7 @@ tone = "neutral"
 
 <!-- end_slide -->
 
-Borrow the problems, not the biology
+Limits of the biological analogy
 ====================================
 
 ```faqe:table
@@ -2069,13 +2069,13 @@ cells = ["Recall can update memory", "FIX, contradiction, and supersession", "th
 cells = ["Forgetting controls interference", "confidence gap, decay, and scope", "purge is an explicit administrative act"]
 ```
 
-Balthasar borrows the **problems** biology has to solve. A database is still not a brain.
+The biological analogy is limited to problems such as bounded attention, consolidation, retrieval, updating, and forgetting.
 
 <!-- speaker_note: I am not claiming a biological equivalence. The useful borrowing is much narrower: bounded attention, consolidation, cue-dependent recall, updating, and forgetting are also systems problems. -->
 
 <!-- end_slide -->
 
-The operational loop
+CLI lifecycle
 ====================
 
 ```faqe:graph
@@ -2170,7 +2170,7 @@ balthasar context "run the tests"  ·  balthasar why <handle>
 
 <!-- end_slide -->
 
-What Balthasar refuses
+Excluded behaviors
 ======================
 
 ```faqe:grid
@@ -2218,7 +2218,7 @@ tone = "positive"
 
 <!-- end_slide -->
 
-The invariant
+Evidence-to-action chain
 =============
 
 ```faqe:graph
@@ -2290,11 +2290,11 @@ label = "guide"
 tone = "negative"
 ```
 
-As memory gets closer to action, unexplained influence becomes harder to accept.
+Claims that can affect actions require inspectable evidence and explicit authority.
 
 <!-- pause -->
 
-**Keep the history. Be careful what you believe. Bring the receipt.**
+Balthasar returns qualifying claims together with their provenance and lifecycle state.
 
 <!-- speaker_note: End with the practical point: memory changes the next action. If an agent is going to act on a remembered claim, we need to inspect where that claim came from. -->
 
@@ -2334,7 +2334,7 @@ Agent-memory sources
 <!-- alignment: center -->
 <!-- no_footer -->
 
-Bring the receipt
+Conclusion
 =================
 
-**EVA-01 // BALTHASAR**
+Trim Bresilla · EVA-01 · Balthasar

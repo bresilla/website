@@ -1,6 +1,6 @@
 ---
 title: "ROS 1 → **ROS 2**"
-sub_title: A hands-on migration workshop for a ROS 1 team, with Rust and Zenoh where they earn their place
+sub_title: Architecture, APIs, migration sequencing, Rust, Zenoh, and world-model data
 author: Trim Bresilla & Anouk Leunissen
 date: 2026-09-03
 theme:
@@ -21,22 +21,22 @@ options:
   incremental_lists: false
 ---
 
-What we need from today
-=======================
+Workshop objectives
+===================
 
-By the end, we should be able to answer four questions for **your** system:
+By the end, we should be able to answer four questions for the company system:
 
 1. What can be ported mechanically?
 2. What must be redesigned because ROS 2 changes the contract?
 3. How do we migrate without stopping product delivery?
-4. Which new capabilities earn a place now, and which can wait?
+4. Which optional capabilities address a documented requirement?
 
 <!-- speaker_note: This is a working session for a team that already ships ROS 1. We are here to make migration decisions, not tour every ROS 2 feature. -->
 
 <!-- end_slide -->
 
-Why move now?
-=============
+ROS 1 support status
+====================
 
 ```faqe:grid
 columns = 3
@@ -57,18 +57,18 @@ tone = "warning"
 [[items]]
 eyebrow = "migration reality"
 title = "now"
-body = "Old binaries remain, but the risk and maintenance burden move to you."
+body = "Existing binaries remain available. Future maintenance is downstream."
 tone = "accent"
 ```
 
-> ROS 1 does not suddenly stop running. It becomes **your distribution to maintain**.
+Existing ROS 1 installations continue to run, but upstream maintenance for Noetic ended on 31 May 2025. Any later fixes and platform support must come from downstream maintainers.
 
 <!-- speaker_note: Existing robots will keep booting. What changed is ownership: security work, dependency drift, compiler trouble, and unsupported hardware now land on your team. -->
 
 <!-- end_slide -->
 
-Choose the target deliberately
-==============================
+Target distribution
+===================
 
 ```faqe:table
 title = "Supported ROS 2 distributions in September 2026"
@@ -80,7 +80,7 @@ cells = ["Jazzy Jalisco", "Ubuntu 24.04", "May 2029", "Mature LTS when Noble is 
 tones = ["positive", "neutral", "neutral", "positive"]
 
 [[rows]]
-cells = ["Kilted Kaiju", "Ubuntu 24.04", "December 2026", "Do not begin a long migration here"]
+cells = ["Kilted Kaiju", "Ubuntu 24.04", "December 2026", "Support window is too short for a new migration"]
 tones = ["warning", "neutral", "negative", "negative"]
 
 [[rows]]
@@ -92,44 +92,44 @@ cells = ["Rolling Ridley", "moving target", "continuous", "Development and upstr
 tones = ["warning", "warning", "warning", "neutral"]
 ```
 
-Choose around OS certification, vendor drivers, and the required support window. “Newest” is not a deployment requirement.
+The target distribution depends on the certified operating system, available vendor drivers, and the required support period.
 
 <!-- speaker_note: Freeze the target distribution early. Jazzy remains an excellent migration target on Ubuntu 24.04. Lyrical is the new long-lived target on Ubuntu 26.04. Validate vendor support before choosing. -->
 
 <!-- end_slide -->
 
-How we will spend the day
-=========================
+Agenda
+======
 
 ```faqe:timeline
 [[items]]
-title = "Part I · change the mental model"
+title = "Part I · architecture"
 meta = "graph · middleware · QoS"
 body = "Separate architectural changes from simple renames."
 tone = "accent"
 
 [[items]]
-title = "Part II · port the application"
+title = "Part II · application porting"
 meta = "APIs · build · launch · lifecycle"
 body = "Translate packages while adopting ROS 2 execution semantics."
 tone = "positive"
 
 [[items]]
-title = "Part III · migrate safely"
+title = "Part III · coexistence and retirement"
 meta = "bridge · test · deploy"
 body = "Run mixed systems, measure parity, and retire ROS 1 in slices."
 tone = "warning"
 
 [[items]]
-title = "Part IV · go further"
+title = "Part IV · optional architecture"
 meta = "Rust · Zenoh · world models"
 body = "Use ROS 2 as a platform once the migration basics are sound."
 tone = "negative"
 
 [[items]]
-title = "Part V · workshop plan"
+title = "Part V · exercises and planning"
 meta = "labs · backlog · 90 days"
-body = "Leave with concrete owners, gates, and first migrations."
+body = "Assign owners, acceptance gates, and initial migration packages."
 tone = "accent"
 ```
 
@@ -137,8 +137,8 @@ tone = "accent"
 
 <!-- end_slide -->
 
-Keep the robot working
-======================
+Incremental migration scope
+===========================
 
 ```faqe:grid
 columns = 2
@@ -148,7 +148,7 @@ variant = "cards"
 eyebrow = "keep"
 title = "Domain logic"
 bullets = ["algorithms", "calibration", "kinematics", "state machines", "hardware protocols", "test vectors"]
-body = "Move valuable logic behind clean ROS-neutral boundaries."
+body = "Place existing algorithms and hardware protocols behind ROS-neutral interfaces."
 tone = "positive"
 
 [[items]]
@@ -165,7 +165,7 @@ Port the behavior you already trust. Redesign only when ROS 2 offers a better co
 
 <!-- end_slide -->
 
-The ROS 1 mental model
+ROS 1 graph and master
 ======================
 
 ```faqe:graph
@@ -244,14 +244,14 @@ label = "global read"
 tone = "accent"
 ```
 
-The master coordinates discovery; it is not normally on the topic data path.
+The master handles registration and lookup. After lookup, nodes normally exchange topic data directly.
 
 <!-- speaker_note: Be precise about ROS 1. The master is a central control-plane dependency, not a message broker. Nodes negotiate direct transport after lookup. -->
 
 <!-- end_slide -->
 
-The ROS 2 mental model
-======================
+ROS 2 graph and discovery
+=========================
 
 ```faqe:graph
 title = "A distributed graph over a replaceable middleware layer"
@@ -332,8 +332,8 @@ tone = "accent"
 
 <!-- end_slide -->
 
-No master does not mean no infrastructure
-=========================================
+Discovery infrastructure without ROS master
+===========================================
 
 ```faqe:table
 title = "Control-plane responsibilities move"
@@ -353,17 +353,17 @@ cells = ["Process placement", "roslaunch machine tags", "launch and external orc
 cells = ["Security", "network trust", "middleware security and enclaves", "identity, permissions, keys, and rotation"]
 ```
 
-Distributed defaults still need an explicit production topology.
+The production design should document discovery configuration, process supervision, and security policy.
 
 <!-- speaker_note: ROS 2 did not make infrastructure disappear. Pick a discovery setup, process supervisor, and security policy instead of inheriting accidental defaults. -->
 
 <!-- end_slide -->
 
-ROS 2 is layered
-================
+ROS 2 software layers
+=====================
 
 ```faqe:graph
-title = "Application code is insulated from transport"
+title = "ROS 2 middleware abstraction"
 columns = 5
 rows = 1
 
@@ -425,14 +425,14 @@ to = "wire"
 label = "select"
 ```
 
-Design against ROS semantics; qualify the exact RMW and configuration you ship.
+Application interfaces use ROS semantics. Release testing uses the selected RMW and its production configuration.
 
 <!-- speaker_note: The abstraction is real; the implementations still behave differently in production. Test the exact RMW, version, configuration, network, and workload you plan to ship. -->
 
 <!-- end_slide -->
 
-Middleware is a product decision
-================================
+Middleware selection
+====================
 
 ```faqe:table
 title = "Common ROS 2 RMW choices"
@@ -452,14 +452,14 @@ cells = ["Connext DDS", "commercial tooling and certification paths", "license a
 cells = ["Zenoh", "routed edge/cloud topologies and low overhead", "router topology and partial QoS semantics"]
 ```
 
-Do not benchmark “ROS 2.” Benchmark **your graph over your chosen RMW**.
+RMW benchmarks should use the actual node graph, network, configuration, and message workload.
 
 <!-- speaker_note: ROS docs recommend keeping a distributed system on the same ROS version and RMW because cross-vendor DDS interoperability is not guaranteed for every feature. -->
 
 <!-- end_slide -->
 
-Names still matter
-==================
+Name and namespace rules
+========================
 
 ```faqe:grid
 columns = 3
@@ -498,7 +498,7 @@ tone = "neutral"
 [[items]]
 eyebrow = "design rule"
 title = "Name by meaning"
-body = "Do not encode hostnames or transport topology into topic names."
+body = "Topic names should describe the data contract and remain independent of host placement."
 tone = "positive"
 ```
 
@@ -506,8 +506,8 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Pick the communication primitive
-================================
+Topics, services, and actions
+=============================
 
 ```faqe:table
 title = "Topics, services, and actions express different contracts"
@@ -527,14 +527,14 @@ cells = ["Action", "a long operation needs feedback and cancellation", "high-rat
 tones = ["accent", "positive", "warning"]
 ```
 
-ROS 2 actions are first-class interfaces in `.action` files rather than a convention layered on messages.
+ROS 2 defines actions in `.action` files. ROS 1 implemented the same pattern through related message topics.
 
 <!-- speaker_note: Migration is a chance to correct misuse. A service should not represent a five-minute operation. A topic should not fake a transactional request. -->
 
 <!-- end_slide -->
 
-QoS changes how you debug the graph
-===================================
+Diagnosing QoS
+==============
 
 In ROS 1, choosing a topic often implied the transport behavior.
 
@@ -610,8 +610,8 @@ tone = "positive"
 
 <!-- end_slide -->
 
-The QoS vocabulary
-==================
+QoS policies
+============
 
 ```faqe:grid
 columns = 4
@@ -670,8 +670,8 @@ tone = "accent"
 
 <!-- end_slide -->
 
-Compatibility is directional
-============================
+QoS endpoint compatibility
+==========================
 
 ```faqe:table
 title = "Simplified requested/offered examples"
@@ -735,8 +735,8 @@ Define profiles centrally and test them under packet loss, restart, and slow sub
 
 <!-- end_slide -->
 
-Latching became durability
-===========================
+Transient-local durability
+==========================
 
 ```faqe:graph
 title = "ROS 1 latched publisher → ROS 2 transient-local durability"
@@ -801,8 +801,8 @@ This mapping matters for `/tf_static`, maps, configuration snapshots, and the RO
 
 <!-- end_slide -->
 
-Discovery becomes observable work
-=================================
+Discovery performance
+=====================
 
 ```faqe:grid
 columns = 3
@@ -849,8 +849,8 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Domains isolate; they do not secure
-===================================
+Domain isolation and security
+=============================
 
 ```faqe:graph
 title = "One physical network, separate logical ROS graphs"
@@ -908,14 +908,14 @@ label = "allowlist"
 dashed = true
 ```
 
-`ROS_DOMAIN_ID` prevents ordinary discovery across domains. It is not authentication or access control.
+`ROS_DOMAIN_ID` prevents ordinary discovery across domains. Authentication and access control require separate security policy.
 
 <!-- speaker_note: Use domains to avoid accidental graph collisions. Use security policy, firewalls, and explicit bridges to control authority. -->
 
 <!-- end_slide -->
 
-Interfaces changed shape
-========================
+Interface definition changes
+============================
 
 ```faqe:table
 title = "ROS interface migration"
@@ -938,14 +938,14 @@ cells = ["IDL", ".msg and .srv generation", "ROS IDL pipeline plus .msg/.srv/.ac
 cells = ["Header fields", "legacy Header sequence conventions", "builtin_interfaces/Time and explicit semantics"]
 ```
 
-Freeze interface meaning before porting implementations. A compatible name is not enough if units or timing semantics drift.
+Freeze interface meaning before porting implementations. Compatibility includes names, units, coordinate frames, and timing semantics.
 
 <!-- speaker_note: Build interface-only packages early. They unlock the bridge, parallel ports, generated code in every language, and contract testing. -->
 
 <!-- end_slide -->
 
-Parameters moved into nodes
-===========================
+Node-scoped parameters
+======================
 
 ```faqe:graph
 title = "Global parameter tree → owned node configuration"
@@ -1008,8 +1008,8 @@ No global parameter concept exists in ROS 2. YAML must address nodes and use `ro
 
 <!-- end_slide -->
 
-Dynamic reconfigure becomes policy
-==================================
+Runtime parameter changes
+=========================
 
 ```faqe:grid
 columns = 3
@@ -1048,7 +1048,7 @@ tone = "warning"
 [[items]]
 eyebrow = "safety"
 title = "Not every knob"
-body = "Do not expose internal tuning merely because runtime parameters exist."
+body = "Expose only settings that have a supported runtime-change policy."
 tone = "negative"
 ```
 
@@ -1056,8 +1056,8 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Launch is an event system
-=========================
+ROS 2 launch
+============
 
 ```faqe:table
 title = "roslaunch → ROS 2 launch"
@@ -1158,8 +1158,8 @@ ROS 2 requires `package.xml` format 2 or newer. Metapackages become ordinary pac
 
 <!-- end_slide -->
 
-Colcon habits
-=============
+Colcon workflow
+===============
 
 ```text
 rosdep install --from-paths src --ignore-src -r -y
@@ -1200,8 +1200,8 @@ tone = "warning"
 
 <!-- end_slide -->
 
-Overlays are powerful and dangerous
-===================================
+Overlay resolution
+==================
 
 ```faqe:timeline
 [[items]]
@@ -1239,8 +1239,8 @@ tone = "negative"
 
 <!-- end_slide -->
 
-The C++ port looks familiar
-===========================
+C++ API example
+===============
 
 ```cpp
 class CameraNode : public rclcpp::Node {
@@ -1265,8 +1265,8 @@ The visible API changes are easy. Ownership, execution, QoS, and shutdown behavi
 
 <!-- end_slide -->
 
-Executors own callback scheduling
-=================================
+Executor scheduling
+===================
 
 ```faqe:graph
 title = "Ready work enters an execution policy"
@@ -1333,14 +1333,14 @@ label = "dispatch"
 tone = "positive"
 ```
 
-`spin()` is now a convenient executor choice, not the complete execution model.
+`spin()` selects a convenient executor configuration. ROS 2 also exposes executors, callback groups, and wait sets directly.
 
 <!-- speaker_note: Executors invoke subscriptions, timers, services, actions, and guard conditions. The selected executor and callback-group layout are part of behavior and latency. -->
 
 <!-- end_slide -->
 
-Callback groups encode concurrency
-==================================
+Callback-group concurrency
+==========================
 
 ```faqe:table
 title = "Parallelism requires both threads and permission"
@@ -1366,8 +1366,8 @@ A multithreaded executor cannot create useful concurrency when every callback is
 
 <!-- end_slide -->
 
-The classic ROS 2 deadlock
-==========================
+Executor deadlock example
+=========================
 
 ```faqe:graph
 title = "Synchronous wait inside a mutually-exclusive callback"
@@ -1438,11 +1438,11 @@ Prefer async clients, explicit state machines, or callback groups that permit th
 
 <!-- end_slide -->
 
-Composition replaces nodelets
-=============================
+Component containers
+====================
 
 ```faqe:table
-title = "Processes and components become a deployment decision"
+title = "Standalone and composed node deployment"
 variant = "comparison"
 columns = ["Separate processes", "Composable nodes"]
 
@@ -1468,8 +1468,8 @@ Write components that can also run standalone. Decide composition in launch and 
 
 <!-- end_slide -->
 
-Lifecycle makes readiness explicit
-==================================
+Managed node lifecycle
+======================
 
 ```faqe:graph
 title = "Managed node state machine"
@@ -1552,8 +1552,8 @@ Supervisors can configure dependencies, activate in order, and recover intention
 
 <!-- end_slide -->
 
-Zero-copy is a path, not a checkbox
-===================================
+Zero-copy requirements
+======================
 
 ```faqe:timeline
 [[items]]
@@ -1591,8 +1591,8 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Time is a dependency
-====================
+Clock and time-source selection
+===============================
 
 ```faqe:grid
 columns = 3
@@ -1639,8 +1639,8 @@ tone = "negative"
 
 <!-- end_slide -->
 
-rosbag2 is a data pipeline
-==========================
+rosbag2 architecture
+====================
 
 ```faqe:table
 title = "Beyond rosbag1"
@@ -1666,14 +1666,14 @@ cells = ["Conversion", "storage and serialization formats can be transformed off
 cells = ["Programmatic API", "record and play from C++ or Python workflows"]
 ```
 
-Treat bags as versioned test fixtures: record schema, QoS, commit, calibration, and clock provenance.
+Each bag fixture should record its schema, QoS, source commit, calibration, and clock configuration.
 
 <!-- speaker_note: MCAP preset choices trade write throughput, CRCs, indices, and compression. A fastwrite capture should be post-processed before long-term archival. -->
 
 <!-- end_slide -->
 
-Turn observability on
-=====================
+Logging, metrics, and tracing
+=============================
 
 ```faqe:grid
 columns = 3
@@ -1720,8 +1720,8 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Security still needs deployment work
-====================================
+DDS security deployment
+=======================
 
 ```faqe:graph
 title = "SROS 2 builds on middleware security"
@@ -1799,14 +1799,14 @@ label = "shared context"
 dashed = true
 ```
 
-Enabling encryption without a key lifecycle and least-privilege policy is not a security architecture.
+A security deployment needs certificate provisioning, key rotation, access-control policy, and operational recovery procedures.
 
 <!-- speaker_note: ROS 2 integrates authentication, access control, and cryptography from DDS-Security. Composition affects isolation because nodes in one process share memory and may share the security context. -->
 
 <!-- end_slide -->
 
-Testing becomes a migration instrument
-======================================
+Verification strategy
+=====================
 
 ```faqe:progress
 max = 1.0
@@ -1853,11 +1853,11 @@ Every migrated slice needs a behavioral oracle from ROS 1: bags, golden outputs,
 
 <!-- end_slide -->
 
-The bridge is scaffolding
-=========================
+ros1_bridge role
+================
 
 ```faqe:graph
-title = "Migrate one connected island at a time"
+title = "Connected migration batch"
 columns = 5
 rows = 2
 
@@ -1924,14 +1924,14 @@ label = "observe"
 tone = "accent"
 ```
 
-The bridge is valuable only when the migration plan makes its surface shrink.
+Track the number of bridged interfaces and reduce it during each migration wave.
 
 <!-- speaker_note: Create a bridge allowlist and an owner for every bridged interface. A dynamic bridge of the entire graph is useful for exploration and poor as a permanent architecture. -->
 
 <!-- end_slide -->
 
-Bridge support has a hard platform problem
-==========================================
+ros1_bridge host constraints
+============================
 
 ```faqe:table
 title = "Official ros1_bridge compatibility reality"
@@ -1955,14 +1955,14 @@ cells = ["Split hosts", "Noetic host", "current ROS 2 host", "use an explicit cr
 tones = ["accent", "warning", "positive", "accent"]
 ```
 
-Do not discover this after choosing the final ROS 2 operating system.
+Choose the bridge host and operating system before freezing the ROS 2 deployment image.
 
 <!-- speaker_note: The current ros1_bridge README is explicit: Ubuntu 24.04 does not support ROS 1. Plan bridge hosting as a temporary compatibility appliance, potentially using source builds or separate hosts. -->
 
 <!-- end_slide -->
 
-Custom interfaces determine bridge success
-==========================================
+Custom interface bridging
+=========================
 
 ```faqe:timeline
 [[items]]
@@ -1986,13 +1986,13 @@ tone = "accent"
 [[items]]
 title = "Verify mappings"
 meta = "print pairs and integration test"
-body = "Do not assume a successfully built bridge carries every custom type."
+body = "Test each custom message, service, and action through the built bridge."
 tone = "negative"
 
 [[items]]
 title = "Configure QoS"
 meta = "especially tf_static and latched data"
-body = "Translation of type does not automatically encode application delivery semantics."
+body = "Record the required QoS and delivery behavior separately from type translation."
 tone = "warning"
 ```
 
@@ -2000,8 +2000,8 @@ tone = "warning"
 
 <!-- end_slide -->
 
-Inventory before implementation
-===============================
+System inventory
+================
 
 ```faqe:table
 title = "Minimum migration inventory"
@@ -2027,14 +2027,14 @@ cells = ["Hardware", "drivers, kernels, vendor SDK, timing, recovery behavior"]
 cells = ["Evidence", "bags, tests, logs, metrics, known failures, acceptance owner"]
 ```
 
-The inventory becomes the migration backlog and the proof that nothing disappeared unnoticed.
+The inventory supplies the package backlog, interface list, dependency order, and parity checks.
 
 <!-- speaker_note: Generate what you can from rospack, rosnode, rostopic, rosservice, rosparam, launch files, and manifests. Then sit down with system owners; runtime-only dependencies often escape a source scan. -->
 
 <!-- end_slide -->
 
-Port in dependency order
-========================
+Dependency order
+================
 
 ```faqe:graph
 title = "Interfaces and leaves first; orchestration last"
@@ -2122,8 +2122,8 @@ dashed = true
 
 <!-- end_slide -->
 
-Use migration waves
-===================
+Migration batches
+=================
 
 ```faqe:timeline
 [[items]]
@@ -2161,8 +2161,8 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Strangle, do not split forever
-==============================
+Temporary coexistence and retirement
+====================================
 
 ```faqe:graph
 title = "One capability moves behind the same external contract"
@@ -2243,8 +2243,8 @@ Set a removal date for every dual implementation and every bridge route.
 
 <!-- end_slide -->
 
-Parity is multidimensional
-==========================
+Functional and operational parity
+=================================
 
 ```faqe:grid
 columns = 3
@@ -2283,7 +2283,7 @@ tone = "positive"
 [[items]]
 eyebrow = "security"
 title = "No new authority"
-body = "Migration does not accidentally widen who can publish commands."
+body = "Command-publisher authorization matches or tightens the ROS 1 policy."
 tone = "negative"
 ```
 
@@ -2291,8 +2291,8 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Production readiness gate
-=========================
+Release acceptance gates
+========================
 
 ```faqe:progress
 max = 1.0
@@ -2333,14 +2333,14 @@ text = "deployment can safely return to the last release"
 tone = "negative"
 ```
 
-There is no weighted average: one missing safety gate blocks promotion.
+All mandatory safety gates must pass before promotion.
 
 <!-- speaker_note: These are binary release gates, not progress percentages. Adapt them to the company's quality system and safety classification. -->
 
 <!-- end_slide -->
 
-ros2_control is a redesign
-==========================
+ros2_control changes
+====================
 
 ```faqe:table
 title = "ros_control → ros2_control"
@@ -2366,7 +2366,7 @@ cells = ["single expected update pattern", "different rates and asynchronous com
 cells = ["configuration around transmissions", "hardware description integrated through URDF ros2_control tags"]
 ```
 
-Port the hardware boundary first; do not wrap `RobotHW` indefinitely.
+Port the hardware boundary first and give any temporary `RobotHW` wrapper a removal milestone.
 
 <!-- speaker_note: ros2_control deliberately removes some rigid ROS 1 assumptions. Split hardware components where their lifecycle, update rate, or failure domain differs. -->
 
@@ -2375,19 +2375,19 @@ Port the hardware boundary first; do not wrap `RobotHW` indefinitely.
 <!-- jump_to_middle -->
 <!-- alignment: center -->
 
-Rust belongs in the graph
-=========================
+Rust nodes in ROS 2
+===================
 
-**Rust catches ownership mistakes before the robot gets a chance to. It still speaks normal ROS 2.**
+Rust nodes use the standard ROS 2 interfaces and RMW layer.
 
-Trim Bresilla · active ROS 2 Rust contributor · `rclrs` crate owner
+Trim Bresilla · ROS 2 Rust contributor · `rclrs` crate owner
 
 <!-- speaker_note: I am not proposing a Rust rewrite. I want to show where Rust pays for itself and how rclrs joins the same graph through the normal ROS interfaces and RMW. -->
 
 <!-- end_slide -->
 
-Where Rust pays for itself
-==========================
+Engineering tradeoffs for Rust
+==============================
 
 ```faqe:grid
 columns = 3
@@ -2434,8 +2434,8 @@ tone = "negative"
 
 <!-- end_slide -->
 
-ROS 2 Rust architecture
-=======================
+rclrs stack
+===========
 
 ```faqe:graph
 title = "rclrs uses the standard ROS 2 stack"
@@ -2501,14 +2501,14 @@ label = "interoperate"
 tone = "positive"
 ```
 
-Rust is a client-language choice, not a separate robotics island.
+Rust nodes participate in the same graph and use the same interfaces, QoS profiles, bags, and middleware as C++ and Python nodes.
 
 <!-- speaker_note: rclrs binds to rcl and participates in the same graph. Existing interface definitions, QoS profiles, bags, and RMW choices remain shared across languages. -->
 
 <!-- end_slide -->
 
-rclrs today
-============
+rclrs feature status
+====================
 
 ```faqe:grid
 columns = 4
@@ -2569,8 +2569,8 @@ The current release is `rclrs 0.7.0`. Pin it together with the generated-message
 
 <!-- end_slide -->
 
-A small Rust node
-=================
+rclrs node example
+==================
 
 ```rust
 use rclrs::{Context, Executor, QoSProfile, SpinOptions};
@@ -2600,11 +2600,11 @@ The API still moves. The node remains an ordinary member of the ROS 2 graph.
 
 <!-- end_slide -->
 
-Rust makes ownership visible
-============================
+Rust ownership patterns
+=======================
 
 ```faqe:table
-title = "Design pressure becomes compile-time feedback"
+title = "Ownership and concurrency checks"
 variant = "comparison"
 columns = ["Question", "Rust pressure", "ROS benefit"]
 
@@ -2628,11 +2628,11 @@ cells = ["What can fail?", "Result and typed errors", "failure propagation is ex
 
 <!-- end_slide -->
 
-Cargo and colcon cooperate
-=========================
+Building Rust packages with colcon
+==================================
 
 ```faqe:graph
-title = "Ament-aware Cargo packages remain workspace citizens"
+title = "ament_cargo and colcon-cargo integration"
 columns = 5
 rows = 2
 
@@ -2695,14 +2695,14 @@ label = "install"
 tone = "positive"
 ```
 
-Pin both worlds: Cargo.lock is not a substitute for a pinned ROS distribution and workspace manifest.
+Releases should pin Cargo dependencies, the ROS distribution, and the workspace manifest together.
 
 <!-- speaker_note: A production release should record Cargo dependencies, vcs-imported repositories, apt packages, ROS distribution snapshots, and the compiler toolchain. -->
 
 <!-- end_slide -->
 
-Where Rust fits first
-=====================
+Initial Rust pilot selection
+============================
 
 ```faqe:grid
 columns = 3
@@ -2739,7 +2739,7 @@ body = "FFI quality and upstream support may dominate language choice."
 tone = "neutral"
 
 [[items]]
-eyebrow = "do not force"
+eyebrow = "migration cost"
 title = "Mature C++ stack"
 body = "A stable, tested component gains little from a language rewrite during migration."
 tone = "negative"
@@ -2752,18 +2752,16 @@ tone = "negative"
 <!-- jump_to_middle -->
 <!-- alignment: center -->
 
-Zenoh gives us another topology
+Zenoh topology options
 ==============================
 
-**Streams, queries, and stored data share one hierarchical key space.**
-
-Calling it “faster DDS” misses the point. Zenoh connects live, stored, and queryable data through the same key space.
+Zenoh uses one hierarchical key space for streams, queries, and stored data. Its topology and data model differ from DDS.
 
 <!-- speaker_note: Zenoh earns attention when robots cross unreliable links, sites, fleets, or cloud boundaries. A single robot on one good LAN may not need it. -->
 
 <!-- end_slide -->
 
-Three core Zenoh abstractions
+Zenoh APIs
 =============================
 
 ```faqe:grid
@@ -2798,8 +2796,8 @@ One key expression can address live producers, computed answers, and stored stat
 
 <!-- end_slide -->
 
-Key expressions are architecture
-================================
+Key-space design
+================
 
 ```text
 company/site-a/robots/r17/state/pose
@@ -2861,13 +2859,13 @@ cells = ["Gateway / region", "hides internal topology across hierarchy", "fleet,
 tones = ["negative", "neutral", "accent"]
 ```
 
-Topology is configuration, but it is still part of the tested product architecture.
+Topology configuration belongs in release artifacts and integration tests.
 
 <!-- speaker_note: Client mode reduces per-application connection state. Routers make explicit routed regions. Gateways can hide unnecessary internal details and reduce global discovery load. -->
 
 <!-- end_slide -->
 
-Two ways to connect ROS 2 with Zenoh
+ROS 2 and Zenoh integration options
 ===================================
 
 ```faqe:table
@@ -2884,7 +2882,7 @@ cells = ["zenoh-bridge-ros2dds", "nodes keep a DDS RMW", "bridge routes selected
 tones = ["warning", "neutral", "positive", "positive"]
 ```
 
-Do not run both a direct DDS path and a bridged Zenoh path between the same islands: duplicate or looping traffic can result.
+Use either direct DDS or the bridged Zenoh path between two islands. Enabling both can duplicate traffic or create loops.
 
 <!-- speaker_note: rmw_zenoh is a middleware implementation selected by RMW_IMPLEMENTATION. zenoh-bridge-ros2dds discovers a local DDS graph and maps it into Zenoh. They solve different deployment constraints. -->
 
@@ -2967,7 +2965,7 @@ tone = "accent"
 
 <!-- end_slide -->
 
-Zenoh QoS is not DDS QoS
+QoS behavior with rmw_zenoh
 ========================
 
 ```faqe:grid
@@ -2982,7 +2980,7 @@ tone = "positive"
 
 [[items]]
 eyebrow = "important"
-title = "Not every policy is implemented"
+title = "rmw_zenoh policy support"
 body = "The ROS RMW guide notes that rmw_zenoh does not implement deadline and lifespan policies."
 tone = "warning"
 
@@ -2995,7 +2993,7 @@ tone = "accent"
 [[items]]
 eyebrow = "migration rule"
 title = "Revalidate semantics"
-body = "Switching RMW preserves APIs, not every operational guarantee or failure behavior."
+body = "RMW selection can change operational guarantees and failure behavior while application APIs remain unchanged."
 tone = "negative"
 ```
 
@@ -3003,7 +3001,7 @@ tone = "negative"
 
 <!-- end_slide -->
 
-A world model is not one topic
+World-model scope
 ==============================
 
 A useful world model answers:
@@ -3053,7 +3051,7 @@ tone = "accent"
 
 <!-- end_slide -->
 
-Separate four data classes
+World-model data classes
 ==========================
 
 ```faqe:table
@@ -3074,13 +3072,13 @@ cells = ["Event", "entered zone or fault raised", "reliable and ordered per sour
 cells = ["Command", "navigate to station", "authorized request with acknowledgement", "intent, acceptance, result"]
 ```
 
-Do not use one fire-and-forget topic contract for all four.
+Give observations, state, events, and commands separate contracts based on their different lifetime and authority rules.
 
 <!-- speaker_note: The classes differ in truth semantics. An observation is evidence, state is a current assertion, an event records change, and a command requests authority to act. -->
 
 <!-- end_slide -->
 
-Data in motion, at rest, and in use
+Zenoh data paths
 ==================================
 
 ```faqe:graph
@@ -3163,11 +3161,11 @@ tone = "accent"
 
 <!-- end_slide -->
 
-The world graph needs provenance
+Provenance in the world graph
 ================================
 
 ```faqe:graph
-title = "A state assertion should keep its evidence"
+title = "Provenance fields for state"
 columns = 5
 rows = 2
 
@@ -3252,7 +3250,7 @@ tone = "warning"
 
 <!-- end_slide -->
 
-Freshness is part of truth
+Freshness and validity
 ==========================
 
 ```faqe:grid
@@ -3292,7 +3290,7 @@ tone = "positive"
 [[items]]
 eyebrow = "conflict"
 title = "Resolution policy"
-body = "Do not silently use last arrival as universal truth."
+body = "Resolve current state from source time, authority, confidence, and validity rules."
 tone = "negative"
 ```
 
@@ -3300,11 +3298,11 @@ tone = "negative"
 
 <!-- end_slide -->
 
-State and command must not share authority
+State and command authority
 ==========================================
 
 ```faqe:table
-title = "A data plane is not automatically a control plane"
+title = "Separate data and control permissions"
 variant = "comparison"
 columns = ["Surface", "Who writes", "Required controls"]
 
@@ -3324,13 +3322,13 @@ cells = ["actuator command", "local controller only", "tight allowlist, timeout,
 cells = ["audit event", "every authority boundary", "append-only storage and clock provenance"]
 ```
 
-Never let a convenient wildcard turn fleet telemetry into fleet command authority.
+ACLs should separate telemetry keys from command keys and restrict wildcard permissions accordingly.
 
 <!-- speaker_note: Zenoh ACL rules can target key expressions, but key-space design must make safe policy possible. Separate telemetry, intent, and actuation namespaces. -->
 
 <!-- end_slide -->
 
-A scalable fleet shape
+Fleet topology example
 ======================
 
 ```faqe:graph
@@ -3425,7 +3423,7 @@ dashed = true
 
 <!-- end_slide -->
 
-Disconnected operation is a feature
+Disconnected robot behavior
 ===================================
 
 ```faqe:timeline
@@ -3450,7 +3448,7 @@ tone = "accent"
 [[items]]
 title = "Reconnected"
 meta = "reconcile"
-body = "Events synchronize; current state is recomputed rather than blindly replaying commands."
+body = "Events synchronize first. The robot then recomputes current state without replaying expired commands."
 tone = "negative"
 
 [[items]]
@@ -3464,7 +3462,7 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Useful ROS 2 ecosystem upgrades
+Additional ROS 2 tools
 ===============================
 
 ```faqe:grid
@@ -3510,7 +3508,7 @@ tone = "accent"
 [[items]]
 eyebrow = "performance"
 title = "ros2_tracing"
-body = "Trace executor and callback behavior rather than guessing."
+body = "Trace executor scheduling and callback duration during representative workloads."
 tone = "warning"
 
 [[items]]
@@ -3524,7 +3522,7 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Workshop lab 1 · observe the graph
+Lab 1: ROS graph inspection
 ==================================
 
 ```text
@@ -3536,15 +3534,15 @@ ros2 interface show sensor_msgs/msg/Image
 ros2 doctor --report
 ```
 
-**Exercise:** draw the discovered graph, then stop discovery, restart one node, and explain every change the CLI reports.
+Exercise: draw the discovered graph, stop discovery, restart one node, and explain every change reported by the CLI.
 
-**Deliverable:** a graph inventory that records endpoint QoS alongside the topic names.
+Deliverable: a graph inventory that records endpoint QoS alongside the topic names.
 
 <!-- speaker_note: Participants should run this with the workshop fixture or a small company subsystem. The output becomes the first ROS 2 inventory artifact. -->
 
 <!-- end_slide -->
 
-Workshop lab 2 · port one leaf node
+Lab 2: leaf-node migration
 ===================================
 
 ```faqe:timeline
@@ -3583,7 +3581,7 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Workshop lab 3 · break QoS on purpose
+Lab 3: QoS incompatibility
 =====================================
 
 ```text
@@ -3603,11 +3601,11 @@ ros2 topic info -v /demo
 3. Repeat with durability and a late subscriber.
 4. Record the topic with a rosbag2 QoS override.
 
-<!-- speaker_note: After this lab, a QoS mismatch should feel routine rather than mysterious. Inspect the offered and requested profiles before touching the code. -->
+<!-- speaker_note: Inspect the offered and requested endpoint profiles, identify the incompatible policy, and correct the profile before changing application logic. -->
 
 <!-- end_slide -->
 
-Workshop lab 4 · lifecycle and failure
+Lab 4: lifecycle failure handling
 ======================================
 
 ```faqe:grid
@@ -3635,7 +3633,7 @@ tone = "negative"
 [[items]]
 eyebrow = "prove"
 title = "No blind sleep"
-body = "Startup succeeds because readiness is observed, not because five seconds elapsed."
+body = "A readiness signal gates each startup transition."
 tone = "warning"
 ```
 
@@ -3643,7 +3641,7 @@ tone = "warning"
 
 <!-- end_slide -->
 
-Workshop lab 5 · Rust in the graph
+Lab 5: rclrs interoperability
 ==================================
 
 ```faqe:timeline
@@ -3682,7 +3680,7 @@ tone = "negative"
 
 <!-- end_slide -->
 
-Workshop lab 6 · Zenoh world state
+Lab 6: Zenoh world state
 ==================================
 
 ```text
@@ -3692,7 +3690,7 @@ site-a/robots/r1/events/fault
 site-a/robots/r1/intent/task
 ```
 
-**Build:**
+Exercise steps:
 
 1. Publish live robot state.
 2. Store only `state/**` and `events/**`.
@@ -3704,7 +3702,7 @@ site-a/robots/r1/intent/task
 
 <!-- end_slide -->
 
-The first 30 days
+Days 1–30
 =================
 
 ```faqe:progress
@@ -3864,13 +3862,13 @@ cells = ["Evidence", "ROS 1 baseline, tests, bags, traces, acceptance limits"]
 cells = ["Operations", "deploy, observe, secure, update, and roll back"]
 ```
 
-If an answer lives only in one engineer’s memory, it is not yet a migration artifact.
+Record each answer in the component migration document and pull request.
 
 <!-- speaker_note: Use this as the component migration template and pull-request checklist. It forces architecture decisions to travel with code. -->
 
 <!-- end_slide -->
 
-Migration anti-patterns
+Common migration failures
 =======================
 
 ```faqe:grid
@@ -3918,11 +3916,11 @@ tone = "negative"
 
 <!-- end_slide -->
 
-The test is a boring deployment
-===============================
+Production acceptance criteria
+==============================
 
 ```faqe:graph
-title = "The migration should leave a stronger engineering system"
+title = "Required end state"
 columns = 5
 rows = 1
 
@@ -3984,7 +3982,7 @@ to = "retired"
 tone = "positive"
 ```
 
-Success is not a ROS 1 imitation running on ROS 2. It is the same trusted product behavior with contracts the team can inspect and test.
+The migrated system should preserve required product behavior while documenting and testing its interfaces, timing, failure handling, and operational procedures.
 
 <!-- speaker_note: End the main story here. A newer dependency stack is not enough; the migration has to leave behind a safer system and a process the next team can repeat. -->
 
@@ -4042,7 +4040,7 @@ Rust and Zenoh primary sources
 <!-- alignment: center -->
 <!-- no_footer -->
 
-Move the contracts, then the code
-=================================
+Discussion
+==========
 
-**ROS BLUE // RUST ORANGE // ONE ROBOT GRAPH**
+Questions about the migration plan, workshop exercises, or candidate pilot components.

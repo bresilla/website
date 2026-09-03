@@ -7,13 +7,13 @@ description = "How Balthasar decides which parts of a conversation may shape the
 date = "2026-09-03"
 readingtime = 9
 thumbnail = "balthasar-hero.jpg"
-foot = "Memory should return with its receipts."
+foot = "Evidence, confidence, provenance, and lifecycle state."
 tags = ["balthasar", "memory", "agents", "architecture"]
 categories = ["software"]
 series = ["EVA-01"]
 part = "1"
-punchline = "Saving text is easy. Balthasar's real job is deciding which claims have earned the right to shape the next session."
-tldr = "Keep the full history, promote a claim only when its evidence clears the threshold, and never return memory without showing where it came from."
+punchline = "Balthasar records the evidence used to admit a claim into durable memory."
+tldr = "Balthasar retains complete history and promotes a claim when its independent evidence reaches the configured threshold. Recall includes provenance and lifecycle state."
 credits = [
     "https://github.com/ai-nerv/balthasar",
     "https://unsplash.com/photos/f2krpIYBrJc",
@@ -27,11 +27,9 @@ foreground = "#0a0a0a"
 theme = "light"
 +++
 
-**THE IDEA**
+# Evidence-backed memory in Balthasar
 
-# Memory that can explain itself
-
-Balthasar is a memory layer for agents whose work lasts longer than one context window. Its first job is to keep “somebody said this” separate from “the agent may rely on this.”
+Balthasar is a memory layer for agents whose work lasts longer than one context window. It stores historical statements separately from claims admitted into durable memory.
 
 ```faqe:prose
 columns = [
@@ -48,25 +46,23 @@ That is what “memory with receipts” means here. When a claim returns, Baltha
 ]
 ```
 
-Store broadly. Believe carefully. Those are different operations, and Balthasar keeps them separate.
-
-**THE JOURNEY**
+Balthasar stores the complete history and applies a higher threshold before a claim enters durable memory.
 
 # What happens to one remembered idea
 
-A sentence does not jump straight from chat into durable memory. Most statements stay in the historical record. A few earn promotion.
+A sentence first enters the historical record. Promotion into durable memory happens later and only for a small subset of statements.
 
 ```faqe:timeline
 [[items]]
 title = "A person or tool says something"
 meta = "the original moment is preserved"
-body = "Balthasar first keeps the statement as part of the session history. Preservation does not mean belief."
+body = "Balthasar first keeps the statement as part of session history and records where it came from."
 tone = "positive"
 
 [[items]]
 title = "The idea enters working memory"
 meta = "useful inside the current session"
-body = "The agent can use the idea while the current task continues, but the idea has not yet earned a place in future sessions."
+body = "The agent can use the idea during the current task. Future sessions receive it only after promotion."
 tone = "accent"
 
 [[items]]
@@ -100,13 +96,11 @@ body = "The next session gets the claim together with enough provenance to see w
 tone = "positive"
 ```
 
-These states can look alike in a log, but they mean different things: **it happened**, **it may matter**, and **we have enough evidence to assert it**.
+The lifecycle distinguishes historical observations, held candidates, and durable claims that may be asserted during recall.
 
-**THE EVIDENCE**
+# Eight evidence types
 
-# Eight ways a memory earns trust
-
-Each signal is a witness. They are alternative sources of evidence, not a checklist every memory has to complete.
+Each signal is a separate source of evidence. A claim may use one strong source or several weaker independent sources.
 
 ```faqe:progress
 max = 1.0
@@ -186,18 +180,16 @@ Some evidence is strong enough on its own. An explicit request to remember a pre
 A costly failure can also cross alone. Once an agent has found and repaired the cause, making another session pay for the same mistake would be wasteful.
 """,
 """
-Weaker evidence has to wait. A claim that just left the context window may be useful, but age does not make it true. If the lesson turns up independently in a later session, the two events may clear the promotion floor together.
+Weaker evidence stays in the holding state. A claim leaving the context window receives a low weight. An independent recurrence in a later session can raise the combined confidence above the promotion floor.
 
-One source has a cap. Repeating the same sentence ten times in one conversation still gives Balthasar one source, not ten.
+Evidence from one source is capped, so repeated statements in one conversation cannot increase confidence without limit.
 """
 ]
 ```
 
-**THE SOURCES**
-
 # Where durable memories come from
 
-There is no magic extraction pass that decides what matters. Ordinary events feed evidence into the same gate.
+Evidence enters through direct requests, corrections, failures, context pressure, recurrence, review, inference, and trusted collaboration.
 
 ```faqe:grid
 columns = 3
@@ -255,7 +247,7 @@ tone = "warning"
 [[items]]
 eyebrow = "trusted collaboration"
 title = "A peer proposed it"
-body = "Another identified participant contributed evidence, but did not gain the power to declare truth."
+body = "Another identified participant contributed evidence under the same promotion rules."
 badge = "waits"
 tone = "warning"
 
@@ -267,11 +259,9 @@ badge = "strong evidence"
 tone = "accent"
 ```
 
-> **Many sources, one gate.** The source changes; the admission rules do not.
+All evidence types pass through the same promotion rules.
 
-**THE MEMORY LOOP**
-
-# The whole loop
+# Memory lifecycle
 
 One run produces history and evidence. Some of that evidence changes durable memory, which may return during the next run.
 
@@ -435,15 +425,13 @@ label = "context"
 tone = "accent"
 ```
 
-The imbalance is deliberate. History is broad; durable memory is narrow.
+History contains all recorded events. Durable memory contains the subset of claims that passed promotion.
 
-**THE NUMBER**
+# Confidence calculation
 
-# Confidence is derived, never assigned
+Balthasar computes confidence from the evidence attached to each claim.
 
-Nobody gets to type in a confidence score. Balthasar recomputes it from the evidence attached to the claim.
-
-> **confidence = combined independent evidence × freshness × scope relevance**
+`confidence = combined independent evidence × freshness × scope relevance`
 
 ```faqe:grid
 columns = 4
@@ -452,7 +440,7 @@ variant = "metrics"
 [[items]]
 eyebrow = "below 0.10"
 title = "history only"
-body = "The statement remains part of the record but does not participate in normal recall."
+body = "The statement remains in history and is excluded from normal recall."
 tone = "muted"
 
 [[items]]
@@ -474,13 +462,11 @@ body = "The claim has crossed the promotion floor and may support future work."
 tone = "positive"
 ```
 
-Change the evidence and the number changes too. The score cannot wander away from the reasons behind it.
+Adding, expiring, or superseding evidence triggers confidence recomputation.
 
-**RECALL**
+# Historical search and durable recall
 
-# Finding is not believing
-
-Balthasar searches more than it trusts. That matters because a transcript contains guesses, questions, abandoned plans, and text copied from elsewhere.
+Balthasar searches historical records and durable claims through separate recall paths. Historical results may include guesses, questions, abandoned plans, and copied text.
 
 ```faqe:table
 title = "What recall is allowed to do"
@@ -504,13 +490,11 @@ cells = ["Superseded memory", "It used to be true or was once believed", "Only w
 tones = ["neutral", "negative", "neutral"]
 ```
 
-The agent can inspect more of its past without pretending that every old sentence is still true.
+Historical results return as sourced records and remain excluded from the current-claim lane.
 
-**WHY IT MATTERS**
+# Work beyond the context window
 
-# When the context window runs out
-
-If the useful history still fits in context, keep it there. Durable memory starts earning its cost only when the work outlives the window.
+Short tasks can use the active context directly. Durable memory applies to work whose relevant history exceeds that window.
 
 ```faqe:grid
 columns = 2
@@ -531,9 +515,7 @@ badge = "memory earns its cost"
 tone = "positive"
 ```
 
-There is no prize for adding memory to a short task. Use it when preferences, corrections, or expensive lessons would otherwise scroll away.
-
-**THE TRADE-OFF**
+The repository evaluation therefore includes both short-history and long-history control arms.
 
 # What Balthasar chooses
 
@@ -552,7 +534,7 @@ cells = ["Should a model decide what is true?", "No. A model may propose a claim
 cells = ["Should corrections erase the past?", "No. New truth supersedes old belief while preserving the change."]
 
 [[rows]]
-cells = ["Should repetition create certainty?", "Not by itself. Evidence from one source is capped."]
+cells = ["Should repetition create certainty?", "Evidence from one source is capped, including repeated statements."]
 
 [[rows]]
 cells = ["Should recall hide uncertainty?", "No. Findable history and assertable memory remain visibly different."]
@@ -574,7 +556,7 @@ bullets = [
 tone = "positive"
 
 [[items]]
-eyebrow = "what it does not pretend"
+eyebrow = "known limits"
 title = "Memory is not omniscience"
 bullets = [
   "An implied idea may remain unnoticed without optional inference.",
@@ -585,4 +567,4 @@ bullets = [
 tone = "warning"
 ```
 
-> Saving a sentence is cheap. The hard question is whether that sentence has earned the right to shape the next session.
+Balthasar admits a sentence into durable memory only when the attached evidence satisfies the configured promotion rules.
