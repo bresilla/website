@@ -1,6 +1,6 @@
 ---
 title: "ROS 1 → **ROS 2**"
-sub_title: Architecture, APIs, migration sequencing, Rust, Zenoh, and world-model data
+sub_title: Architecture, migration, installation, and a practical porting workshop
 author: Trim Bresilla & Anouk Leunissen
 date: 2026-09-03
 theme:
@@ -21,49 +21,46 @@ options:
   incremental_lists: false
 ---
 
-Workshop objectives
-===================
+ROS 1 → ROS 2
+=============
 
-By the end, we should be able to answer four questions for the company system:
+```faqe:grid
+columns = 2
+variant = "cards"
+[[items]]
+eyebrow = "presentation"
+title = "40 slides"
+body = "Architecture, migration, Rust, Zenoh, and world-model data."
+tone = "accent"
+[[items]]
+eyebrow = "workshop"
+title = "30 slides"
+body = "Install ROS 2 and port a small ROS 1 package."
+tone = "warning"
+```
 
-1. What can be ported mechanically?
-2. What must be redesigned because ROS 2 changes the contract?
-3. How do we migrate without stopping product delivery?
-4. Which optional capabilities address a documented requirement?
+Trim Bresilla & Anouk Leunissen
 
-<!-- speaker_note: This is a working session for a team that already ships ROS 1. We are here to make migration decisions, not tour every ROS 2 feature. -->
+<!-- end_slide -->
+
+Decisions for this migration
+============================
+
+1. Product distribution and operating-system baseline
+2. Packages that can be ported mechanically
+3. Contracts that need redesign
+4. ROS 1 and ROS 2 coexistence period
+5. Acceptance evidence for each migration batch
 
 <!-- end_slide -->
 
 ROS 1 support status
 ====================
 
-```faqe:grid
-columns = 3
-variant = "metrics"
-
-[[items]]
-eyebrow = "ROS Noetic"
-title = "EOL"
-body = "Official ROS 1 support ended on 31 May 2025."
-tone = "negative"
-
-[[items]]
-eyebrow = "after EOL"
-title = "0"
-body = "No new features, security fixes, official patches, or updated binaries."
-tone = "warning"
-
-[[items]]
-eyebrow = "migration reality"
-title = "now"
-body = "Existing binaries remain available. Future maintenance is downstream."
-tone = "accent"
-```
-
-Existing ROS 1 installations continue to run, but upstream maintenance for Noetic ended on 31 May 2025. Any later fixes and platform support must come from downstream maintainers.
-
-<!-- speaker_note: Existing robots will keep booting. What changed is ownership: security work, dependency drift, compiler trouble, and unsupported hardware now land on your team. -->
+* Official ROS Noetic support ended on 31 May 2025.
+* Existing installations and binaries continue to run.
+* Later security fixes and platform maintenance are downstream work.
+* Vendor drivers and operating-system support now constrain the remaining lifetime.
 
 <!-- end_slide -->
 
@@ -71,1370 +68,404 @@ Target distribution
 ===================
 
 ```faqe:table
-title = "Supported ROS 2 distributions in September 2026"
 variant = "comparison"
-columns = ["Distribution", "Base platform", "Upstream EOL", "Workshop recommendation"]
-
+columns = ["Distribution", "Platform", "EOL", "Use"]
 [[rows]]
-cells = ["Jazzy Jalisco", "Ubuntu 24.04", "May 2029", "Mature LTS when Noble is your platform"]
-tones = ["positive", "neutral", "neutral", "positive"]
-
+cells = ["Jazzy", "Ubuntu 24.04", "May 2029", "Mature LTS"]
 [[rows]]
-cells = ["Kilted Kaiju", "Ubuntu 24.04", "December 2026", "Support window is too short for a new migration"]
-tones = ["warning", "neutral", "negative", "negative"]
-
+cells = ["Kilted", "Ubuntu 24.04", "Dec 2026", "Existing deployments"]
 [[rows]]
-cells = ["Lyrical Luth", "Ubuntu 26.04", "May 2031", "New LTS for a new Resolute platform"]
-tones = ["accent", "neutral", "positive", "accent"]
-
+cells = ["Lyrical", "Ubuntu 26.04", "May 2031", "New LTS"]
 [[rows]]
-cells = ["Rolling Ridley", "moving target", "continuous", "Development and upstream contribution only"]
-tones = ["warning", "warning", "warning", "neutral"]
+cells = ["Rolling", "moving", "continuous", "Upstream work"]
 ```
 
-The target distribution depends on the certified operating system, available vendor drivers, and the required support period.
-
-<!-- speaker_note: Freeze the target distribution early. Jazzy remains an excellent migration target on Ubuntu 24.04. Lyrical is the new long-lived target on Ubuntu 26.04. Validate vendor support before choosing. -->
+The workshop uses Jazzy on Ubuntu 24.04.
 
 <!-- end_slide -->
 
-Agenda
-======
-
-```faqe:timeline
-[[items]]
-title = "Part I · architecture"
-meta = "graph · middleware · QoS"
-body = "Separate architectural changes from simple renames."
-tone = "accent"
-
-[[items]]
-title = "Part II · application porting"
-meta = "APIs · build · launch · lifecycle"
-body = "Translate packages while adopting ROS 2 execution semantics."
-tone = "positive"
-
-[[items]]
-title = "Part III · coexistence and retirement"
-meta = "bridge · test · deploy"
-body = "Run mixed systems, measure parity, and retire ROS 1 in slices."
-tone = "warning"
-
-[[items]]
-title = "Part IV · optional architecture"
-meta = "Rust · Zenoh · world models"
-body = "Use ROS 2 as a platform once the migration basics are sound."
-tone = "negative"
-
-[[items]]
-title = "Part V · exercises and planning"
-meta = "labs · backlog · 90 days"
-body = "Assign owners, acceptance gates, and initial migration packages."
-tone = "accent"
-```
-
-<!-- speaker_note: The first half is the migration core. Rust, Zenoh, and world models are optional, though knowing about them now may change where we draw boundaries. -->
-
-<!-- end_slide -->
-
-Incremental migration scope
-===========================
+Migration scope
+===============
 
 ```faqe:grid
 columns = 2
 variant = "cards"
-
 [[items]]
-eyebrow = "keep"
-title = "Domain logic"
-bullets = ["algorithms", "calibration", "kinematics", "state machines", "hardware protocols", "test vectors"]
-body = "Place existing algorithms and hardware protocols behind ROS-neutral interfaces."
+eyebrow = "preserve"
+title = "Proven behavior"
+bullets = ["algorithms", "calibration", "hardware protocols", "test vectors"]
 tone = "positive"
-
 [[items]]
-eyebrow = "reconsider"
+eyebrow = "review"
 title = "System contracts"
-bullets = ["delivery semantics", "discovery", "startup", "configuration", "concurrency", "failure recovery"]
-body = "These are where ROS 2 is genuinely different."
+bullets = ["delivery", "discovery", "startup", "configuration", "recovery"]
 tone = "accent"
 ```
 
-Port the behavior you already trust. Redesign only when ROS 2 offers a better contract or the old assumption no longer holds.
-
-<!-- speaker_note: A big-bang rewrite piles three risks together: framework, behavior, and architecture. Keep the algorithms and test vectors steady while you replace the integration layer. -->
+Track porting and redesign as separate work.
 
 <!-- end_slide -->
 
-ROS 1 graph and master
-======================
+ROS 1 graph
+===========
 
 ```faqe:graph
-title = "Central coordination, mostly point-to-point transport"
-columns = 5
-rows = 3
-
+title = "Central registration; peer data path"
+columns = 3
+rows = 2
+[[nodes]]
+id = "pub"
+title = "publisher"
+column = 1
+row = 2
 [[nodes]]
 id = "master"
 title = "ROS master"
-subtitle = "names · registration · lookup"
-column = 3
+subtitle = "names · lookup"
+column = 2
 row = 1
 tone = "warning"
-
 [[nodes]]
-id = "param"
-title = "parameter server"
-subtitle = "global configuration tree"
+id = "sub"
+title = "subscriber"
 column = 3
 row = 2
-tone = "accent"
-
-[[nodes]]
-id = "a"
-title = "node A"
-subtitle = "publisher"
-column = 1
-row = 3
-tone = "positive"
-
-[[nodes]]
-id = "b"
-title = "node B"
-subtitle = "subscriber"
-column = 3
-row = 3
-tone = "positive"
-
-[[nodes]]
-id = "c"
-title = "node C"
-subtitle = "service"
-column = 5
-row = 3
-tone = "neutral"
-
 [[edges]]
-from = "a"
+from = "pub"
 to = "master"
-label = "register"
-dashed = true
-
 [[edges]]
-from = "b"
+from = "sub"
 to = "master"
-label = "lookup"
-dashed = true
-
 [[edges]]
-from = "master"
-to = "c"
-label = "resolve"
-dashed = true
-
-[[edges]]
-from = "a"
-to = "b"
+from = "pub"
+to = "sub"
 label = "TCPROS / UDPROS"
-tone = "positive"
-
-[[edges]]
-from = "param"
-to = "b"
-label = "global read"
 tone = "accent"
 ```
 
-The master handles registration and lookup. After lookup, nodes normally exchange topic data directly.
-
-<!-- speaker_note: Be precise about ROS 1. The master is a central control-plane dependency, not a message broker. Nodes negotiate direct transport after lookup. -->
-
 <!-- end_slide -->
 
-ROS 2 graph and discovery
-=========================
+ROS 2 graph
+===========
 
 ```faqe:graph
-title = "A distributed graph over a replaceable middleware layer"
-columns = 5
-rows = 3
-
+title = "Distributed discovery and middleware transport"
+columns = 3
+rows = 2
 [[nodes]]
-id = "a"
-title = "node A"
-subtitle = "publisher · client"
+id = "pub"
+title = "publisher + QoS"
 column = 1
-row = 1
-tone = "positive"
-
+row = 2
 [[nodes]]
-id = "b"
-title = "node B"
-subtitle = "subscriber · server"
-column = 3
+id = "discovery"
+title = "discovery"
+subtitle = "RMW-specific"
+column = 2
 row = 1
-tone = "positive"
-
+tone = "accent"
 [[nodes]]
-id = "c"
-title = "node C"
-subtitle = "action server"
-column = 5
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "rmw"
-title = "RMW"
-subtitle = "middleware abstraction"
+id = "sub"
+title = "subscriber + QoS"
 column = 3
 row = 2
-tone = "accent"
-
-[[nodes]]
-id = "transport"
-title = "DDS or Zenoh"
-subtitle = "discovery · serialization · transport"
-column = 3
-row = 3
+[[edges]]
+from = "pub"
+to = "discovery"
+[[edges]]
+from = "sub"
+to = "discovery"
+[[edges]]
+from = "pub"
+to = "sub"
+label = "selected RMW"
 tone = "warning"
-
-[[edges]]
-from = "a"
-to = "b"
-label = "QoS contract"
-tone = "positive"
-
-[[edges]]
-from = "b"
-to = "c"
-label = "distributed graph"
-
-[[edges]]
-from = "a"
-to = "rmw"
-
-[[edges]]
-from = "b"
-to = "rmw"
-
-[[edges]]
-from = "c"
-to = "rmw"
-
-[[edges]]
-from = "rmw"
-to = "transport"
-label = "runtime selection"
-tone = "accent"
 ```
-
-<!-- speaker_note: There is no ROS master. The selected RMW distributes discovery and graph state. We lose one central dependency and gain a middleware configuration problem that operations must understand. -->
 
 <!-- end_slide -->
 
-Discovery infrastructure without ROS master
-===========================================
+Discovery without a master
+==========================
 
-```faqe:table
-title = "Control-plane responsibilities move"
-variant = "comparison"
-columns = ["Concern", "ROS 1 default", "ROS 2 default", "Production choice"]
-
-[[rows]]
-cells = ["Discovery", "ROS master", "distributed middleware discovery", "multicast, discovery server, or Zenoh router"]
-
-[[rows]]
-cells = ["Parameters", "global server", "per-node services", "configuration files plus node ownership"]
-
-[[rows]]
-cells = ["Process placement", "roslaunch machine tags", "launch and external orchestration", "systemd, containers, Kubernetes, or fleet manager"]
-
-[[rows]]
-cells = ["Security", "network trust", "middleware security and enclaves", "identity, permissions, keys, and rotation"]
-```
-
-The production design should document discovery configuration, process supervision, and security policy.
-
-<!-- speaker_note: ROS 2 did not make infrastructure disappear. Pick a discovery setup, process supervisor, and security policy instead of inheriting accidental defaults. -->
+* `ROS_DOMAIN_ID` separates logical systems.
+* DDS discovery usually uses multicast on a local network.
+* Configured peers or discovery servers suit routed networks.
+* VPNs, firewalls, containers, and Wi-Fi affect discovery.
+* `ros2 daemon` is a CLI graph cache, not a master.
 
 <!-- end_slide -->
 
 ROS 2 software layers
 =====================
 
-```faqe:graph
-title = "ROS 2 middleware abstraction"
-columns = 5
-rows = 1
-
-[[nodes]]
-id = "app"
+```faqe:timeline
+[[items]]
 title = "application"
-subtitle = "your nodes"
-column = 1
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "client"
+body = "product nodes"
+[[items]]
 title = "client library"
-subtitle = "rclcpp · rclpy · rclrs"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "rcl"
+body = "rclcpp · rclpy · rclrs"
+[[items]]
 title = "rcl"
-subtitle = "common C layer"
-column = 3
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "rmw"
-title = "rmw"
-subtitle = "middleware interface"
-column = 4
-row = 1
+body = "common C API"
+[[items]]
+title = "RMW"
+body = "middleware contract"
+tone = "accent"
+[[items]]
+title = "transport"
+body = "DDS · Zenoh"
 tone = "warning"
-
-[[nodes]]
-id = "wire"
-title = "implementation"
-subtitle = "Fast DDS · Cyclone · Zenoh"
-column = 5
-row = 1
-tone = "negative"
-
-[[edges]]
-from = "app"
-to = "client"
-
-[[edges]]
-from = "client"
-to = "rcl"
-
-[[edges]]
-from = "rcl"
-to = "rmw"
-
-[[edges]]
-from = "rmw"
-to = "wire"
-label = "select"
 ```
-
-Application interfaces use ROS semantics. Release testing uses the selected RMW and its production configuration.
-
-<!-- speaker_note: The abstraction is real; the implementations still behave differently in production. Test the exact RMW, version, configuration, network, and workload you plan to ship. -->
 
 <!-- end_slide -->
 
 Middleware selection
 ====================
 
-```faqe:table
-title = "Common ROS 2 RMW choices"
-variant = "comparison"
-columns = ["RMW", "Strength", "Watch"]
+Measure candidate RMWs with the same graph and network:
 
-[[rows]]
-cells = ["Fast DDS", "default, broad support, discovery-server option", "XML profiles and discovery behavior"]
-
-[[rows]]
-cells = ["Cyclone DDS", "lean DDS implementation and deterministic focus", "network-interface configuration"]
-
-[[rows]]
-cells = ["Connext DDS", "commercial tooling and certification paths", "license and supported feature matrix"]
-
-[[rows]]
-cells = ["Zenoh", "routed edge/cloud topologies and low overhead", "router topology and partial QoS semantics"]
-```
-
-RMW benchmarks should use the actual node graph, network, configuration, and message workload.
-
-<!-- speaker_note: ROS docs recommend keeping a distributed system on the same ROS version and RMW because cross-vendor DDS interoperability is not guaranteed for every feature. -->
+* discovery and restart time;
+* latency, loss, throughput, and fragmentation;
+* configuration and diagnostic quality;
+* security and vendor support;
+* application dependence on RMW-specific behavior.
 
 <!-- end_slide -->
 
-Name and namespace rules
+Names and namespaces
+====================
+
+```bash
+ros2 run camera_driver camera_node --ros-args \
+  -r __ns:=/robot_7 \
+  -r image_raw:=camera/front/image_raw \
+  -p frame_id:=camera_front
+```
+
+Namespaces support repeated subsystems. Robot identity belongs in deployment configuration.
+
+<!-- end_slide -->
+
+Communication primitives
 ========================
 
-```faqe:grid
-columns = 3
-variant = "strip"
-
-[[items]]
-eyebrow = "fully qualified"
-title = "/robot_7/camera/image"
-body = "A stable system-level contract."
-tone = "positive"
-
-[[items]]
-eyebrow = "relative"
-title = "camera/image"
-body = "Resolved beneath the node namespace."
-tone = "accent"
-
-[[items]]
-eyebrow = "private"
-title = "No ROS 1 ~ shorthand"
-body = "Use explicit relative names and node namespaces."
-tone = "warning"
-
-[[items]]
-eyebrow = "remap"
-title = "--ros-args -r"
-body = "ROS arguments are separated from application arguments."
-tone = "neutral"
-
-[[items]]
-eyebrow = "hidden"
-title = "_prefix"
-body = "Names beginning with an underscore are hidden from default CLI listings."
-tone = "neutral"
-
-[[items]]
-eyebrow = "design rule"
-title = "Name by meaning"
-body = "Topic names should describe the data contract and remain independent of host placement."
-tone = "positive"
-```
-
-<!-- speaker_note: Create and review an interface naming convention before bulk porting. Names become long-lived integration contracts and Zenoh key mappings later. -->
-
-<!-- end_slide -->
-
-Topics, services, and actions
-=============================
-
 ```faqe:table
-title = "Topics, services, and actions express different contracts"
 variant = "comparison"
-columns = ["Primitive", "Use when", "Avoid when"]
-
+columns = ["Primitive", "Use", "Avoid"]
 [[rows]]
-cells = ["Topic", "state or events flow independently of a caller", "the publisher must know completion"]
-tones = ["accent", "positive", "warning"]
-
+cells = ["Topic", "streams and observed state", "request/reply"]
 [[rows]]
-cells = ["Service", "a short request needs one response", "work may take long or needs progress"]
-tones = ["accent", "positive", "warning"]
-
+cells = ["Service", "short bounded request", "long physical work"]
 [[rows]]
-cells = ["Action", "a long operation needs feedback and cancellation", "high-rate streaming is the real requirement"]
-tones = ["accent", "positive", "warning"]
+cells = ["Action", "cancellable work with feedback", "high-rate data"]
 ```
 
-ROS 2 defines actions in `.action` files. ROS 1 implemented the same pattern through related message topics.
-
-<!-- speaker_note: Migration is a chance to correct misuse. A service should not represent a five-minute operation. A topic should not fake a transactional request. -->
+During migration, verify that each ROS 1 primitive still fits the interface.
 
 <!-- end_slide -->
 
-Diagnosing QoS
-==============
+QoS is an interface contract
+============================
 
-In ROS 1, choosing a topic often implied the transport behavior.
+* Reliability: `reliable` or `best_effort`
+* Durability: `volatile` or `transient_local`
+* History: `keep_last` or `keep_all`
+* Queue depth
+* Deadline, lifespan, and liveliness
 
-In ROS 2, endpoints negotiate a **delivery contract**.
-
-```faqe:graph
-title = "Offered and requested QoS must be compatible"
-columns = 5
-rows = 1
-
-[[nodes]]
-id = "pub"
-title = "publisher"
-subtitle = "offers QoS"
-column = 1
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "offer"
-title = "reliable · volatile"
-subtitle = "depth 10"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "compat"
-title = "compatibility"
-subtitle = "not equality"
-column = 3
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "request"
-title = "best effort · volatile"
-subtitle = "depth 5"
-column = 4
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "sub"
-title = "subscriber"
-subtitle = "requests QoS"
-column = 5
-row = 1
-tone = "positive"
-
-[[edges]]
-from = "pub"
-to = "offer"
-
-[[edges]]
-from = "offer"
-to = "compat"
-label = "offer"
-
-[[edges]]
-from = "request"
-to = "compat"
-label = "request"
-
-[[edges]]
-from = "compat"
-to = "sub"
-label = "match"
-tone = "positive"
-```
-
-<!-- speaker_note: A QoS mismatch often looks like a dead topic, with no helpful exception. Make endpoint inspection the first debugging move, before changing application code. -->
+Document QoS with the type and topic name.
 
 <!-- end_slide -->
 
-QoS policies
-============
-
-```faqe:grid
-columns = 4
-variant = "cards"
-
-[[items]]
-eyebrow = "loss"
-title = "Reliability"
-body = "Reliable retries delivery; best effort may drop samples."
-tone = "positive"
-
-[[items]]
-eyebrow = "late joiners"
-title = "Durability"
-body = "Transient local can replay retained samples; volatile starts now."
-tone = "accent"
-
-[[items]]
-eyebrow = "buffer"
-title = "History + depth"
-body = "Keep last N or keep all, subject to resource limits."
-tone = "warning"
-
-[[items]]
-eyebrow = "freshness"
-title = "Deadline"
-body = "Expected maximum interval between samples."
-tone = "negative"
-
-[[items]]
-eyebrow = "expiry"
-title = "Lifespan"
-body = "How long a sample remains valid for delivery."
-tone = "warning"
-
-[[items]]
-eyebrow = "presence"
-title = "Liveliness"
-body = "How an endpoint proves it is still alive."
-tone = "positive"
-
-[[items]]
-eyebrow = "resources"
-title = "Resource limits"
-body = "Bound memory and outstanding samples at middleware level."
-tone = "neutral"
-
-[[items]]
-eyebrow = "policy"
-title = "Profile"
-body = "A tested combination for a particular data class."
-tone = "accent"
-```
-
-<!-- speaker_note: Most teams actively configure reliability, durability, history, and depth first. Deadline, lifespan, and liveliness become important for supervision and real-time contracts. -->
-
-<!-- end_slide -->
-
-QoS endpoint compatibility
-==========================
+QoS compatibility
+=================
 
 ```faqe:table
-title = "Simplified requested/offered examples"
-variant = "matrix"
-columns = ["Publisher offers", "Subscriber requests", "Result"]
-
-[[rows]]
-cells = ["reliable", "reliable", "connect"]
-tones = ["positive", "positive", "positive"]
-
-[[rows]]
-cells = ["reliable", "best effort", "connect"]
-tones = ["positive", "warning", "positive"]
-
-[[rows]]
-cells = ["best effort", "reliable", "incompatible"]
-tones = ["warning", "positive", "negative"]
-
-[[rows]]
-cells = ["transient local", "volatile", "connect; no historic request"]
-tones = ["positive", "neutral", "positive"]
-
-[[rows]]
-cells = ["volatile", "transient local", "incompatible"]
-tones = ["neutral", "positive", "negative"]
-```
-
-Use `ros2 topic info -v /topic` to inspect every endpoint and its actual QoS.
-
-<!-- speaker_note: This table is intentionally simplified to the policies that control compatibility. The requested/offered model means a stronger offer can satisfy a weaker request, not vice versa. -->
-
-<!-- end_slide -->
-
-QoS profiles by data class
-==========================
-
-```faqe:table
-title = "Starting points, not universal answers"
 variant = "comparison"
-columns = ["Data", "Reliability", "Durability", "Queue"]
-
+columns = ["Publisher", "Subscriber", "Result"]
 [[rows]]
-cells = ["camera / lidar", "best effort", "volatile", "small; prefer fresh data"]
-
+cells = ["reliable", "reliable", "match"]
 [[rows]]
-cells = ["commands", "reliable", "volatile", "small; add timeout in consumer"]
-
+cells = ["reliable", "best effort", "match"]
 [[rows]]
-cells = ["configuration state", "reliable", "transient local", "last known value"]
-
-[[rows]]
-cells = ["events / audit", "reliable", "volatile or stored externally", "bounded by throughput"]
-
-[[rows]]
-cells = ["maps / static transforms", "reliable", "transient local", "retain for late joiners"]
+cells = ["best effort", "reliable", "no match"]
+tones = ["warning", "accent", "negative"]
 ```
 
-Define profiles centrally and test them under packet loss, restart, and slow subscribers.
-
-<!-- speaker_note: Reliable delivery can hurt a high-rate sensor stream when fresh data queues behind retransmissions. Start with what the consumer needs, not with the reassuring name of the policy. -->
+Data flows when the topic type and endpoint QoS policies are compatible.
 
 <!-- end_slide -->
 
-Transient-local durability
+QoS by data class
+=================
+
+```faqe:table
+variant = "comparison"
+columns = ["Data", "Starting profile", "Reason"]
+[[rows]]
+cells = ["camera / lidar", "best effort, shallow", "fresh samples matter"]
+[[rows]]
+cells = ["commands", "reliable, bounded", "loss needs handling"]
+[[rows]]
+cells = ["configuration", "reliable, transient local", "late joiners need state"]
+[[rows]]
+cells = ["events", "reliable, measured depth", "bursts need capacity"]
+```
+
+Validate profiles under expected load.
+
+<!-- end_slide -->
+
+Discovery at product scale
 ==========================
 
-```faqe:graph
-title = "ROS 1 latched publisher → ROS 2 transient-local durability"
-columns = 5
-rows = 2
+Test simultaneous boot, process restart, Wi-Fi roaming, network partitions, multiple robots per broadcast domain, multi-interface containers, and VPN access.
 
-[[nodes]]
-id = "pub"
-title = "publisher"
-subtitle = "transient local"
-column = 1
-row = 1
-tone = "accent"
+Record:
 
-[[nodes]]
-id = "sample"
-title = "last sample"
-subtitle = "retained by writer"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "late"
-title = "late subscriber"
-subtitle = "requests transient local"
-column = 5
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "gone"
-title = "publisher exits"
-subtitle = "retention depends on implementation/lifecycle"
-column = 3
-row = 2
-tone = "negative"
-
-[[edges]]
-from = "pub"
-to = "sample"
-label = "retain"
-tone = "positive"
-
-[[edges]]
-from = "sample"
-to = "late"
-label = "replay"
-tone = "accent"
-
-[[edges]]
-from = "gone"
-to = "sample"
-label = "boundary"
-dashed = true
-tone = "negative"
-```
-
-This mapping matters for `/tf_static`, maps, configuration snapshots, and the ROS 1 bridge.
-
-<!-- speaker_note: Do not translate latch=true on autopilot. Decide how much history matters and how long the publisher lives. The bridge often needs explicit transient-local QoS for tf_static. -->
-
-<!-- end_slide -->
-
-Discovery performance
-=====================
-
-```faqe:grid
-columns = 3
-variant = "strip"
-
-[[items]]
-eyebrow = "default DDS"
-title = "Multicast discovery"
-body = "Convenient on a lab LAN; often blocked or noisy in production networks."
-tone = "warning"
-
-[[items]]
-eyebrow = "controlled DDS"
-title = "Discovery server"
-body = "Explicit endpoints reduce multicast dependence and discovery fan-out."
-tone = "positive"
-
-[[items]]
-eyebrow = "Zenoh"
-title = "Router + gossip"
-body = "Nodes connect through a router topology with configurable scouting."
-tone = "accent"
-
-[[items]]
-eyebrow = "local isolation"
-title = "Discovery range"
-body = "Restrict discovery to localhost, subnet, or configured peers."
-tone = "neutral"
-
-[[items]]
-eyebrow = "debug"
-title = "Daemon state"
-body = "A CLI daemon started under another RMW can report a misleading graph."
-tone = "negative"
-
-[[items]]
-eyebrow = "test"
-title = "Cold-start graph"
-body = "Measure discovery after simultaneous boot and after network reconnection."
-tone = "positive"
-```
-
-<!-- speaker_note: Discovery is part of startup performance. A talker/listener demo proves very little, so test the expected robot and endpoint counts. -->
+* endpoint discovery time;
+* application readiness time;
+* traffic generated by discovery;
+* recovery after topology changes.
 
 <!-- end_slide -->
 
 Domain isolation and security
 =============================
 
-```faqe:graph
-title = "One physical network, separate logical ROS graphs"
-columns = 5
-rows = 2
+`ROS_DOMAIN_ID` reduces accidental discovery; it provides no authentication.
 
-[[nodes]]
-id = "lab"
-title = "domain 17"
-subtitle = "integration lab"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "robot"
-title = "domain 42"
-subtitle = "robot cell"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "sim"
-title = "domain 61"
-subtitle = "simulation"
-column = 5
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "bridge"
-title = "explicit bridge"
-subtitle = "selected interfaces only"
-column = 3
-row = 2
-tone = "negative"
-
-[[edges]]
-from = "lab"
-to = "bridge"
-label = "allowlist"
-dashed = true
-
-[[edges]]
-from = "robot"
-to = "bridge"
-label = "allowlist"
-dashed = true
-
-[[edges]]
-from = "sim"
-to = "bridge"
-label = "allowlist"
-dashed = true
-```
-
-`ROS_DOMAIN_ID` prevents ordinary discovery across domains. Authentication and access control require separate security policy.
-
-<!-- speaker_note: Use domains to avoid accidental graph collisions. Use security policy, firewalls, and explicit bridges to control authority. -->
+DDS Security can provide identity, encryption, signed governance, and permissions. Deployment still needs certificate issuance, renewal, revocation, auditing, and recovery.
 
 <!-- end_slide -->
 
-Interface definition changes
-============================
+Interface definitions
+=====================
 
 ```faqe:table
-title = "ROS interface migration"
 variant = "comparison"
-columns = ["Concern", "ROS 1", "ROS 2"]
-
+columns = ["ROS 1", "ROS 2"]
 [[rows]]
-cells = ["Type name", "pkg/Message", "pkg/msg/Message"]
-
+cells = ["`Header header`", "`std_msgs/Header header`"]
 [[rows]]
-cells = ["Service name", "pkg/Service", "pkg/srv/Service"]
-
+cells = ["mixed code and messages", "dedicated interface packages"]
 [[rows]]
-cells = ["Actions", "actionlib-generated topics", "pkg/action/Action first-class interface"]
-
+cells = ["implicit dependencies", "explicit build and runtime dependencies"]
 [[rows]]
-cells = ["IDL", ".msg and .srv generation", "ROS IDL pipeline plus .msg/.srv/.action"]
-
-[[rows]]
-cells = ["Header fields", "legacy Header sequence conventions", "builtin_interfaces/Time and explicit semantics"]
+cells = ["message generation", "`rosidl` generators and type support"]
 ```
 
-Freeze interface meaning before porting implementations. Compatibility includes names, units, coordinate frames, and timing semantics.
-
-<!-- speaker_note: Build interface-only packages early. They unlock the bridge, parallel ports, generated code in every language, and contract testing. -->
+Stabilize shared interfaces before porting consumers.
 
 <!-- end_slide -->
 
 Node-scoped parameters
 ======================
 
-```faqe:graph
-title = "Global parameter tree → owned node configuration"
-columns = 5
-rows = 2
+ROS 2 has no global parameter server.
 
-[[nodes]]
-id = "global"
-title = "ROS 1 parameter server"
-subtitle = "shared mutable namespace"
-column = 1
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "config"
-title = "configuration source"
-subtitle = "versioned YAML · launch"
-column = 3
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "a"
-title = "node A parameters"
-subtitle = "declared · typed · validated"
-column = 5
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "events"
-title = "parameter events"
-subtitle = "changes are observable"
-column = 5
-row = 2
-tone = "neutral"
-
-[[edges]]
-from = "global"
-to = "config"
-label = "migrate ownership"
-tone = "accent"
-
-[[edges]]
-from = "config"
-to = "a"
-label = "load"
-tone = "positive"
-
-[[edges]]
-from = "a"
-to = "events"
-label = "publish change"
+```bash
+ros2 param list /camera
+ros2 param get /camera exposure
+ros2 param set /camera exposure 1200
+ros2 param dump /camera
 ```
 
-No global parameter concept exists in ROS 2. YAML must address nodes and use `ros__parameters`.
-
-<!-- speaker_note: Treat configuration ownership as architecture. Declare expected parameters, validate ranges, and reject unsafe atomic updates instead of reading arbitrary global keys. -->
-
-<!-- end_slide -->
-
-Runtime parameter changes
-=========================
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "declare"
-title = "Descriptor"
-body = "Document type, range, constraints, and read-only intent."
-tone = "accent"
-
-[[items]]
-eyebrow = "validate"
-title = "Set callback"
-body = "Accept or reject a change before it becomes active."
-tone = "positive"
-
-[[items]]
-eyebrow = "observe"
-title = "Parameter events"
-body = "Watch configuration changes across the graph."
-tone = "neutral"
-
-[[items]]
-eyebrow = "atomicity"
-title = "Atomic set"
-body = "Apply a related group together or reject the whole update."
-tone = "positive"
-
-[[items]]
-eyebrow = "lifecycle"
-title = "Change window"
-body = "Require deactivation before applying configuration that reallocates resources."
-tone = "warning"
-
-[[items]]
-eyebrow = "safety"
-title = "Not every knob"
-body = "Expose only settings that have a supported runtime-change policy."
-tone = "negative"
-```
-
-<!-- speaker_note: Port the dynamic_reconfigure behavior, not its UI. Define which parameters are safe live, which require an inactive lifecycle state, and which should be immutable. -->
+Separate startup configuration, mutable runtime state, and persistent product data.
 
 <!-- end_slide -->
 
 ROS 2 launch
 ============
 
-```faqe:table
-title = "roslaunch → ROS 2 launch"
-variant = "comparison"
-columns = ["ROS 1 habit", "ROS 2 equivalent", "Better migration choice"]
-
-[[rows]]
-cells = ["XML only", "XML, YAML, or Python", "Prefer declarative XML/YAML until logic is required"]
-
-[[rows]]
-cells = ["type=", "exec=", "mechanical rename"]
-
-[[rows]]
-cells = ["ns=", "namespace=", "mechanical rename"]
-
-[[rows]]
-cells = ["required=true", "on_exit=shutdown", "model the failure reaction"]
-
-[[rows]]
-cells = ["machine tag", "not available", "use external orchestration"]
-
-[[rows]]
-cells = ["startup order by sleeps", "event handlers and lifecycle", "wait for readiness, not time"]
+```python
+camera = Node(
+    package="camera_driver",
+    executable="camera_node",
+    namespace="robot_7",
+    parameters=["config/camera.yaml"],
+    remappings=[("image_raw", "camera/front/image_raw")],
+)
 ```
 
-<!-- speaker_note: Python launch can quietly grow into an untested application. Use it for real event logic or composition, not because every launch file needs to be clever. -->
+Launch coordinates deployment. Business logic stays in nodes.
 
 <!-- end_slide -->
 
-Build: catkin → ament + colcon
-==============================
+Catkin to ament and colcon
+==========================
 
-```faqe:graph
-title = "The build responsibilities separate"
-columns = 5
-rows = 1
-
-[[nodes]]
-id = "manifest"
-title = "package.xml"
-subtitle = "metadata · dependencies"
-column = 1
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "build"
-title = "ament"
-subtitle = "package build conventions"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "tool"
-title = "CMake / Python / Cargo"
-subtitle = "language build"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "workspace"
-title = "colcon"
-subtitle = "workspace orchestration"
-column = 4
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "index"
-title = "ament index"
-subtitle = "installed resources"
-column = 5
-row = 1
-tone = "negative"
-
-[[edges]]
-from = "manifest"
-to = "build"
-
-[[edges]]
-from = "build"
-to = "tool"
-
-[[edges]]
-from = "tool"
-to = "workspace"
-
-[[edges]]
-from = "workspace"
-to = "index"
+```faqe:table
+variant = "comparison"
+columns = ["ROS 1", "ROS 2"]
+[[rows]]
+cells = ["catkin package", "ament package"]
+[[rows]]
+cells = ["catkin tools", "colcon"]
+[[rows]]
+cells = ["devel space", "install space"]
+[[rows]]
+cells = ["devel/setup.bash", "install/setup.bash"]
 ```
-
-ROS 2 requires `package.xml` format 2 or newer. Metapackages become ordinary packages containing runtime dependencies.
-
-<!-- speaker_note: Ament is the package convention and resource index. Colcon discovers and orders packages across build types. Do not describe colcon as simply “the new catkin.” -->
 
 <!-- end_slide -->
 
 Colcon workflow
 ===============
 
-```text
+```bash
 rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install --event-handlers console_cohesion+
+colcon build --symlink-install
 source install/setup.bash
-
-colcon test --packages-up-to company_robot
+colcon test
 colcon test-result --verbose
-
-colcon list
-colcon graph
 ```
 
-```faqe:grid
-columns = 3
-variant = "strip"
-
-[[items]]
-eyebrow = "speed"
-title = "packages-select"
-body = "Build the package you are changing."
-tone = "positive"
-
-[[items]]
-eyebrow = "confidence"
-title = "packages-up-to"
-body = "Include its dependency closure."
-tone = "accent"
-
-[[items]]
-eyebrow = "reproducibility"
-title = "clean release build"
-body = "Prove the workspace without stale overlays."
-tone = "warning"
-```
-
-<!-- speaker_note: Symlink install accelerates iteration but can hide installation mistakes. CI must include a clean install-space build and run from the install space. -->
+CI should build from a clean workspace.
 
 <!-- end_slide -->
 
 Overlay resolution
 ==================
 
-```faqe:timeline
-[[items]]
-title = "Source the base distribution"
-meta = "/opt/ros/<distro>/setup.bash"
-body = "This is the underlay and establishes the selected ROS environment."
-tone = "neutral"
-
-[[items]]
-title = "Build the workspace"
-meta = "colcon build"
-body = "Dependencies are resolved against the underlay plus declared overlays."
-tone = "accent"
-
-[[items]]
-title = "Source the overlay"
-meta = "install/local_setup.bash"
-body = "Workspace packages shadow same-named packages below them."
-tone = "positive"
-
-[[items]]
-title = "Record the environment"
-meta = "CI and deployment"
-body = "A different source order can load a different ABI without changing code."
-tone = "warning"
-
-[[items]]
-title = "Test a clean shell"
-meta = "release gate"
-body = "No developer shell history should be required to run the robot."
-tone = "negative"
+```bash
+source /opt/ros/jazzy/setup.bash
+source ~/vendor_ws/install/setup.bash
+source ~/product_ws/install/setup.bash
 ```
 
-<!-- speaker_note: Many migration bugs are environment bugs. Log ROS_DISTRO, RMW_IMPLEMENTATION, prefixes, package versions, and configuration file paths in every test artifact. -->
+Order changes resolution. Inspect `AMENT_PREFIX_PATH` when an unexpected package version appears. Build and run with the same underlay chain.
 
 <!-- end_slide -->
 
-C++ API example
-===============
+Executors
+=========
 
-```cpp
-class CameraNode : public rclcpp::Node {
-public:
-  CameraNode() : Node("camera") {
-    exposure_ = declare_parameter("exposure_ms", 8.0);
-    pub_ = create_publisher<Image>("image", rclcpp::SensorDataQoS());
-    timer_ = create_wall_timer(20ms, [this] { capture(); });
-  }
-};
+Executors schedule subscriptions, timers, services, and actions.
 
-int main(int argc, char **argv) {
-  rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<CameraNode>());
-  rclcpp::shutdown();
-}
-```
+* Single-threaded: serialized callbacks
+* Multi-threaded: eligible callbacks may overlap
+* Callback groups: node-level concurrency constraints
+* Long callbacks: delay other work on the same thread
 
-The visible API changes are easy. Ownership, execution, QoS, and shutdown behavior deserve the review.
-
-<!-- speaker_note: Keep algorithm code outside the Node class when possible. The node should adapt ROS messages, configuration, and lifecycle to a testable domain component. -->
+Existing concurrency and real-time constraints remain after the port.
 
 <!-- end_slide -->
 
-Executor scheduling
-===================
-
-```faqe:graph
-title = "Ready work enters an execution policy"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "sub"
-title = "subscription"
-subtitle = "message ready"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "timer"
-title = "timer"
-subtitle = "deadline ready"
-column = 1
-row = 2
-tone = "warning"
-
-[[nodes]]
-id = "exec"
-title = "executor"
-subtitle = "selects callbacks"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "groups"
-title = "callback groups"
-subtitle = "mutual exclusion · reentrancy"
-column = 3
-row = 2
-tone = "neutral"
-
-[[nodes]]
-id = "threads"
-title = "OS threads"
-subtitle = "one or many"
-column = 5
-row = 1
-tone = "negative"
-
-[[edges]]
-from = "sub"
-to = "exec"
-
-[[edges]]
-from = "timer"
-to = "exec"
-
-[[edges]]
-from = "groups"
-to = "exec"
-label = "constrain"
-
-[[edges]]
-from = "exec"
-to = "threads"
-label = "dispatch"
-tone = "positive"
-```
-
-`spin()` selects a convenient executor configuration. ROS 2 also exposes executors, callback groups, and wait sets directly.
-
-<!-- speaker_note: Executors invoke subscriptions, timers, services, actions, and guard conditions. The selected executor and callback-group layout are part of behavior and latency. -->
-
-<!-- end_slide -->
-
-Callback-group concurrency
-==========================
+Callback groups and deadlocks
+=============================
 
 ```faqe:table
-title = "Parallelism requires both threads and permission"
 variant = "comparison"
-columns = ["Group", "Guarantee", "Use"]
-
+columns = ["Group", "Behavior", "Use"]
 [[rows]]
-cells = ["Mutually exclusive", "callbacks in the group never overlap", "shared non-thread-safe state or ordered control"]
-tones = ["accent", "positive", "neutral"]
-
+cells = ["Mutually exclusive", "one callback at a time", "shared device state"]
 [[rows]]
-cells = ["Reentrant", "callbacks may overlap, including themselves", "independent or synchronized work"]
-tones = ["warning", "warning", "neutral"]
-
-[[rows]]
-cells = ["Different groups", "may execute in parallel", "isolate control, I/O, and background work"]
-tones = ["positive", "warning", "positive"]
+cells = ["Reentrant", "callbacks may overlap", "independent work"]
 ```
 
-A multithreaded executor cannot create useful concurrency when every callback is left in one mutually-exclusive default group.
-
-<!-- speaker_note: Store callback-group handles for the life of the node. Review every blocking call and every shared object. Concurrency should be designed, not discovered in production. -->
-
-<!-- end_slide -->
-
-Executor deadlock example
-=========================
-
-```faqe:graph
-title = "Synchronous wait inside a mutually-exclusive callback"
-columns = 5
-rows = 1
-
-[[nodes]]
-id = "cb"
-title = "callback A"
-subtitle = "holds group"
-column = 1
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "call"
-title = "service request"
-subtitle = "waits synchronously"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "reply"
-title = "response ready"
-subtitle = "needs callback B"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "blocked"
-title = "callback B"
-subtitle = "same group blocked"
-column = 4
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "deadlock"
-title = "deadlock"
-subtitle = "A waits for B"
-column = 5
-row = 1
-tone = "negative"
-
-[[edges]]
-from = "cb"
-to = "call"
-
-[[edges]]
-from = "call"
-to = "reply"
-
-[[edges]]
-from = "reply"
-to = "blocked"
-
-[[edges]]
-from = "blocked"
-to = "deadlock"
-tone = "negative"
-```
-
-Prefer async clients, explicit state machines, or callback groups that permit the response to run.
-
-<!-- speaker_note: This is one of the most important porting reviews. Code that was harmless under ROS 1 spinner assumptions can deadlock under a ROS 2 executor and callback-group layout. -->
+Waiting for work assigned to the same mutually exclusive group can deadlock.
 
 <!-- end_slide -->
 
@@ -1442,2605 +473,844 @@ Component containers
 ====================
 
 ```faqe:table
-title = "Standalone and composed node deployment"
 variant = "comparison"
-columns = ["Separate processes", "Composable nodes"]
-
+columns = ["Separate process", "Component container"]
 [[rows]]
-cells = ["fault isolation", "lower serialization and process overhead"]
-
+cells = ["strong fault boundary", "lower serialization overhead"]
 [[rows]]
-cells = ["independent security identity", "shared address space and context"]
-
+cells = ["simple ownership", "shared executor and failure domain"]
 [[rows]]
-cells = ["simple resource accounting", "dynamic load and unload"]
-
-[[rows]]
-cells = ["more discovery participants", "fewer participants and shared executor"]
-
-[[rows]]
-cells = ["copy across process boundary", "intra-process ownership transfer may avoid copies"]
+cells = ["OS supervision", "runtime component loading"]
 ```
 
-Write components that can also run standalone. Decide composition in launch and deployment.
-
-<!-- speaker_note: Composition is the ROS 2 replacement for the nodelet use case, but it is integrated into the node model. The trade remains performance versus fault and security isolation. -->
+Choose after profiling; keep composition out of business logic.
 
 <!-- end_slide -->
 
-Managed node lifecycle
-======================
-
-```faqe:graph
-title = "Managed node state machine"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "unconfigured"
-title = "unconfigured"
-subtitle = "object exists"
-column = 1
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "inactive"
-title = "inactive"
-subtitle = "resources ready · no work"
-column = 3
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "active"
-title = "active"
-subtitle = "processing enabled"
-column = 5
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "final"
-title = "finalized"
-subtitle = "shutdown complete"
-column = 5
-row = 2
-tone = "negative"
-
-[[nodes]]
-id = "error"
-title = "error handling"
-subtitle = "recover or finalize"
-column = 3
-row = 2
-tone = "accent"
-
-[[edges]]
-from = "unconfigured"
-to = "inactive"
-label = "configure"
-
-[[edges]]
-from = "inactive"
-to = "active"
-label = "activate"
-tone = "positive"
-
-[[edges]]
-from = "active"
-to = "inactive"
-label = "deactivate"
-tone = "warning"
-
-[[edges]]
-from = "active"
-to = "error"
-label = "fault"
-tone = "negative"
-
-[[edges]]
-from = "error"
-to = "final"
-label = "fail"
-tone = "negative"
-```
-
-Supervisors can configure dependencies, activate in order, and recover intentionally.
-
-<!-- speaker_note: Lifecycle is most valuable for drivers, hardware, and coordinated stacks. It converts “node process exists” into explicit readiness and operational state. -->
-
-<!-- end_slide -->
-
-Zero-copy requirements
-======================
+Managed lifecycle
+=================
 
 ```faqe:timeline
 [[items]]
-title = "Same process"
-meta = "intra-process communication"
-body = "Ownership-aware APIs may pass messages without serialization."
-tone = "positive"
-
+title = "unconfigured"
+body = "process exists"
 [[items]]
-title = "Same host"
-meta = "loaned messages or shared memory"
-body = "Support depends on message type, client library, and RMW."
-tone = "accent"
-
-[[items]]
-title = "Different hosts"
-meta = "network serialization"
-body = "Copies, fragmentation, and transport configuration return."
+title = "inactive"
+body = "resources ready"
 tone = "warning"
-
 [[items]]
-title = "Accelerator memory"
-meta = "negotiated buffer backends"
-body = "New Lyrical paths can carry backend descriptors, but transport scope remains backend-specific."
-tone = "negative"
-
-[[items]]
-title = "Proof"
-meta = "trace the actual path"
-body = "Measure copies and fallback behavior instead of inferring from API names."
+title = "active"
+body = "work enabled"
 tone = "positive"
-```
-
-<!-- speaker_note: A loaned-message API does not guarantee end-to-end zero copy. The RMW, allocator, message type, topology, and subscriber behavior all matter. -->
-
-<!-- end_slide -->
-
-Clock and time-source selection
-===============================
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
 [[items]]
-eyebrow = "wall"
-title = "System time"
-body = "Calendar time; can jump under synchronization."
-tone = "warning"
-
-[[items]]
-eyebrow = "duration"
-title = "Steady time"
-body = "Monotonic measurement for intervals and timeouts."
-tone = "positive"
-
-[[items]]
-eyebrow = "simulation"
-title = "ROS time"
-body = "May follow `/clock`, pause, jump, or run faster than real time."
-tone = "accent"
-
-[[items]]
-eyebrow = "messages"
-title = "Source timestamp"
-body = "When the sensor or producer observed the data."
-tone = "neutral"
-
-[[items]]
-eyebrow = "middleware"
-title = "Receive timestamp"
-body = "When the consumer or transport observed arrival."
-tone = "neutral"
-
-[[items]]
-eyebrow = "migration gate"
-title = "Jump tests"
-body = "Pause, rewind, restart, and change rate in simulation."
+title = "finalized"
+body = "shutdown"
 tone = "negative"
 ```
 
-<!-- speaker_note: Audit every use of now(), sleep, timeout, and age. A control timeout should usually use monotonic time; a simulation algorithm may intentionally use ROS time. -->
+A supervisor must own transitions and retry policy.
 
 <!-- end_slide -->
 
-rosbag2 architecture
-====================
+Time and clocks
+===============
 
-```faqe:table
-title = "Beyond rosbag1"
-variant = "comparison"
-columns = ["Capability", "Migration impact"]
+* Use steady time for durations and watchdogs.
+* Use ROS time for simulation and playback.
+* Set `use_sim_time` consistently.
+* Handle forward and backward time jumps.
+* Audit direct wall-clock use.
 
-[[rows]]
-cells = ["Storage plugins", "SQLite and MCAP are selectable backends"]
+Clock choice affects estimators, caches, timeouts, and bag playback.
 
-[[rows]]
-cells = ["MCAP", "indexed multi-channel container with compression options"]
+<!-- end_slide -->
 
-[[rows]]
-cells = ["QoS adaptation", "recording and playback may require endpoint overrides"]
+rosbag2
+========
 
-[[rows]]
-cells = ["Record options", "include/exclude, regex, discovery, splitting, snapshots"]
-
-[[rows]]
-cells = ["Conversion", "storage and serialization formats can be transformed offline"]
-
-[[rows]]
-cells = ["Programmatic API", "record and play from C++ or Python workflows"]
+```bash
+ros2 bag record /tf /odom /camera/image_raw
+ros2 bag info my_bag
+ros2 bag play my_bag --clock
 ```
 
-Each bag fixture should record its schema, QoS, source commit, calibration, and clock configuration.
-
-<!-- speaker_note: MCAP preset choices trade write throughput, CRCs, indices, and compression. A fastwrite capture should be post-processed before long-term archival. -->
+Test storage format, compression, QoS overrides, disk throughput, and power-loss recovery over a production-length recording.
 
 <!-- end_slide -->
 
-Logging, metrics, and tracing
-=============================
+Security deployment
+===================
 
-```faqe:grid
-columns = 3
-variant = "strip"
-
+```faqe:timeline
 [[items]]
-eyebrow = "graph"
-title = "ros2 CLI"
-body = "Inspect nodes, endpoints, interfaces, QoS, lifecycle, and components."
-tone = "accent"
-
+title = "identity"
+body = "participant certificates"
 [[items]]
-eyebrow = "health"
-title = "Diagnostics"
-body = "Publish structured device and subsystem status."
-tone = "positive"
-
+title = "governance"
+body = "protected domains"
 [[items]]
-eyebrow = "traffic"
-title = "Topic statistics"
-body = "Measure message age and period at subscriptions."
-tone = "warning"
-
+title = "permissions"
+body = "node-level access"
 [[items]]
-eyebrow = "scheduling"
-title = "ros2_tracing"
-body = "Trace callbacks, executor behavior, and latency using LTTng."
-tone = "negative"
-
-[[items]]
-eyebrow = "logs"
-title = "/rosout"
-body = "Structured logger names and severity remain graph-visible."
-tone = "neutral"
-
-[[items]]
-eyebrow = "release"
-title = "Artifact metadata"
-body = "Attach distro, RMW, QoS profiles, topology, and build identity."
-tone = "positive"
-```
-
-<!-- speaker_note: Logging alone cannot diagnose scheduler latency or dropped data. Establish a layered observability plan and capture it during migration parity tests. -->
-
-<!-- end_slide -->
-
-DDS security deployment
-=======================
-
-```faqe:graph
-title = "SROS 2 builds on middleware security"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "identity"
-title = "authentication"
-subtitle = "PKI identity"
-column = 1
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "access"
-title = "access control"
-subtitle = "topic and service permissions"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "crypto"
-title = "cryptography"
-subtitle = "encryption and signing"
-column = 3
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "enclave"
-title = "enclave"
-subtitle = "security context"
-column = 4
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "ops"
 title = "operations"
-subtitle = "provision · rotate · revoke"
-column = 5
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "compose"
-title = "composed process"
-subtitle = "nodes share address space"
-column = 4
-row = 2
-tone = "neutral"
-
-[[edges]]
-from = "identity"
-to = "access"
-
-[[edges]]
-from = "access"
-to = "crypto"
-
-[[edges]]
-from = "crypto"
-to = "enclave"
-
-[[edges]]
-from = "enclave"
-to = "ops"
-
-[[edges]]
-from = "compose"
-to = "enclave"
-label = "shared context"
-dashed = true
+body = "rotate · revoke · audit"
+tone = "warning"
 ```
 
-A security deployment needs certificate provisioning, key rotation, access-control policy, and operational recovery procedures.
-
-<!-- speaker_note: ROS 2 integrates authentication, access control, and cryptography from DDS-Security. Composition affects isolation because nodes in one process share memory and may share the security context. -->
+Test denied communication as well as allowed communication.
 
 <!-- end_slide -->
 
 Verification strategy
 =====================
 
-```faqe:progress
-max = 1.0
-
-[[items]]
-label = "unit"
-value = 0.25
-display = "logic"
-text = "ROS-neutral algorithms and state machines"
-tone = "neutral"
-
-[[items]]
-label = "component"
-value = 0.45
-display = "node"
-text = "node behavior with controlled interfaces"
-tone = "accent"
-
-[[items]]
-label = "launch"
-value = 0.65
-display = "graph"
-text = "multi-process integration using launch_testing"
-tone = "positive"
-
-[[items]]
-label = "network"
-value = 0.82
-display = "QoS"
-text = "loss, delay, restart, and discovery at scale"
-tone = "warning"
-
-[[items]]
-label = "hardware"
-value = 1.0
-display = "system"
-text = "small, explicit acceptance suite on real devices"
-tone = "negative"
+```faqe:table
+variant = "comparison"
+columns = ["Layer", "Evidence"]
+[[rows]]
+cells = ["logic", "unit tests and recorded vectors"]
+[[rows]]
+cells = ["node", "launch and parameter tests"]
+[[rows]]
+cells = ["graph", "interfaces, QoS, discovery"]
+[[rows]]
+cells = ["robot", "hardware-in-loop and faults"]
+[[rows]]
+cells = ["fleet", "load, partitions, recovery"]
 ```
-
-Every migrated slice needs a behavioral oracle from ROS 1: bags, golden outputs, protocol traces, or hardware measurements.
-
-<!-- speaker_note: The bars represent scope, not coverage percentage. Keep hardware tests narrow and automate everything that can run against simulation, replay, mocks, or loopback devices. -->
 
 <!-- end_slide -->
 
-ros1_bridge role
-================
+ros1_bridge
+===========
 
 ```faqe:graph
-title = "Connected migration batch"
-columns = 5
-rows = 2
-
+columns = 3
+rows = 1
 [[nodes]]
-id = "r1a"
-title = "ROS 1 drivers"
-subtitle = "unchanged"
+id = "r1"
+title = "ROS 1"
 column = 1
 row = 1
-tone = "warning"
-
-[[nodes]]
-id = "r1b"
-title = "ROS 1 application"
-subtitle = "shrinking island"
-column = 1
-row = 2
-tone = "warning"
-
 [[nodes]]
 id = "bridge"
 title = "ros1_bridge"
-subtitle = "explicit interface boundary"
+subtitle = "temporary"
+column = 2
+row = 1
+tone = "warning"
+[[nodes]]
+id = "r2"
+title = "ROS 2"
 column = 3
 row = 1
-tone = "accent"
-
-[[nodes]]
-id = "r2a"
-title = "ROS 2 application"
-subtitle = "migrated slice"
-column = 5
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "r2b"
-title = "ROS 2 tooling"
-subtitle = "bags · tests · observability"
-column = 5
-row = 2
-tone = "positive"
-
 [[edges]]
-from = "r1a"
+from = "r1"
 to = "bridge"
-label = "selected topics"
-
-[[edges]]
-from = "r1b"
-to = "bridge"
-label = "selected services"
-
 [[edges]]
 from = "bridge"
-to = "r2a"
-label = "translated"
-tone = "positive"
-
-[[edges]]
-from = "bridge"
-to = "r2b"
-label = "observe"
-tone = "accent"
+to = "r2"
 ```
-
-Track the number of bridged interfaces and reduce it during each migration wave.
-
-<!-- speaker_note: Create a bridge allowlist and an owner for every bridged interface. A dynamic bridge of the entire graph is useful for exploration and poor as a permanent architecture. -->
 
 <!-- end_slide -->
 
-ros1_bridge host constraints
-============================
+Bridge constraints
+==================
 
-```faqe:table
-title = "Official ros1_bridge compatibility reality"
-variant = "comparison"
-columns = ["Host", "ROS 1", "ROS 2", "Bridge status"]
+* Supported platform combinations are limited.
+* Custom interfaces must be present when building the bridge.
+* Fields and types must map.
+* ROS 2 QoS needs an explicit policy.
+* Services and actions need separate tests.
+* Serialization cost matters for large messages.
 
-[[rows]]
-cells = ["Ubuntu 20.04", "Noetic", "Foxy / Galactic / Humble", "full documented support"]
-tones = ["neutral", "warning", "warning", "positive"]
-
-[[rows]]
-cells = ["Ubuntu 22.04", "unofficial / partial", "Humble / Iron", "build from source; unsupported mix"]
-tones = ["neutral", "warning", "warning", "warning"]
-
-[[rows]]
-cells = ["Ubuntu 24.04", "not officially available", "Jazzy / Kilted", "not supported on one native host"]
-tones = ["neutral", "negative", "positive", "negative"]
-
-[[rows]]
-cells = ["Split hosts", "Noetic host", "current ROS 2 host", "use an explicit cross-network gateway design"]
-tones = ["accent", "warning", "positive", "accent"]
-```
-
-Choose the bridge host and operating system before freezing the ROS 2 deployment image.
-
-<!-- speaker_note: The current ros1_bridge README is explicit: Ubuntu 24.04 does not support ROS 1. Plan bridge hosting as a temporary compatibility appliance, potentially using source builds or separate hosts. -->
+Build the bridge environment early.
 
 <!-- end_slide -->
 
-Custom interface bridging
-=========================
+Migration order
+===============
 
 ```faqe:timeline
 [[items]]
-title = "Build ROS 1 interfaces"
-meta = "source ROS 1 workspace"
-body = "The bridge must see the generated ROS 1 types."
+title = "inventory"
+body = "packages · interfaces · hardware"
+[[items]]
+title = "stabilize"
+body = "types and test vectors"
+[[items]]
+title = "port leaves"
+body = "tools and endpoints"
+[[items]]
+title = "port control"
+body = "hardware and safety"
 tone = "warning"
-
 [[items]]
-title = "Build ROS 2 interfaces"
-meta = "source ROS 2 workspace"
-body = "Names and fields must map, or explicit mapping rules must exist."
+title = "retire"
+body = "bridge and ROS 1"
 tone = "positive"
-
-[[items]]
-title = "Build ros1_bridge"
-meta = "compile-time type support"
-body = "Custom message and service pairs are discovered during the bridge build."
-tone = "accent"
-
-[[items]]
-title = "Verify mappings"
-meta = "print pairs and integration test"
-body = "Test each custom message, service, and action through the built bridge."
-tone = "negative"
-
-[[items]]
-title = "Configure QoS"
-meta = "especially tf_static and latched data"
-body = "Record the required QoS and delivery behavior separately from type translation."
-tone = "warning"
 ```
-
-<!-- speaker_note: Interface-first migration pays off here. Keep ROS 1 and ROS 2 interface packages small, buildable, and versioned before porting implementation packages. -->
-
-<!-- end_slide -->
-
-System inventory
-================
-
-```faqe:table
-title = "Minimum migration inventory"
-variant = "striped"
-columns = ["Asset", "Record"]
-
-[[rows]]
-cells = ["Packages", "owner, language, criticality, build type, release status"]
-
-[[rows]]
-cells = ["Interfaces", "publisher, consumer, rate, size, units, QoS intent"]
-
-[[rows]]
-cells = ["Dependencies", "ROS 2 availability, replacement, fork, or removal"]
-
-[[rows]]
-cells = ["Launch", "processes, machines, namespaces, parameters, startup assumptions"]
-
-[[rows]]
-cells = ["Hardware", "drivers, kernels, vendor SDK, timing, recovery behavior"]
-
-[[rows]]
-cells = ["Evidence", "bags, tests, logs, metrics, known failures, acceptance owner"]
-```
-
-The inventory supplies the package backlog, interface list, dependency order, and parity checks.
-
-<!-- speaker_note: Generate what you can from rospack, rosnode, rostopic, rosservice, rosparam, launch files, and manifests. Then sit down with system owners; runtime-only dependencies often escape a source scan. -->
-
-<!-- end_slide -->
-
-Dependency order
-================
-
-```faqe:graph
-title = "Interfaces and leaves first; orchestration last"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "msg"
-title = "interfaces"
-subtitle = "msg · srv · action"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "lib"
-title = "pure libraries"
-subtitle = "algorithms · protocols"
-column = 2
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "leaf"
-title = "leaf nodes"
-subtitle = "few dependencies"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "core"
-title = "core services"
-subtitle = "shared dependencies"
-column = 4
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "system"
-title = "system launch"
-subtitle = "full graph"
-column = 5
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "test"
-title = "contract tests"
-subtitle = "travel with every layer"
-column = 3
-row = 2
-tone = "accent"
-
-[[edges]]
-from = "msg"
-to = "lib"
-
-[[edges]]
-from = "lib"
-to = "leaf"
-
-[[edges]]
-from = "leaf"
-to = "core"
-
-[[edges]]
-from = "core"
-to = "system"
-
-[[edges]]
-from = "test"
-to = "leaf"
-label = "verify"
-dashed = true
-
-[[edges]]
-from = "test"
-to = "core"
-label = "verify"
-dashed = true
-```
-
-<!-- speaker_note: The dependency graph, not package size, determines port order. Porting an orchestration package first creates a shell around missing dependencies. -->
 
 <!-- end_slide -->
 
 Migration batches
 =================
 
-```faqe:timeline
-[[items]]
-title = "Wave 0 · freeze contracts"
-meta = "interfaces · metrics · target distro"
-body = "Capture current behavior and agree what may change."
-tone = "neutral"
-
-[[items]]
-title = "Wave 1 · build the bridge island"
-meta = "toolchain · CI · custom types"
-body = "Prove one bidirectional interface and one release artifact."
-tone = "accent"
-
-[[items]]
-title = "Wave 2 · migrate low-risk leaves"
-meta = "sensors · adapters · utilities"
-body = "Exercise packaging, QoS, logging, and deployment repeatedly."
-tone = "positive"
-
-[[items]]
-title = "Wave 3 · migrate stateful core"
-meta = "lifecycle · services · actions"
-body = "Move components with recovery and ordering requirements."
-tone = "warning"
-
-[[items]]
-title = "Wave 4 · retire ROS 1"
-meta = "remove bridge · archive evidence"
-body = "Delete the compatibility path only after fleet-level proof."
-tone = "negative"
-```
-
-<!-- speaker_note: Each wave should produce a deployable system, not a branch that stays broken until the end. The bridge surface and ROS 1 package count must trend downward. -->
-
-<!-- end_slide -->
-
-Temporary coexistence and retirement
-====================================
-
-```faqe:graph
-title = "One capability moves behind the same external contract"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "consumer"
-title = "consumer"
-subtitle = "stable contract"
-column = 1
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "select"
-title = "deployment selection"
-subtitle = "ROS 1 or ROS 2 implementation"
-column = 3
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "old"
-title = "ROS 1 implementation"
-subtitle = "reference behavior"
-column = 5
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "new"
-title = "ROS 2 implementation"
-subtitle = "candidate behavior"
-column = 5
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "compare"
-title = "parity recorder"
-subtitle = "same input · compare output"
-column = 3
-row = 2
-tone = "negative"
-
-[[edges]]
-from = "consumer"
-to = "select"
-
-[[edges]]
-from = "select"
-to = "old"
-label = "fallback"
-
-[[edges]]
-from = "select"
-to = "new"
-label = "promote"
-tone = "positive"
-
-[[edges]]
-from = "old"
-to = "compare"
-label = "baseline"
-dashed = true
-
-[[edges]]
-from = "new"
-to = "compare"
-label = "candidate"
-dashed = true
-```
-
-Set a removal date for every dual implementation and every bridge route.
-
-<!-- speaker_note: A strangler pattern is safe only if the old path actually shrinks. Feature flags and route selection need owners, metrics, and a deletion condition. -->
-
-<!-- end_slide -->
-
-Functional and operational parity
-=================================
-
 ```faqe:grid
 columns = 3
 variant = "cards"
-
 [[items]]
-eyebrow = "functional"
-title = "Same decisions"
-body = "Equivalent inputs produce acceptable outputs and side effects."
-tone = "positive"
-
+eyebrow = "input"
+title = "Known boundary"
+body = "Interfaces and hardware are documented."
 [[items]]
-eyebrow = "temporal"
-title = "Same deadlines"
-body = "Latency, jitter, timeout, and startup remain within budget."
+eyebrow = "proof"
+title = "Measured parity"
+body = "Behavior, timing, resources, and recovery."
 tone = "accent"
-
 [[items]]
-eyebrow = "failure"
-title = "Same recovery"
-body = "Disconnect, restart, stale data, and hardware faults resolve safely."
-tone = "warning"
-
-[[items]]
-eyebrow = "resource"
-title = "Known footprint"
-body = "CPU, memory, bandwidth, disk, and discovery scale are measured."
-tone = "neutral"
-
-[[items]]
-eyebrow = "operations"
-title = "Observable"
-body = "The support team can diagnose graph, QoS, lifecycle, and logs."
-tone = "positive"
-
-[[items]]
-eyebrow = "security"
-title = "No new authority"
-body = "Command-publisher authorization matches or tightens the ROS 1 policy."
-tone = "negative"
-```
-
-<!-- speaker_note: “The node publishes the same message” is only functional parity. Production parity includes timing, resource usage, fault behavior, operations, and security. -->
-
-<!-- end_slide -->
-
-Release acceptance gates
-========================
-
-```faqe:progress
-max = 1.0
-
-[[items]]
-label = "build"
-value = 1.0
-display = "required"
-text = "clean, pinned, reproducible release artifact"
-tone = "positive"
-
-[[items]]
-label = "contract"
-value = 1.0
-display = "required"
-text = "interfaces, QoS, parameters, and units documented"
-tone = "positive"
-
-[[items]]
-label = "failure"
-value = 1.0
-display = "required"
-text = "restart, disconnect, timeout, and degraded mode tested"
-tone = "warning"
-
-[[items]]
-label = "operate"
-value = 1.0
-display = "required"
-text = "logs, metrics, bags, traces, and runbook available"
-tone = "accent"
-
-[[items]]
-label = "rollback"
-value = 1.0
-display = "required"
-text = "deployment can safely return to the last release"
-tone = "negative"
-```
-
-All mandatory safety gates must pass before promotion.
-
-<!-- speaker_note: These are binary release gates, not progress percentages. Adapt them to the company's quality system and safety classification. -->
-
-<!-- end_slide -->
-
-ros2_control changes
-====================
-
-```faqe:table
-title = "ros_control → ros2_control"
-variant = "comparison"
-columns = ["ROS 1", "ROS 2"]
-
-[[rows]]
-cells = ["RobotHW monolith", "Actuator, Sensor, and System hardware components"]
-
-[[rows]]
-cells = ["fixed common joint interface model", "named command and state interfaces"]
-
-[[rows]]
-cells = ["controllers access RobotHW interfaces", "ResourceManager owns and loans interfaces"]
-
-[[rows]]
-cells = ["implicit hardware startup", "hardware and controller lifecycle"]
-
-[[rows]]
-cells = ["single expected update pattern", "different rates and asynchronous components supported"]
-
-[[rows]]
-cells = ["configuration around transmissions", "hardware description integrated through URDF ros2_control tags"]
-```
-
-Port the hardware boundary first and give any temporary `RobotHW` wrapper a removal milestone.
-
-<!-- speaker_note: ros2_control deliberately removes some rigid ROS 1 assumptions. Split hardware components where their lifecycle, update rate, or failure domain differs. -->
-
-<!-- end_slide -->
-
-<!-- jump_to_middle -->
-<!-- alignment: center -->
-
-Rust nodes in ROS 2
-===================
-
-Rust nodes use the standard ROS 2 interfaces and RMW layer.
-
-Trim Bresilla · ROS 2 Rust contributor · `rclrs` crate owner
-
-<!-- speaker_note: I am not proposing a Rust rewrite. I want to show where Rust pays for itself and how rclrs joins the same graph through the normal ROS interfaces and RMW. -->
-
-<!-- end_slide -->
-
-Engineering tradeoffs for Rust
-==============================
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "memory"
-title = "No GC, fewer memory hazards"
-body = "Ownership prevents broad classes of use-after-free and data races at compile time."
-tone = "positive"
-
-[[items]]
-eyebrow = "concurrency"
-title = "Thread safety is typed"
-body = "Send and Sync make cross-thread assumptions explicit in APIs."
-tone = "accent"
-
-[[items]]
-eyebrow = "deployment"
-title = "Builds are easier to pin"
-body = "Cargo and lockfiles give us a clear dependency record, while cross-compilation support helps with deployment."
-tone = "warning"
-
-[[items]]
-eyebrow = "integration"
-title = "C interoperability"
-body = "Wrap vendor SDKs while containing unsafe code at reviewed boundaries."
-tone = "neutral"
-
-[[items]]
-eyebrow = "performance"
-title = "Zero-cost abstractions"
-body = "High-level iterators and state models compile without a managed runtime."
-tone = "positive"
-
-[[items]]
-eyebrow = "honesty"
-title = "Not automatic real-time"
-body = "Allocation, scheduling, locks, middleware, and kernel behavior still require design."
-tone = "negative"
-```
-
-<!-- speaker_note: Rust removes specific bug classes. It does not design the system for us, and real-time behavior still depends on the whole stack. -->
-
-<!-- end_slide -->
-
-rclrs stack
-===========
-
-```faqe:graph
-title = "rclrs uses the standard ROS 2 stack"
-columns = 5
-rows = 1
-
-[[nodes]]
-id = "app"
-title = "Rust node"
-subtitle = "domain logic"
-column = 1
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "rclrs"
-title = "rclrs"
-subtitle = "safe client API"
-column = 2
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "rcl"
-title = "rcl"
-subtitle = "ROS C client support"
-column = 3
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "rmw"
-title = "RMW"
-subtitle = "same middleware abstraction"
-column = 4
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "graph"
-title = "ROS graph"
-subtitle = "C++ · Python · Rust nodes"
-column = 5
-row = 1
-tone = "neutral"
-
-[[edges]]
-from = "app"
-to = "rclrs"
-
-[[edges]]
-from = "rclrs"
-to = "rcl"
-
-[[edges]]
-from = "rcl"
-to = "rmw"
-
-[[edges]]
-from = "rmw"
-to = "graph"
-label = "interoperate"
+eyebrow = "exit"
+title = "ROS 1 removed"
+body = "Old routes and deployment files are deleted."
 tone = "positive"
 ```
 
-Rust nodes participate in the same graph and use the same interfaces, QoS profiles, bags, and middleware as C++ and Python nodes.
+<!-- end_slide -->
 
-<!-- speaker_note: rclrs binds to rcl and participates in the same graph. Existing interface definitions, QoS profiles, bags, and RMW choices remain shared across languages. -->
+Rust in ROS 2
+=============
+
+`rclrs` connects Rust nodes to ROS 2 through the common C layer.
+
+* Ownership clarifies device and callback state.
+* `Result` makes failure paths explicit.
+* Cargo handles Rust dependencies.
+* `ament_cargo` and `colcon-cargo` provide workspace integration.
+* Required ROS features need an API-coverage check.
+
+Trim actively contributes to and maintains ROS Rust crates.
 
 <!-- end_slide -->
 
-rclrs feature status
-====================
-
-```faqe:grid
-columns = 4
-variant = "strip"
-
-[[items]]
-eyebrow = "communication"
-title = "Pub/sub"
-body = "Sync and async publishers/subscriptions with tunable QoS and loaned messages."
-tone = "positive"
-
-[[items]]
-eyebrow = "request"
-title = "Services + actions"
-body = "Clients and servers, including asynchronous actions."
-tone = "accent"
-
-[[items]]
-eyebrow = "configuration"
-title = "Parameters"
-body = "Mandatory, optional, read-only, and parameter services."
-tone = "warning"
-
-[[items]]
-eyebrow = "runtime"
-title = "Executors"
-body = "Wait sets, guard conditions, timers, and worker patterns."
-tone = "negative"
-
-[[items]]
-eyebrow = "types"
-title = "Message generation"
-body = "All ROS message types plus dynamic message handling."
-tone = "positive"
-
-[[items]]
-eyebrow = "time"
-title = "Clocks"
-body = "Clock, time-source, and ROS-time APIs."
-tone = "accent"
-
-[[items]]
-eyebrow = "graph"
-title = "Introspection"
-body = "Node and topic discovery with endpoint information."
-tone = "neutral"
-
-[[items]]
-eyebrow = "status"
-title = "Evolving"
-body = "The API is active and does not yet promise complete stability."
-tone = "warning"
-```
-
-The current release is `rclrs 0.7.0`. Pin it together with the generated-message crates and ROS distribution.
-
-<!-- speaker_note: rclrs now covers a broad slice of ROS 2. Production trouble is more likely to come from mixing versions of rclrs, rosidl_runtime_rs, rosidl_rust, generated messages, and the ROS distribution. -->
-
-<!-- end_slide -->
-
-rclrs node example
-==================
+rclrs node
+==========
 
 ```rust
-use rclrs::{Context, Executor, QoSProfile, SpinOptions};
-use std_msgs::msg::String as StringMsg;
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let context = Context::default_from_env()?;
-    let mut executor = Executor::new(&context)?;
-    let node = executor.create_node("rust_status")?;
-    let publisher = node.create_publisher::<StringMsg>(
-        "status",
-        QoSProfile::default(),
-    )?;
-
-    node.create_wall_timer(std::time::Duration::from_secs(1), move || {
-        let msg = StringMsg { data: "alive".into() };
-        let _ = publisher.publish(&msg);
-    })?;
-    executor.spin(SpinOptions::default()).first_error()?;
-    Ok(())
-}
+let context = rclrs::Context::new(std::env::args())?;
+let node = rclrs::Node::new(&context, "rust_talker")?;
+let publisher =
+    node.create_publisher::<std_msgs::msg::String>("chatter")?;
+publisher.publish(std_msgs::msg::String {
+    data: "hello".into(),
+})?;
 ```
 
-The API still moves. The node remains an ordinary member of the ROS 2 graph.
-
-<!-- speaker_note: Use examples from the pinned rclrs version during the live workshop. The API may move; the useful lesson here is the ownership model. -->
+A tool, adapter, or leaf node with a stable interface is a suitable first pilot.
 
 <!-- end_slide -->
 
-Rust ownership patterns
-=======================
+Zenoh options
+=============
 
 ```faqe:table
-title = "Ownership and concurrency checks"
 variant = "comparison"
-columns = ["Question", "Rust pressure", "ROS benefit"]
-
+columns = ["Option", "Code change", "Boundary"]
 [[rows]]
-cells = ["Who owns the publisher?", "captured handle has an explicit lifetime", "no callback after accidental destruction"]
-
+cells = ["`rmw_zenoh`", "select RMW", "ROS 2 domain"]
 [[rows]]
-cells = ["Can callbacks share state?", "Arc, Mutex, channels, or worker pattern", "concurrency policy is reviewable"]
-
+cells = ["DDS bridge", "none for DDS nodes", "sites and links"]
 [[rows]]
-cells = ["Can this cross threads?", "Send and Sync constraints", "unsafe sharing fails to compile"]
-
-[[rows]]
-cells = ["Where is vendor C unsafe?", "small unsafe adapter module", "audit boundary is narrow"]
-
-[[rows]]
-cells = ["What can fail?", "Result and typed errors", "failure propagation is explicit"]
+cells = ["native Zenoh", "explicit API", "non-ROS data"]
 ```
 
-<!-- speaker_note: One giant mutex around the node is not a concurrency design. Let a worker own mutable domain state and send it typed commands from callbacks. -->
+Measure discovery, routing, bandwidth, and recovery.
 
 <!-- end_slide -->
 
-Building Rust packages with colcon
-==================================
-
-```faqe:graph
-title = "ament_cargo and colcon-cargo integration"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "xml"
-title = "package.xml"
-subtitle = "ROS dependencies"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "toml"
-title = "Cargo.toml"
-subtitle = "Rust dependencies"
-column = 1
-row = 2
-tone = "warning"
-
-[[nodes]]
-id = "ament"
-title = "ament_cargo"
-subtitle = "package build type"
-column = 3
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "colcon"
-title = "colcon-cargo"
-subtitle = "workspace integration"
-column = 3
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "install"
-title = "install space"
-subtitle = "normal ros2 run package"
-column = 5
-row = 1
-tone = "accent"
-
-[[edges]]
-from = "xml"
-to = "ament"
-
-[[edges]]
-from = "toml"
-to = "ament"
-
-[[edges]]
-from = "ament"
-to = "colcon"
-
-[[edges]]
-from = "colcon"
-to = "install"
-label = "install"
-tone = "positive"
-```
-
-Releases should pin Cargo dependencies, the ROS distribution, and the workspace manifest together.
-
-<!-- speaker_note: A production release should record Cargo dependencies, vcs-imported repositories, apt packages, ROS distribution snapshots, and the compiler toolchain. -->
-
-<!-- end_slide -->
-
-Initial Rust pilot selection
-============================
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "high value"
-title = "Protocol gateways"
-body = "Own bytes, parsing, retries, and concurrency around hardware or network SDKs."
-tone = "positive"
-
-[[items]]
-eyebrow = "high value"
-title = "Safety supervisors"
-body = "Make state, timeouts, and failure transitions explicit."
-tone = "accent"
-
-[[items]]
-eyebrow = "high value"
-title = "Data infrastructure"
-body = "Recorders, routers, validators, and schema-aware pipelines."
-tone = "warning"
-
-[[items]]
-eyebrow = "good fit"
-title = "Compute nodes"
-body = "Predictable native performance without a managed runtime."
-tone = "positive"
-
-[[items]]
-eyebrow = "evaluate"
-title = "Vendor-heavy drivers"
-body = "FFI quality and upstream support may dominate language choice."
-tone = "neutral"
-
-[[items]]
-eyebrow = "migration cost"
-title = "Mature C++ stack"
-body = "A stable, tested component gains little from a language rewrite during migration."
-tone = "negative"
-```
-
-<!-- speaker_note: Introduce Rust at new boundaries or high-defect components. Do not combine the ROS 2 migration with a wholesale language rewrite. -->
-
-<!-- end_slide -->
-
-<!-- jump_to_middle -->
-<!-- alignment: center -->
-
-Zenoh topology options
-==============================
-
-Zenoh uses one hierarchical key space for streams, queries, and stored data. Its topology and data model differ from DDS.
-
-<!-- speaker_note: Zenoh earns attention when robots cross unreliable links, sites, fleets, or cloud boundaries. A single robot on one good LAN may not need it. -->
-
-<!-- end_slide -->
-
-Zenoh APIs
-=============================
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "data in motion"
-title = "Publish / subscribe"
-body = "Writers put values under keys; subscribers observe matching key expressions."
-badge = "stream"
-tone = "accent"
-
-[[items]]
-eyebrow = "data in use"
-title = "Query / reply"
-body = "A get reaches matching queryables, which compute or retrieve replies."
-badge = "ask"
-tone = "warning"
-
-[[items]]
-eyebrow = "data at rest"
-title = "Storage"
-body = "A storage subscribes to updates and answers later queries from a backend."
-badge = "remember"
-tone = "positive"
-```
-
-One key expression can address live producers, computed answers, and stored state without the caller knowing their location.
-
-<!-- speaker_note: Zenoh defines a distributed key/value space. Publishers, subscribers, queryables, and storage share key expressions, enabling location-transparent access patterns. -->
-
-<!-- end_slide -->
-
-Key-space design
-================
-
-```text
-company/site-a/robots/r17/state/pose
-company/site-a/robots/r17/sensors/lidar/front
-company/site-a/robots/r17/commands/base_velocity
-company/site-a/robots/*/state/battery
-company/**/events/fault
-```
-
-```faqe:grid
-columns = 3
-variant = "strip"
-
-[[items]]
-eyebrow = "identity"
-title = "Stable hierarchy"
-body = "Organization, site, asset, capability, and datum each get a deliberate level."
-tone = "positive"
-
-[[items]]
-eyebrow = "selection"
-title = "Wildcards"
-body = "`*` matches one chunk; `**` spans arbitrary hierarchy."
-tone = "accent"
-
-[[items]]
-eyebrow = "governance"
-title = "Policy boundary"
-body = "Routing, storage, downsampling, and ACLs can target key expressions."
-tone = "warning"
-```
-
-<!-- speaker_note: Do not dump ROS topic strings into a global Zenoh namespace without a design. Key hierarchy becomes the unit of routing, storage, tenancy, and permissions. -->
-
-<!-- end_slide -->
-
-Zenoh deployment modes
-======================
-
-```faqe:table
-title = "Topology can follow the physical system"
-variant = "comparison"
-columns = ["Mode", "Connection model", "Use"]
-
-[[rows]]
-cells = ["Peer", "peers discover and connect directly", "small trusted local region"]
-tones = ["accent", "neutral", "positive"]
-
-[[rows]]
-cells = ["Client", "maintains connection to router/broker", "constrained robot or controlled edge"]
-tones = ["warning", "neutral", "positive"]
-
-[[rows]]
-cells = ["Router", "routes for other applications", "site backbone, WAN, or mesh"]
-tones = ["positive", "neutral", "positive"]
-
-[[rows]]
-cells = ["Gateway / region", "hides internal topology across hierarchy", "fleet, factory, and multi-site scaling"]
-tones = ["negative", "neutral", "accent"]
-```
-
-Topology configuration belongs in release artifacts and integration tests.
-
-<!-- speaker_note: Client mode reduces per-application connection state. Routers make explicit routed regions. Gateways can hide unnecessary internal details and reduce global discovery load. -->
-
-<!-- end_slide -->
-
-ROS 2 and Zenoh integration options
-===================================
-
-```faqe:table
-title = "Native RMW or DDS bridge"
-variant = "comparison"
-columns = ["Path", "Inside robot", "Across Zenoh", "Choose when"]
-
-[[rows]]
-cells = ["rmw_zenoh_cpp", "ROS APIs map directly onto Zenoh", "native Zenoh RMW", "the full ROS 2 graph can standardize on Zenoh"]
-tones = ["accent", "positive", "positive", "positive"]
-
-[[rows]]
-cells = ["zenoh-bridge-ros2dds", "nodes keep a DDS RMW", "bridge routes selected ROS graph", "existing DDS graph must remain untouched"]
-tones = ["warning", "neutral", "positive", "positive"]
-```
-
-Use either direct DDS or the bridged Zenoh path between two islands. Enabling both can duplicate traffic or create loops.
-
-<!-- speaker_note: rmw_zenoh is a middleware implementation selected by RMW_IMPLEMENTATION. zenoh-bridge-ros2dds discovers a local DDS graph and maps it into Zenoh. They solve different deployment constraints. -->
-
-<!-- end_slide -->
-
-rmw_zenoh operational model
+World-model data with Zenoh
 ===========================
 
 ```faqe:graph
-title = "Default sessions use a local router for discovery"
-columns = 5
-rows = 2
-
+columns = 4
+rows = 1
 [[nodes]]
-id = "a"
-title = "ROS 2 node A"
-subtitle = "RMW=rmw_zenoh_cpp"
+id = "robot"
+title = "ROS 2 robot"
 column = 1
 row = 1
-tone = "accent"
-
 [[nodes]]
-id = "b"
-title = "ROS 2 node B"
-subtitle = "RMW=rmw_zenoh_cpp"
-column = 1
-row = 2
+id = "projection"
+title = "projection"
+subtitle = "validate · timestamp"
+column = 2
+row = 1
 tone = "accent"
-
 [[nodes]]
-id = "router"
-title = "rmw_zenohd"
-subtitle = "discovery · routing"
+id = "zenoh"
+title = "Zenoh"
+subtitle = "pub/sub · query · storage"
 column = 3
 row = 1
-tone = "positive"
-
-[[nodes]]
-id = "remote"
-title = "remote router"
-subtitle = "site or fleet backbone"
-column = 5
-row = 1
 tone = "warning"
-
 [[nodes]]
-id = "native"
-title = "native Zenoh app"
-subtitle = "query · storage · analytics"
-column = 5
-row = 2
-tone = "negative"
-
+id = "apps"
+title = "consumers"
+subtitle = "fleet · UI · analytics"
+column = 4
+row = 1
 [[edges]]
-from = "a"
-to = "router"
-label = "session"
-
+from = "robot"
+to = "projection"
 [[edges]]
-from = "b"
-to = "router"
-label = "session"
-
+from = "projection"
+to = "zenoh"
 [[edges]]
-from = "router"
-to = "remote"
-label = "configured route"
-tone = "positive"
-
-[[edges]]
-from = "router"
-to = "native"
-label = "key space"
-tone = "accent"
+from = "zenoh"
+to = "apps"
 ```
 
-`rmw_zenoh_cpp` has full ROS 2 support and ships in binary releases beginning with Kilted.
-
-<!-- speaker_note: Current defaults restrict discovery and communication within a host with a Zenoh router. Router and session JSON5 configurations define how the host connects outward. -->
+Durable claims need provenance, source time, validity, and authority.
 
 <!-- end_slide -->
 
-QoS behavior with rmw_zenoh
+Presentation summary
+====================
+
+* ROS 2 changes discovery, delivery, scheduling, configuration, and deployment.
+* Existing algorithms can stay behind a new integration boundary.
+* QoS, executor layout, lifecycle, and security require decisions.
+* Bridge routes should shrink after every migration batch.
+* Rust, Zenoh, and durable world data need separate acceptance tests.
+
+Questions, then a short break. The workshop starts next.
+
+<!-- end_slide -->
+
+Workshop: installation and first port
+=====================================
+
+```faqe:grid
+columns = 3
+variant = "cards"
+[[items]]
+eyebrow = "checkpoint A"
+title = "Install"
+body = "Working Jazzy demo graph."
+[[items]]
+eyebrow = "checkpoint B"
+title = "Build"
+body = "Clean colcon workspace."
+tone = "accent"
+[[items]]
+eyebrow = "checkpoint C"
+title = "Port"
+body = "Translated ROS 1 package."
+tone = "warning"
+```
+
+<!-- end_slide -->
+
+Installation paths
+==================
+
+```faqe:table
+variant = "comparison"
+columns = ["Path", "Workshop role", "Host"]
+[[rows]]
+cells = ["Ubuntu deb", "primary", "Ubuntu 24.04"]
+[[rows]]
+cells = ["rosflake", "alternative", "Linux with Nix"]
+[[rows]]
+cells = ["container", "fallback", "Docker/Podman"]
+```
+
+Use one path per shell; each shell should contain either the apt environment or the Nix environment.
+
+<!-- end_slide -->
+
+Ubuntu prerequisites
+====================
+
+```bash
+sudo apt update
+sudo apt install locales software-properties-common curl -y
+sudo locale-gen en_US en_US.UTF-8
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+sudo add-apt-repository universe
+```
+
+Checkpoint: `locale` reports UTF-8.
+
+<!-- end_slide -->
+
+Configure the ROS apt source
+============================
+
+```bash
+sudo apt update
+export ROS_APT_SOURCE_VERSION="$(
+  curl -s https://api.github.com/repos/ros-infrastructure/ros-apt-source/releases/latest |
+  grep -F 'tag_name' | awk -F'"' '{print $4}')"
+curl -L -o /tmp/ros2-apt-source.deb \
+  "https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.$(. /etc/os-release && echo ${UBUNTU_CODENAME:-${VERSION_CODENAME}})_all.deb"
+sudo dpkg -i /tmp/ros2-apt-source.deb
+```
+
+<!-- end_slide -->
+
+Install ROS 2 Jazzy
+===================
+
+```bash
+sudo apt update
+sudo apt upgrade
+sudo apt install ros-jazzy-desktop ros-dev-tools
+```
+
+Use `desktop` for the workshop. A product image can later use `ros-base` or an explicit package set.
+
+<!-- end_slide -->
+
+Set up the shell
+================
+
+```bash
+source /opt/ros/jazzy/setup.bash
+echo "$ROS_DISTRO"
+printenv | grep -E '^(ROS|AMENT|COLCON)'
+```
+
+Optional for Bash:
+
+```bash
+echo 'source /opt/ros/jazzy/setup.bash' >> ~/.bashrc
+```
+
+<!-- end_slide -->
+
+Verify talker and listener
+==========================
+
+Terminal A:
+
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+Terminal B:
+
+```bash
+ros2 run demo_nodes_py listener
+```
+
+If no data arrives, compare domain IDs, RMW selection, firewalls, and network interfaces.
+
+<!-- end_slide -->
+
+Use rosdep
+==========
+
+```bash
+sudo rosdep init       # once per machine
+rosdep update
+cd ~/ros2_ws
+rosdep install --from-paths src --ignore-src -r -y
+```
+
+`package.xml` declares dependencies. `rosdep` maps the keys to system packages.
+
+<!-- end_slide -->
+
+Create a workspace
+==================
+
+```bash
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws/src
+ros2 pkg create --build-type ament_cmake \
+  --license Apache-2.0 \
+  --dependencies rclcpp std_msgs migration_demo
+cd ~/ros2_ws
+colcon build --symlink-install
+source install/setup.bash
+```
+
+Commit the empty package as the workshop baseline.
+
+<!-- end_slide -->
+
+ROS on Nix
+==========
+
+[`nix-ros-overlay`](https://github.com/lopsided98/nix-ros-overlay) packages ROS inside Nix.
+
+```bash
+nix develop \
+  github:lopsided98/nix-ros-overlay/master#example-ros2-desktop-jazzy
+ros2 launch demo_nodes_cpp talker_listener_launch.xml
+```
+
+The environment can pin ROS, compilers, and non-ROS dependencies. Check package and cache coverage.
+
+<!-- end_slide -->
+
+Trim's rosflake
+===============
+
+[`bresilla/rosflake`](https://github.com/bresilla/rosflake) is Trim's current ROS 2 development environment.
+
+```bash
+git clone https://github.com/bresilla/rosflake.git
+cd rosflake
+nix develop --impure
+ros2 run demo_nodes_cpp talker
+```
+
+It selects Jazzy, Cyclone DDS, MoveIt, Ackermann messages, colcon, CMake, Clang, Mold, and stable Rust.
+
+<!-- end_slide -->
+
+What rosflake configures
 ========================
 
 ```faqe:grid
 columns = 2
 variant = "cards"
-
 [[items]]
-eyebrow = "good news"
-title = "Fewer incompatible endpoints"
-body = "Zenoh QoS profiles are essentially never incompatible in the DDS requested/offered sense."
-tone = "positive"
-
-[[items]]
-eyebrow = "important"
-title = "rmw_zenoh policy support"
-body = "The ROS RMW guide notes that rmw_zenoh does not implement deadline and lifespan policies."
-tone = "warning"
-
-[[items]]
-eyebrow = "configuration"
-title = "Network QoS overrides"
-body = "Routers can alter priority, congestion control, express mode, and reliability for matching key expressions."
+eyebrow = "ROS workspace"
+title = "Ament and CMake paths"
+body = ".rosws.nix deduplicates flags and creates a synthetic ament prefix."
 tone = "accent"
-
 [[items]]
-eyebrow = "migration rule"
-title = "Revalidate semantics"
-body = "RMW selection can change operational guarantees and failure behavior while application APIs remain unchanged."
-tone = "negative"
-```
-
-<!-- speaker_note: RMW abstraction makes selection possible. It does not guarantee identical implementation of every policy. Maintain an RMW capability matrix for features the product relies on. -->
-
-<!-- end_slide -->
-
-World-model scope
-==============================
-
-A useful world model answers:
-
-```faqe:grid
-columns = 3
-variant = "strip"
-
-[[items]]
-eyebrow = "identity"
-title = "What exists?"
-body = "Robots, people, assets, zones, maps, tasks, and capabilities."
-tone = "positive"
-
-[[items]]
-eyebrow = "state"
-title = "What is true now?"
-body = "Pose, mode, ownership, occupancy, health, and active intent."
-tone = "accent"
-
-[[items]]
-eyebrow = "history"
-title = "What changed?"
-body = "Events, observations, commands, transitions, and provenance."
-tone = "warning"
-
-[[items]]
-eyebrow = "uncertainty"
-title = "How sure are we?"
-body = "Source, timestamp, frame, confidence, and validity interval."
-tone = "negative"
-
-[[items]]
-eyebrow = "query"
-title = "What matches?"
-body = "Assets in a zone, available robots, recent faults, or current task state."
-tone = "positive"
-
-[[items]]
-eyebrow = "authority"
-title = "Who may change it?"
-body = "Sensors observe, estimators derive, planners propose, controllers command."
-tone = "accent"
-```
-
-<!-- speaker_note: A latest-pose stream is not a world model. The model also needs identity, time, uncertainty, provenance, and authority. -->
-
-<!-- end_slide -->
-
-World-model data classes
-==========================
-
-```faqe:table
-title = "Different data deserves different retention and authority"
-variant = "comparison"
-columns = ["Class", "Example", "Delivery", "Retention"]
-
-[[rows]]
-cells = ["Observation", "camera detection", "stream; lossy may be acceptable", "short window or selected evidence"]
-
-[[rows]]
-cells = ["State", "robot mode or latest pose", "latest valid value", "current snapshot plus change history"]
-
-[[rows]]
-cells = ["Event", "entered zone or fault raised", "reliable and ordered per source", "append-only audit timeline"]
-
-[[rows]]
-cells = ["Command", "navigate to station", "authorized request with acknowledgement", "intent, acceptance, result"]
-```
-
-Give observations, state, events, and commands separate contracts based on their different lifetime and authority rules.
-
-<!-- speaker_note: The classes differ in truth semantics. An observation is evidence, state is a current assertion, an event records change, and a command requests authority to act. -->
-
-<!-- end_slide -->
-
-Zenoh data paths
-==================================
-
-```faqe:graph
-title = "Zenoh can connect the three without collapsing them"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "robot"
-title = "robot publishes"
-subtitle = "live observations and state"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "sub"
-title = "live subscribers"
-subtitle = "control · UI · alerts"
-column = 3
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "store"
-title = "storage"
-subtitle = "subscribes and persists"
-column = 3
-row = 2
-tone = "warning"
-
-[[nodes]]
-id = "query"
-title = "queryable"
-subtitle = "compute current answer"
-column = 5
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "get"
-title = "get"
-subtitle = "location-transparent request"
-column = 5
-row = 2
-tone = "accent"
-
-[[edges]]
-from = "robot"
-to = "sub"
-label = "pub/sub"
-tone = "positive"
-
-[[edges]]
-from = "robot"
-to = "store"
-label = "persist"
-tone = "warning"
-
-[[edges]]
-from = "sub"
-to = "query"
-label = "derive"
-tone = "negative"
-
-[[edges]]
-from = "store"
-to = "get"
-label = "reply"
-tone = "accent"
-
-[[edges]]
-from = "query"
-to = "get"
-label = "reply"
-tone = "accent"
-```
-
-<!-- speaker_note: Zenoh storage is both subscriber and queryable. A get can receive replies from live computation and persisted state using the same key-space addressing. -->
-
-<!-- end_slide -->
-
-Provenance in the world graph
-================================
-
-```faqe:graph
-title = "Provenance fields for state"
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "sensor"
-title = "camera 4"
-subtitle = "source identity"
-column = 1
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "obs"
-title = "observation"
-subtitle = "person at x,y · t=42"
-column = 2
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "fusion"
-title = "fusion"
-subtitle = "frame · confidence · policy"
-column = 3
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "state"
-title = "world assertion"
-subtitle = "zone occupied"
-column = 4
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "decision"
-title = "planner decision"
-subtitle = "route around zone"
-column = 5
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "expiry"
-title = "validity interval"
-subtitle = "expires without evidence"
-column = 4
-row = 2
-tone = "warning"
-
-[[edges]]
-from = "sensor"
-to = "obs"
-label = "witness"
-
-[[edges]]
-from = "obs"
-to = "fusion"
-label = "transform"
-
-[[edges]]
-from = "fusion"
-to = "state"
-label = "assert"
-tone = "positive"
-
-[[edges]]
-from = "state"
-to = "decision"
-label = "influence"
-tone = "negative"
-
-[[edges]]
-from = "expiry"
-to = "state"
-label = "bound"
+eyebrow = "graphics"
+title = "Host NVIDIA matching"
+body = ".envrc and .nixgl.nix pin the host driver."
 tone = "warning"
 ```
 
-<!-- speaker_note: The world model should support a “why?” query: which sensor, transform, timestamp, algorithm version, and confidence produced the assertion that changed behavior? -->
+The shell selects Cyclone DDS. Graphics detection is why the command uses `--impure`.
 
 <!-- end_slide -->
 
-Freshness and validity
-==========================
+The package to port
+===================
 
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "event time"
-title = "Observed at"
-body = "When the physical event or measurement occurred."
-tone = "positive"
-
-[[items]]
-eyebrow = "ingest time"
-title = "Received at"
-body = "When the data infrastructure saw the sample."
-tone = "accent"
-
-[[items]]
-eyebrow = "validity"
-title = "True until"
-body = "The interval during which an assertion may guide behavior."
-tone = "warning"
-
-[[items]]
-eyebrow = "ordering"
-title = "Source sequence"
-body = "Detect gaps, duplicates, and reordering per producer."
-tone = "neutral"
-
-[[items]]
-eyebrow = "causality"
-title = "Derived from"
-body = "Link state back to observations and transforms."
-tone = "positive"
-
-[[items]]
-eyebrow = "conflict"
-title = "Resolution policy"
-body = "Resolve current state from source time, authority, confidence, and validity rules."
-tone = "negative"
+```text
+migration_demo/
+├── CMakeLists.txt
+├── package.xml
+├── msg/Status.msg
+├── launch/demo.launch
+└── src/
+    ├── talker.cpp
+    └── listener.cpp
 ```
 
-<!-- speaker_note: Last-write-wins by receive time is often wrong for delayed robot data. State resolution should use source time, authority, confidence, and validity according to the domain. -->
+It contains one message, parameter, publisher, subscriber, and launch file.
 
 <!-- end_slide -->
 
-State and command authority
-==========================================
+Inventory before editing
+========================
 
-```faqe:table
-title = "Separate data and control permissions"
-variant = "comparison"
-columns = ["Surface", "Who writes", "Required controls"]
-
-[[rows]]
-cells = ["observations", "identified sensors and perception", "schema, source identity, rate limits"]
-
-[[rows]]
-cells = ["derived world state", "authorized fusion/world-model service", "provenance, expiry, conflict policy"]
-
-[[rows]]
-cells = ["task intent", "operator or scheduler", "authentication, authorization, idempotency"]
-
-[[rows]]
-cells = ["actuator command", "local controller only", "tight allowlist, timeout, safety envelope"]
-
-[[rows]]
-cells = ["audit event", "every authority boundary", "append-only storage and clock provenance"]
+```bash
+rostopic info /status
+rostopic hz /status
+rosmsg show migration_demo/Status
+rosparam get /talker/rate
+rosnode info /talker
 ```
 
-ACLs should separate telemetry keys from command keys and restrict wildcard permissions accordingly.
-
-<!-- speaker_note: Zenoh ACL rules can target key expressions, but key-space design must make safe policy possible. Separate telemetry, intent, and actuation namespaces. -->
+Record names, types, rates, queue sizes, latching, parameters, remaps, and shutdown behavior.
 
 <!-- end_slide -->
 
-Fleet topology example
+Translate package.xml
+=====================
+
+```xml
+<package format="3">
+  <name>migration_demo</name>
+  <version>0.1.0</version>
+  <maintainer email="team@example.com">Robot Team</maintainer>
+  <license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>rosidl_default_generators</depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+</package>
+```
+
+<!-- end_slide -->
+
+Translate CMakeLists.txt
+========================
+
+```cmake
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Status.msg" DEPENDENCIES std_msgs)
+add_executable(talker src/talker.cpp)
+ament_target_dependencies(talker rclcpp std_msgs)
+install(TARGETS talker DESTINATION lib/${PROJECT_NAME})
+ament_package()
+```
+
+<!-- end_slide -->
+
+Translate a message
+===================
+
+ROS 1:
+
+```text
+Header header
+string state
+float32 temperature
+```
+
+ROS 2:
+
+```text
+std_msgs/Header header
+string state
+float32 temperature
+```
+
+Inspect it with `ros2 interface show migration_demo/msg/Status`.
+
+<!-- end_slide -->
+
+Translate node initialization
+=============================
+
+ROS 1:
+
+```cpp
+ros::init(argc, argv, "talker");
+ros::NodeHandle node;
+```
+
+ROS 2:
+
+```cpp
+rclcpp::init(argc, argv);
+auto node = rclcpp::Node::make_shared("talker");
+rclcpp::spin(node);
+rclcpp::shutdown();
+```
+
+Larger nodes normally derive from `rclcpp::Node`.
+
+<!-- end_slide -->
+
+Translate a publisher
+=====================
+
+ROS 1:
+
+```cpp
+auto pub = node.advertise<std_msgs::String>("chatter", 10);
+pub.publish(message);
+```
+
+ROS 2:
+
+```cpp
+auto pub = node->create_publisher<std_msgs::msg::String>(
+  "chatter", rclcpp::QoS(10).reliable());
+pub->publish(message);
+```
+
+Translate the queue depth and review every QoS policy.
+
+<!-- end_slide -->
+
+Translate a subscription
+========================
+
+```cpp
+auto sub = node->create_subscription<std_msgs::msg::String>(
+  "chatter", rclcpp::QoS(10).reliable(),
+  [](std_msgs::msg::String::ConstSharedPtr msg) {
+    RCLCPP_INFO(rclcpp::get_logger("listener"),
+                "%s", msg->data.c_str());
+  });
+```
+
+Store the handle; the subscription is destroyed when it leaves scope.
+
+<!-- end_slide -->
+
+Replace the ROS 1 loop
 ======================
 
-```faqe:graph
-title = "Local autonomy, routed summaries, selective remote control"
-columns = 5
-rows = 3
-
-[[nodes]]
-id = "r1"
-title = "robot 1 ROS graph"
-subtitle = "local control stays local"
-column = 1
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "r2"
-title = "robot 2 ROS graph"
-subtitle = "local control stays local"
-column = 1
-row = 3
-tone = "positive"
-
-[[nodes]]
-id = "edge"
-title = "site router"
-subtitle = "filter · route · store"
-column = 3
-row = 2
-tone = "accent"
-
-[[nodes]]
-id = "world"
-title = "site world model"
-subtitle = "queryables · current state"
-column = 4
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "cloud"
-title = "fleet services"
-subtitle = "analytics · audit · planning"
-column = 5
-row = 2
-tone = "negative"
-
-[[nodes]]
-id = "ops"
-title = "operator"
-subtitle = "authorized intent"
-column = 4
-row = 3
-tone = "neutral"
-
-[[edges]]
-from = "r1"
-to = "edge"
-label = "selected data"
-
-[[edges]]
-from = "r2"
-to = "edge"
-label = "selected data"
-
-[[edges]]
-from = "edge"
-to = "world"
-label = "state"
-tone = "positive"
-
-[[edges]]
-from = "edge"
-to = "cloud"
-label = "routed"
-tone = "accent"
-
-[[edges]]
-from = "ops"
-to = "edge"
-label = "intent"
-tone = "warning"
-
-[[edges]]
-from = "world"
-to = "ops"
-label = "query"
-dashed = true
+```cpp
+timer_ = create_wall_timer(
+  std::chrono::milliseconds(100),
+  [this]() { publish_status(); });
 ```
 
-<!-- speaker_note: High-rate control loops should not depend on WAN availability. Route summaries, events, selected sensor data, and task intent across regions; keep stabilization and safety local. -->
+ROS 2 timers are executor work. Check the old loop for blocking calls, wall-time use, and callback-dispatch assumptions.
 
 <!-- end_slide -->
 
-Disconnected robot behavior
-===================================
+Translate parameters
+====================
 
-```faqe:timeline
-[[items]]
-title = "Connected"
-meta = "normal routed operation"
-body = "Robot publishes selected state and receives authorized task intent."
-tone = "positive"
-
-[[items]]
-title = "Link degrades"
-meta = "loss and latency rise"
-body = "Downsampling and congestion policy protect command and health traffic."
-tone = "warning"
-
-[[items]]
-title = "Disconnected"
-meta = "local autonomy"
-body = "Robot continues within a defined envelope and records an outbound event log."
-tone = "accent"
-
-[[items]]
-title = "Reconnected"
-meta = "reconcile"
-body = "Events synchronize first. The robot then recomputes current state without replaying expired commands."
-tone = "negative"
-
-[[items]]
-title = "Audited"
-meta = "explain divergence"
-body = "Operators can inspect what happened locally while the fleet view was stale."
-tone = "positive"
+```cpp
+rate_hz_ = declare_parameter<double>("rate_hz", 10.0);
+callback_handle_ = add_on_set_parameters_callback(
+  [this](const auto & params) {
+    return validate_and_apply(params);
+  });
 ```
 
-<!-- speaker_note: A world model must distinguish delayed history from current state. Reconnection should never replay expired actuator commands as if they were still valid. -->
+```bash
+ros2 param set /talker rate_hz 20.0
+```
+
+Reject invalid updates without partially changing state.
 
 <!-- end_slide -->
 
-Additional ROS 2 tools
-===============================
+Select QoS
+==========
 
-```faqe:grid
-columns = 4
-variant = "strip"
-
-[[items]]
-eyebrow = "control"
-title = "ros2_control"
-body = "Lifecycle-aware hardware, resource management, and controller composition."
-tone = "positive"
-
-[[items]]
-eyebrow = "navigation"
-title = "Nav2"
-body = "Lifecycle-managed navigation with behavior-tree orchestration."
-tone = "accent"
-
-[[items]]
-eyebrow = "manipulation"
-title = "MoveIt 2"
-body = "ROS 2-native planning, execution, and modernized APIs."
-tone = "warning"
-
-[[items]]
-eyebrow = "embedded"
-title = "micro-ROS"
-body = "ROS 2 concepts on RTOS and microcontroller-class devices."
-tone = "negative"
-
-[[items]]
-eyebrow = "data"
-title = "MCAP"
-body = "Indexed, multi-channel recordings usable beyond ROS tooling."
-tone = "positive"
-
-[[items]]
-eyebrow = "inspection"
-title = "Foxglove"
-body = "Modern visualization and remote observability workflows."
-tone = "accent"
-
-[[items]]
-eyebrow = "performance"
-title = "ros2_tracing"
-body = "Trace executor scheduling and callback duration during representative workloads."
-tone = "warning"
-
-[[items]]
-eyebrow = "network"
-title = "Zenoh"
-body = "Routed edge, fleet, query, and storage patterns."
-tone = "negative"
+```faqe:table
+variant = "comparison"
+columns = ["ROS 1 behavior", "ROS 2 candidate"]
+[[rows]]
+cells = ["TCPROS, queue 10", "reliable, keep last 10"]
+[[rows]]
+cells = ["UDPROS sensor stream", "sensor data profile"]
+[[rows]]
+cells = ["latched state", "transient local, depth 1"]
 ```
 
-<!-- speaker_note: Do not adopt everything in one migration. Use the inventory to identify where an ecosystem upgrade removes a real ROS 1 limitation or an existing company-maintained fork. -->
+Verify endpoints with `ros2 topic info /status --verbose`.
 
 <!-- end_slide -->
 
-Lab 1: ROS graph inspection
-==================================
+Translate a service
+===================
 
-```text
-ros2 node list
-ros2 node info /camera
-ros2 topic list -t
-ros2 topic info -v /camera/image
-ros2 interface show sensor_msgs/msg/Image
-ros2 doctor --report
+```cpp
+service_ = create_service<example_interfaces::srv::SetBool>(
+  "enable",
+  [this](const std::shared_ptr<Request> request,
+         std::shared_ptr<Response> response) {
+    response->success = set_enabled(request->data);
+  });
 ```
 
-Exercise: draw the discovered graph, stop discovery, restart one node, and explain every change reported by the CLI.
-
-Deliverable: a graph inventory that records endpoint QoS alongside the topic names.
-
-<!-- speaker_note: Participants should run this with the workshop fixture or a small company subsystem. The output becomes the first ROS 2 inventory artifact. -->
+Test with `ros2 service call`. Use an action for cancellable or long-running work.
 
 <!-- end_slide -->
 
-Lab 2: leaf-node migration
-===================================
+Translate long-running work
+===========================
 
-```faqe:timeline
-[[items]]
-title = "Extract behavior"
-meta = "before touching ROS APIs"
-body = "Move algorithm and protocol logic behind a unit-tested boundary."
-tone = "positive"
+An action defines a goal, feedback, result, and cancellation path.
 
-[[items]]
-title = "Create ROS 2 package"
-meta = "manifest · build · interface dependencies"
-body = "Build and run from a clean install space."
-tone = "accent"
+* Goal acceptance and rejection
+* Feedback content and frequency
+* Cancellation latency
+* Restart behavior
+* Concurrent-goal policy
 
-[[items]]
-title = "Port endpoints"
-meta = "names · QoS · parameters"
-body = "Document every changed contract."
-tone = "warning"
-
-[[items]]
-title = "Replay evidence"
-meta = "same recorded input"
-body = "Compare outputs against ROS 1 tolerances."
-tone = "positive"
-
-[[items]]
-title = "Inject failure"
-meta = "restart · timeout · bad configuration"
-body = "Prove degraded behavior before integration."
-tone = "negative"
-```
-
-<!-- speaker_note: Choose a leaf with real value but low blast radius: a parser, diagnostic adapter, sensor utility, or stateless transform. -->
+Define these before replacing a long ROS 1 service.
 
 <!-- end_slide -->
 
-Lab 3: QoS incompatibility
-=====================================
+Translate the launch file
+=========================
 
-```text
-# Publisher
-ros2 topic pub /demo std_msgs/msg/String '{data: hello}' \
-  --qos-reliability best_effort
-
-# Subscriber requesting a stronger contract
-ros2 topic echo /demo std_msgs/msg/String \
-  --qos-reliability reliable
-
-ros2 topic info -v /demo
+```python
+def generate_launch_description():
+    return LaunchDescription([
+        Node(
+            package="migration_demo",
+            executable="talker",
+            parameters=[{"rate_hz": 10.0}],
+            remappings=[("status", "/robot/status")],
+        ),
+    ])
 ```
 
-1. Explain why no data arrives.
-2. Repair the compatibility.
-3. Repeat with durability and a late subscriber.
-4. Record the topic with a rosbag2 QoS override.
-
-<!-- speaker_note: Inspect the offered and requested endpoint profiles, identify the incompatible policy, and correct the profile before changing application logic. -->
+Install the launch directory, rebuild, and run it with `ros2 launch`.
 
 <!-- end_slide -->
 
-Lab 4: lifecycle failure handling
-======================================
+Translate a Python node
+=======================
+
+```python
+class Listener(Node):
+    def __init__(self):
+        super().__init__("listener")
+        self.subscription = self.create_subscription(
+            String, "chatter", self.on_message, 10)
+
+    def on_message(self, msg):
+        self.get_logger().info(msg.data)
+```
+
+Initialize `rclpy`, spin the node, destroy it, then call `rclpy.shutdown()`.
+
+<!-- end_slide -->
+
+Build, test, and compare
+========================
+
+```bash
+colcon build --symlink-install --packages-up-to migration_demo
+source install/setup.bash
+colcon test --packages-select migration_demo
+colcon test-result --verbose
+ros2 launch migration_demo demo.launch.py
+ros2 topic hz /robot/status
+```
+
+Compare content, rate, startup, shutdown, CPU use, and recovery with ROS 1.
+
+<!-- end_slide -->
+
+Mixed-system integration
+========================
+
+1. Build a supported `ros1_bridge` environment.
+2. Source ROS 1, ROS 2, and custom interfaces in the documented order.
+3. Start the routes listed for this batch.
+4. Repeat functional and load tests across the bridge.
+5. Give every route a removal condition.
+
+Record the remaining ROS 1 runtime dependencies.
+
+<!-- end_slide -->
+
+Workshop acceptance
+===================
 
 ```faqe:grid
 columns = 2
 variant = "cards"
-
 [[items]]
-eyebrow = "implement"
-title = "Managed driver"
-bullets = ["open device on configure", "publish only while active", "close on cleanup", "report failure"]
+eyebrow = "workshop output"
+title = "Reproducible example"
+bullets = ["setup notes", "workspace commit", "tests", "known failures"]
+tone = "positive"
+[[items]]
+eyebrow = "company follow-up"
+title = "First migration batch"
+bullets = ["owner", "boundary", "bridge routes", "evidence", "retirement date"]
 tone = "accent"
-
-[[items]]
-eyebrow = "supervise"
-title = "Bringup policy"
-bullets = ["configure dependencies", "activate in order", "detect error state", "choose retry or shutdown"]
-tone = "positive"
-
-[[items]]
-eyebrow = "inject"
-title = "Remove the device"
-body = "Observe state transition, diagnostics, command timeout, and recovery path."
-tone = "negative"
-
-[[items]]
-eyebrow = "prove"
-title = "No blind sleep"
-body = "A readiness signal gates each startup transition."
-tone = "warning"
 ```
 
-<!-- speaker_note: If company hardware is unavailable, use a fake transport with the same open/read/write/fault contract. -->
-
-<!-- end_slide -->
-
-Lab 5: rclrs interoperability
-==================================
-
-```faqe:timeline
-[[items]]
-title = "Build one rclrs package"
-meta = "ament_cargo + colcon"
-body = "Use the same interface package as C++ and Python nodes."
-tone = "warning"
-
-[[items]]
-title = "Subscribe to company data"
-meta = "typed generated message"
-body = "Validate units and reject malformed values."
-tone = "positive"
-
-[[items]]
-title = "Own state in a worker"
-meta = "channel-based callback boundary"
-body = "Keep mutable domain state out of arbitrary callback threads."
-tone = "accent"
-
-[[items]]
-title = "Publish diagnostics"
-meta = "normal ROS 2 endpoint"
-body = "Inspect it using the same CLI and bag tooling."
-tone = "positive"
-
-[[items]]
-title = "Compare artifacts"
-meta = "size · startup · CPU · failure"
-body = "Choose Rust from measured engineering value."
-tone = "negative"
-```
-
-<!-- speaker_note: This is an interoperability lab, not a language contest. A small validator or gateway gives Rust a fair first job. -->
-
-<!-- end_slide -->
-
-Lab 6: Zenoh world state
-==================================
-
-```text
-site-a/robots/r1/state/pose
-site-a/robots/r1/state/battery
-site-a/robots/r1/events/fault
-site-a/robots/r1/intent/task
-```
-
-Exercise steps:
-
-1. Publish live robot state.
-2. Store only `state/**` and `events/**`.
-3. Declare a queryable for “robots available in zone A.”
-4. Disconnect a robot, reconnect it, and reject expired intent.
-5. Show provenance for one derived world-state answer.
-
-<!-- speaker_note: This lab makes the difference between ROS streaming data and a queryable world model concrete. Require event time, source identity, and validity on every answer. -->
-
-<!-- end_slide -->
-
-Days 1–30
-=================
-
-```faqe:progress
-max = 1.0
-
-[[items]]
-label = "inventory"
-value = 1.0
-display = "complete"
-text = "packages, graph, interfaces, dependencies, hardware"
-tone = "positive"
-
-[[items]]
-label = "platform"
-value = 1.0
-display = "chosen"
-text = "ROS distro, OS, RMW, compiler, deployment"
-tone = "accent"
-
-[[items]]
-label = "evidence"
-value = 1.0
-display = "captured"
-text = "bags, golden outputs, timing, failure cases"
-tone = "warning"
-
-[[items]]
-label = "bridge"
-value = 1.0
-display = "proven"
-text = "one custom type and explicit bridge topology"
-tone = "negative"
-
-[[items]]
-label = "pilot"
-value = 1.0
-display = "selected"
-text = "one low-risk leaf with an owner and gate"
-tone = "positive"
-```
-
-<!-- speaker_note: Judge the first month by the risks removed, not the number of lines ported. We should finish it with a working bridge and one chosen pilot. -->
-
-<!-- end_slide -->
-
-Days 31–60
-==========
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "deliver"
-title = "Pilot in ROS 2"
-body = "Package, test, deploy, observe, and roll back one real component."
-tone = "positive"
-
-[[items]]
-eyebrow = "standardize"
-title = "Company templates"
-body = "Package layout, QoS profiles, parameters, launch, diagnostics, and CI."
-tone = "accent"
-
-[[items]]
-eyebrow = "measure"
-title = "Network fixture"
-body = "Loss, delay, restart, cold discovery, and high endpoint counts."
-tone = "warning"
-
-[[items]]
-eyebrow = "operate"
-title = "Runbook"
-body = "Graph, daemon, RMW, QoS, lifecycle, bag, and trace diagnostics."
-tone = "positive"
-
-[[items]]
-eyebrow = "train"
-title = "Code reviews"
-body = "Pair on the first ports and review execution semantics explicitly."
-tone = "neutral"
-
-[[items]]
-eyebrow = "control"
-title = "Track bridge debt"
-body = "Every route has an owner, replacement, and deletion milestone."
-tone = "negative"
-```
-
-<!-- speaker_note: Let the pilot teach us what belongs in the templates. A paved road built before one production-shaped port is mostly guesswork. -->
-
-<!-- end_slide -->
-
-Days 61–90
-==========
-
-```faqe:timeline
-[[items]]
-title = "Expand the migration wave"
-meta = "several related leaf packages"
-body = "Use the proven package, QoS, launch, and CI conventions."
-tone = "positive"
-
-[[items]]
-title = "Exercise fleet scale"
-meta = "real topology and endpoint count"
-body = "Measure discovery, traffic, CPU, memory, and restart convergence."
-tone = "accent"
-
-[[items]]
-title = "Port one stateful core"
-meta = "lifecycle and recovery"
-body = "Prove startup ordering and a hardware or network failure path."
-tone = "warning"
-
-[[items]]
-title = "Decide Rust and Zenoh pilots"
-meta = "evidence-based adoption"
-body = "Select boundaries where each solves a measured problem."
-tone = "negative"
-
-[[items]]
-title = "Publish retirement forecast"
-meta = "bridge surface trends to zero"
-body = "Forecast the last ROS 1 release, bridge removal, and archive plan."
-tone = "positive"
-```
-
-<!-- speaker_note: After 90 days, we need a repeatable way to migrate and a believable retirement date. A fully migrated robot is not required yet. -->
-
-<!-- end_slide -->
-
-Decision checklist
-==================
-
-```faqe:table
-title = "Questions every migrated component answers"
-variant = "striped"
-columns = ["Decision", "Recorded answer"]
-
-[[rows]]
-cells = ["Target", "ROS distro, OS, RMW, architecture, support horizon"]
-
-[[rows]]
-cells = ["Contract", "names, types, units, QoS, rate, size, timing"]
-
-[[rows]]
-cells = ["Execution", "executor, callback groups, blocking behavior, priorities"]
-
-[[rows]]
-cells = ["Lifecycle", "configuration, readiness, shutdown, recovery"]
-
-[[rows]]
-cells = ["Evidence", "ROS 1 baseline, tests, bags, traces, acceptance limits"]
-
-[[rows]]
-cells = ["Operations", "deploy, observe, secure, update, and roll back"]
-```
-
-Record each answer in the component migration document and pull request.
-
-<!-- speaker_note: Use this as the component migration template and pull-request checklist. It forces architecture decisions to travel with code. -->
-
-<!-- end_slide -->
-
-Common migration failures
-=======================
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-eyebrow = "anti-pattern"
-title = "Big-bang branch"
-body = "Nothing integrates until every package ports."
-tone = "negative"
-
-[[items]]
-eyebrow = "anti-pattern"
-title = "Reliable everywhere"
-body = "Retransmission turns stale sensor data into latency."
-tone = "negative"
-
-[[items]]
-eyebrow = "anti-pattern"
-title = "One default callback group"
-body = "Expected parallelism never happens. Blocking work may also deadlock."
-tone = "negative"
-
-[[items]]
-eyebrow = "anti-pattern"
-title = "Dynamic bridge forever"
-body = "Compatibility becomes invisible permanent architecture."
-tone = "negative"
-
-[[items]]
-eyebrow = "anti-pattern"
-title = "Python launch application"
-body = "Business logic and sleeps accumulate in deployment code."
-tone = "negative"
-
-[[items]]
-eyebrow = "anti-pattern"
-title = "RMW swap without proof"
-body = "APIs compile while operational semantics change."
-tone = "negative"
-```
-
-<!-- speaker_note: Add company-specific anti-patterns during the workshop. These six are common ways a technically successful port becomes an operational regression. -->
-
-<!-- end_slide -->
-
-Production acceptance criteria
-==============================
-
-```faqe:graph
-title = "Required end state"
-columns = 5
-rows = 1
-
-[[nodes]]
-id = "known"
-title = "known contracts"
-subtitle = "interfaces · QoS · time"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "tested"
-title = "tested behavior"
-subtitle = "normal and failure paths"
-column = 2
-row = 1
-tone = "positive"
-
-[[nodes]]
-id = "observable"
-title = "observable runtime"
-subtitle = "graph · metrics · traces"
-column = 3
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "replace"
-title = "replaceable boundaries"
-subtitle = "language · RMW · deployment"
-column = 4
-row = 1
-tone = "negative"
-
-[[nodes]]
-id = "retired"
-title = "ROS 1 retired"
-subtitle = "bridge surface = 0"
-column = 5
-row = 1
-tone = "positive"
-
-[[edges]]
-from = "known"
-to = "tested"
-
-[[edges]]
-from = "tested"
-to = "observable"
-
-[[edges]]
-from = "observable"
-to = "replace"
-
-[[edges]]
-from = "replace"
-to = "retired"
-tone = "positive"
-```
-
-The migrated system should preserve required product behavior while documenting and testing its interfaces, timing, failure handling, and operational procedures.
-
-<!-- speaker_note: End the main story here. A newer dependency stack is not enough; the migration has to leave behind a safer system and a process the next team can repeat. -->
-
-<!-- end_slide -->
-
-ROS 2 primary sources
-=====================
-
-* [ROS 1 Noetic end-of-life](https://www.ros.org/blog/noetic-eol/)
-* [ROS 2 distributions and support dates](https://docs.ros.org/en/rolling/Releases.html)
-* [ROS 1 → ROS 2 migration guides](https://docs.ros.org/en/lyrical/How-To-Guides/Migrating-from-ROS1.html)
-* [Quality of Service settings](https://docs.ros.org/en/lyrical/Concepts/Intermediate/About-Quality-of-Service-Settings.html)
-* [Executors and callback groups](https://docs.ros.org/en/rolling/Concepts/Intermediate/About-Executors.html)
-* [Composition](https://docs.ros.org/en/rolling/Tutorials/Intermediate/Composition.html)
-* [ROS 2 security design](https://design.ros2.org/articles/ros2_dds_security.html)
-* [ros2_tracing tutorial](https://docs.ros.org/en/lyrical/Tutorials/Advanced/ROS2-Tracing-Trace-and-Analyze.html)
-
-<!-- speaker_note: These links support the ROS 2 architecture, migration, QoS, execution, composition, security, and observability sections. -->
-
-<!-- end_slide -->
-
-Migration and ecosystem sources
-===============================
-
-* [ros1_bridge current README and compatibility matrix](https://github.com/ros2/ros1_bridge/blob/master/README.md)
-* [Migrating launch files](https://docs.ros.org/en/lyrical/How-To-Guides/Migrating-from-ROS1/Migrating-Launch-Files.html)
-* [Migrating parameters](https://docs.ros.org/en/lyrical/How-To-Guides/Migrating-from-ROS1/Migrating-Parameters.html)
-* [Migrating packages](https://docs.ros.org/en/kilted/How-To-Guides/Migrating-from-ROS1/Migrating-Packages.html)
-* [rosbag2 MCAP storage](https://docs.ros.org/en/ros2_packages/kilted/api/rosbag2_storage_mcap/)
-* [ros2_control differences from ROS 1](https://control.ros.org/jazzy/doc/migration/differences_to_ros1.html)
-* [ROS 2 testing](https://docs.ros.org/en/rolling/Tutorials/Intermediate/Testing/Testing-Main.html)
-
-<!-- speaker_note: The bridge platform matrix is especially time-sensitive. Recheck it when the company freezes its migration image. -->
-
-<!-- end_slide -->
-
-Rust and Zenoh primary sources
-==============================
-
-* [ros2-rust / rclrs](https://github.com/ros2-rust/ros2_rust)
-* [rclrs 0.7.0 API documentation](https://docs.rs/rclrs/latest/rclrs/)
-* [ROS 2 middleware vendors](https://docs.ros.org/en/lyrical/Concepts/Intermediate/About-Different-Middleware-Vendors.html)
-* [Working with rmw_zenoh](https://docs.ros.org/en/lyrical/Installation/RMW-Implementations/Non-DDS-Implementations/Working-with-Zenoh.html)
-* [rmw_zenoh implementation and configuration](https://github.com/ros2/rmw_zenoh)
-* [Zenoh abstractions](https://zenoh.io/docs/manual/abstractions/)
-* [Zenoh deployment topologies](https://zenoh.io/docs/getting-started/deployment/)
-* [Zenoh storage manager](https://zenoh.io/docs/manual/plugin-storage-manager/)
-* [zenoh-bridge-ros2dds](https://github.com/eclipse-zenoh/zenoh-plugin-ros2dds)
-
-<!-- speaker_note: These are the current upstream sources behind the Rust, Zenoh RMW, bridge, query, storage, and topology sections. -->
-
-<!-- end_slide -->
-
-<!-- jump_to_middle -->
-<!-- alignment: center -->
-<!-- no_footer -->
-
-Discussion
-==========
-
-Questions about the migration plan, workshop exercises, or candidate pilot components.
+Choose the pilot package, target platform, owner, and review date.
