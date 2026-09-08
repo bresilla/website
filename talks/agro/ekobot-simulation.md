@@ -1,6 +1,6 @@
 ---
 title: "EKOBOT: **field simulation**"
-sub_title: ROS 2, Isaac Sim, and synthetic agricultural data
+sub_title: Using ROS 2 and Isaac Sim before the next field test
 author: Trim Bresilla & Anouk Leunissen
 date: 2026-09-08
 theme:
@@ -21,8 +21,8 @@ options:
   incremental_lists: false
 ---
 
-Why this simulation effort
-==========================
+Why we're building this
+=======================
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
@@ -31,21 +31,21 @@ Why this simulation effort
 
 <!-- column: 1 -->
 
-* Move the robot software from ROS 1 to ROS 2 without stopping field development.
-* Test weed-removal behaviour before hardware and crop rows are available.
-* Use simulation to compare tool geometry, sensing, and control changes.
-* Produce labelled field imagery for perception experiments.
+* Port the ROS 1 software while field work continues.
+* Test weed removal when the robot or a suitable crop row is unavailable.
+* Compare tool designs without fabricating every candidate first.
+* Generate labelled images for perception experiments.
 
 <!-- reset_layout -->
 
-The aim is a repeatable engineering environment, not a photorealistic demo.
+The output should be a test we can rerun after a tool change. Photorealism matters when we test the cameras, not when we test a joint limit.
 
-<!-- speaker_note: EKOBOT has Swedish engineering roots and a current Dutch ownership connection. The robot combines an autonomous electric carrier, cameras, an AI perception system, and a mechanical weeding tool. This presentation proposes where ROS 2 and simulation can help, while keeping field tests as the final acceptance test. Photo: Nieuwe Oogst, 14 May 2025. -->
+<!-- speaker_note: EKOBOT began in Sweden and the business was sold to the Dutch company HH Agriculture Investments in 2024. The machine in this photo is the current context for the discussion: an electric carrier, cameras, plant detection, and a weeding tool that has to move at exactly the right time. We are looking for work that can move indoors without pretending that a simulator can approve a field machine. Photo: Nieuwe Oogst, 14 May 2025. -->
 
 <!-- end_slide -->
 
-The EKOBOT system
-=================
+What we're simulating
+=====================
 
 ```faqe:graph
 title = "One field operation, several coupled systems"
@@ -110,14 +110,14 @@ from = "carrier"
 to = "record"
 ```
 
-Tool accuracy depends on the complete chain, including vehicle motion and timestamp alignment.
+The blade can still hit the wrong plant after a correct detection. Vehicle motion and timestamps are part of the tool accuracy.
 
-<!-- speaker_note: EKOBOT's public material describes three main subsystems: the autonomous carrier, the mechanical tool, and the AI/camera system. For simulation work, it is useful to add the field state and the recorded outcome. A small error in any upstream transform or timestamp can become a crop strike at the tool. -->
+<!-- speaker_note: EKOBOT describes the carrier, the mechanical tool, and the camera and AI system as separate subsystems. In a test setup we also need the state of the field and a record of what the tool touched. That is how we can tell whether a miss began in detection, localisation, vehicle motion, or the tool itself. -->
 
 <!-- end_slide -->
 
-What must be proved
-===================
+What counts as a useful result?
+===============================
 
 ```faqe:table
 variant = "comparison"
@@ -132,29 +132,29 @@ cells = ["Did the tool track its target?", "tip error and timing", "high-speed v
 cells = ["Can the system keep working?", "misses, stops, recovery", "full-row run"]
 ```
 
-Simulation supplies controlled trials and diagnostics. Field measurements decide whether the model was useful.
+The simulator gives us repeatable runs and a very detailed log. The field tells us whether any of it was accurate.
 
-<!-- speaker_note: Agree on measurements before building scenes. A visually convincing simulator can still omit the error source that limits field performance. The acceptance set should separate weed removal, crop protection, geometric tracking, and operational recovery. -->
-
-<!-- end_slide -->
-
-ROS 2 as the experiment boundary
-================================
-
-* Keep message and service contracts shared between simulation and the robot.
-* Put simulator adapters at hardware boundaries rather than inside application nodes.
-* Record commands, observations, transforms, and outcomes in the same bag format.
-* Run the same launch descriptions and parameter sets where practical.
-* Version the scene, robot asset, calibration, software, and random seed together.
-
-ROS 2 is most useful here as a replaceable boundary between product software and its environment.
-
-<!-- speaker_note: The migration goes beyond API translation. It gives us a chance to define which interfaces remain stable when cameras, drives, and tools are replaced by simulated counterparts. Keep simulation-specific code in drivers and adapters so application nodes can run unchanged. -->
+<!-- speaker_note: We should settle these measurements before anyone spends weeks modelling a field. Otherwise it is easy to build a convincing scene that cannot answer the question we care about. Weed removal and crop damage need separate scores. A robot that removes every weed by clipping the onions has not passed. -->
 
 <!-- end_slide -->
 
-The simulation graph
-====================
+Where ROS 2 fits
+================
+
+* The simulated camera publishes the same messages as the real camera.
+* Simulator adapters stop at the hardware boundary.
+* We record commands, sensor data, transforms, and outcomes in rosbag2.
+* Product nodes use the same launch files and parameters where that makes sense.
+* A run records its scene, robot asset, calibration, software revision, and seed.
+
+The perception and control nodes should use the same ROS interfaces in simulation and on the robot.
+
+<!-- speaker_note: During the ROS 2 port we get to choose these boundaries once. The camera driver, motor driver, and tool driver have simulated counterparts. Everything above those drivers should be ordinary robot software. This keeps simulation work out of the deployed nodes and makes recorded data much easier to replay. -->
+
+<!-- end_slide -->
+
+How the loop runs
+=================
 
 ```faqe:graph
 title = "ROS 2 software in the loop"
@@ -222,12 +222,12 @@ from = "act"
 to = "score"
 ```
 
-<!-- speaker_note: Isaac Sim's ROS 2 bridge exposes publishers, subscribers, services, and clock integration through its graph system. Bridge nodes are active while simulation is playing. Keep a separate evaluator connected to simulator ground truth, because product code must not see perfect labels. -->
+<!-- speaker_note: Isaac Sim talks to ROS 2 through its bridge. While the simulation is playing, it publishes sensor data and clock messages and receives commands. The evaluator gets a second feed with exact simulator state. Product code never sees that feed; it would be cheating. -->
 
 <!-- end_slide -->
 
-Time, QoS, and repeatability
-============================
+The boring stuff that breaks a run
+=================================
 
 ```faqe:grid
 columns = 2
@@ -253,14 +253,14 @@ title = "Measure RTF"
 bullets = ["physics rate", "render rate", "ROS callback load", "GPU saturation"]
 ```
 
-Real-time factor is simulated elapsed time divided by wall-clock elapsed time.
+Real-time factor tells us how much simulated time passed for each second on the wall clock.
 
-<!-- speaker_note: A repeatable run needs more than a random seed. Record the complete set of inputs that can change an outcome. Sensor QoS should resemble the deployed system, otherwise an application may pass only because the simulator delivered data more reliably. Track real-time factor separately from correctness. -->
+<!-- speaker_note: A seed is not enough. We also need the scene and asset revisions, parameters, calibration, software commit, physics step, and render settings. Use the same sensor QoS as the robot. A node that passes because simulated packets never arrive late is giving us a false sense of safety. Speed is a separate number: a slow test can still be correct. -->
 
 <!-- end_slide -->
 
-One test ladder
-===============
+How far from the field?
+=======================
 
 ```faqe:timeline
 [[items]]
@@ -283,14 +283,14 @@ body = "soil · plants · weather · wear"
 tone = "positive"
 ```
 
-Move a failure downward only when the cheaper level cannot represent its cause.
+Run message, transform, geometry, and timing checks in software-in-the-loop. Use hardware and field tests for effects the simulator does not contain.
 
-<!-- speaker_note: This is not a maturity staircase where every test must use the most expensive level. Geometry and timing regressions should remain in fast software-in-the-loop tests. Hardware-loop and field tests cover effects the virtual model does not reproduce. -->
+<!-- speaker_note: There is no prize for running every test in the most expensive environment. Message contracts, transforms, geometry, and timing can stay in software-in-the-loop. Controller latency needs hardware. Soil response and crop damage need the field. When a field failure can be reproduced in a cheaper test, keep it there as a regression. -->
 
 <!-- end_slide -->
 
-Why Isaac Sim
-=============
+Why Isaac Sim?
+==============
 
 ```faqe:grid
 columns = 2
@@ -316,14 +316,14 @@ body = "Randomize scenes and write synchronized images, labels, poses, and metad
 tone = "warning"
 ```
 
-Isaac Sim is the scene and sensor runtime. ROS 2 carries the product interfaces.
+Isaac Sim runs the scene, physics, and sensors. The product software connects through ROS 2.
 
-<!-- speaker_note: OpenUSD is useful because the vehicle, tool, field, materials, and experiment changes can be separate layers. Isaac Sim currently provides a ROS 2 bridge, URDF import, physics, sensors, and Replicator data generation. Version-pin the simulator because extensions and APIs change between releases. -->
+<!-- speaker_note: OpenUSD lets us change a tool or a field without copying the entire robot scene. Isaac Sim gives us the ROS 2 bridge, URDF import, PhysX, cameras, contact sensors, and Replicator in one environment. We should pin the exact Isaac Sim release. Extension names and APIs do move between versions. -->
 
 <!-- end_slide -->
 
-From URDF to a checked USD asset
-================================
+Checking the imported robot
+===========================
 
 ```faqe:progress
 title = "asset acceptance"
@@ -337,20 +337,20 @@ text = "import · axes · joints · collisions · mass · drives · sensors"
 tone = "accent"
 ```
 
-1. Import links, joints, meshes, and limits from URDF.
-2. Check scale, axes, joint directions, and frame names.
-3. Replace visual meshes with stable collision geometry.
-4. Measure mass, centre of mass, inertia, limits, and actuator response.
-5. Add camera and tool frames only after the mechanism is correct.
+1. Import the URDF and drive every joint through its full range.
+2. Check scale, axes, joint directions, and frame names against the robot.
+3. Replace fragile visual meshes with simple collision geometry.
+4. Enter measured mass, centre of mass, inertia, limits, and drive response.
+5. Mount cameras and tools after the mechanism passes those checks.
 
-The imported asset is a starting point. It is not yet a digital twin.
+An imported URDF can look right while its mass, collisions, or joint drives are completely wrong.
 
-<!-- speaker_note: NVIDIA's URDF importer converts the robot into USD and can create an articulation. Imported values still need review. Collision meshes, joint drives, materials, mass properties, and frame conventions are common sources of believable but incorrect motion. Keep a short asset acceptance test that runs after every model change. -->
+<!-- speaker_note: The importer saves time, but it cannot verify the engineering data. We should have a short acceptance run for the asset itself: move each joint, check the tool datum, compare stopping distance, and inspect contacts. Run it again whenever the URDF, meshes, or USD layers change. -->
 
 <!-- end_slide -->
 
-Split the carrier from the tool
-===============================
+One carrier, several tools
+==========================
 
 ```faqe:graph
 title = "Composed USD assets"
@@ -403,14 +403,14 @@ from = "field"
 to = "tool"
 ```
 
-A stable mount contract lets tool variants change without rebuilding the carrier model.
+Once the mount datum and interface are fixed, we can swap tools without touching the carrier asset.
 
-<!-- speaker_note: The composition boundary should follow the physical and software boundary. Define the mount transform, connection points, expected loads, I/O, and calibration procedure. This makes it possible to compare tools and sensor rigs against the same vehicle and field run. -->
+<!-- speaker_note: The split should match the real mounting plate. Record its transform, connection points, load limits, I/O, and calibration procedure. Then each tool candidate can run on the same carrier trajectory in the same field scene. That removes one large source of noise from the comparison. -->
 
 <!-- end_slide -->
 
-Model sensors as measurements
-=============================
+A sensor model starts with calibration
+======================================
 
 ```faqe:table
 variant = "comparison"
@@ -427,14 +427,14 @@ cells = ["IMU", "pose and dynamics", "bias, drift, vibration"]
 cells = ["Tool contact", "contact and effort", "compliance, wear, soil effects"]
 ```
 
-Noise parameters should come from paired measurements, not visual judgement.
+We can add noise after we have compared simulated and recorded sensor data side by side.
 
-<!-- speaker_note: Isaac Sim can provide ideal outputs and post-processed noise. Begin with calibrated geometry and timing. Add noise only after comparing virtual and physical samples, otherwise noise can hide a model error. Product nodes should receive the same ROS message types and frame conventions in both environments. -->
+<!-- speaker_note: Start with camera intrinsics, mounting pose, timestamps, and range limits. Put a recorded frame next to the simulated frame and measure the difference. Random blur added by eye will not fix a bad focal length or a camera mounted two centimetres too high. The ROS messages and frame names must match the real drivers. -->
 
 <!-- end_slide -->
 
-The tool is a timed mechanism
-=============================
+The tool has a deadline
+=======================
 
 ```faqe:graph
 title = "From detected plant to tool contact"
@@ -488,14 +488,14 @@ to = "contact"
 label = "actuation delay"
 ```
 
-Measure latency and tool-tip error at each boundary instead of scoring only the final contact.
+Log the time and position at every hand-off. The trace will show where a late contact first departed from the expected timing.
 
-<!-- speaker_note: A mechanical tool can miss even with correct plant classification. Camera timestamps, transform lookup, vehicle velocity estimation, trajectory generation, actuator delay, compliance, and soil resistance all contribute to the contact point. Simulation gives access to every intermediate value. -->
+<!-- speaker_note: Suppose the classifier found the correct weed and the blade still missed. We need to know when the image was captured, which transform was used, how the vehicle moved during inference, when the command left, and when the joint actually moved. Isaac Sim exposes those intermediate values, which is the main reason to model the mechanism at all. -->
 
 <!-- end_slide -->
 
-A tool-design test matrix
-=========================
+How we compare tool designs
+===========================
 
 ```faqe:table
 variant = "comparison"
@@ -514,14 +514,14 @@ cells = ["tool geometry", "candidate variants", "coverage and clearance"]
 cells = ["terrain profile", "flat to bounded roughness", "height tracking"]
 ```
 
-Run the same scenario set for each tool revision and keep the raw event log.
+Every candidate gets the same runs. We keep the event log so the score can be explained later.
 
-<!-- speaker_note: Start with variables whose values can be measured on the physical robot. Use a designed set of combinations rather than randomizing everything at once. The result should rank the designs and explain why their performance differs. -->
+<!-- speaker_note: The first matrix should use ranges measured on the robot: real forward speeds, observed actuator delay, mounting tolerances, and representative plant spacing. Change a few variables deliberately before starting a wide random sweep. We want to understand why a design missed, not collect one unexplained average. -->
 
 <!-- end_slide -->
 
-Where soil models stop helping
-==============================
+Soil is the hard part
+=====================
 
 ```faqe:grid
 columns = 2
@@ -538,13 +538,13 @@ bullets = ["compaction", "moisture", "roots", "soil flow", "tool wear"]
 tone = "warning"
 ```
 
-Use contact simulation for geometry and timing first. Treat agronomic outcome as a measured field property.
+Rigid contact is enough for clearance and timing work. Root removal and crop damage still come from a field plot.
 
-<!-- speaker_note: Rigid-body contact can answer useful design questions, but it does not reproduce every soil and root interaction. A more detailed soil model should be added only when a decision depends on it and physical data is available for calibration. Crop damage and successful root removal still need field evidence. -->
+<!-- speaker_note: I would not begin with a detailed soil model. Rigid contact already lets us catch bad clearances, late movement, and impossible reach. If a later design choice depends on soil force or root disturbance, we can add that model using force and outcome measurements from the field. Until then it is expensive guesswork. -->
 
 <!-- end_slide -->
 
-Software-in-the-loop boundaries
+Keep simulator code at the edge
 ===============================
 
 ```faqe:graph
@@ -610,12 +610,12 @@ from = "supervisor"
 to = "report"
 ```
 
-<!-- speaker_note: Avoid importing simulator APIs into the production perception and control nodes. A simulation adapter publishes the same camera, depth, transform, joint, and status interfaces as the real drivers. The evaluator may use perfect simulator state, but that channel must be inaccessible to product logic. -->
+<!-- speaker_note: The production nodes should never import an Isaac Sim API. A thin adapter publishes camera, depth, transform, joint, and status messages. A separate evaluator is allowed to read perfect simulator state. If that state leaks into perception or control, the test is invalid. -->
 
 <!-- end_slide -->
 
-Build a scenario catalogue
-==========================
+Name the scenarios
+==================
 
 ```faqe:grid
 columns = 3
@@ -649,14 +649,14 @@ title = "Identity"
 bullets = ["scenario ID", "asset version", "seed", "software commit"]
 ```
 
-Every run should be reproducible from one manifest.
+A scenario name should resolve to the same assets, parameters, software, and seed six months later.
 
-<!-- speaker_note: A scenario is more than a scene file. It includes robot state, environmental parameters, injected faults, software versions, and expected measurements. Keep named regression scenarios fixed, then add randomized sweeps around them. -->
+<!-- speaker_note: A scene file is only one input. The scenario also records robot state, lighting, injected faults, parameters, software versions, and expected measurements. Keep ten or so named regression cases stable. Random sweeps are useful after those cases pass. -->
 
 <!-- end_slide -->
 
-Data products from one run
-==========================
+Save enough to explain a failure
+================================
 
 ```faqe:table
 variant = "comparison"
@@ -673,14 +673,14 @@ cells = ["run manifest", "reproduction", "versions, seed, parameters, scene"]
 cells = ["summary", "review", "metrics, failures, selected frames"]
 ```
 
-Synchronised records make it possible to trace a damaged crop back through detection, timing, and contact.
+When the tool touches a crop, we should be able to replay what the camera saw and every command that followed.
 
-<!-- speaker_note: Separate the data that production code consumes from the ground truth used for evaluation. Preserve raw outputs before reducing them to summary metrics. A failed run should be inspectable without launching the original simulator version. -->
+<!-- speaker_note: Keep the ROS bag and the simulator truth as separate files with one shared run ID. Save the raw data before producing the summary. We should be able to inspect a failed run from its bag, manifest, selected frames, and event trace without reinstalling an old Isaac Sim release. -->
 
 <!-- end_slide -->
 
-Replicator and Cosmos do different work
-=======================================
+Replicator and Cosmos solve different problems
+==============================================
 
 ```faqe:table
 variant = "comparison"
@@ -697,14 +697,14 @@ cells = ["Constraint", "asset realism", "control adherence and training domain"]
 cells = ["EKOBOT use", "test and labelled source data", "appearance transfer for perception"]
 ```
 
-Keep exact simulator labels when Cosmos changes the appearance of the corresponding frames.
+Replicator gives us labels. Cosmos changes how the same scene looks. We need both outputs paired frame by frame.
 
-<!-- speaker_note: Replicator can randomize a known scene and write synchronized annotations. Cosmos Transfer changes the visual domain using a source video and a structural control such as depth. The useful combination is structured source generation followed by appearance transfer, with explicit checks that labels remain valid. -->
+<!-- speaker_note: Replicator renders a scene whose geometry we know, so its masks and poses are exact. Cosmos takes the rendered video and changes the appearance under depth control. After transfer, we must check that leaves, weeds, and row boundaries still match the old labels. If they moved, those frames cannot go into training unchanged. -->
 
 <!-- end_slide -->
 
-The agricultural Cosmos recipe
-==============================
+What NVIDIA actually trained
+============================
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
@@ -713,21 +713,21 @@ The agricultural Cosmos recipe
 
 <!-- column: 1 -->
 
-* NVIDIA's example post-trains Cosmos Transfer 2.5 on agricultural robot video.
-* It uses depth as the structural control for single-view video transfer.
-* The training set covers soybean, cotton, and tomato fields.
-* The reported downstream experiment combines mostly synthetic imagery with 1% real data.
+* The model is Cosmos Transfer 2.5, post-trained on video from agricultural robots.
+* Each training sample has a video and a matching depth sequence.
+* The clips cover soybean, cotton, and tomato fields.
+* NVIDIA tested the generated data in a weeding-perception experiment with 1% real imagery.
 
 <!-- reset_layout -->
 
-Treat this as a reproducible case study. The cookbook now receives limited maintenance, so pin every dependency.
+It is a useful baseline, but the cookbook is now under limited maintenance. We would reproduce it with pinned versions before changing models.
 
-<!-- speaker_note: The recipe reports autonomous field weeding using a perception model trained with one percent real data and the remainder synthetic. That is the recipe authors' result, not a guaranteed EKOBOT outcome. The current Cosmos Cookbook repository points future work toward Cosmos 3, so we should reproduce the Transfer 2.5 baseline before considering a model-family update. -->
+<!-- speaker_note: NVIDIA reports a downstream weeding result with one percent real data and the rest synthetic. That number belongs to their dataset and robot. We cannot carry it over to EKOBOT. The cookbook repository now points new work toward Cosmos 3, but switching immediately would make it harder to tell whether our pipeline matches the published one. -->
 
 <!-- end_slide -->
 
-The agricultural domain gap
-===========================
+Closing the visual gap
+======================
 
 ```faqe:graph
 title = "Depth preserves structure while appearance changes"
@@ -792,12 +792,12 @@ from = "data"
 to = "audit"
 ```
 
-<!-- speaker_note: Appearance transfer is useful only if the transformed plant boundaries and positions remain compatible with the simulator labels. Depth provides structural guidance, but the output still needs an automated and sampled human audit for geometry drift, duplicated objects, and temporal artifacts. -->
+<!-- speaker_note: The source render has exact plant positions and labels, but it still looks synthetic. Depth tells Cosmos where those surfaces are while the RGB video supplies the appearance to change. We then check the result for shifted plant edges, duplicate leaves, disappearing weeds, and flicker. Those checks determine whether the old labels still fit. -->
 
 <!-- end_slide -->
 
-Why zero-shot transfer was insufficient
-=======================================
+The base model guesses at agriculture
+=====================================
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
@@ -814,16 +814,16 @@ Why zero-shot transfer was insufficient
 
 <!-- reset_layout -->
 
-The recipe reports generic vegetation, weak crop morphology, and implausible field texture before agricultural post-training.
+Before post-training, the leaves look generic and the field structure is wrong in obvious places.
 
-Post-training teaches the model the target visual domain; depth keeps the scene arrangement constrained.
+The agricultural clips teach the appearance. Depth keeps the rows and plant positions close to the source render.
 
-<!-- speaker_note: This comparison comes from the NVIDIA recipe. The base checkpoint can improve visual realism without knowing enough about row crops, leaves, weeds, and tilled soil. The point of post-training is domain adaptation, not changing the robot trajectory or plant layout. -->
+<!-- speaker_note: Look at the plants and soil, not just the overall realism. The base checkpoint invents plausible greenery, but it does not know this particular agricultural view. Post-training supplies that missing visual vocabulary. The robot path and plant layout are supposed to stay where the depth control put them. -->
 
 <!-- end_slide -->
 
-The source data
-===============
+About 3,000 short clips
+=======================
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
@@ -853,12 +853,12 @@ tone = "positive"
 
 <!-- reset_layout -->
 
-<!-- speaker_note: Fleet video provides real agricultural appearance and motion. For EKOBOT, the equivalent collection should include the deployed camera pose, relevant crops, working speeds, lighting changes, tool states, and known hard negatives. Consent, ownership, and retention rules belong in the collection plan. -->
+<!-- speaker_note: These clips came from a working agricultural fleet, so they contain real camera motion and field appearance. An EKOBOT collection needs the actual camera pose and operating speed, plus the crops and lighting that cause trouble today. We also need clear ownership and retention rules before recording starts. -->
 
 <!-- end_slide -->
 
-Each clip needs searchable context
-==================================
+Metadata we can search
+======================
 
 ```faqe:table
 variant = "comparison"
@@ -879,14 +879,14 @@ cells = ["camera_view", "geometry filter", "tool-facing oblique"]
 cells = ["weather", "optional context", "bright broken cloud"]
 ```
 
-Captions should state camera angle, crop, field state, and visible conditions in consistent language.
+Use a fixed caption template so we can find clips by crop, field state, camera view, or weather.
 
-<!-- speaker_note: The NVIDIA recipe requires sample identity, video, and depth paths, and recommends crop type, field state, and camera view. Weather is optional. Their captioning pipeline used a structured template and Gemini 2.5 Flash for visible-scene description. Store generated captions with the model and prompt revision so they can be audited. -->
+<!-- speaker_note: The recipe requires an ID plus video and depth paths. Crop type, field state, and camera view are recommended; weather is optional. NVIDIA used Gemini 2.5 Flash to draft the visual description inside a fixed template. If we automate captions, store the model name and prompt revision beside them. Someone still needs to spot-check what it wrote. -->
 
 <!-- end_slide -->
 
-Depth control worked better than edges
-======================================
+Why they chose depth
+====================
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
@@ -917,12 +917,12 @@ tone = "positive"
 
 <!-- reset_layout -->
 
-<!-- speaker_note: This is the recipe's agricultural finding, not a universal rule for every task. Synchronized measured or simulated depth is preferred. The recipe notes that Depth Anything V2 can estimate it when synchronized depth is unavailable. Check the error pattern before using estimated depth as a control signal. -->
+<!-- speaker_note: In these field clips, edge maps often treated a hard shadow or a shiny wet leaf as object structure. Depth was steadier. That result is specific to this recipe. Synchronized depth is best; the authors mention Depth Anything V2 when it is unavailable. We would first compare its mistakes with the objects EKOBOT needs to detect. -->
 
 <!-- end_slide -->
 
-The reported training setup
-===========================
+The exact Transfer 2.5 run
+==========================
 
 ```faqe:table
 variant = "comparison"
@@ -941,14 +941,14 @@ cells = ["video frames", "61", "short field clips"]
 cells = ["inference depth guidance", "0.8", "reported control strength"]
 ```
 
-The loss flattened before visual quality stopped changing, so checkpoint selection included visual review.
+The loss curve flattened before the images stopped improving. The authors inspected checkpoints rather than picking one from loss alone.
 
-<!-- speaker_note: These are reproduction values from the Transfer 2.5 recipe, not defaults for a new model or dataset. Record exact software, container, weights, and GPU configuration. The recipe warns that training loss alone did not identify the best visual checkpoint. Use a fixed validation set and a written image-quality rubric. -->
+<!-- speaker_note: These numbers reproduce one Transfer 2.5 experiment; they are not sensible defaults for every dataset. The run used eight A100 GPUs, 4,000 iterations, and a checkpoint every 500 iterations. Save the container, weights, code revision, and GPU setup. Compare every checkpoint on the same held-out clips. -->
 
 <!-- end_slide -->
 
-Condition changes without new 3D assets
-=======================================
+Changing field conditions with prompts
+======================================
 
 <!-- column_layout: [1, 1] -->
 <!-- column: 0 -->
@@ -965,16 +965,16 @@ Condition changes without new 3D assets
 
 <!-- reset_layout -->
 
-The recipe reports prompt-driven disease appearance even though disease-specific clips were not in its training set.
+The prompt produced diseased-looking plants even though the post-training set had no disease-specific clips.
 
-For EKOBOT, such samples belong in a stress-test set until field data confirms that they improve detection.
+We can use images like these to probe a detector. They should not enter the training set until an agronomist and field data tell us they are credible.
 
-<!-- speaker_note: Generative variation can expose a perception model to conditions missing from the simulator assets. It can also invent symptoms, alter boundaries, or create unrealistic correlations. Keep generated disease conditions separate from validated field data and review them with agronomy expertise. -->
+<!-- speaker_note: This is interesting, but it is also where generated data can become fiction. The model may invent the wrong symptoms or quietly change a leaf boundary. I would keep these images in a stress-test folder first. If they expose a real failure, we can collect matching field examples and decide whether they belong in training. -->
 
 <!-- end_slide -->
 
-What post-training changed
-==========================
+What improved after post-training
+=================================
 
 <!-- column_layout: [1, 1, 1, 1] -->
 <!-- column: 0 -->
@@ -1003,16 +1003,16 @@ What post-training changed
 
 <!-- reset_layout -->
 
-The recipe reports stronger crop morphology, tilled soil, shadows, weed diversity, and depth adherence after post-training.
+After post-training, the crops look more specific, the tilled soil is more convincing, and the output follows the depth input more closely.
 
-Some transfer to unseen crops was reported, but it was less consistent than performance in the training domain.
+The model also produced unseen crops such as fruit trees, although those results were less consistent.
 
-<!-- speaker_note: Review these images at full size in the source recipe. For our evaluation, image preference is not enough. Compare downstream segmentation or detection metrics across real-only, synthetic-only, and mixed datasets, then inspect failure categories. -->
+<!-- speaker_note: The post-trained examples look better, but that is not the experiment we care about. Train the same detector on real data alone and on several real-to-synthetic mixtures. Test every version on the same untouched field set. Then open the failures and see which weeds or lighting conditions changed. -->
 
 <!-- end_slide -->
 
-An EKOBOT data loop
-===================
+A small EKOBOT experiment
+=========================
 
 ```faqe:timeline
 [[items]]
@@ -1047,20 +1047,20 @@ text = "contracts · asset · scenarios · paired data · baseline · transfer �
 tone = "warning"
 ```
 
-Start with one crop, one camera view, one tool configuration, and a held-out physical field plot.
+For the first run, pick one crop and the camera view used by one tool. Keep one physical field plot out of all training.
 
-<!-- speaker_note: The first study should be small enough to invalidate quickly. Establish a real-only perception baseline, then add controlled synthetic ratios. Use the same held-out physical dataset for comparison. Separately run the ROS 2 tool-control stack in fixed simulator scenarios so perception gains are not confused with control changes. -->
+<!-- speaker_note: Keep this small enough that a bad assumption becomes obvious in weeks, not months. Start with a detector trained on real images. Add synthetic data at a few fixed ratios and score every model on the untouched field plot. Test tool control separately in the fixed Isaac Sim scenarios, otherwise we will not know whether a change came from perception or motion. -->
 
 <!-- end_slide -->
 
-Decisions for the first phase
-=============================
+What we need to decide first
+============================
 
-1. Select the ROS 2 distribution and define the ROS 1 coexistence boundary.
-2. Choose one EKOBOT carrier, tool, crop, camera view, and measurable field task.
-3. Build the asset acceptance test and ten fixed software-in-the-loop scenarios.
-4. Record paired field data with calibration, depth, operating state, and outcome labels.
-5. Reproduce the published Transfer 2.5 recipe before testing a newer Cosmos model.
+1. Which ROS 2 distribution will the product use, and how long must ROS 1 coexist with it?
+2. Which carrier, tool, crop, and camera view make the smallest useful trial?
+3. Who owns the robot asset and the first ten simulator scenarios?
+4. What field data can we record with synchronized depth and outcome labels?
+5. Do we reproduce Transfer 2.5 first, or accept the extra uncertainty of moving straight to Cosmos 3?
 
 **Primary references**
 
@@ -1068,4 +1068,4 @@ Decisions for the first phase
 
 [Isaac Sim ROS 2](https://docs.isaacsim.omniverse.nvidia.com/latest/ros2_tutorials/ros2_landing_page.html) · [URDF import](https://docs.isaacsim.omniverse.nvidia.com/latest/importer_exporter/import_urdf.html) · [Replicator](https://docs.isaacsim.omniverse.nvidia.com/latest/replicator_tutorials/tutorial_replicator_isaac_randomizers.html) · [Cosmos recipe](https://nvidia-cosmos.github.io/cosmos-cookbook/recipes/post_training/transfer2_5/agtec_scenarios_single_view/post_training.html)
 
-<!-- speaker_note: Additional sources: the RISE profile of EKOBOT's EIP-Agri development and tool evaluation; the 3 June 2024 Nasdaq announcement confirming the sale to HH Agriculture Investments B.V.; Isaac Sim documentation for sensors, physics, the ROS 2 bridge, synthetic-data recording, and real-time factor; and the Cosmos Cookbook repository notice about limited maintenance. End by agreeing on the first measurable task and who owns the robot asset, field data, ROS interfaces, and validation set. -->
+<!-- speaker_note: The links here are the sources we used for the company background, Isaac Sim workflow, and Cosmos recipe. The useful outcome from this meeting is a choice of one field task and an owner for each input: the robot asset, ROS interfaces, field recordings, simulator scenarios, and held-out validation data. -->
