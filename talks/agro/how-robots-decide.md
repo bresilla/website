@@ -21,29 +21,31 @@ options:
   incremental_lists: false
 ---
 
-Outline
-=======
+Today
+=====
+
+A robot has to **sense**, **think** and **act**, all the time, in a world that keeps changing. How do we organise the software that does this?
 
 ```faqe:grid
 columns = 3
 variant = "cards"
 
 [[items]]
-eyebrow = "1"
-title = "Robot architectures"
-body = "What they are, why robots need them, and a short history"
+eyebrow = "1 · The problem"
+title = "What is a robot architecture?"
+body = "And why robots need a different kind of software design"
 tone = "accent"
 
 [[items]]
-eyebrow = "2"
-title = "Different paradigms"
-body = "Deliberative, reactive, subsumption and layered architectures"
+eyebrow = "2 · Three answers"
+title = "Think first, act first, or both"
+body = "Deliberative, reactive and layered architectures"
 tone = "neutral"
 
 [[items]]
-eyebrow = "3"
+eyebrow = "3 · The tool"
 title = "Finite state machines"
-body = "States, events and transitions, the CropScout example, and your assignment"
+body = "How to write the layer that decides what the robot does next"
 tone = "positive"
 ```
 
@@ -55,219 +57,24 @@ tone = "positive"
 
 <!-- jump_to_middle -->
 
-Robot architectures
-===================
+The problem
+===========
 
-How a robot is divided into parts, and how the parts work together
+What is a robot architecture, and why is it hard?
 
 ![](how-robots-decide/section-both.svg)
 
 <!-- end_slide -->
 
-What is robot architecture
-==========================
+What is a robot architecture?
+=============================
 
-<!-- column_layout: [3, 2] -->
-
-<!-- column: 0 -->
-
-* It refers to how a system is **divided into subsystems** and how those subsystems interact. E.g.:
-  * **Different processes**: sensing, thinking, acting
-  * Multiple behaviours
-* Deals with the **coordination of these behaviours**
-
-<!-- new_line -->
-
-* It is distinguished from other software architectures because of the special needs of robot systems.
-
-<!-- column: 1 -->
+* How a system is **divided into subsystems**, and how those subsystems **interact**
+* **Structure**: how the overall system is decomposed
+* **Style**: how the components communicate
 
 ```faqe:graph
-description = "Sensing feeds thinking, which commands acting."
-columns = 1
-rows = 3
-
-[[nodes]]
-id = "sense"
-title = "sensing"
-subtitle = "camera, lidar, GNSS"
-column = 1
-row = 1
-tone = "neutral"
-
-[[nodes]]
-id = "think"
-title = "thinking"
-subtitle = "decide what to do"
-column = 1
-row = 2
-tone = "accent"
-
-[[nodes]]
-id = "act"
-title = "acting"
-subtitle = "wheels, arm, gripper"
-column = 1
-row = 3
-tone = "positive"
-
-[[edges]]
-from = "sense"
-to = "think"
-
-[[edges]]
-from = "think"
-to = "act"
-```
-
-<!-- reset_layout -->
-
-<!-- end_slide -->
-
-What are the special needs of robot architecture
-================================================
-
-Interaction in **real-time**, with an uncertain, often dynamic, environment:
-
-```faqe:grid
-columns = 3
-variant = "cards"
-
-[[items]]
-title = "Controlling sensors and actuators"
-body = "Read every sensor and command every motor, on time, every cycle."
-tone = "neutral"
-
-[[items]]
-title = "Responding to events in the environment"
-body = "A person steps into the row, a wheel slips, the row ends."
-tone = "warning"
-
-[[items]]
-title = "Dealing with uncertainty"
-body = "Noisy sensors, imperfect maps, and a world that keeps changing."
-tone = "negative"
-```
-
-<!-- end_slide -->
-
-What are the special needs of robot architecture
-================================================
-
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* Responding at **varying temporal scopes**
-  * Behaviour-based reflexes
-  * Deliberative long-term planning
-
-<!-- column: 1 -->
-
-* **Coordinating** different behaviours
-  * E.g. path planning, navigation, obstacle avoidance
-  * Sequential or in parallel
-
-<!-- reset_layout -->
-
-![Loop periods of a field robot on a logarithmic axis, from motor control at 1 kHz to hourly battery planning](how-robots-decide/timescales.svg)
-
-<!-- end_slide -->
-
-Modularity and hierarchy
-========================
-
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* **Modular decomposition** of the overall system in simpler, largely independent pieces
-* Often **hierarchical**
-  * Modules build on top of others
-  * Different layers in the hierarchy: different levels of abstraction
-  * *Task decomposition*: e.g. harvesting = reaching + detach + …
-  * *Temporal decomposition*: sequence of actions
-
-<!-- column: 1 -->
-
-```faqe:graph
-caption = "Top-down: task decomposition. Left to right: temporal decomposition."
-description = "Harvesting splits into detect fruit, reach, detach and place in crate, done in that order."
-columns = 4
-rows = 2
-
-[[nodes]]
-id = "harvest"
-title = "harvest a fruit"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "detect"
-title = "detect"
-column = 1
-row = 2
-tone = "neutral"
-
-[[nodes]]
-id = "reach"
-title = "reach"
-column = 2
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "detach"
-title = "detach"
-column = 3
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "place"
-title = "place"
-column = 4
-row = 2
-tone = "neutral"
-
-[[edges]]
-from = "harvest"
-to = "detect"
-
-[[edges]]
-from = "harvest"
-to = "reach"
-
-[[edges]]
-from = "harvest"
-to = "detach"
-
-[[edges]]
-from = "harvest"
-to = "place"
-```
-
-<!-- reset_layout -->
-
-<!-- end_slide -->
-
-Robot architecture: structure and style
-=======================================
-
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* **Structure**: how to decompose the overall system
-
-<!-- column: 1 -->
-
-* **Style**: how the components interact and communicate
-
-<!-- reset_layout -->
-
-```faqe:graph
+caption = "Structure: the boxes. Style: the arrows between them."
 columns = 7
 rows = 3
 
@@ -344,18 +151,168 @@ to = "right"
 
 <!-- end_slide -->
 
-History: Shakey robot at SRI (late 1960s)
-=========================================
+Why robots are different
+========================
+
+Robots interact in **real time** with an uncertain, often dynamic, environment:
+
+```faqe:grid
+columns = 3
+variant = "cards"
+
+[[items]]
+title = "Controlling sensors and actuators"
+body = "Read every sensor and command every motor, on time, every cycle."
+tone = "neutral"
+
+[[items]]
+title = "Responding to events"
+body = "A person steps into the row, a wheel slips, the row ends."
+tone = "warning"
+
+[[items]]
+title = "Dealing with uncertainty"
+body = "Noisy sensors, imperfect maps, and a world that keeps changing."
+tone = "negative"
+```
+
+<!-- new_line -->
+
+A late answer is a wrong answer: at 1 m/s, 100 ms of thinking is 10 cm of driving.
+
+<!-- end_slide -->
+
+Many time scales, many behaviours
+=================================
+
+<!-- column_layout: [1, 1] -->
+
+<!-- column: 0 -->
+
+* Respond at **varying time scales**: reflexes in milliseconds, plans in minutes
+
+<!-- column: 1 -->
+
+* **Coordinate** behaviours such as path planning, navigation and obstacle avoidance, in sequence or in parallel
+
+<!-- reset_layout -->
+
+![Loop periods of a field robot on a logarithmic axis, from motor control at 1 kHz to hourly battery planning](how-robots-decide/timescales.svg)
+
+<!-- end_slide -->
+
+Divide and conquer
+==================
+
+<!-- column_layout: [1, 1] -->
+
+<!-- column: 0 -->
+
+* **Modular decomposition**: split the system into simpler, largely independent pieces
+* Often **hierarchical**
+  * Modules build on top of others
+  * Each layer is a different level of abstraction
+  * *Task decomposition*: harvesting = reach + detach + …
+  * *Temporal decomposition*: a sequence of actions
+
+<!-- new_line -->
+
+The question is **how** to split it. There are three classic answers.
+
+<!-- column: 1 -->
+
+```faqe:graph
+caption = "Top-down: task decomposition. Left to right: temporal decomposition."
+description = "Harvesting splits into detect, reach, detach and place, done in that order."
+columns = 4
+rows = 2
+
+[[nodes]]
+id = "harvest"
+title = "harvest a fruit"
+column = 2
+row = 1
+tone = "accent"
+
+[[nodes]]
+id = "detect"
+title = "detect"
+column = 1
+row = 2
+tone = "neutral"
+
+[[nodes]]
+id = "reach"
+title = "reach"
+column = 2
+row = 2
+tone = "positive"
+
+[[nodes]]
+id = "detach"
+title = "detach"
+column = 3
+row = 2
+tone = "positive"
+
+[[nodes]]
+id = "place"
+title = "place"
+column = 4
+row = 2
+tone = "neutral"
+
+[[edges]]
+from = "harvest"
+to = "detect"
+
+[[edges]]
+from = "harvest"
+to = "reach"
+
+[[edges]]
+from = "harvest"
+to = "detach"
+
+[[edges]]
+from = "harvest"
+to = "place"
+```
+
+<!-- reset_layout -->
+
+<!-- end_slide -->
+
+<!-- jump_to_middle -->
+
+Three answers
+=============
+
+Think first, act first, or do both
+
+![](how-robots-decide/section-act.svg)
+
+<!-- end_slide -->
+
+Two types of robotic responses
+==============================
+
+Every architecture sits somewhere between two extremes: **deliberate** (think, then act) and **react** (act on what you sense, right now).
+
+![The deliberative to reactive spectrum with example architectures and how representation, speed, prediction and model dependence change along it](how-robots-decide/spectrum.svg)
+
+<!-- end_slide -->
+
+Think first: Shakey and sense-plan-act
+======================================
 
 <!-- column_layout: [3, 2] -->
 
 <!-- column: 0 -->
 
-* Sensors: camera, a rangefinder, and bump sensors
-* Actuators: differential drive
-* Decomposition: sensing, planning, and execution
-* The **sense-think-act** paradigm
-* Its planning work gave us **STRIPS** and the **A\*** search algorithm
+* Shakey (SRI, late 1960s): the first robot that reasoned about its own actions
+* Sensors: camera, rangefinder, bump sensors. Actuators: differential drive
+* Decomposition: **sensing, planning, execution**, one after the other
 
 ```faqe:graph
 description = "Sense feeds plan, which feeds act."
@@ -402,151 +359,21 @@ to = "act"
 
 <!-- end_slide -->
 
-History: downside of SPA paradigm
-=================================
-
-* Limitations of the Sense-Plan-Act paradigm:
-  * Planning took a **long time**, and the robot would be **blocked**, waiting for planning to complete
-  * Execution of a plan without involving sensing was **dangerous in a dynamic world**
-
-![Timeline: the robot senses once, plans for twelve seconds, then executes blind while a person walks into the row](how-robots-decide/blind.svg)
-
-<!-- end_slide -->
-
-History: reactive behaviour-based paradigms
-===========================================
-
-* Focus on reactive planners, real-time interaction with the environment
-  * Rodney Brooks, Ronald Arkin, …
-* Example: office mail delivery robot
-
-```faqe:graph
-columns = 5
-rows = 2
-
-[[nodes]]
-id = "camera"
-title = "Camera"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "detect"
-title = "Detect room nr"
-column = 2
-row = 1
-
-[[nodes]]
-id = "move"
-title = "Move to room"
-column = 3
-row = 1
-
-[[nodes]]
-id = "deliver"
-title = "Deliver mail"
-column = 4
-row = 1
-
-[[nodes]]
-id = "release"
-title = "Release mail"
-column = 5
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "wander"
-title = "Wander"
-column = 2
-row = 2
-
-[[nodes]]
-id = "subsume"
-title = "Subsume"
-column = 3
-row = 2
-tone = "muted"
-
-[[nodes]]
-id = "drive"
-title = "Drive"
-column = 5
-row = 2
-tone = "warning"
-
-[[edges]]
-from = "camera"
-to = "detect"
-
-[[edges]]
-from = "detect"
-to = "move"
-
-[[edges]]
-from = "move"
-to = "deliver"
-
-[[edges]]
-from = "deliver"
-to = "release"
-
-[[edges]]
-from = "move"
-to = "subsume"
-
-[[edges]]
-from = "wander"
-to = "subsume"
-
-[[edges]]
-from = "subsume"
-to = "drive"
-```
-
-* Downside: difficult to construct for more complex behaviours
-
-<!-- end_slide -->
-
-<!-- jump_to_middle -->
-
-Different paradigms
-===================
-
-Deliberative, reactive and layered
-
-![](how-robots-decide/section-act.svg)
-
-<!-- end_slide -->
-
-Two types of robotic responses
-==============================
-
-![The deliberative to reactive spectrum with example architectures and how representation, speed, prediction and model dependence change along it](how-robots-decide/spectrum.svg)
-
-<!-- end_slide -->
-
-Deliberative and reactive planning
+Think first: plan on a world model
 ==================================
-
-![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
-
-Left: **deliberative**, the sense-think-act paradigm. Right: **reactive**, the behaviour-based approach (Brooks, 1986).
-
-<!-- end_slide -->
-
-Deliberative planning
-=====================
 
 <!-- column_layout: [1, 1] -->
 
 <!-- column: 0 -->
 
-* Sense-think-act paradigm
-* One **world model**, one **planner**
-* The planner searches the model for the best sequence of actions, e.g. **A\*** on a grid map
-* Optimal when the model is right, but slow and blind when the world changes
+* Combine all sensor data into one **world model**
+* A **planner** searches the model for the best sequence of actions
+* Example: **A\*** on a grid map, invented for Shakey (Hart, Nilsson & Raphael, 1968)
+* Then execute the plan, step by step
+
+<!-- new_line -->
+
+Optimal, predictable, easy to reason about, **if** the model is right.
 
 <!-- column: 1 -->
 
@@ -556,29 +383,27 @@ Deliberative planning
 
 <!-- end_slide -->
 
-Reactive planning
-=================
+Think first: the downside
+=========================
 
-<!-- column_layout: [2, 3] -->
+* Planning takes a **long time**, and the robot is **blocked** while it waits
+* Executing a plan without sensing is **dangerous in a dynamic world**
 
-<!-- column: 0 -->
-
-* Behaviour-based approach
-* Each behaviour maps **sensors directly to actions**
-* Behaviours run **in parallel** and their outputs are combined
-* Arkin's **motor schemas**: every behaviour outputs a vector and the robot follows the sum
-* No world model: fast, but it can get stuck in local minima
-
-<!-- column: 1 -->
-
-![Motor schemas: a move-to-goal vector and an avoid-obstacle vector add up and the path bends around a rock to the goal](how-robots-decide/schemas.svg)
-
-<!-- reset_layout -->
+![Timeline: the robot senses once, plans for twelve seconds, then executes blind while a person walks into the row](how-robots-decide/blind.svg)
 
 <!-- end_slide -->
 
-Subsumption
-===========
+Act first: slice by behaviour
+=============================
+
+![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
+
+Brooks (1986) turned the diagram around: instead of one pipeline of functions, many **behaviours**, each a complete path from sensors to actuators, all running at once.
+
+<!-- end_slide -->
+
+Act first: subsumption
+======================
 
 ```faqe:grid
 columns = 4
@@ -596,12 +421,12 @@ tone = "accent"
 
 [[items]]
 title = "Arbitration"
-body = "Higher-level behaviours **override** the signals of lower-level ones: priorities"
+body = "Higher layers **override** the signals of lower ones: priorities"
 tone = "warning"
 
 [[items]]
 title = "Parallel"
-body = "The layers **work in parallel**"
+body = "All layers **work at the same time**"
 tone = "positive"
 ```
 
@@ -609,27 +434,71 @@ tone = "positive"
 
 <!-- end_slide -->
 
-Layered robot control architectures
-===================================
+Act first: motor schemas
+========================
 
-The **three-layer architecture**: a hybrid reactive/deliberative robot architecture (R. James Firby). The **3T architecture**: behaviour control, sequencing/coordination, and planning.
+<!-- column_layout: [2, 3] -->
+
+<!-- column: 0 -->
+
+* Arkin (1989): every behaviour outputs a **vector**
+  * *move-to-goal* pulls towards the goal
+  * *avoid-obstacle* pushes away, harder when closer
+* The robot follows the **sum**
+* Subsumption **picks** one behaviour; motor schemas **blend** them all
+
+<!-- column: 1 -->
+
+![Motor schemas: a move-to-goal vector and an avoid-obstacle vector add up and the path bends around a rock to the goal](how-robots-decide/schemas.svg)
+
+<!-- reset_layout -->
+
+<!-- end_slide -->
+
+Act first: gains and losses
+===========================
+
+```faqe:grid
+columns = 2
+variant = "cards"
+
+[[items]]
+title = "What we gain"
+tone = "positive"
+bullets = ["Responds within milliseconds", "No world model to keep up to date", "Robust: behaviours fail independently", "The robot stops for a person, every time"]
+
+[[items]]
+title = "What we lose"
+tone = "negative"
+bullets = ["No memory: which rows are already done?", "No foresight: when should it go and charge?", "Hard to predict and debug: behaviour emerges", "Hard to build for complex tasks"]
+```
+
+<!-- end_slide -->
+
+Do both: three layers
+=====================
+
+The **three-layer architecture** (Firby; 3T; Gat, 1998): a reactive layer at the bottom, a planner at the top, and an executive in between.
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
 <!-- end_slide -->
 
-Layered robot control architectures
-===================================
+Do both: the executive layer
+============================
 
 <!-- column_layout: [1, 1] -->
 
 <!-- column: 0 -->
 
-* The **executive layer**
-  * Not all low-level behaviours should be active at the same time
-  * Coordinating behaviours
-  * Achieving high-level tasks
-  * Avoiding conflicts
+* Not all behaviours should be active at the same time
+* The executive **chooses which behaviours run now**
+* It turns the plan into a **sequence** of behaviours
+* It watches for **events** and avoids conflicts
+
+<!-- new_line -->
+
+**How do we write it?** Very often as a *finite state machine*.
 
 <!-- column: 1 -->
 
@@ -685,185 +554,47 @@ label = "released"
 
 <!-- end_slide -->
 
-Layered architectures today: Nav2
-=================================
+Do both: still used today
+=========================
 
 ![Nav2 as a three-layer architecture: planner server for planning, BT Navigator as the executive, controller and behavior servers for behavioural control](how-robots-decide/nav2.svg)
 
-The ROS 2 navigation stack follows the same three layers (Macenski et al., 2020).
+The ROS 2 navigation stack, Nav2, has the same three layers (Macenski et al., 2020).
 
 <!-- end_slide -->
 
-<!-- skip_slide -->
+Three answers compared
+======================
 
-<!-- jump_to_middle -->
+```faqe:table
+variant = "comparison"
+columns = ["Approach", "Idea", "Strong at", "Weak at"]
 
-Example
-=======
+[[rows]]
+cells = ["Think first · deliberative", "sense → plan → act", "long-horizon, optimal plans", "slow, blind while acting"]
+tones = ["neutral", "neutral", "positive", "negative"]
 
-![](how-robots-decide/section-think.svg)
+[[rows]]
+cells = ["Act first · reactive", "parallel behaviours, sensors to actuators", "fast and robust", "no memory, no foresight"]
+tones = ["neutral", "neutral", "positive", "negative"]
 
-<!-- end_slide -->
-
-<!-- skip_slide -->
-
-Behavioural-control layer
-=========================
-
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* **Situated behaviours**
-  * Active in specific situations
-* **Cognizant failure**
-  * Behaviours should communicate failure to the executive layer
-* **Constraints**
-  * Fast, reactive, high frequency, constant time
-  * Only a small world model
-
-<!-- column: 1 -->
-
-```faqe:grid
-title = "Simple low-level behaviours"
-columns = 2
-variant = "compact"
-
-[[items]]
-title = "move to room"
-tone = "positive"
-
-[[items]]
-title = "avoid obstacles"
-tone = "warning"
-
-[[items]]
-title = "detect room number"
-tone = "neutral"
-
-[[items]]
-title = "release mail"
-tone = "positive"
-
-[[items]]
-title = "wander"
-tone = "muted"
-
-[[items]]
-title = "dock and charge"
-tone = "neutral"
+[[rows]]
+cells = ["Do both · layered", "behaviours + executive + planner", "each job at its own pace", "more parts to integrate"]
+tones = ["neutral", "neutral", "positive", "warning"]
 ```
 
-<!-- reset_layout -->
+<!-- new_line -->
 
-<!-- end_slide -->
-
-<!-- skip_slide -->
-
-Executive layer
-===============
-
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* Role of the executive layer
-  * Translating high-level plans (goals) into low-level behaviours
-  * Coordinating low-level behaviours
-  * Monitoring execution, handling exceptions
-  * Error recovery
-* The executive layer describes how to achieve tasks
-
-<!-- column: 1 -->
-
-```faqe:graph
-description = "Deliver mail splits into move to room, release mail and return to base."
-columns = 3
-rows = 2
-
-[[nodes]]
-id = "deliver"
-title = "deliver mail"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "move"
-title = "move to room"
-column = 1
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "release"
-title = "release mail"
-column = 2
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "back"
-title = "return to base"
-column = 3
-row = 2
-tone = "positive"
-
-[[edges]]
-from = "deliver"
-to = "move"
-
-[[edges]]
-from = "deliver"
-to = "release"
-
-[[edges]]
-from = "deliver"
-to = "back"
-```
-
-<!-- reset_layout -->
-
-<!-- end_slide -->
-
-<!-- skip_slide -->
-
-Planning layer
-==============
-
-<!-- column_layout: [3, 2] -->
-
-<!-- column: 0 -->
-
-* Planner/scheduler
-  * High-level plan of (sub)tasks
-  * Including: goals, resources, duration, and constraints
-* Role of the planner in the architecture
-  * Planners called by the executive layer when needed
-  * Planners always active, sending tasks down and monitoring progress
-
-<!-- column: 1 -->
-
-> **Planners**
->
-> * Planning task schedules
-> * Getting mail delivery information
-> * Route planner
->   * Map of the building
->   * Mail recipients
->   * Capacity of the robot
->   * …
-
-<!-- reset_layout -->
+Most real robots are layered. The rest of this lecture is about the middle layer: the executive.
 
 <!-- end_slide -->
 
 <!-- jump_to_middle -->
 
-Finite-state machine
-====================
+Finite state machines
+=====================
 
-The pattern you will implement in the assignment
+Writing the layer that decides what the robot does next
 
 ![](how-robots-decide/section-fsm.svg)
 
@@ -876,10 +607,10 @@ Finite state machine (FSM)
 
 <!-- column: 0 -->
 
-* Finite state machine: a number of *states* that each performs a **well-defined function to operate the robot** in a specific situation
-* *Events* that reflect a **change in the robot's situation** cause a **transition** from one state to another
-* There is always **one state active**
-* The **FSM diagram** provides a graphical representation of states and transitions
+* A number of **states**, each performing a well-defined function in a specific situation
+* **Events**, changes in the robot's situation, cause a **transition** from one state to another
+* There is always exactly **one state active**
+* The **FSM diagram** shows the states and transitions
 
 <!-- column: 1 -->
 
@@ -889,10 +620,10 @@ Finite state machine (FSM)
 
 <!-- end_slide -->
 
-Finite state machine: an example
-================================
+One state, many transitions
+===========================
 
-States can have multiple transitions to other states.
+A state can have several transitions. Here the button can also **stop** the door halfway.
 
 <!-- column_layout: [1, 1] -->
 
@@ -908,10 +639,8 @@ States can have multiple transitions to other states.
 
 <!-- end_slide -->
 
-Finite state machine: example
-=============================
-
-CropScout
+A field robot: CropScout
+========================
 
 <!-- column_layout: [1, 1] -->
 
@@ -925,25 +654,27 @@ CropScout
 
 <!-- reset_layout -->
 
+Its job: drive through a field, row after row.
+
 <!-- end_slide -->
 
-Finite state machine: example
-=============================
+CropScout as a state machine
+============================
 
 <!-- column_layout: [1, 1] -->
 
 <!-- column: 0 -->
 
-* CropScout's three main behaviours/states:
+* Three behaviours, so three states:
   * **Move to start of row**
   * **Navigate through the row**
-  * **Perform headland turn**
+  * **Make a headland turn**
 
 ![CropScout's three behaviours in the field: move to the start of a row, navigate through the row, make a headland turn into the next row](how-robots-decide/cropscout-paths.svg)
 
 <!-- column: 1 -->
 
-What does this FSM diagram look like?
+What does the FSM diagram look like?
 
 <!-- pause -->
 
@@ -988,50 +719,8 @@ tones = ["neutral", "warning", "accent", "muted"]
 
 <!-- end_slide -->
 
-From table to code
-==================
-
-<!-- column_layout: [3, 2] -->
-
-<!-- column: 0 -->
-
-```python
-from enum import Enum
-State = Enum("State", "MOVE_TO_START NAVIGATE_ROW HEADLAND_TURN")
-state = State.MOVE_TO_START
-while robot.step(TIME_STEP) != -1:          # one control cycle
-    s = read_sensors()
-    if state == State.MOVE_TO_START:
-        if s.at_start:
-            state = State.NAVIGATE_ROW
-        else:
-            drive_to_row_start(s)
-    elif state == State.NAVIGATE_ROW:
-        if s.at_end:
-            state = State.HEADLAND_TURN
-            turn_start = s.heading          # entry action
-        else:
-            follow_row(s)
-    elif state == State.HEADLAND_TURN:
-        if angle_turned(turn_start, s.heading) >= 180:
-            state = State.MOVE_TO_START
-        else:
-            turn(s)
-```
-
-<!-- column: 1 -->
-
-* One `state` variable: exactly one state active
-* Each branch first checks its **events**, then runs its **behaviour**
-* The `else` branches are the **self-loops** of the diagram
-* `drive_to_row_start`, `follow_row` and `turn` are your behaviours
-
-<!-- reset_layout -->
-
-<!-- end_slide -->
-
-Implementing an FSM: four rules
-===============================
+Four rules for implementing an FSM
+==================================
 
 ```faqe:grid
 columns = 2
@@ -1039,8 +728,8 @@ variant = "cards"
 
 [[items]]
 eyebrow = "1"
-title = "One state variable"
-body = "Exactly one state is active. Keep it in a single variable, for example an `Enum`."
+title = "One state at a time"
+body = "Exactly one state is active. Keep it in a single variable."
 tone = "accent"
 
 [[items]]
@@ -1051,7 +740,7 @@ tone = "positive"
 
 [[items]]
 eyebrow = "3"
-title = "Entry actions"
+title = "Set up on entry"
 body = "Do set-up once when entering a state, such as storing the heading at the start of a headland turn."
 tone = "warning"
 
