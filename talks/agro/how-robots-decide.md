@@ -149,8 +149,8 @@ to = "right"
 
 <!-- end_slide -->
 
-A robot runs on many time scales
-================================
+Robots answer on many time scales at once
+=========================================
 
 <!-- column_layout: [1, 1] -->
 
@@ -168,8 +168,8 @@ A robot runs on many time scales
 
 <!-- end_slide -->
 
-Split big tasks into smaller tasks
-=================================
+Big tasks are split into smaller ones
+=====================================
 
 <!-- column_layout: [1, 1] -->
 
@@ -393,73 +393,12 @@ Three-layer architectures (Firby; 3T; Gat, 1998): reactive behaviours at the bot
 
 <!-- end_slide -->
 
-Hybrid: the executive chooses what runs now
-===========================================
+Hybrid: the executive switches behaviours
+=========================================
 
-<!-- column_layout: [1, 1] -->
+![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
-<!-- column: 0 -->
-
-* Not all behaviours should be active at the same time
-* The executive turns the plan into a **sequence of behaviours**
-* It switches when an **event** happens: arrived, released, blocked
-
-<!-- new_line -->
-
-States, events, switching: this is a **finite state machine**.
-
-<!-- column: 1 -->
-
-```faqe:graph
-description = "The executive turns the plan into behaviours: move to room 12, release mail, move to room 14."
-columns = 1
-rows = 4
-
-[[nodes]]
-id = "plan"
-title = "plan: rooms 12, 14"
-subtitle = "from the planner"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "move12"
-title = "move to room 12"
-column = 1
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "release"
-title = "release mail"
-column = 1
-row = 3
-tone = "warning"
-
-[[nodes]]
-id = "move14"
-title = "move to room 14"
-column = 1
-row = 4
-tone = "positive"
-
-[[edges]]
-from = "plan"
-to = "move12"
-
-[[edges]]
-from = "move12"
-to = "release"
-label = "arrived"
-
-[[edges]]
-from = "release"
-to = "move14"
-label = "released"
-```
-
-<!-- reset_layout -->
+The executive turns the plan into **one behaviour at a time** and switches when an **event** happens. That is a **finite state machine**.
 
 <!-- end_slide -->
 
@@ -492,23 +431,10 @@ Programming the executive layer
 
 <!-- end_slide -->
 
-A finite state machine
-======================
+Anatomy of a state machine
+==========================
 
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* **States**: each performs one well-defined function
-* **Events**: a change in the robot's situation
-* **Transitions**: an event moves the machine to another state
-* Always exactly **one state active**
-
-<!-- column: 1 -->
-
-![Door state machine: closed, opening, open and closing, linked by button pressed and limit tripped](how-robots-decide/fsm-door.svg)
-
-<!-- reset_layout -->
+![Anatomy of a state machine on the door example: initial state, active state, states, events and transitions](how-robots-decide/fsm-anatomy.svg)
 
 <!-- end_slide -->
 
@@ -531,35 +457,14 @@ The same button can also **stop** the door halfway: two new states, four new tra
 
 <!-- end_slide -->
 
-Example: CropScout
-==================
+CropScout: three behaviours, three states
+=========================================
 
 <!-- column_layout: [1, 1] -->
 
 <!-- column: 0 -->
 
-![](robot-architectures/cropscout-row.jpg)
-
-<!-- column: 1 -->
-
-![](robot-architectures/cropscout-closeup.jpg)
-
-<!-- reset_layout -->
-
-A field robot that drives through a crop, row after row.
-
-<!-- end_slide -->
-
-CropScout's three states
-========================
-
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-* **Move to start of row**
-* **Navigate through the row**
-* **Make a headland turn**
+A field robot that scouts a crop row after row, with three behaviours:
 
 ![CropScout's three behaviours in the field: move to the start of a row, navigate through the row, make a headland turn into the next row](how-robots-decide/cropscout-paths.svg)
 
@@ -575,48 +480,17 @@ What does the FSM look like?
 
 <!-- end_slide -->
 
-From diagram to transition table
-================================
+One state at a time
+===================
 
-<!-- column_layout: [1, 1] -->
+![A CropScout run over time: the active state switches from move to start, to navigate row, to headland turn and back, only when an event fires](how-robots-decide/fsm-trace.svg)
 
-<!-- column: 0 -->
+<!-- end_slide -->
 
-![CropScout state machine](how-robots-decide/fsm-cropscout.svg)
+Every arrow is one row
+======================
 
-<!-- column: 1 -->
-
-```faqe:table
-caption = "Every arrow is one row. A missing row is a missing transition."
-variant = "striped"
-columns = ["State", "Event", "Next state"]
-
-[[rows]]
-cells = ["Move to start", "not at start", "Move to start"]
-tones = ["neutral", "muted", "neutral"]
-
-[[rows]]
-cells = ["Move to start", "at start", "Navigate row"]
-tones = ["neutral", "warning", "accent"]
-
-[[rows]]
-cells = ["Navigate row", "not at end", "Navigate row"]
-tones = ["neutral", "muted", "neutral"]
-
-[[rows]]
-cells = ["Navigate row", "at end", "Headland turn"]
-tones = ["neutral", "warning", "accent"]
-
-[[rows]]
-cells = ["Headland turn", "< 180°", "Headland turn"]
-tones = ["neutral", "muted", "neutral"]
-
-[[rows]]
-cells = ["Headland turn", "≥ 180°", "Move to start"]
-tones = ["neutral", "warning", "accent"]
-```
-
-<!-- reset_layout -->
+![CropScout transition table drawn as rows of state, event and next state, with self-loops greyed out](how-robots-decide/fsm-table.svg)
 
 <!-- end_slide -->
 
@@ -634,14 +508,12 @@ Your turn
 
 <!-- column: 0 -->
 
-1. Notebook *t08_state_machine*
-2. Webots assignment: *t08_state_machine_webots_assignment.pdf* and *t08_webots.zip*
-
-<!-- new_line -->
-
-Draw the diagram, write the table, then code the loop.
+![Five steps to build a state machine: behaviours to states, events to transitions, draw the diagram, write the table, code the loop and test](how-robots-decide/fsm-recipe.svg)
 
 <!-- column: 1 -->
+
+1. Notebook *t08_state_machine*
+2. Webots assignment: *t08_state_machine_webots_assignment.pdf* and *t08_webots.zip*
 
 [Expected behaviour](robot-architectures/expected-behaviour.mp4)
 
