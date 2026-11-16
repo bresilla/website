@@ -24,7 +24,7 @@ options:
 Today
 =====
 
-**How should a robot connect sensing, thinking and acting?** Four steps, from the building blocks to a state machine you program yourself.
+**How should a robot connect sensing, thinking and acting?** Five steps, from the building blocks to a state machine you program yourself.
 
 ![Roadmap: building blocks, three paradigms, state machines, and the Webots assignment](how-robots-decide/roadmap.svg)
 
@@ -55,27 +55,25 @@ Every robot program is built from three primitives (Murphy, 2019).
 Two big ideas
 =============
 
-How do we put SENSE, PLAN and ACT together? Two ideas answer that: the **architecture** of the program, and the **paradigm** behind it.
+How do we put SENSE, PLAN and ACT together? Two ideas: the **architecture**, how the program is built (Kortenkamp et al., 2016), and the **paradigm**, how SENSE, PLAN and ACT are wired (Murphy, 2019).
 
 ![Two big ideas. Architecture: structure and style, time and task. Paradigms: hierarchical, reactive and hybrid](how-robots-decide/hub.svg)
 
 <!-- end_slide -->
 
-What is an architecture?
-========================
+<!-- jump_to_middle -->
 
-![image:width:100%](how-robots-decide/crumb-arch.svg)
+Architecture
+============
 
-An architecture puts SENSE, PLAN and ACT together into one program. We look at it in two parts (Kortenkamp et al., 2016).
+How a robot program is built
 
-![Two parts of an architecture. Structure and style: the parts and their connections, and how connected parts talk. Time and task: jobs split into planning, sequencing and control layers, each job calling jobs below](how-robots-decide/arch-views.svg)
+![](how-robots-decide/section-arch.svg)
 
 <!-- end_slide -->
 
 Structure & style
 =================
-
-The first part of an architecture: which parts the program has, and how they talk.
 
 ![Architecture, structure and style: which parts, and how they talk. Topics: structure, style](how-robots-decide/div-ss.svg)
 
@@ -105,8 +103,6 @@ Style: how connected parts talk
 
 Time & task
 ===========
-
-The second part of an architecture: how the robot's jobs are split into layers.
 
 ![Architecture, time and task: how the jobs are split into layers. Topics: many jobs, time, task](how-robots-decide/div-tt.svg)
 
@@ -149,21 +145,19 @@ Open question: where does **PLAN** sit, and does **ACT** have to wait for it? Ro
 
 <!-- end_slide -->
 
-What is a paradigm?
-===================
+<!-- jump_to_middle -->
 
-![image:width:100%](how-robots-decide/crumb-par.svg)
+Paradigms
+=========
 
-A paradigm is defined by how SENSE, PLAN and ACT are connected (Murphy, 2019). There are three.
+Three ways to connect sense, plan and act
 
-![The three paradigms: hierarchical sense, plan, act in sequence; reactive sense-act behaviours without planning; hybrid planning on top of sense-act behaviours](how-robots-decide/paradigms.svg)
+![](how-robots-decide/section-par.svg)
 
 <!-- end_slide -->
 
 Hierarchical
 ============
-
-The first paradigm: sense the world, plan on a model, then act, strictly in turn.
 
 ![Paradigms, hierarchical: sense, plan, act. Topics: Shakey, world model, limits](how-robots-decide/div-hier.svg)
 
@@ -232,8 +226,6 @@ The world does not wait
 
 Reactive
 ========
-
-The second paradigm: drop the planner and connect sensing straight to acting.
 
 ![Paradigms, reactive: sense, act. Topics: behaviours, subsumption, motor schemas, limits](how-robots-decide/div-react.svg)
 
@@ -310,8 +302,6 @@ Fast, but short-sighted
 
 Hybrid
 ======
-
-The third paradigm: a planner on top, reactive behaviours below, and an executive in between.
 
 ![Paradigms, hybrid: plan, then sense and act. Topics: three layers, executive](how-robots-decide/div-hybrid.svg)
 
