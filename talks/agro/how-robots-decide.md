@@ -52,28 +52,54 @@ Every robot program is built from three primitives (Murphy, 2019).
 
 <!-- end_slide -->
 
-An architecture: structure and style
-====================================
+What is an architecture?
+========================
 
-An architecture puts SENSE, PLAN and ACT together into one program. **Structure**: which parts there are and which are connected. **Style**: how connected parts talk to each other (Kortenkamp et al., 2016).
+An architecture puts SENSE, PLAN and ACT together into one program. We look at it in two parts (Kortenkamp et al., 2016), one at a time.
 
-![Structure: GPS and distance sensor feed follow path and avoid obstacles, which feed coordinate motion and the two motors. Style: publish-subscribe, where GPS sends positions to any listener, versus call and wait, where follow path asks the route planner and waits for the reply](how-robots-decide/architecture.svg)
+![Two parts of an architecture. 1, structure and style: the parts and their connections, and how connected parts talk. 2, time and task: jobs split into planning, sequencing and control layers, each job calling jobs below](how-robots-decide/arch-views.svg)
+
+<!-- end_slide -->
+
+Structure: which parts, and which are connected
+===============================================
+
+![image:footer: Part 1 of 2, structure and style](how-robots-decide/foot-arch-1.svg)
+
+**Structure** is the boxes and the lines. The same sensors and motors can be wired very differently, and that choice is what the three paradigms will disagree about.
+
+![Two structures for the same sensors and motors. A: GPS and distance sensor feed one world model and one planner, which drives both motors. B: GPS feeds follow path, the distance sensor feeds avoid obstacles, and both feed coordinate motion, which drives the motors](how-robots-decide/structure.svg)
+
+<!-- end_slide -->
+
+Style: how connected parts talk
+===============================
+
+![image:footer: Part 1 of 2, structure and style](how-robots-decide/foot-arch-1.svg)
+
+**Style** is what a line means: how data travels along a connection, and above all **who waits for whom**.
+
+![Three communication styles with timelines. Publish-subscribe: the sender sends messages at its own rate and nobody waits. Call and wait: the caller is blocked while the planner thinks. Shared memory: the battery writes the latest value into a store and the executive reads the newest value when it wants](how-robots-decide/style.svg)
 
 <!-- end_slide -->
 
 A robot does many jobs at once
-=============================
+==============================
 
-Which parts should the program have? Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
+![image:footer: Part 2 of 2, time and task](how-robots-decide/foot-arch-2.svg)
+
+So which parts should the program have? Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
 
 ![A field robot in a crop row with six jobs around it, each with how fast it must answer: avoid obstacles, follow path and coordinate motion in milliseconds; headland turn and pick next row in seconds to minutes; plan coverage route in minutes to hours](how-robots-decide/many-jobs.svg)
 
-Architectures **decompose** these jobs into layers, in two ways: by **time** and by **task** (Kortenkamp et al., 2016).
+Architectures **decompose** these jobs into layers, in two ways: by **time** and by **task**.
 
 <!-- end_slide -->
 
 Split by time: slow on top, fast below
 ======================================
+
+![image:footer: Part 2 of 2, time and task](how-robots-decide/foot-arch-2.svg)
 
 By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below.
 
@@ -83,6 +109,8 @@ By **time**: sort the jobs by how often they must answer. Each layer runs about 
 
 Split by task: big jobs become small steps
 ==========================================
+
+![image:footer: Part 2 of 2, time and task](how-robots-decide/foot-arch-2.svg)
 
 By **task**: a job on one layer is done by calling jobs on the layer below, **in order**.
 
@@ -115,7 +143,7 @@ A paradigm is defined by how the primitives are connected (Murphy, 2019). We tak
 Shakey: sense, then plan, then act
 ==================================
 
-![image:width:100%](how-robots-decide/strip-hier.svg)
+![image:footer: Paradigm 1 of 3, hierarchical](how-robots-decide/foot-hier.svg)
 
 <!-- column_layout: [3, 2, 2] -->
 
@@ -142,7 +170,7 @@ Shakey: sense, then plan, then act
 Plan on a world model
 =====================
 
-![image:width:100%](how-robots-decide/strip-hier.svg)
+![image:footer: Paradigm 1 of 3, hierarchical](how-robots-decide/foot-hier.svg)
 
 <!-- column_layout: [1, 1] -->
 
@@ -164,7 +192,7 @@ Plan on a world model
 The world does not wait
 =======================
 
-![image:width:100%](how-robots-decide/strip-hier.svg)
+![image:footer: Paradigm 1 of 3, hierarchical](how-robots-decide/foot-hier.svg)
 
 * Planning takes **long**, and the robot is **blocked** while it waits
 * The plan runs **without sensing**, which is dangerous in a dynamic world
@@ -176,7 +204,7 @@ The world does not wait
 Cut out the planner
 ===================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
 
 ![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
 
@@ -187,7 +215,7 @@ Brooks (1986): instead of one pipeline of functions, many **behaviours**, each a
 Subsumption: layers of behaviours
 =================================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
 
 ![Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels](how-robots-decide/subsumption.svg)
 
@@ -198,7 +226,7 @@ Layers run **in parallel**. A higher layer **suppresses** (S) the command of the
 Motor schemas: blend behaviours
 ===============================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -221,7 +249,7 @@ Motor schemas: blend behaviours
 Fast, but short-sighted
 =======================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -245,7 +273,7 @@ Fast, but short-sighted
 Plan on top, react below
 ========================
 
-![image:width:100%](how-robots-decide/strip-hybrid.svg)
+![image:footer: Paradigm 3 of 3, hybrid](how-robots-decide/foot-hybrid.svg)
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
@@ -256,20 +284,11 @@ The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998
 The executive switches behaviours
 =================================
 
-![image:width:100%](how-robots-decide/strip-hybrid.svg)
+![image:footer: Paradigm 3 of 3, hybrid](how-robots-decide/foot-hybrid.svg)
 
 ![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
-The executive turns the plan into **one behaviour at a time** and switches when an **event** happens.
-
-<!-- end_slide -->
-
-Where the three paradigms sit
-=============================
-
-![The deliberative to reactive spectrum with the hierarchical, hybrid and reactive paradigms marked](how-robots-decide/spectrum.svg)
-
-Most robots today are **hybrid**, and their executive is often a **finite state machine**. That is what you will build.
+The executive turns the plan into **one behaviour at a time** and switches when an **event** happens. Most robots today are hybrid, and this executive is often a **finite state machine**: what you will build.
 
 <!-- end_slide -->
 
