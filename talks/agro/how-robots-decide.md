@@ -52,31 +52,39 @@ Every robot program is built from three primitives (Murphy, 2019).
 
 <!-- end_slide -->
 
-What is an architecture?
-========================
+Two big ideas
+=============
 
-An architecture puts SENSE, PLAN and ACT together into one program. We look at it in two parts (Kortenkamp et al., 2016), one at a time.
+How do we put SENSE, PLAN and ACT together? Two ideas answer that: the **architecture** of the program, and the **paradigm** behind it.
 
-![Two parts of an architecture. 1, structure and style: the parts and their connections, and how connected parts talk. 2, time and task: jobs split into planning, sequencing and control layers, each job calling jobs below](how-robots-decide/arch-views.svg)
+![Two big ideas. Architecture: structure and style, time and task. Paradigms: hierarchical, reactive and hybrid](how-robots-decide/hub.svg)
 
 <!-- end_slide -->
 
-<!-- jump_to_middle -->
-<!-- alignment: right -->
+What is an architecture?
+========================
+
+![image:width:100%](how-robots-decide/crumb-arch.svg)
+
+An architecture puts SENSE, PLAN and ACT together into one program. We look at it in two parts (Kortenkamp et al., 2016).
+
+![Two parts of an architecture. Structure and style: the parts and their connections, and how connected parts talk. Time and task: jobs split into planning, sequencing and control layers, each job calling jobs below](how-robots-decide/arch-views.svg)
+
+<!-- end_slide -->
 
 Structure & style
 =================
 
-Part 1 · which parts, and how they talk
+The first part of an architecture: which parts the program has, and how they talk.
 
-![](how-robots-decide/part-structure.svg)
+![Architecture, structure and style: which parts, and how they talk. Topics: structure, style](how-robots-decide/div-ss.svg)
 
 <!-- end_slide -->
 
 Structure: which parts, and which are connected
 ===============================================
 
-![image:width:100%](how-robots-decide/strip-arch-1.svg)
+![image:width:100%](how-robots-decide/crumb-ss-1.svg)
 
 **Structure** is the boxes and the lines. The same sensors and motors can be wired very differently, and that choice is what the three paradigms will disagree about.
 
@@ -87,7 +95,7 @@ Structure: which parts, and which are connected
 Style: how connected parts talk
 ===============================
 
-![image:width:100%](how-robots-decide/strip-arch-1.svg)
+![image:width:100%](how-robots-decide/crumb-ss-2.svg)
 
 **Style** is what a line means: how data travels along a connection, and above all **who waits for whom**.
 
@@ -95,22 +103,19 @@ Style: how connected parts talk
 
 <!-- end_slide -->
 
-<!-- jump_to_middle -->
-<!-- alignment: right -->
-
 Time & task
 ===========
 
-Part 2 · how the jobs are split into layers
+The second part of an architecture: how the robot's jobs are split into layers.
 
-![](how-robots-decide/part-time.svg)
+![Architecture, time and task: how the jobs are split into layers. Topics: many jobs, time, task](how-robots-decide/div-tt.svg)
 
 <!-- end_slide -->
 
 A robot does many jobs at once
 ==============================
 
-![image:width:100%](how-robots-decide/strip-arch-2.svg)
+![image:width:100%](how-robots-decide/crumb-tt-1.svg)
 
 So which parts should the program have? Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
 
@@ -123,7 +128,7 @@ Architectures **decompose** these jobs into layers, in two ways: by **time** and
 Split by time: slow on top, fast below
 ======================================
 
-![image:width:100%](how-robots-decide/strip-arch-2.svg)
+![image:width:100%](how-robots-decide/crumb-tt-2.svg)
 
 By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below.
 
@@ -134,7 +139,7 @@ By **time**: sort the jobs by how often they must answer. Each layer runs about 
 Split by task: big jobs become small steps
 ==========================================
 
-![image:width:100%](how-robots-decide/strip-arch-2.svg)
+![image:width:100%](how-robots-decide/crumb-tt-3.svg)
 
 By **task**: a job on one layer is done by calling jobs on the layer below, **in order**.
 
@@ -144,30 +149,30 @@ Open question: where does **PLAN** sit, and does **ACT** have to wait for it? Ro
 
 <!-- end_slide -->
 
-<!-- jump_to_middle -->
+What is a paradigm?
+===================
 
-Three paradigms
-===============
+![image:width:100%](how-robots-decide/crumb-par.svg)
 
-Three ways to connect sense, plan and act
-
-![](how-robots-decide/section-act.svg)
-
-<!-- end_slide -->
-
-Three ways to connect the blocks
-================================
+A paradigm is defined by how SENSE, PLAN and ACT are connected (Murphy, 2019). There are three.
 
 ![The three paradigms: hierarchical sense, plan, act in sequence; reactive sense-act behaviours without planning; hybrid planning on top of sense-act behaviours](how-robots-decide/paradigms.svg)
 
-A paradigm is defined by how the primitives are connected (Murphy, 2019). We take them one by one.
+<!-- end_slide -->
+
+Hierarchical
+============
+
+The first paradigm: sense the world, plan on a model, then act, strictly in turn.
+
+![Paradigms, hierarchical: sense, plan, act. Topics: Shakey, world model, limits](how-robots-decide/div-hier.svg)
 
 <!-- end_slide -->
 
 Shakey: sense, then plan, then act
 ==================================
 
-![image:width:100%](how-robots-decide/strip-hier.svg)
+![image:width:100%](how-robots-decide/crumb-hier-1.svg)
 
 <!-- column_layout: [3, 2, 2] -->
 
@@ -194,7 +199,7 @@ Shakey: sense, then plan, then act
 Plan on a world model
 =====================
 
-![image:width:100%](how-robots-decide/strip-hier.svg)
+![image:width:100%](how-robots-decide/crumb-hier-2.svg)
 
 <!-- column_layout: [1, 1] -->
 
@@ -216,7 +221,7 @@ Plan on a world model
 The world does not wait
 =======================
 
-![image:width:100%](how-robots-decide/strip-hier.svg)
+![image:width:100%](how-robots-decide/crumb-hier-3.svg)
 
 * Planning takes **long**, and the robot is **blocked** while it waits
 * The plan runs **without sensing**, which is dangerous in a dynamic world
@@ -225,10 +230,19 @@ The world does not wait
 
 <!-- end_slide -->
 
+Reactive
+========
+
+The second paradigm: drop the planner and connect sensing straight to acting.
+
+![Paradigms, reactive: sense, act. Topics: behaviours, subsumption, motor schemas, limits](how-robots-decide/div-react.svg)
+
+<!-- end_slide -->
+
 Cut out the planner
 ===================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/crumb-react-1.svg)
 
 ![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
 
@@ -239,7 +253,7 @@ Brooks (1986): instead of one pipeline of functions, many **behaviours**, each a
 Subsumption: layers of behaviours
 =================================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/crumb-react-2.svg)
 
 ![Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels](how-robots-decide/subsumption.svg)
 
@@ -250,7 +264,7 @@ Layers run **in parallel**. A higher layer **suppresses** (S) the command of the
 Motor schemas: blend behaviours
 ===============================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/crumb-react-3.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -273,7 +287,7 @@ Motor schemas: blend behaviours
 Fast, but short-sighted
 =======================
 
-![image:width:100%](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/crumb-react-4.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -294,10 +308,19 @@ Fast, but short-sighted
 
 <!-- end_slide -->
 
+Hybrid
+======
+
+The third paradigm: a planner on top, reactive behaviours below, and an executive in between.
+
+![Paradigms, hybrid: plan, then sense and act. Topics: three layers, executive](how-robots-decide/div-hybrid.svg)
+
+<!-- end_slide -->
+
 Plan on top, react below
 ========================
 
-![image:width:100%](how-robots-decide/strip-hybrid.svg)
+![image:width:100%](how-robots-decide/crumb-hybrid-1.svg)
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
@@ -308,7 +331,7 @@ The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998
 The executive switches behaviours
 =================================
 
-![image:width:100%](how-robots-decide/strip-hybrid.svg)
+![image:width:100%](how-robots-decide/crumb-hybrid-2.svg)
 
 ![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
