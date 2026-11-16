@@ -287,26 +287,18 @@ Programming the executive layer
 Anatomy of a state machine
 ==========================
 
-![Anatomy of a state machine on the door example: initial state, active state, states, events and transitions](how-robots-decide/fsm-anatomy.svg)
+The robot's battery as a state machine: it scouts until the battery runs low, drives back to the dock, and charges.
+
+![Anatomy of a state machine on the robot battery example: initial state, active state, states, events and transitions](how-robots-decide/fsm-anatomy.svg)
 
 <!-- end_slide -->
 
 States can have several transitions
 ===================================
 
-The same button can also **stop** the door halfway: two new states, four new transitions.
+The robot must also stop for people: one new state, **Wait**. *Scout rows* now has **two** ways out, and the event decides which one is taken.
 
-<!-- column_layout: [1, 1] -->
-
-<!-- column: 0 -->
-
-![Door state machine with four states](how-robots-decide/fsm-door.svg)
-
-<!-- column: 1 -->
-
-![Door state machine with stopped opening and stopped closing states added](how-robots-decide/fsm-door-stopped.svg)
-
-<!-- reset_layout -->
+![Left: battery state machine with scout rows, return to dock and charge. Right: the same machine with a wait state, entered on person ahead and left on path clear](how-robots-decide/fsm-battery.svg)
 
 <!-- end_slide -->
 
