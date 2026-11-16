@@ -61,6 +61,18 @@ An architecture puts SENSE, PLAN and ACT together into one program. We look at i
 
 <!-- end_slide -->
 
+<!-- jump_to_middle -->
+<!-- alignment: right -->
+
+Structure & style
+=================
+
+Part 1 · which parts, and how they talk
+
+![](how-robots-decide/part-structure.svg)
+
+<!-- end_slide -->
+
 Structure: which parts, and which are connected
 ===============================================
 
@@ -80,6 +92,18 @@ Style: how connected parts talk
 **Style** is what a line means: how data travels along a connection, and above all **who waits for whom**.
 
 ![Three communication styles with timelines. Publish-subscribe: the sender sends messages at its own rate and nobody waits. Call and wait: the caller is blocked while the planner thinks. Shared memory: the battery writes the latest value into a store and the executive reads the newest value when it wants](how-robots-decide/style.svg)
+
+<!-- end_slide -->
+
+<!-- jump_to_middle -->
+<!-- alignment: right -->
+
+Time & task
+===========
+
+Part 2 · how the jobs are split into layers
+
+![](how-robots-decide/part-time.svg)
 
 <!-- end_slide -->
 
