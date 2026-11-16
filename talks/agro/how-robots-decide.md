@@ -192,7 +192,7 @@ A paradigm is defined by how the primitives are connected (Murphy, 2019). We tak
 Shakey: sense, then plan, then act
 ==================================
 
-![Paradigm 1 of 3: hierarchical](how-robots-decide/strip-hier.svg)
+![image:width:100%](how-robots-decide/strip-hier.svg)
 
 <!-- column_layout: [3, 2, 2] -->
 
@@ -219,7 +219,7 @@ Shakey: sense, then plan, then act
 Plan on a world model
 =====================
 
-![Paradigm 1 of 3: hierarchical](how-robots-decide/strip-hier.svg)
+![image:width:100%](how-robots-decide/strip-hier.svg)
 
 <!-- column_layout: [1, 1] -->
 
@@ -241,7 +241,7 @@ Plan on a world model
 The world does not wait
 =======================
 
-![Paradigm 1 of 3: hierarchical](how-robots-decide/strip-hier.svg)
+![image:width:100%](how-robots-decide/strip-hier.svg)
 
 * Planning takes **long**, and the robot is **blocked** while it waits
 * The plan runs **without sensing**, which is dangerous in a dynamic world
@@ -253,7 +253,7 @@ The world does not wait
 Cut out the planner
 ===================
 
-![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 ![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
 
@@ -264,7 +264,7 @@ Brooks (1986): instead of one pipeline of functions, many **behaviours**, each a
 Subsumption: layers of behaviours
 =================================
 
-![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 ![Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels](how-robots-decide/subsumption.svg)
 
@@ -275,7 +275,7 @@ Layers run **in parallel**. A higher layer **suppresses** (S) the command of the
 Motor schemas: blend behaviours
 ===============================
 
-![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -298,7 +298,7 @@ Motor schemas: blend behaviours
 Fast, but short-sighted
 =======================
 
-![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -322,7 +322,7 @@ Fast, but short-sighted
 Plan on top, react below
 ========================
 
-![Paradigm 3 of 3: hybrid](how-robots-decide/strip-hybrid.svg)
+![image:width:100%](how-robots-decide/strip-hybrid.svg)
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
@@ -333,7 +333,7 @@ The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998
 The executive switches behaviours
 =================================
 
-![Paradigm 3 of 3: hybrid](how-robots-decide/strip-hybrid.svg)
+![image:width:100%](how-robots-decide/strip-hybrid.svg)
 
 ![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
