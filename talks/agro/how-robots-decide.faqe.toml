@@ -4,4 +4,4 @@ thumbnail = "how-robots-decide/title.svg"
 part = "8"
 series = ["Robotics: Mobile Platforms"]
 categories = ["robotics", "education"]
-tags = ["robotics", "architecture", "subsumption", "fsm", "behaviour-trees", "ros2"]
+tags = ["robotics", "architecture", "subsumption", "fsm"]
