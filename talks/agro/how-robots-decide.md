@@ -24,7 +24,7 @@ options:
 Today
 =====
 
-**How should a robot connect sensing, thinking and acting?** Five steps, from the building blocks to a state machine you program yourself.
+**How should a robot connect sensing, thinking and acting?** Four steps, from the building blocks to a state machine you program yourself.
 
 ![Roadmap: building blocks, three paradigms, state machines, and the Webots assignment](how-robots-decide/roadmap.svg)
 
