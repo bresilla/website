@@ -72,10 +72,14 @@ How a robot program is built
 
 <!-- end_slide -->
 
-Structure & style
-=================
+Structure and style
+===================
 
-![Architecture, structure and style: which parts, and how they talk. Topics: structure, style](how-robots-decide/div-ss.svg)
+![image:width:100%](how-robots-decide/crumb-ss-0.svg)
+
+**Structure**: which parts there are and which are connected. **Style**: how connected parts talk to each other (Kortenkamp et al., 2016).
+
+![Structure: GPS and distance sensor feed follow path and avoid obstacles, which feed coordinate motion and the two motors. Style: publish-subscribe, where GPS sends positions to any listener, versus call and wait, where follow path asks the route planner and waits for the reply](how-robots-decide/architecture.svg)
 
 <!-- end_slide -->
 
@@ -101,19 +105,12 @@ Style: how connected parts talk
 
 <!-- end_slide -->
 
-Time & task
-===========
-
-![Architecture, time and task: how the jobs are split into layers. Topics: many jobs, time, task](how-robots-decide/div-tt.svg)
-
-<!-- end_slide -->
-
 A robot does many jobs at once
 ==============================
 
-![image:width:100%](how-robots-decide/crumb-tt-1.svg)
+![image:width:100%](how-robots-decide/crumb-tt-0.svg)
 
-So which parts should the program have? Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
+Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
 
 ![A field robot in a crop row with six jobs around it, each with how fast it must answer: avoid obstacles, follow path and coordinate motion in milliseconds; headland turn and pick next row in seconds to minutes; plan coverage route in minutes to hours](how-robots-decide/many-jobs.svg)
 
@@ -124,7 +121,7 @@ Architectures **decompose** these jobs into layers, in two ways: by **time** and
 Split by time: slow on top, fast below
 ======================================
 
-![image:width:100%](how-robots-decide/crumb-tt-2.svg)
+![image:width:100%](how-robots-decide/crumb-tt-1.svg)
 
 By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below.
 
@@ -135,7 +132,7 @@ By **time**: sort the jobs by how often they must answer. Each layer runs about 
 Split by task: big jobs become small steps
 ==========================================
 
-![image:width:100%](how-robots-decide/crumb-tt-3.svg)
+![image:width:100%](how-robots-decide/crumb-tt-2.svg)
 
 By **task**: a job on one layer is done by calling jobs on the layer below, **in order**.
 
@@ -156,17 +153,10 @@ Three ways to connect sense, plan and act
 
 <!-- end_slide -->
 
-Hierarchical
-============
-
-![Paradigms, hierarchical: sense, plan, act. Topics: Shakey, world model, limits](how-robots-decide/div-hier.svg)
-
-<!-- end_slide -->
-
 Shakey: sense, then plan, then act
 ==================================
 
-![image:width:100%](how-robots-decide/crumb-hier-1.svg)
+![image:width:100%](how-robots-decide/crumb-hier-0.svg)
 
 <!-- column_layout: [3, 2, 2] -->
 
@@ -193,7 +183,7 @@ Shakey: sense, then plan, then act
 Plan on a world model
 =====================
 
-![image:width:100%](how-robots-decide/crumb-hier-2.svg)
+![image:width:100%](how-robots-decide/crumb-hier-1.svg)
 
 <!-- column_layout: [1, 1] -->
 
@@ -215,7 +205,7 @@ Plan on a world model
 The world does not wait
 =======================
 
-![image:width:100%](how-robots-decide/crumb-hier-3.svg)
+![image:width:100%](how-robots-decide/crumb-hier-2.svg)
 
 * Planning takes **long**, and the robot is **blocked** while it waits
 * The plan runs **without sensing**, which is dangerous in a dynamic world
@@ -224,17 +214,10 @@ The world does not wait
 
 <!-- end_slide -->
 
-Reactive
-========
-
-![Paradigms, reactive: sense, act. Topics: behaviours, subsumption, motor schemas, limits](how-robots-decide/div-react.svg)
-
-<!-- end_slide -->
-
 Cut out the planner
 ===================
 
-![image:width:100%](how-robots-decide/crumb-react-1.svg)
+![image:width:100%](how-robots-decide/crumb-react-0.svg)
 
 ![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
 
@@ -245,7 +228,7 @@ Brooks (1986): instead of one pipeline of functions, many **behaviours**, each a
 Subsumption: layers of behaviours
 =================================
 
-![image:width:100%](how-robots-decide/crumb-react-2.svg)
+![image:width:100%](how-robots-decide/crumb-react-1.svg)
 
 ![Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels](how-robots-decide/subsumption.svg)
 
@@ -256,7 +239,7 @@ Layers run **in parallel**. A higher layer **suppresses** (S) the command of the
 Motor schemas: blend behaviours
 ===============================
 
-![image:width:100%](how-robots-decide/crumb-react-3.svg)
+![image:width:100%](how-robots-decide/crumb-react-2.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -279,7 +262,7 @@ Motor schemas: blend behaviours
 Fast, but short-sighted
 =======================
 
-![image:width:100%](how-robots-decide/crumb-react-4.svg)
+![image:width:100%](how-robots-decide/crumb-react-3.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -300,17 +283,10 @@ Fast, but short-sighted
 
 <!-- end_slide -->
 
-Hybrid
-======
-
-![Paradigms, hybrid: plan, then sense and act. Topics: three layers, executive](how-robots-decide/div-hybrid.svg)
-
-<!-- end_slide -->
-
 Plan on top, react below
 ========================
 
-![image:width:100%](how-robots-decide/crumb-hybrid-1.svg)
+![image:width:100%](how-robots-decide/crumb-hybrid-0.svg)
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
@@ -321,7 +297,7 @@ The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998
 The executive switches behaviours
 =================================
 
-![image:width:100%](how-robots-decide/crumb-hybrid-2.svg)
+![image:width:100%](how-robots-decide/crumb-hybrid-1.svg)
 
 ![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
