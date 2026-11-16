@@ -52,107 +52,28 @@ Every robot program is built from three primitives (Murphy, 2019).
 
 <!-- end_slide -->
 
-Architecture: structure and style
-=================================
+An architecture: structure and style
+====================================
 
-<!-- column_layout: [1, 1] -->
+An architecture puts SENSE, PLAN and ACT together into one program. **Structure**: which parts there are and which are connected. **Style**: how connected parts talk to each other (Kortenkamp et al., 2016).
 
-<!-- column: 0 -->
+![Structure: GPS and distance sensor feed follow path and avoid obstacles, which feed coordinate motion and the two motors. Style: publish-subscribe, where GPS sends positions to any listener, versus call and wait, where follow path asks the route planner and waits for the reply](how-robots-decide/architecture.svg)
 
-* **Structure**: how the system is split into components
+<!-- end_slide -->
 
-<!-- column: 1 -->
+What do we split, and why?
+==========================
 
-* **Style**: how the components communicate
+Choosing a structure means splitting the robot's **jobs** into parts. In one big loop, every job waits for the slowest. So architectures split the jobs into **layers**, in two ways: by **time** and by **task**.
 
-<!-- reset_layout -->
-
-```faqe:graph
-caption = "A robot architecture: the boxes are the structure, the arrows are the style."
-columns = 7
-rows = 3
-
-[[nodes]]
-id = "gps"
-title = "GPS/GNSS"
-subtitle = "SENSE"
-column = 1
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "distance"
-title = "Distance sensor"
-subtitle = "SENSE"
-column = 1
-row = 3
-tone = "accent"
-
-[[nodes]]
-id = "follow"
-title = "Follow path"
-column = 3
-row = 1
-
-[[nodes]]
-id = "avoid"
-title = "Avoid obstacles"
-column = 3
-row = 3
-
-[[nodes]]
-id = "coordinate"
-title = "Coordinate motion"
-column = 5
-row = 2
-
-[[nodes]]
-id = "left"
-title = "Left motor"
-subtitle = "ACT"
-column = 7
-row = 1
-tone = "warning"
-
-[[nodes]]
-id = "right"
-title = "Right motor"
-subtitle = "ACT"
-column = 7
-row = 3
-tone = "warning"
-
-[[edges]]
-from = "gps"
-to = "follow"
-
-[[edges]]
-from = "distance"
-to = "avoid"
-
-[[edges]]
-from = "follow"
-to = "coordinate"
-
-[[edges]]
-from = "avoid"
-to = "coordinate"
-
-[[edges]]
-from = "coordinate"
-to = "left"
-
-[[edges]]
-from = "coordinate"
-to = "right"
-```
+![Left: all jobs of a field robot in one loop, so each cycle lasts as long as the 12 s route planner. Right: the jobs split by time into planning, sequencing and control, and by task into a tree of jobs that call each other](how-robots-decide/why-split.svg)
 
 <!-- end_slide -->
 
 Split by time: slow on top, fast below
 ======================================
 
-First split: by **time**. The boxes on the last slide do not run at the same rate, so architectures stack them in layers, each about **10× slower and more abstract** than the one below (Kortenkamp et al., 2016).
+By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below (Kortenkamp et al., 2016).
 
 ![Loop rates of a field robot grouped into planning, sequencing and control layers on a logarithmic time axis; each layer is slower and more abstract than the one below](how-robots-decide/split-time.svg)
 
@@ -161,7 +82,7 @@ First split: by **time**. The boxes on the last slide do not run at the same rat
 Split by task: big jobs become small steps
 ==========================================
 
-Second split: by **task**. A task on one layer is done by calling tasks on the layer below, **in order**.
+By **task**: a job on one layer is done by calling jobs on the layer below, **in order**.
 
 ![Task decomposition: scout the field calls move to start, navigate row and headland turn in order; navigate row calls follow path and avoid obstacles, which feed coordinate motion and the motors](how-robots-decide/split-task.svg)
 
