@@ -393,30 +393,21 @@ Three-layer architectures (Firby; 3T; Gat, 1998): reactive behaviours at the bot
 
 <!-- end_slide -->
 
+Where the three paradigms sit
+=============================
+
+![The deliberative to reactive spectrum with the hierarchical, hybrid and reactive paradigms marked](how-robots-decide/spectrum.svg)
+
+Most robots today are **hybrid**. What remains: how to program its middle layer, the executive.
+
+<!-- end_slide -->
+
 Hybrid: the executive switches behaviours
 =========================================
 
 ![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
 The executive turns the plan into **one behaviour at a time** and switches when an **event** happens. That is a **finite state machine**.
-
-<!-- end_slide -->
-
-Hybrid today: Nav2 in ROS 2
-===========================
-
-![Nav2 as a three-layer architecture: planner server for planning, BT Navigator as the executive, controller and behavior servers for behavioural control](how-robots-decide/nav2.svg)
-
-The ROS 2 navigation stack has the same three layers (Macenski et al., 2020).
-
-<!-- end_slide -->
-
-Where the three paradigms sit
-=============================
-
-![The deliberative to reactive spectrum with the hierarchical, hybrid and reactive paradigms marked](how-robots-decide/spectrum.svg)
-
-Most robots today are **hybrid**. Next: how to program its middle layer, the executive.
 
 <!-- end_slide -->
 
