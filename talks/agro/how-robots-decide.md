@@ -64,7 +64,7 @@ An architecture puts SENSE, PLAN and ACT together into one program. We look at i
 Structure: which parts, and which are connected
 ===============================================
 
-![image:footer: Part 1 of 2, structure and style](how-robots-decide/foot-arch-1.svg)
+![image:width:100%](how-robots-decide/strip-arch-1.svg)
 
 **Structure** is the boxes and the lines. The same sensors and motors can be wired very differently, and that choice is what the three paradigms will disagree about.
 
@@ -75,7 +75,7 @@ Structure: which parts, and which are connected
 Style: how connected parts talk
 ===============================
 
-![image:footer: Part 1 of 2, structure and style](how-robots-decide/foot-arch-1.svg)
+![image:width:100%](how-robots-decide/strip-arch-1.svg)
 
 **Style** is what a line means: how data travels along a connection, and above all **who waits for whom**.
 
@@ -86,7 +86,7 @@ Style: how connected parts talk
 A robot does many jobs at once
 ==============================
 
-![image:footer: Part 2 of 2, time and task](how-robots-decide/foot-arch-2.svg)
+![image:width:100%](how-robots-decide/strip-arch-2.svg)
 
 So which parts should the program have? Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
 
@@ -99,7 +99,7 @@ Architectures **decompose** these jobs into layers, in two ways: by **time** and
 Split by time: slow on top, fast below
 ======================================
 
-![image:footer: Part 2 of 2, time and task](how-robots-decide/foot-arch-2.svg)
+![image:width:100%](how-robots-decide/strip-arch-2.svg)
 
 By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below.
 
@@ -110,7 +110,7 @@ By **time**: sort the jobs by how often they must answer. Each layer runs about 
 Split by task: big jobs become small steps
 ==========================================
 
-![image:footer: Part 2 of 2, time and task](how-robots-decide/foot-arch-2.svg)
+![image:width:100%](how-robots-decide/strip-arch-2.svg)
 
 By **task**: a job on one layer is done by calling jobs on the layer below, **in order**.
 
@@ -143,7 +143,7 @@ A paradigm is defined by how the primitives are connected (Murphy, 2019). We tak
 Shakey: sense, then plan, then act
 ==================================
 
-![image:footer: Paradigm 1 of 3, hierarchical](how-robots-decide/foot-hier.svg)
+![image:width:100%](how-robots-decide/strip-hier.svg)
 
 <!-- column_layout: [3, 2, 2] -->
 
@@ -170,7 +170,7 @@ Shakey: sense, then plan, then act
 Plan on a world model
 =====================
 
-![image:footer: Paradigm 1 of 3, hierarchical](how-robots-decide/foot-hier.svg)
+![image:width:100%](how-robots-decide/strip-hier.svg)
 
 <!-- column_layout: [1, 1] -->
 
@@ -192,7 +192,7 @@ Plan on a world model
 The world does not wait
 =======================
 
-![image:footer: Paradigm 1 of 3, hierarchical](how-robots-decide/foot-hier.svg)
+![image:width:100%](how-robots-decide/strip-hier.svg)
 
 * Planning takes **long**, and the robot is **blocked** while it waits
 * The plan runs **without sensing**, which is dangerous in a dynamic world
@@ -204,7 +204,7 @@ The world does not wait
 Cut out the planner
 ===================
 
-![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 ![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
 
@@ -215,7 +215,7 @@ Brooks (1986): instead of one pipeline of functions, many **behaviours**, each a
 Subsumption: layers of behaviours
 =================================
 
-![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 ![Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels](how-robots-decide/subsumption.svg)
 
@@ -226,7 +226,7 @@ Layers run **in parallel**. A higher layer **suppresses** (S) the command of the
 Motor schemas: blend behaviours
 ===============================
 
-![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -249,7 +249,7 @@ Motor schemas: blend behaviours
 Fast, but short-sighted
 =======================
 
-![image:footer: Paradigm 2 of 3, reactive](how-robots-decide/foot-react.svg)
+![image:width:100%](how-robots-decide/strip-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -273,7 +273,7 @@ Fast, but short-sighted
 Plan on top, react below
 ========================
 
-![image:footer: Paradigm 3 of 3, hybrid](how-robots-decide/foot-hybrid.svg)
+![image:width:100%](how-robots-decide/strip-hybrid.svg)
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
@@ -284,7 +284,7 @@ The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998
 The executive switches behaviours
 =================================
 
-![image:footer: Paradigm 3 of 3, hybrid](how-robots-decide/foot-hybrid.svg)
+![image:width:100%](how-robots-decide/strip-hybrid.svg)
 
 ![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
 
