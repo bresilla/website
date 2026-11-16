@@ -149,102 +149,23 @@ to = "right"
 
 <!-- end_slide -->
 
-Robots answer on many time scales at once
-=========================================
+Split by time: slow on top, fast below
+======================================
 
-<!-- column_layout: [1, 1] -->
+First split: by **time**. The boxes on the last slide do not run at the same rate, so architectures stack them in layers, each about **10× slower and more abstract** than the one below (Kortenkamp et al., 2016).
 
-<!-- column: 0 -->
-
-* **Real time** in an uncertain, changing world: a late answer is a wrong answer
-
-<!-- column: 1 -->
-
-* **Coordination**: many behaviours, in sequence or in parallel
-
-<!-- reset_layout -->
-
-![Loop periods of a field robot on a logarithmic axis, from motor control at 1 kHz to hourly battery planning](how-robots-decide/timescales.svg)
+![Loop rates of a field robot grouped into planning, sequencing and control layers on a logarithmic time axis; each layer is slower and more abstract than the one below](how-robots-decide/split-time.svg)
 
 <!-- end_slide -->
 
-Big tasks are split into smaller ones
-=====================================
+Split by task: big jobs become small steps
+==========================================
 
-<!-- column_layout: [1, 1] -->
+Second split: by **task**. A task on one layer is done by calling tasks on the layer below, **in order**.
 
-<!-- column: 0 -->
+![Task decomposition: scout the field calls move to start, navigate row and headland turn in order; navigate row calls follow path and avoid obstacles, which feed coordinate motion and the motors](how-robots-decide/split-task.svg)
 
-* **Modular**: simpler, largely independent pieces
-* **Hierarchical**: each level more abstract than the one below
-  * *Task decomposition*: harvesting = detect + reach + detach + place
-  * *Temporal decomposition*: in what order
-
-<!-- new_line -->
-
-So how should the pieces, and the three primitives, be connected? Robotics has tried three answers.
-
-<!-- column: 1 -->
-
-```faqe:graph
-caption = "Top-down: task decomposition. Left to right: temporal decomposition."
-description = "Harvesting splits into detect, reach, detach and place, done in that order."
-columns = 4
-rows = 2
-
-[[nodes]]
-id = "harvest"
-title = "harvest a fruit"
-column = 2
-row = 1
-tone = "accent"
-
-[[nodes]]
-id = "detect"
-title = "detect"
-column = 1
-row = 2
-tone = "neutral"
-
-[[nodes]]
-id = "reach"
-title = "reach"
-column = 2
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "detach"
-title = "detach"
-column = 3
-row = 2
-tone = "positive"
-
-[[nodes]]
-id = "place"
-title = "place"
-column = 4
-row = 2
-tone = "neutral"
-
-[[edges]]
-from = "harvest"
-to = "detect"
-
-[[edges]]
-from = "harvest"
-to = "reach"
-
-[[edges]]
-from = "harvest"
-to = "detach"
-
-[[edges]]
-from = "harvest"
-to = "place"
-```
-
-<!-- reset_layout -->
+Open question: where does **PLAN** sit, and does **ACT** have to wait for it? Robotics has tried three answers.
 
 <!-- end_slide -->
 
@@ -268,8 +189,10 @@ A paradigm is defined by how the primitives are connected (Murphy, 2019). We tak
 
 <!-- end_slide -->
 
-Hierarchical: Shakey
-====================
+Shakey: sense, then plan, then act
+==================================
+
+![Paradigm 1 of 3: hierarchical](how-robots-decide/strip-hier.svg)
 
 <!-- column_layout: [3, 2, 2] -->
 
@@ -293,8 +216,10 @@ Hierarchical: Shakey
 
 <!-- end_slide -->
 
-Hierarchical: plan on a world model
-===================================
+Plan on a world model
+=====================
+
+![Paradigm 1 of 3: hierarchical](how-robots-decide/strip-hier.svg)
 
 <!-- column_layout: [1, 1] -->
 
@@ -313,8 +238,10 @@ Hierarchical: plan on a world model
 
 <!-- end_slide -->
 
-Hierarchical: the world does not wait
-=====================================
+The world does not wait
+=======================
+
+![Paradigm 1 of 3: hierarchical](how-robots-decide/strip-hier.svg)
 
 * Planning takes **long**, and the robot is **blocked** while it waits
 * The plan runs **without sensing**, which is dangerous in a dynamic world
@@ -323,8 +250,10 @@ Hierarchical: the world does not wait
 
 <!-- end_slide -->
 
-Reactive: cut out the planner
-=============================
+Cut out the planner
+===================
+
+![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
 
 ![Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators](how-robots-decide/decomposition.svg)
 
@@ -332,8 +261,10 @@ Brooks (1986): instead of one pipeline of functions, many **behaviours**, each a
 
 <!-- end_slide -->
 
-Reactive: subsumption layers
-============================
+Subsumption: layers of behaviours
+=================================
+
+![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
 
 ![Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels](how-robots-decide/subsumption.svg)
 
@@ -341,8 +272,10 @@ Layers run **in parallel**. A higher layer **suppresses** (S) the command of the
 
 <!-- end_slide -->
 
-Reactive: motor schemas blend behaviours
-========================================
+Motor schemas: blend behaviours
+===============================
+
+![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -362,8 +295,10 @@ Reactive: motor schemas blend behaviours
 
 <!-- end_slide -->
 
-Reactive: fast, but short-sighted
-=================================
+Fast, but short-sighted
+=======================
+
+![Paradigm 2 of 3: reactive](how-robots-decide/strip-react.svg)
 
 <!-- column_layout: [2, 3] -->
 
@@ -384,12 +319,25 @@ Reactive: fast, but short-sighted
 
 <!-- end_slide -->
 
-Hybrid: plan on top, react below
-================================
+Plan on top, react below
+========================
+
+![Paradigm 3 of 3: hybrid](how-robots-decide/strip-hybrid.svg)
 
 ![Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up](how-robots-decide/three-layer.svg)
 
-Three-layer architectures (Firby; 3T; Gat, 1998): reactive behaviours at the bottom, a planner on top, and an **executive** that connects them.
+The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998): behaviours below, a planner on top, and an **executive** in between.
+
+<!-- end_slide -->
+
+The executive switches behaviours
+=================================
+
+![Paradigm 3 of 3: hybrid](how-robots-decide/strip-hybrid.svg)
+
+![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
+
+The executive turns the plan into **one behaviour at a time** and switches when an **event** happens.
 
 <!-- end_slide -->
 
@@ -398,16 +346,7 @@ Where the three paradigms sit
 
 ![The deliberative to reactive spectrum with the hierarchical, hybrid and reactive paradigms marked](how-robots-decide/spectrum.svg)
 
-Most robots today are **hybrid**. What remains: how to program its middle layer, the executive.
-
-<!-- end_slide -->
-
-Hybrid: the executive switches behaviours
-=========================================
-
-![The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions](how-robots-decide/executive-fsm.svg)
-
-The executive turns the plan into **one behaviour at a time** and switches when an **event** happens. That is a **finite state machine**.
+Most robots today are **hybrid**, and their executive is often a **finite state machine**. That is what you will build.
 
 <!-- end_slide -->
 
