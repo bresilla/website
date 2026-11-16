@@ -61,19 +61,21 @@ An architecture puts SENSE, PLAN and ACT together into one program. **Structure*
 
 <!-- end_slide -->
 
-What do we split, and why?
-==========================
+A robot does many jobs at once
+=============================
 
-Choosing a structure means splitting the robot's **jobs** into parts. In one big loop, every job waits for the slowest. So architectures split the jobs into **layers**, in two ways: by **time** and by **task**.
+Which parts should the program have? Look at what the robot does: many **jobs at the same time**, some answering within milliseconds, others with minutes to think.
 
-![Left: all jobs of a field robot in one loop, so each cycle lasts as long as the 12 s route planner. Right: the jobs split by time into planning, sequencing and control, and by task into a tree of jobs that call each other](how-robots-decide/why-split.svg)
+![A field robot in a crop row with six jobs around it, each with how fast it must answer: avoid obstacles, follow path and coordinate motion in milliseconds; headland turn and pick next row in seconds to minutes; plan coverage route in minutes to hours](how-robots-decide/many-jobs.svg)
+
+Architectures **decompose** these jobs into layers, in two ways: by **time** and by **task** (Kortenkamp et al., 2016).
 
 <!-- end_slide -->
 
 Split by time: slow on top, fast below
 ======================================
 
-By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below (Kortenkamp et al., 2016).
+By **time**: sort the jobs by how often they must answer. Each layer runs about **10× slower** and is **more abstract** than the one below.
 
 ![Loop rates of a field robot grouped into planning, sequencing and control layers on a logarithmic time axis; each layer is slower and more abstract than the one below](how-robots-decide/split-time.svg)
 
