@@ -1,0 +1,7 @@
+template = "wur"
+title_image = "robot-architectures/robots.jpg"
+thumbnail = "robot-architectures/robots.jpg"
+part = "8"
+series = ["Robotics: Mobile Platforms"]
+categories = ["robotics", "education"]
+tags = ["robotics", "architecture", "subsumption", "fsm"]
