@@ -4,9 +4,6 @@ visibility = "indirect"
 title = "Quotes"
 slug = "quotes"
 
-[style]
-    accent = "#ffe0b2"
-    theme = "dark"
 +++
 
 Here are some quotes i like:

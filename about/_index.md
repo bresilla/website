@@ -6,10 +6,6 @@ title = "About"
 slug = "about"
 foot = "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
 
-[style]
-    accent = "#04f977"
-    theme = "dark"
-
 +++
 
 <img align="right" src="profile_04.jpg" width=50% height=40% style="margin: 20px; border-radius: 5%;">

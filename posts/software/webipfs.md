@@ -25,7 +25,6 @@ credits = [
 
 [style]
     accent = "#6acad1"
-    theme = "dark"
 +++
 
 # Why I wanted a second route to the site

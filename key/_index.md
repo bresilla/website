@@ -4,9 +4,6 @@ visibility = "indirect"
 title = "Public key"
 slug = "pgp"
 foot = "In the kingdom of the blind, the one-eyed man is king"
-[style]
-    accent = "#f72c4a"
-    bg = "#000000"
 +++
 
 ```

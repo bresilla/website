@@ -26,7 +26,6 @@ punchline = "LXD gives Linux containers the manners of small virtual machines: i
 
 [style]
     accent = "#d78700"
-    theme = "dark"
 +++
 
 # Why I reached for LXD

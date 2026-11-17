@@ -22,7 +22,6 @@ credits = [
 
 [style]
     accent = "#ee82ee"
-    theme = "dark"
     width = "60%"
 +++
 

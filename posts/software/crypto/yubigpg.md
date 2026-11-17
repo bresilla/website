@@ -27,7 +27,6 @@ tldr = "Back up first, transfer only subkeys, change both PINs, enable touch, an
 
 [style]
     accent = "#5f5fff"
-    theme = "dark"
 +++
 
 # What this setup does

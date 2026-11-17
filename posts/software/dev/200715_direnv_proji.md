@@ -22,7 +22,6 @@ credits = [
 
 [style]
     accent = "#fef460"
-    theme = "dark"
 +++
 
 {{< image url="projects-menu.png" border="1" width="70" >}} A Rofi menu listing active projects {{< /image >}}

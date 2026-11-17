@@ -8,12 +8,6 @@ slug = "resume"
 
 foot = "Be yourself, everyone else is already taken"
 
-[style]
-    accent = "#5fd7ff"
-    theme = "dark"
-    bg = "#080a0f"
-    fg = "#c4d0d1"
-
 [cv]
     profile = "profile_02.jpg"
     [cv.contact]
