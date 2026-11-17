@@ -1,0 +1,210 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="light" data-faqe-pin-accent data-faqe-pin-theme style="--accent-color:#004d00;--chromatic-a:#004d00;--chromatic-b:#97c600;--bg-color:#ffffff;--fg-color:#002b47;--glitch-color:#002b47;--interactive-color:#004d00;--accent-text-color:#ffffff;--mute-color:#6b7280;--tint:5%"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-7584e7613cd648da.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Robot architectures and finite state machines · FTE-36306"><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#ffffff"><meta property="og:title" content="How Robots Decide · bresilla"><meta property="og:description" content="Robot architectures and finite state machines · FTE-36306"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="How Robots Decide · bresilla"><meta name="twitter:description" content="Robot architectures and finite state machines · FTE-36306"><meta property="og:url" content="https://bresilla.com/talk/agro/how-robots-decide/"><link rel="canonical" href="https://bresilla.com/talk/agro/how-robots-decide/"><meta property="og:image" content="https://bresilla.com/assets/content/title-4ba35e4651901835.svg"><meta property="og:image:alt" content="How Robots Decide"><meta name="twitter:image" content="https://bresilla.com/assets/content/title-4ba35e4651901835.svg"><meta name="twitter:image:alt" content="How Robots Decide"><title>How Robots Decide · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><script src="/assets/scheme-4ee2b5aa71ed3ef3.js"></script><link rel="stylesheet" href="/assets/theme-bresilla-c2bc2ac9de5d939c.css"><link data-faqe-mode="talk" rel="stylesheet" href="/assets/theme-bresilla-talk-5bbea51e157d7cf3.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>How Robots Decide</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#today">Today</a></li><li><a href="#building-blocks">Building blocks</a></li><li><a href="#sense-plan-act">Sense, plan, act</a></li><li><a href="#two-big-ideas">Two big ideas</a></li><li><a href="#architecture">Architecture</a></li><li><a href="#structure--style">Structure &amp; style</a></li><li><a href="#structure-which-parts-and-which-are-connected">Structure: which parts, and which are connected</a></li><li><a href="#style-how-connected-parts-talk">Style: how connected parts talk</a></li><li><a href="#time--task">Time &amp; task</a></li><li><a href="#a-robot-does-many-jobs-at-once">A robot does many jobs at once</a></li><li><a href="#split-by-time-slow-on-top-fast-below">Split by time: slow on top, fast below</a></li><li><a href="#split-by-task-big-jobs-become-small-steps">Split by task: big jobs become small steps</a></li><li><a href="#paradigms">Paradigms</a></li><li><a href="#hierarchical">Hierarchical</a></li><li><a href="#shakey-sense-then-plan-then-act">Shakey: sense, then plan, then act</a></li><li><a href="#plan-on-a-world-model">Plan on a world model</a></li><li><a href="#the-world-does-not-wait">The world does not wait</a></li><li><a href="#reactive">Reactive</a></li><li><a href="#cut-out-the-planner">Cut out the planner</a></li><li><a href="#subsumption-layers-of-behaviours">Subsumption: layers of behaviours</a></li><li><a href="#motor-schemas-blend-behaviours">Motor schemas: blend behaviours</a></li><li><a href="#fast-but-short-sighted">Fast, but short-sighted</a></li><li><a href="#hybrid">Hybrid</a></li><li><a href="#plan-on-top-react-below">Plan on top, react below</a></li><li><a href="#the-executive-switches-behaviours">The executive switches behaviours</a></li><li><a href="#state-machines">State machines</a></li><li><a href="#anatomy-of-a-state-machine">Anatomy of a state machine</a></li><li><a href="#states-can-have-several-transitions">States can have several transitions</a></li><li><a href="#cropscout-three-behaviours-three-states">CropScout: three behaviours, three states</a></li><li><a href="#one-state-at-a-time">One state at a time</a></li><li><a href="#every-arrow-is-one-row">Every arrow is one row</a></li><li><a href="#how-an-fsm-runs-cycle-after-cycle">How an FSM runs, cycle after cycle</a></li><li><a href="#your-turn">Your turn</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="today">Today</h2>
+<p><strong>How should a robot connect sensing, thinking and acting?</strong> Four steps, from the building blocks to a state machine you program yourself.</p>
+<p><img alt="Roadmap: building blocks, three paradigms, state machines, and the Webots assignment" src="/assets/content/roadmap-a25b3119a5ec5538.svg"></p>
+<p><em>Main reading: Kortenkamp, Simmons &amp; Brugali (2016), Robotic systems architectures and programming, Springer Handbook of Robotics</em></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="building-blocks">Building blocks</h2>
+<p>What every robot program is made of</p>
+<p><img alt="" src="/assets/content/section-both-3f22ada501ed6d8f.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="sense-plan-act">Sense, plan, act</h2>
+<p>Every robot program is built from three primitives (Murphy, 2019).</p>
+<p><img alt="The three robot primitives: sense turns sensor data into information, plan turns information into directives, act turns them into actuator commands" src="/assets/content/primitives-632915c3e977b997.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="two-big-ideas">Two big ideas</h2>
+<p>How do we put SENSE, PLAN and ACT together? Two ideas: the <strong>architecture</strong>, how the program is built (Kortenkamp et al., 2016), and the <strong>paradigm</strong>, how SENSE, PLAN and ACT are wired (Murphy, 2019).</p>
+<p><img alt="Two big ideas. Architecture: structure and style, time and task. Paradigms: hierarchical, reactive and hybrid" src="/assets/content/hub-c50c060e18fd6605.svg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="architecture">Architecture</h2>
+<p>How a robot program is built</p>
+<p><img alt="" src="/assets/content/section-arch-93aed2e24c6fc1e6.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="structure--style">Structure &amp; style</h2>
+<p><img alt="Architecture, structure and style: which parts, and how they talk. Topics: structure, style" src="/assets/content/div-ss-8de9166b20f81020.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="structure-which-parts-and-which-are-connected">Structure: which parts, and which are connected</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-ss-1-9024c977fd577251.svg"></p>
+<p><strong>Structure</strong> is the boxes and the lines. The same sensors and motors can be wired very differently, and that choice is what the three paradigms will disagree about.</p>
+<p><img alt="Two structures for the same sensors and motors. A: GPS and distance sensor feed one world model and one planner, which drives both motors. B: GPS feeds follow path, the distance sensor feeds avoid obstacles, and both feed coordinate motion, which drives the motors" src="/assets/content/structure-f141cfe6acd50b56.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="style-how-connected-parts-talk">Style: how connected parts talk</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-ss-2-0602944390c4d222.svg"></p>
+<p><strong>Style</strong> is what a line means: how data travels along a connection, and above all <strong>who waits for whom</strong>.</p>
+<p><img alt="Three communication styles with timelines. Publish-subscribe: the sender sends messages at its own rate and nobody waits. Call and wait: the caller is blocked while the planner thinks. Shared memory: the battery writes the latest value into a store and the executive reads the newest value when it wants" src="/assets/content/style-4e15f833c5084994.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="time--task">Time &amp; task</h2>
+<p><img alt="Architecture, time and task: how the jobs are split into layers. Topics: time, task" src="/assets/content/div-tt-46cd8084091e4fac.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="a-robot-does-many-jobs-at-once">A robot does many jobs at once</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-tt-0-58a4a0523390b607.svg"></p>
+<p>So which parts should the program have? Look at what the robot does: many <strong>jobs at the same time</strong>, some answering within milliseconds, others with minutes to think.</p>
+<p><img alt="A field robot in a crop row with six jobs around it, each with how fast it must answer: avoid obstacles, follow path and coordinate motion in milliseconds; headland turn and pick next row in seconds to minutes; plan coverage route in minutes to hours" src="/assets/content/many-jobs-45e45c0f0214cf47.svg"></p>
+<p>Architectures <strong>decompose</strong> these jobs into layers, in two ways: by <strong>time</strong> and by <strong>task</strong>.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="split-by-time-slow-on-top-fast-below">Split by time: slow on top, fast below</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-tt-2-29da122e2bbb71c1.svg"></p>
+<p>By <strong>time</strong>: sort the jobs by how often they must answer. Each layer runs about <strong>10× slower</strong> and is <strong>more abstract</strong> than the one below.</p>
+<p><img alt="Loop rates of a field robot grouped into planning, sequencing and control layers on a logarithmic time axis; each layer is slower and more abstract than the one below" src="/assets/content/split-time-5d8fc6f053917f12.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="split-by-task-big-jobs-become-small-steps">Split by task: big jobs become small steps</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-tt-3-49918fbd5d911bad.svg"></p>
+<p>By <strong>task</strong>: a job on one layer is done by calling jobs on the layer below, <strong>in order</strong>.</p>
+<p><img alt="Task decomposition: scout the field calls move to start, navigate row and headland turn in order; navigate row calls follow path and avoid obstacles, which feed coordinate motion and the motors" src="/assets/content/split-task-25bdc4500b77bf52.svg"></p>
+<p>Open question: where does <strong>PLAN</strong> sit, and does <strong>ACT</strong> have to wait for it? Robotics has tried three answers.</p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="paradigms">Paradigms</h2>
+<p>Three ways to connect sense, plan and act</p>
+<p><img alt="" src="/assets/content/section-par-aff8d5645c482d65.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="hierarchical">Hierarchical</h2>
+<p><img alt="Paradigms, hierarchical: sense, plan, act. Topics: Shakey, world model, limits" src="/assets/content/div-hier-9caac5ee31a57470.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="shakey-sense-then-plan-then-act">Shakey: sense, then plan, then act</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-hier-1-5e5eebd1e62a66d9.svg"></p>
+
+
+<ul>
+<li><strong>Shakey</strong> (SRI, late 1960s): the first robot that reasoned about its own actions</li>
+<li>Camera, rangefinder and bump sensors; differential drive</li>
+<li>Strictly in turn: <strong>sense</strong> the world, <strong>plan</strong> on a world model, <strong>act</strong></li>
+</ul>
+
+<p><img alt="Hierarchical paradigm: sense, then plan on a world model, then act" src="/assets/content/paradigm-hierarchical-e9be91015d17abcf.svg"></p>
+
+<p><img alt="Shakey the robot with labels for antenna, camera, range finder, bump detectors and drive wheels" src="/assets/content/shakey-bd7db3308ceecd6a.jpg"></p>
+
+<p><em>Photo: SRI International, CC BY-SA 3.0, via Wikimedia Commons</em></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="plan-on-a-world-model">Plan on a world model</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-hier-2-e118dab729a36259.svg"></p>
+
+
+<ul>
+<li>All sensor data goes into one <strong>world model</strong></li>
+<li>A <strong>planner</strong> searches the model for the best sequence of actions</li>
+<li><strong>A*</strong> on a grid map was invented for Shakey (Hart, Nilsson &amp; Raphael, 1968)</li>
+<li>Optimal and predictable, <strong>if</strong> the model is right</li>
+</ul>
+
+<p><img alt="A* search on a grid map: expanded cells shaded and the shortest path from S to G in green" src="/assets/content/astar-074ec9b71da57ca2.svg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-world-does-not-wait">The world does not wait</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-hier-3-cc37f686aa6a01a0.svg"></p>
+<ul>
+<li>Planning takes <strong>long</strong>, and the robot is <strong>blocked</strong> while it waits</li>
+<li>The plan runs <strong>without sensing</strong>, which is dangerous in a dynamic world</li>
+</ul>
+<p><img alt="Timeline: the robot senses once, plans for twelve seconds, then executes blind while a person walks into the row" src="/assets/content/blind-925833e2faea7452.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="reactive">Reactive</h2>
+<p><img alt="Paradigms, reactive: sense, act. Topics: behaviours, subsumption, motor schemas, limits" src="/assets/content/div-react-5cca75f8bbc2e25b.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="cut-out-the-planner">Cut out the planner</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-react-1-3edaf6bd8fc33451.svg"></p>
+<p><img alt="Left: a pipeline of functional modules between sensors and actuators. Right: parallel task-achieving layers that each connect sensors to actuators" src="/assets/content/decomposition-5eeca15f6354f377.svg"></p>
+<p>Brooks (1986): instead of one pipeline of functions, many <strong>behaviours</strong>, each a direct link from SENSE to ACT, all running at once.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="subsumption-layers-of-behaviours">Subsumption: layers of behaviours</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-react-2-752159259337bcef.svg"></p>
+<p><img alt="Subsumption for a field robot: level 2 suppresses level 1, level 1 suppresses level 0, and the halt reflex goes straight to the wheels" src="/assets/content/subsumption-58c383e69d19141c.svg"></p>
+<p>Layers run <strong>in parallel</strong>. A higher layer <strong>suppresses</strong> (S) the command of the layer below: arbitration by priority (Brooks, 1986).</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="motor-schemas-blend-behaviours">Motor schemas: blend behaviours</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-react-3-963cdb7902ea51a4.svg"></p>
+
+
+<ul>
+<li>Arkin (1989): every behaviour outputs a <strong>vector</strong>
+<ul>
+<li><em>move-to-goal</em> pulls towards the goal</li>
+<li><em>avoid-obstacle</em> pushes away, harder when closer</li>
+</ul>
+</li>
+<li>The robot follows the <strong>sum</strong></li>
+<li>Subsumption <strong>picks</strong> one behaviour, motor schemas <strong>blend</strong> them all</li>
+</ul>
+
+<p><img alt="Motor schemas: a move-to-goal vector and an avoid-obstacle vector add up and the path bends around a rock to the goal" src="/assets/content/schemas-548ce51d1c872964.svg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="fast-but-short-sighted">Fast, but short-sighted</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-react-4-7418d5d1ebb32141.svg"></p>
+
+
+<ul>
+<li>Responds in milliseconds, needs no world model</li>
+<li>But:
+<ul>
+<li><strong>No memory</strong>: which rows are already done?</li>
+<li><strong>No foresight</strong>: when should it go and charge?</li>
+<li><strong>Hard to predict</strong>: behaviour emerges</li>
+<li><strong>Gets stuck</strong>: forces can cancel out</li>
+</ul>
+</li>
+</ul>
+
+<p><img alt="A U-shaped obstacle: attraction and repulsion cancel inside the cup and the robot gets stuck short of the goal" src="/assets/content/trap-4f8df1a966e88a85.svg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="hybrid">Hybrid</h2>
+<p><img alt="Paradigms, hybrid: plan, then sense and act. Topics: three layers, executive" src="/assets/content/div-hybrid-002a52f1ff31708a.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="plan-on-top-react-below">Plan on top, react below</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-hybrid-1-0fdf9d6f5249461a.svg"></p>
+<p><img alt="Three-layer architecture: planning, executive and behavioural control with their time scales and state; commands flow down and failures flow up" src="/assets/content/three-layer-752c9fe96ce356f0.svg"></p>
+<p>The time and task layers from the start, each with one job (Firby; 3T; Gat, 1998): behaviours below, a planner on top, and an <strong>executive</strong> in between.</p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="the-executive-switches-behaviours">The executive switches behaviours</h2>
+<p><img alt="image:width:100%" src="/assets/content/crumb-hybrid-2-b6784a6aebffc5fb.svg"></p>
+<p><img alt="The executive layer as a finite state machine: the active state switches on one behaviour below it, and events from the behaviours trigger transitions" src="/assets/content/executive-fsm-c30fe1147f162308.svg"></p>
+<p>The executive turns the plan into <strong>one behaviour at a time</strong> and switches when an <strong>event</strong> happens. Most robots today are hybrid, and this executive is often a <strong>finite state machine</strong>: what you will build.</p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="state-machines">State machines</h2>
+<p>Programming the executive layer</p>
+<p><img alt="" src="/assets/content/section-fsm-518525adec16c7d9.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="anatomy-of-a-state-machine">Anatomy of a state machine</h2>
+<p>The robot’s battery as a state machine: it scouts until the battery runs low, drives back to the dock, and charges.</p>
+<p><img alt="Anatomy of a state machine on the robot battery example: initial state, active state, states, events and transitions" src="/assets/content/fsm-anatomy-029fb5ddd3c3f747.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="states-can-have-several-transitions">States can have several transitions</h2>
+<p>The robot must also stop for people: one new state, <strong>Wait</strong>. <em>Scout rows</em> now has <strong>two</strong> ways out, and the event decides which one is taken.</p>
+<p><img alt="Left: battery state machine with scout rows, return to dock and charge. Right: the same machine with a wait state, entered on person ahead and left on path clear" src="/assets/content/fsm-battery-08178d0b2b0bd037.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="cropscout-three-behaviours-three-states">CropScout: three behaviours, three states</h2>
+
+
+<p>A field robot that scouts a crop row after row, with three behaviours:</p>
+<p><img alt="CropScout’s three behaviours in the field: move to the start of a row, navigate through the row, make a headland turn into the next row" src="/assets/content/cropscout-paths-add963669a2734e0.svg"></p>
+
+<p>What does the FSM look like?</p>
+
+<p><img alt="CropScout state machine: move to start of row, navigate through row and make headland turn, with self-loops while a state is still busy" src="/assets/content/fsm-cropscout-f6379252a2f994ae.svg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="one-state-at-a-time">One state at a time</h2>
+<p><img alt="A CropScout run over time: the active state switches from move to start, to navigate row, to headland turn and back, only when an event fires" src="/assets/content/fsm-trace-a8a69c1aaa169e3a.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="every-arrow-is-one-row">Every arrow is one row</h2>
+<p><img alt="CropScout transition table drawn as rows of state, event and next state, with self-loops greyed out" src="/assets/content/fsm-table-9086799772d723ff.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="how-an-fsm-runs-cycle-after-cycle">How an FSM runs, cycle after cycle</h2>
+<p><img alt="The FSM control loop: read the sensors, check the events of the current state, switch state if an event fired, run the state’s behaviour, repeat" src="/assets/content/fsm-loop-b688fdafee89f6cf.svg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="your-turn">Your turn</h2>
+
+
+<p><img alt="Five steps to build a state machine: behaviours to states, events to transitions, draw the diagram, write the table, code the loop and test" src="/assets/content/fsm-recipe-f105fdb05be64330.svg"></p>
+
+<ol>
+<li>Notebook <em>t08_state_machine</em></li>
+<li>Webots assignment: <em>t08_state_machine_webots_assignment.pdf</em> and <em>t08_webots.zip</em></li>
+</ol>
+<p><a href="/assets/content/expected-behaviour-6b41a3f616027ef5.mp4" rel="noopener noreferrer">Expected behaviour</a></p>
+
+</main></div><script type="module" src="/assets/bootstrap-5953a53b757b248d.js"></script></body></html>

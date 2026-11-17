@@ -1,0 +1,24 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="dark" style="--accent-color:#2d80d2;--chromatic-a:#2d80d2;--chromatic-b:#d74242;--bg-color:#1f272e;--fg-color:#f2f2f2;--glitch-color:#f2f2f2;--interactive-color:#4991d8;--accent-text-color:#000000;--mute-color:#9ca3af;--tint:8%"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-7584e7613cd648da.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Personal website &amp; blog"><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#1f272e"><meta property="og:title" content="Public key · bresilla"><meta property="og:description" content="Personal website &amp; blog"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Public key · bresilla"><meta name="twitter:description" content="Personal website &amp; blog"><meta property="og:url" content="https://bresilla.com/pgp/"><link rel="canonical" href="https://bresilla.com/pgp/"><meta property="og:image" content="https://bresilla.com/assets/content/logo-0fb7a39075bac801.png"><meta property="og:image:alt" content="Public key"><meta name="twitter:image" content="https://bresilla.com/assets/content/logo-0fb7a39075bac801.png"><meta name="twitter:image:alt" content="Public key"><title>Public key · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><script src="/assets/scheme-4ee2b5aa71ed3ef3.js"></script><link rel="stylesheet" href="/assets/theme-bresilla-c2bc2ac9de5d939c.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>Public key</h1><p>My OpenPGP key lives on my YubiKeys. Fingerprint:</p>
+<p><code>EB04 9116 CF70 D706 FFBF  4329 C7B3 AFBD D37B 77FC</code></p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">TEXT</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-" data-lang="">-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+mDMEavjgIBYJKwYBBAHaRw8BAQdA+ag7NrKtSXGSx4xY8kcAEkHMk9W4j3mtEN85
+Jdm8qi60KlRyaW0gQnJlc2lsbGEgPHRyaW0uYnJlc2lsbGFAYnJlc2lsbGEuY29t
+PoiQBBMWCgA4FiEE6wSRFs9w1wb/v0Mpx7OvvdN7d/wFAmr44CACGwMFCwkIBwIG
+FQoJCAsCBBYCAwECHgECF4AACgkQx7OvvdN7d/zujgD9EAxo5DgQHk+NtZYSGEvM
+OKjqjDXSsYGyY7v2ri6tZrEBAJrCsuoNGAaBmG+4hZdr5Fg25nZsR3qKZXIXBSVA
+6ooBuDgEavjgIBIKKwYBBAGXVQEFAQEHQJgac8OXBMgkv6xx67qmPRBdQZSfyiaH
+ZXTNUPd6J110AwEIB4h+BBgWCgAmFiEE6wSRFs9w1wb/v0Mpx7OvvdN7d/wFAmr4
+4CACGwwFCQlmAYAACgkQx7OvvdN7d/x+LgD/dw+skmcOF1rU5Lp9RGnWY5i/YlJQ
+TMwAxRbo6/Rc288A/R2ANaDppAweeethnIgEl2P49Ow/T85oaUjtpT56tbABuDME
+avjgIBYJKwYBBAHaRw8BAQdAP5a/IQFs9wzyrJbEhihvLrmDcuUSA/acEau5pACb
+I0aIfgQYFgoAJhYhBOsEkRbPcNcG/79DKcezr73Te3f8BQJq+OAgAhsgBQkJZgGA
+AAoJEMezr73Te3f8tygBANOPBy71+94WvhEb0D9BaME/9Z6X9MeZV0iZzlVNCTAG
+AQDTlXGjBgfEvT/SBhJK74NMpeoEGGCyY9kk604YgG02Aw==
+=hO9C
+-----END PGP PUBLIC KEY BLOCK-----
+</code></pre></div>
+<p>The SSH key is the authentication subkey of the same OpenPGP key. To let me log in to a machine, add it to <code>~/.ssh/authorized_keys</code> there.</p>
+<div class="highlight ts-highlight" data-faqe-primitive="code-block" data-highlighter="PLAIN"><div aria-hidden="true" class="code-toolbar"><span class="code-language">TEXT</span><span class="code-engine">PLAIN</span></div><pre class="chroma"><code class="language-" data-lang="">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID+WvyEBbPcM8qyWxIYoby65g3LlEgP2nBGruaQAmyNG openpgp:0xDB94731B
+</code></pre></div><p><a download="bresilla.asc" href="/public.asc" rel="noopener noreferrer">Download OpenPGP key (.asc)</a> <a download="bresilla.pub" href="/bresilla.pub" rel="noopener noreferrer">Download SSH key (.pub)</a></p>
+</main></div><script type="module" src="/assets/bootstrap-5953a53b757b248d.js"></script></body></html>

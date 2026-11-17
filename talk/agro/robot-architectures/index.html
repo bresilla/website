@@ -1,0 +1,363 @@
+<!doctype html><html lang="en" data-faqe-theme="bresilla" data-faqe-scheme="light" data-faqe-pin-accent data-faqe-pin-theme style="--accent-color:#004d00;--chromatic-a:#004d00;--chromatic-b:#97c600;--bg-color:#ffffff;--fg-color:#002b47;--glitch-color:#002b47;--interactive-color:#004d00;--accent-text-color:#ffffff;--mute-color:#6b7280;--tint:5%"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"><meta name="faqe-base" content="/"><meta name="faqe-site-url" content="https://bresilla.com"><meta name="faqe-bundle" content="assets/site-7584e7613cd648da.json"><meta name="faqe-theme" content="bresilla"><meta name="author" content="Trim Bresilla"><meta name="description" content="Robotics: Mobile Platforms (FTE-36306)"><meta name="keywords" content="blog, developer, personal"><meta name="theme-color" content="#ffffff"><meta property="og:title" content="Robot Architectures · bresilla"><meta property="og:description" content="Robotics: Mobile Platforms (FTE-36306)"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Robot Architectures · bresilla"><meta name="twitter:description" content="Robotics: Mobile Platforms (FTE-36306)"><meta property="og:url" content="https://bresilla.com/talk/agro/robot-architectures/"><link rel="canonical" href="https://bresilla.com/talk/agro/robot-architectures/"><meta property="og:image" content="https://bresilla.com/assets/content/robots-2808a9e188e38950.jpg"><meta property="og:image:alt" content="Robot Architectures"><meta name="twitter:image" content="https://bresilla.com/assets/content/robots-2808a9e188e38950.jpg"><meta name="twitter:image:alt" content="Robot Architectures"><title>Robot Architectures · bresilla</title><link rel="alternate" type="application/rss+xml" title="bresilla" href="/index.xml"><link rel="icon" href="/assets/content/favicon-c5e4c4497e8be174.svg"><script src="/assets/scheme-4ee2b5aa71ed3ef3.js"></script><link rel="stylesheet" href="/assets/theme-bresilla-c2bc2ac9de5d939c.css"><link data-faqe-mode="talk" rel="stylesheet" href="/assets/theme-bresilla-talk-5bbea51e157d7cf3.css"></head><body><div id="faqe-bootstrap-status" class="faqe-bootstrap-status" hidden role="status" aria-live="polite"></div><div id="faqe"><a href="#faqe-main">Skip to content</a><header><nav aria-label="Primary navigation"><a href="/about/">about</a><a href="/post/">posts</a><a href="/talk/">talks</a></nav></header><main id="faqe-main"><h1>Robot Architectures</h1><nav id="TableOfContents" aria-label="Table of contents"><ul><li><a href="#outline">Outline</a></li><li><a href="#robot-architectures">Robot architectures</a></li><li><a href="#what-is-robot-architecture">What is robot architecture</a></li><li><a href="#what-are-the-special-needs-of-robot-architecture">What are the special needs of robot architecture</a></li><li><a href="#what-are-the-special-needs-of-robot-architecture-1">What are the special needs of robot architecture</a></li><li><a href="#modularity-and-hierarchy">Modularity and hierarchy</a></li><li><a href="#robot-architecture-structure-and-style">Robot architecture: structure and style</a></li><li><a href="#history-shakey-robot-at-stanford-university-late-1960s">History: Shakey robot at Stanford University (late 1960s)</a></li><li><a href="#history-downside-of-spa-paradigm">History: downside of SPA paradigm</a></li><li><a href="#history-reactive-behavior-based-paradigms">History: reactive behavior-based paradigms</a></li><li><a href="#different-paradigms">Different paradigms</a></li><li><a href="#two-types-of-robotic-responses">Two types of robotic responses</a></li><li><a href="#deliberative-planning">Deliberative planning</a></li><li><a href="#deliberative-planning-1">Deliberative planning</a></li><li><a href="#reactive-planning">Reactive planning</a></li><li><a href="#subsumption">Subsumption</a></li><li><a href="#layered-robot-control-architectures">Layered Robot Control Architectures</a></li><li><a href="#layered-robot-control-architectures-1">Layered Robot Control Architectures</a></li><li><a href="#example">Example</a></li><li><a href="#behavioral-control-layer">Behavioral-control layer</a></li><li><a href="#executive-layer">Executive layer</a></li><li><a href="#planning-layer">Planning layer</a></li><li><a href="#finite-state-machine">Finite-state machine</a></li><li><a href="#finite-state-machine-fsm">Finite state machine (FSM)</a></li><li><a href="#finite-state-machine-an-example">Finite state machine an example</a></li><li><a href="#finite-state-machine--example">Finite state machine – example</a></li><li><a href="#finite-state-machine--example-1">Finite state machine – example</a></li><li><a href="#time-to-work-with-fsm-yourself">Time to work with FSM yourself</a></li></ul></nav><h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="outline">Outline</h2>
+<ul>
+<li>Robot architectures</li>
+<li>Finite State Machine</li>
+</ul>
+
+<p><em>Kortenkamp, D., Simmons, R., &amp; Brugali, D. (2016). Robotic systems architectures and programming. Springer handbook of robotics, 283-306</em></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="robot-architectures">Robot architectures</h2>
+<p><img alt="" src="/assets/content/robots-2808a9e188e38950.jpg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-is-robot-architecture">What is robot architecture</h2>
+<ul>
+<li>It refers how a system is <strong>divided into subsystems</strong> and how those subsystems interact. E.g,
+<ul>
+<li><strong>Different processes</strong>: sensing, thinking, acting</li>
+<li>Multiple behaviors</li>
+</ul>
+</li>
+<li>Deals with the <strong>coordination of these behaviors</strong></li>
+</ul>
+
+<ul>
+<li>It is distinguished from other software architectures because of the special needs of robot systems.</li>
+</ul>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-are-the-special-needs-of-robot-architecture">What are the special needs of robot architecture</h2>
+<ul>
+<li>Interaction in <strong>real-time</strong>, with an uncertain, often dynamic, environment
+<ul>
+<li>Controlling sensors and actuators</li>
+<li>Responding to events in the environment</li>
+<li>Dealing with uncertainty</li>
+</ul>
+</li>
+</ul>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="what-are-the-special-needs-of-robot-architecture-1">What are the special needs of robot architecture</h2>
+<ul>
+<li>Responding at <strong>varying temporal scopes</strong>
+<ul>
+<li>Behavior-based reflexes</li>
+<li>Deliberative long-term planning</li>
+</ul>
+</li>
+<li><strong>Coordinating</strong> different behaviors:
+<ul>
+<li>Eg. path planning, navigation, obstacle avoidance.</li>
+<li>Sequential or in parallel</li>
+</ul>
+</li>
+</ul>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="modularity-and-hierarchy">Modularity and hierarchy</h2>
+<ul>
+<li><strong>Modular decomposition</strong> of the overall system in simpler, largely independent pieces</li>
+<li>Often <strong>hierarchical</strong>
+<ul>
+<li>Modules build on top of others</li>
+<li>Different layers in the hierarchy: different levels of abstraction</li>
+<li><em>Task decomposition</em>: E.g: harvesting = reaching + detach +..</li>
+<li><em>Temporal decomposition</em>: Sequence of actions</li>
+</ul>
+</li>
+</ul>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="robot-architecture-structure-and-style">Robot architecture: structure and style</h2>
+<ul>
+<li>Structure:
+<ul>
+<li>How to decompose the overall system</li>
+</ul>
+</li>
+<li>Style:
+<ul>
+<li>How the components interact/communicate</li>
+</ul>
+</li>
+</ul>
+<figure class="faqe-primitive faqe-graph" data-faqe-primitive="graph"><div class="faqe-graph-scroll"><div aria-hidden="true" class="faqe-graph-canvas" style="--faqe-graph-columns:7;--faqe-graph-rows:3;--faqe-graph-ratio:3.7333;--faqe-graph-min-width:1120px"><svg aria-hidden="true" class="faqe-graph-lines" viewBox="0 0 1120 300"><path class="faqe-graph-edge tone-accent" d="M 144.0 50.0 L 336.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 50.0 L 327.0 54.5 L 327.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 144.0 250.0 L 336.0 250.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 250.0 L 327.0 254.5 L 327.0 245.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 464.0 70.0 L 656.0 130.0"></path><path class="faqe-graph-arrow tone-accent" d="M 656.0 130.0 L 646.1 131.6 L 648.8 123.0 Z"></path><path class="faqe-graph-edge tone-accent" d="M 464.0 230.0 L 656.0 170.0"></path><path class="faqe-graph-arrow tone-accent" d="M 656.0 170.0 L 648.8 177.0 L 646.1 168.4 Z"></path><path class="faqe-graph-edge tone-accent" d="M 784.0 130.0 L 976.0 70.0"></path><path class="faqe-graph-arrow tone-accent" d="M 976.0 70.0 L 968.8 77.0 L 966.1 68.4 Z"></path><path class="faqe-graph-edge tone-accent" d="M 784.0 170.0 L 976.0 230.0"></path><path class="faqe-graph-arrow tone-accent" d="M 976.0 230.0 L 966.1 231.6 L 968.8 223.0 Z"></path></svg><ol class="faqe-graph-nodes"><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:1"><strong>GPS/GNSS</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:3"><strong>Distance sensor</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:3;--faqe-graph-row:1"><strong>Follow path</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:3;--faqe-graph-row:3"><strong>Avoid obstacles</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:5;--faqe-graph-row:2"><strong>Coordinate motion</strong></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:7;--faqe-graph-row:1"><strong>Left motor</strong></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:7;--faqe-graph-row:3"><strong>Right motor</strong></li></ol></div></div><div class="faqe-visually-hidden"><p>Diagram</p><ol><li>GPS/GNSS</li><li>Distance sensor</li><li>Follow path</li><li>Avoid obstacles</li><li>Coordinate motion</li><li>Left motor</li><li>Right motor</li></ol><ul><li>gps to follow</li><li>distance to avoid</li><li>follow to coordinate</li><li>avoid to coordinate</li><li>coordinate to left</li><li>coordinate to right</li></ul></div></figure>
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="history-shakey-robot-at-stanford-university-late-1960s">History: Shakey robot at Stanford University (late 1960s)</h2>
+
+
+<ul>
+<li>Sensors: camera, a rangefinder, and bump sensors</li>
+<li>Actuators: differential drive</li>
+<li>Decomposition: sensing, planning, and execution</li>
+<li>The sense-think-act paradigm</li>
+</ul>
+<p><img alt="image:width:70%" src="/assets/content/spa-pipeline-3e1f5e805490ecb5.png"></p>
+
+<p><img alt="" src="/assets/content/shakey-bc5c01156bc13e57.png"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="history-downside-of-spa-paradigm">History: downside of SPA paradigm</h2>
+
+
+<ul>
+<li>Limitations of the Sense-Plan-Act paradigm:
+<ul>
+<li>Planning took a <strong>long time</strong>, and the robot would be <strong>blocked</strong>, waiting for planning to complete</li>
+<li>Execution of a plan without involving sensing was <strong>dangerous in a dynamic world</strong></li>
+</ul>
+</li>
+</ul>
+
+<p><img alt="" src="/assets/content/shakey-museum-107f21560d56a24e.png"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="history-reactive-behavior-based-paradigms">History: reactive behavior-based paradigms</h2>
+<ul>
+<li>Focus on reactive planners, real-time interaction with environment
+<ul>
+<li>Rodney Brooks, Ronald Arkin, …</li>
+</ul>
+</li>
+<li>Example: office mail delivery robot</li>
+</ul>
+<figure class="faqe-primitive faqe-graph" data-faqe-primitive="graph"><div class="faqe-graph-scroll"><div aria-hidden="true" class="faqe-graph-canvas" style="--faqe-graph-columns:5;--faqe-graph-rows:2;--faqe-graph-ratio:4.0;--faqe-graph-min-width:800px"><svg aria-hidden="true" class="faqe-graph-lines" viewBox="0 0 800 200"><path class="faqe-graph-edge tone-accent" d="M 144.0 50.0 L 176.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 176.0 50.0 L 167.0 54.5 L 167.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 304.0 50.0 L 336.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 50.0 L 327.0 54.5 L 327.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 464.0 50.0 L 496.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 496.0 50.0 L 487.0 54.5 L 487.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 624.0 50.0 L 656.0 50.0"></path><path class="faqe-graph-arrow tone-accent" d="M 656.0 50.0 L 647.0 54.5 L 647.0 45.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 400.0 79.0 L 400.0 121.0"></path><path class="faqe-graph-arrow tone-accent" d="M 400.0 121.0 L 395.5 112.0 L 404.5 112.0 Z"></path><path class="faqe-graph-edge tone-accent" d="M 304.0 150.0 L 336.0 150.0"></path><path class="faqe-graph-arrow tone-accent" d="M 336.0 150.0 L 327.0 154.5 L 327.0 145.5 Z"></path><path class="faqe-graph-edge tone-accent" d="M 464.0 150.0 L 656.0 150.0"></path><path class="faqe-graph-arrow tone-accent" d="M 656.0 150.0 L 647.0 154.5 L 647.0 145.5 Z"></path></svg><ol class="faqe-graph-nodes"><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:1;--faqe-graph-row:1"><strong>Camera</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:2;--faqe-graph-row:1"><strong>Detect room nr</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:3;--faqe-graph-row:1"><strong>Move to room</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:4;--faqe-graph-row:1"><strong>Deliver mail</strong></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:5;--faqe-graph-row:1"><strong>Release mail</strong></li><li class="faqe-graph-node tone-accent" style="--faqe-graph-column:2;--faqe-graph-row:2"><strong>Wander</strong></li><li class="faqe-graph-node tone-muted" style="--faqe-graph-column:3;--faqe-graph-row:2"><strong>Subsume</strong></li><li class="faqe-graph-node tone-warning" style="--faqe-graph-column:5;--faqe-graph-row:2"><strong>Drive</strong></li></ol></div></div><div class="faqe-visually-hidden"><p>Diagram</p><ol><li>Camera</li><li>Detect room nr</li><li>Move to room</li><li>Deliver mail</li><li>Release mail</li><li>Wander</li><li>Subsume</li><li>Drive</li></ol><ul><li>camera to detect</li><li>detect to move</li><li>move to deliver</li><li>deliver to release</li><li>move to subsume</li><li>wander to subsume</li><li>subsume to drive</li></ul></div></figure>
+<ul>
+<li>Downside:
+<ul>
+<li>Difficult to construct for more complex behaviors</li>
+</ul>
+</li>
+</ul>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="different-paradigms">Different paradigms</h2>
+<p><img alt="" src="/assets/content/robots-2808a9e188e38950.jpg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="two-types-of-robotic-responses">Two types of robotic responses</h2>
+<p><img alt="" src="/assets/content/arkin-responses-4c49fef00da60d54.png"></p>
+<p><em>Arkin (1998)</em></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="deliberative-planning">Deliberative planning</h2>
+<ul>
+<li>Sense-think-act paradigm</li>
+</ul>
+<p><img alt="" src="/assets/content/brooks-deliberative-33b1c4bee2f505eb.png"></p>
+<p><em>Brooks (1986)</em></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="deliberative-planning-1">Deliberative planning</h2>
+<ul>
+<li>Sense-think-act paradigm</li>
+</ul>
+<p><img alt="" src="/assets/content/deliberative-planner-4330f7e616686de4.png"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="reactive-planning">Reactive planning</h2>
+<ul>
+<li>Behaviour-based approach</li>
+</ul>
+<p><img alt="" src="/assets/content/brooks-reactive-44c9b66f7952edb5.png"></p>
+<p><em>Brooks (1986)</em></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="subsumption">Subsumption</h2>
+
+
+<ul>
+<li><strong>Decomposing</strong> the complete behavior into <strong>sub-behaviors</strong>
+<ul>
+<li>Each behavior connects sensors to actuators</li>
+</ul>
+</li>
+<li>Organized into a <strong>hierarchy of layers</strong></li>
+<li><strong>Arbitration mechanism</strong> that enabled higher-level behaviors to override signals from lower-level behaviors: priorities</li>
+<li>The layers <strong>work in parallel</strong></li>
+</ul>
+
+<p><img alt="" src="/assets/content/subsumption-89c6efa6e1ac5f44.gif"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="layered-robot-control-architectures">Layered Robot Control Architectures</h2>
+
+
+<ul>
+<li>The Three-Layer Architecture:</li>
+<li>Hybrid reactive/ deliberative robot architecture (R. James Firby)</li>
+<li>3T architecture
+<ul>
+<li>Behavior control</li>
+<li>Sequencing/coordination</li>
+<li>Planning</li>
+</ul>
+</li>
+</ul>
+
+<p><img alt="" src="/assets/content/three-layer-4cf5248351e18b84.png"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="layered-robot-control-architectures-1">Layered Robot Control Architectures</h2>
+
+
+<ul>
+<li>The <strong>executive layer</strong>
+<ul>
+<li>Not all low-level behaviors should be active at the same time</li>
+<li>Coordinating behaviors</li>
+<li>Achieving high-level tasks</li>
+<li>Avoiding conflicts</li>
+</ul>
+</li>
+</ul>
+
+<p><img alt="" src="/assets/content/three-layer-4cf5248351e18b84.png"></p>
+
+
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="example">Example</h2>
+<p><img alt="" src="/assets/content/robots-2808a9e188e38950.jpg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="behavioral-control-layer">Behavioral-control layer</h2>
+
+
+<ul>
+<li><strong>Situated behaviors</strong>
+<ul>
+<li>Active in specific situations</li>
+</ul>
+</li>
+<li><strong>Cognizant failure</strong>
+<ul>
+<li>Behaviors should communicate failure to executive layer</li>
+</ul>
+</li>
+<li><strong>Constraints</strong>
+<ul>
+<li>Fast, reactive, high frequent, constant time</li>
+<li>Only small world model</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>Simple low-level behaviors</strong></p>
+<p><img alt="" src="/assets/content/behaviour-list-53f237050d237dab.png"></p>
+
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="executive-layer">Executive layer</h2>
+
+
+<ul>
+<li>Role executive layer
+<ul>
+<li>Translating high-level plans (goals) in low-level behaviors</li>
+<li>Coordinating low-level behaviors</li>
+<li>Monitor execution / handling exceptions</li>
+<li>Error recovery</li>
+</ul>
+</li>
+<li>Executive layer describes how to achieve tasks</li>
+</ul>
+
+<p><strong>Task decomposition</strong></p>
+<p><img alt="" src="/assets/content/task-decomposition-eeab44116caa5254.png"></p>
+
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="planning-layer">Planning layer</h2>
+
+
+<ul>
+<li>Planner/scheduler
+<ul>
+<li>High-level plan of (sub)tasks</li>
+<li>Including: goals, resources, duration, and constraints</li>
+</ul>
+</li>
+<li>Role of planner in architecture
+<ul>
+<li>Planners called by the executive layer when needed</li>
+<li>Planners always active, sending tasks down and monitoring progress</li>
+</ul>
+</li>
+</ul>
+
+<blockquote>
+<p><strong>Planners</strong></p>
+<ul>
+<li>Planning task schedules</li>
+<li>Getting mail delivery information</li>
+<li>Route planner
+<ul>
+<li>Map of the building</li>
+<li>Mail recipients</li>
+<li>Capacity of the robot</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="finite-state-machine">Finite-state machine</h2>
+<p><img alt="" src="/assets/content/robots-2808a9e188e38950.jpg"></p>
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="finite-state-machine-fsm">Finite state machine (FSM)</h2>
+
+
+<ul>
+<li>Finite state machine: number of <em>states</em> that each performs a <strong>well-defined function to operate the robot</strong> in a specific situation</li>
+<li><em>Events</em> that reflect a <strong>change in the robot’s situation</strong> cause a <strong>transition</strong> from one state to another</li>
+<li>There is always <strong>one state active</strong></li>
+<li>The <strong>FSM diagram</strong> provides a graphical representation of states and transitions</li>
+</ul>
+
+<p><img alt="" src="/assets/content/fsm-door-36580aae3d2241cd.png"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="finite-state-machine-an-example">Finite state machine an example</h2>
+<ul>
+<li>States can have multiple transitions to other states</li>
+</ul>
+
+
+<p><img alt="" src="/assets/content/fsm-door-36580aae3d2241cd.png"></p>
+
+<p><img alt="" src="/assets/content/fsm-door-stopped-f8bf5845234e223a.png"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="finite-state-machine--example">Finite state machine – example</h2>
+<p>Cropscout</p>
+
+
+<p><img alt="" src="/assets/content/cropscout-row-207b415ecc6ad32d.jpg"></p>
+
+<p><img alt="" src="/assets/content/cropscout-closeup-c677025d8b2769fe.jpg"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="finite-state-machine--example-1">Finite state machine – example</h2>
+
+
+<ul>
+<li>Cropscout’s three main behaviors/states:
+<ul>
+<li><strong>Move to start of row</strong></li>
+<li><em>Navigate through the row</em></li>
+<li>Perform headland turn</li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="/assets/content/cropscout-paths-3d0e8a5da28dc284.png"></p>
+
+<p>How does this FSM diagram look like?</p>
+
+<p><img alt="" src="/assets/content/cropscout-fsm-d0aed26e5561803f.png"></p>
+
+
+<h2 class="faqe-heading-level-1" data-faqe-source-heading-level="1" id="time-to-work-with-fsm-yourself">Time to work with FSM yourself</h2>
+
+
+<ol>
+<li>Notebook <em>t08_state_machine</em></li>
+<li>Webots assignment: <em>t08_state_machine_webots_assignment.pdf</em> and <em>t08_webots.zip</em></li>
+</ol>
+
+<p><a href="/assets/content/expected-behaviour-6b41a3f616027ef5.mp4" rel="noopener noreferrer">Expected behaviour</a></p>
+
+</main></div><script type="module" src="/assets/bootstrap-5953a53b757b248d.js"></script></body></html>
