@@ -7,7 +7,6 @@ readingtime = 8
 slug = "usbip"
 title = "Set up a Raspberry Pi as a USB-over-IP server"
 thumbnail = "thumbnail.png"
-foot = "It's all right letting yourself go as long as you can let yourself back - Mick Jagger"
 categories = ["FUSE"]
 series = ["USB"]
 part = "1"

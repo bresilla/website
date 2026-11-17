@@ -8,7 +8,6 @@ avatar = "home/logo.png"
 avatar_hover = "home/logo.png"
 favicon = "home/favicon.svg"
 default_card_thumbnail = "home/logo.png"
-default_foot = "I solemnly swear that I am up to no good"
 disclaimer_title = "A note on accuracy and authorship"
 disclaimer_paragraphs = [
   "This site is my working notebook, not an authority. Posts reflect my understanding at publication time and may become outdated as tools, projects, and opinions change. Verify commands, security advice, measurements, and external claims against the linked sources before relying on them.",
@@ -16,36 +15,6 @@ disclaimer_paragraphs = [
 ]
 references_copyright = "© bresilla (this year 😛). All rights reserved."
 references_notice = "Just kidding bro. Apart from the logo, nothing is reserved. Any part of this blog may be reproduced, stored in or introduced into a retrieval system, or transmitted, in any form, or by any means (electronic, mechanical, photocopying, recording or otherwise) without the prior written permission of the author, including for the “fair use” purposes of criticism, comment, news reporting, teaching, scholarship, or research. Any person who does any unauthorised act in relation to this blog it's not gonna be prosecuted at all. Its my great pleasure actually if you find it helpful in any way or form. Copy and do whatever you want, cos this is how we spread knowledge, not by copyrighting everything. However, plese double-check the resources above before you so such an amazing crime."
-
-[[socials]]
-name = "Github"
-glyph = ""
-url = "https://github.com/bresilla/"
-weight = 1
-
-[[socials]]
-name = "LinkedIn"
-glyph = ""
-url = "https://www.linkedin.com/in/bresilla/"
-weight = 3
-
-[[socials]]
-name = "Twitter"
-glyph = ""
-url = "https://twitter.com/trimbresilla/"
-weight = 4
-
-[[socials]]
-name = "Youtube"
-glyph = ""
-url = "https://www.youtube.com/channel/UCgx55pjpHgsHwIxexiunA5w"
-weight = 5
-
-[[socials]]
-name = "Reddit"
-glyph = ""
-url = "https://www.reddit.com/user/bresilla"
-weight = 6
 
 [default_style]
 accent = "#00e5ff"

@@ -7,7 +7,6 @@ readingtime = 14
 slug = "gpg-yubikey-tomb"
 title = "Back up OpenPGP keys with Tomb and cryptsetup"
 thumbnail = "thumbnail.png"
-foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 categories = ["LINUX"]
 series = ["GPG"]
 part = "1"

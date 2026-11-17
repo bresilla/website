@@ -7,7 +7,6 @@ description = "How Balthasar decides which parts of a conversation may shape the
 date = "2026-09-03"
 readingtime = 9
 thumbnail = "balthasar-hero.jpg"
-foot = "Evidence, confidence, provenance, and lifecycle state."
 tags = ["balthasar", "memory", "agents", "architecture"]
 categories = ["software"]
 series = ["EVA-01"]

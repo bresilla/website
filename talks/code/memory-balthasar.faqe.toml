@@ -1,6 +1,5 @@
 slug = "memory-balthasar"
 thumbnail = "../../posts/software/dev/balthasar-hero.jpg"
-foot = "Memory should return with receipts."
 part = "1"
 tags = ["memory", "neuroscience", "agents", "balthasar"]
 categories = ["software", "research"]

@@ -6,7 +6,6 @@ readingtime = 7
 
 slug = "docker"
 title = "Running the Nix package manager inside a Docker container"
-foot = "The more I want to get something done, the less I call it work - Richard Bach"
 categories = ["DEV"]
 series = ["NIX"]
 part = "4"

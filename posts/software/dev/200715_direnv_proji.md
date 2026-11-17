@@ -7,7 +7,6 @@ readingtime = 8
 slug = "direnv-nixshel-proji"
 title = "How to manage projects, the *NIX way!"
 thumbnail = "thumbnail.png"
-foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 description = "A small project registry, automatic Nix development shells, and a Rofi launcher without a giant IDE workspace."
 categories = ["DEV"]
 series = ["DIRENV"]

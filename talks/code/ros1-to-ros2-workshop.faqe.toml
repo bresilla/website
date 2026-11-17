@@ -1,5 +1,4 @@
 slug = "ros1-to-ros2-workshop"
-foot = "ROS 1 to ROS 2 · presentation and workshop"
 tags = ["ros", "ros2", "migration", "rust", "zenoh", "robotics"]
 categories = ["robotics", "software", "workshop"]
 series = ["ROS 2 Migration"]

@@ -7,7 +7,6 @@ readingtime = 6
 slug = "direnv-anaconda"
 title = "Using direnv with Conda"
 thumbnail = "thumbnail.png"
-foot = "Artificial Intelligence is no match for natural stupidity - AI itself"
 description = "Activate a project-local Conda environment when entering a directory and cleanly unload it when leaving."
 categories = ["DEV"]
 series = ["DIRENV"]

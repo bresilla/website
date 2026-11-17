@@ -7,7 +7,6 @@ readingtime = 8
 slug = "web-ipfs"
 title = "Hosting a website on the InterPlanetary File System"
 thumbnail = "thumbnail.png"
-foot = "Between 'I want to be alone' and 'I want to be let alone' there is huge difference - Greta Garbo"
 categories = ["LINUX"]
 series = ["IPFS"]
 part = "1"

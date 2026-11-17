@@ -6,6 +6,5 @@ weight = 5
 title = "Talks"
 slug = "talk"
 folders = true
-foot = "Yesterday's knowledge will be irrelevant tomorrow if not updated today"
 
 +++

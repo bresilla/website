@@ -7,7 +7,6 @@ readingtime = 8
 slug = "nix-pckgs"
 title = "Using Nix as a package manager for any language"
 thumbnail = "thumbnail.png"
-foot = "There are more dead people than living, and their numbers are increasing - Eugene Ionesco"
 categories = ["DEV"]
 series = ["NIX-SHELL"]
 part = "1"

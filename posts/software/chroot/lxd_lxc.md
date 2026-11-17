@@ -7,7 +7,6 @@ readingtime = 11
 slug = "lxd-lxc:"
 title = "Next-generation system container management"
 thumbnail = "thumbnail.png"
-foot = "God is a comic playing to an audience that's afraid to laugh - Voltaire"
 description = "A practical introduction to LXD system containers and virtual machines, including profiles, storage, snapshots, backups, and the security traps worth knowing."
 categories = ["LINUX"]
 series = ["CONTAINERS"]

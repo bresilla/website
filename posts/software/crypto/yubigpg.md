@@ -7,7 +7,6 @@ readingtime = 14
 slug = "yubi-key-gpg"
 title = "Use a YubiKey for OpenPGP and SSH"
 thumbnail = "thumbnail.png"
-foot = "Things will not calm down, as a matter of fact they will just calm up - Teal'c (Stargate)"
 description = "Move OpenPGP signing, encryption, and authentication subkeys to a YubiKey, require touch, and expose the authentication key through gpg-agent for SSH."
 tags = ["yubikey", "gpg", "ssh", "smartcard", "pass"]
 categories = ["LINUX"]
