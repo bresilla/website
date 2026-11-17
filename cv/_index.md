@@ -13,136 +13,185 @@ foot = "Be yourself, everyone else is already taken"
     [cv.contact]
         enable = true
         [[cv.contact.list]]
-            class = "email"
-            icon = "fa-envelope"
-            url = "mailto:yourname@email.com"
-            title = "john.doe@website.com"
-        [[cv.contact.list]]
-            class = "phone"
-            icon = "fa-phone"
-            url = "tel:+1234567890"
-            title = "+1234567890"
-        [[cv.contact.list]]
             class = "website"
             icon = "fa-globe"
-            url = "//portfoliosite.com"
-            title = "portfoliosite.com"
-        [[cv.contact.list]]
-            class = "linkedin"
-            icon = "fa-linkedin"
-            url = "//linkedin.com/in/johndoe"
-            title = "linkedin.com/in/johndoe"
+            url = "https://bresilla.com"
+            title = "bresilla.com"
         [[cv.contact.list]]
             class = "github"
             icon = "fa-github"
-            url = "//github.com/username"
-            title = "github.com/username"
+            url = "https://github.com/bresilla"
+            title = "github.com/bresilla"
         [[cv.contact.list]]
-            class = "twitter"
-            icon = "fa-twitter"
-            url = "//twitter.com/username"
-            title = "@twittername"
+            class = "linkedin"
+            icon = "fa-linkedin"
+            url = "https://www.linkedin.com/in/bresilla/"
+            title = "linkedin.com/in/bresilla"
+        [[cv.contact.list]]
+            class = "scholar"
+            icon = "fa-globe"
+            url = "https://scholar.google.com/citations?user=PYpWgMYAAAAJ"
+            title = "Google Scholar"
+        [[cv.contact.list]]
+            class = "orcid"
+            icon = "fa-globe"
+            url = "https://orcid.org/0009-0009-5547-2789"
+            title = "ORCID 0009-0009-5547-2789"
     [cv.education]
         enable = true
         title = "Education"
         [[cv.education.list]]
-            degree = "MSc in Computer Science"
-            college = "University of London"
-            dates = "2006 - 2010"
+            degree = "PhD, Agricultural, Environmental and Food Science and Technology"
+            college = "University of Bologna"
+            dates = "2015 - 2019"
         [[cv.education.list]]
-            degree = "BSc in Applied Mathematics"
-            college = "Bristol University"
-            dates = "2007 - 2011"
+            degree = "MSc Computer Science"
+            college = "Georgia Institute of Technology"
+            dates = ""
+        [[cv.education.list]]
+            degree = "MSc Agricultural Engineering"
+            college = "Technical University of Munich"
+            dates = ""
+        [[cv.education.list]]
+            degree = "BSc"
+            college = "University of Prishtina"
+            dates = ""
     [cv.language]
         enable = true
         title = "Languages"
         [[cv.language.list]]
-            language = "English"
+            language = "Albanian"
             level = "Native"
         [[cv.language.list]]
-            language = "French"
-            level = "Professional"
+            language = "English"
+            level = "Fluent"
         [[cv.language.list]]
-            language = "Russian"
-            level = "Professional"
+            language = "Italian"
+            level = ""
+        [[cv.language.list]]
+            language = "German"
+            level = ""
+        [[cv.language.list]]
+            language = "Dutch"
+            level = "Elementary"
     [cv.interests]
         enable = true
         title = "Interests"
         [[cv.interests.list]]
-            interest = "Climbing"
+            interest = "Multi-robot systems"
         [[cv.interests.list]]
-            interest = "Snowboarding"
+            interest = "Programming languages"
         [[cv.interests.list]]
-            interest = "Cooking"
+            interest = "Terminal tools and Nix"
+        [[cv.interests.list]]
+            interest = "Reverse engineering"
+        [[cv.interests.list]]
+            interest = "Gaming"
     [cv.summary]
         enable = true
         icon = "fa-user"
         title = "SUMMARY"
-        summary = "**Summarise your career here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu."
+        summary = """**Robotics researcher at Wageningen University & Research**, working on teams of field robots: peer-to-peer communication, coverage planning and task allocation, so that several machines can share one farm job.
+
+Before Wageningen I did a PhD and a postdoc at the University of Bologna on sensors, robotics and AI for precision orchard management, from real-time fruit detection with CNNs down to the plant physiology underneath (sap flow, water relations, irrigation).
+
+Most of my tools I build myself: ROS 2 and Rust libraries for robot fleets, ISOBUS and machine-communication stacks, simulators, and on the side a programming language and a handful of terminal tools."""
     [cv.experiences]
         enable = true
         icon = "fa-briefcase"
         title = "EXPERIENCE"
         [[cv.jobs.list]]
-            position = "Lead Developer"
-            dates = "2015 - Present"
-            company = "Startup Hubs, San Francisco"
-            details = "**Describe your role here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo.\n\n Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+            position = "Robotics Researcher"
+            dates = "2021 - Present"
+            company = "Wageningen University & Research, Agro Food Robotics"
+            details = """- **Multi-robot coordination** for agriculture: peer-to-peer communication, coverage planning and task allocation for robot fleets (talk at ROSCon 2025, Singapore).
+- **Task allocation**: consensus-based bundling for multi-harvester row allocation (*Computers and Electronics in Agriculture*, 2026).
+- **Robot and implement communication** over ISOBUS (ISO 11783) for smart weeding in the EU H2020 project Robs4Crops.
+- **Field-robot software**, digital twins and simulation with ROS 2, Webots and Isaac Sim.
+- **Computer vision**: apple-picking robot evaluation (NXTGEN Hightech), 5D apple pose estimation, AI-based nematode counting."""
         [[cv.jobs.list]]
-            position = "Senior Software Engineer"
-            dates = "2014 - 2015"
-            company = "Google, London"
-            details = "**Describe your role here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."
+            position = "Postdoctoral Researcher"
+            dates = "2019 - 2021"
+            company = "University of Bologna, Department of Agricultural and Food Sciences"
+            details = """- **Deep-learning vision for orchards**: fruit detection, crop-load estimation, and CNN-based detection of physiological disorders and maturity in pears.
+- **Orchard design for robots**: computer vision in 2D tree-crop training systems."""
         [[cv.jobs.list]]
-            position = "UI Developer"
-            dates = "2012 - 2014"
-            company = "Amazon, London"
-            details = "**Describe your role here** lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem."
+            position = "PhD Researcher"
+            dates = "2015 - 2019"
+            company = "University of Bologna"
+            details = """Thesis: *Sensors, Robotics and Artificial Intelligence in Precision Orchard Management*.
+
+- **Real-time fruit detection** with single-shot CNNs (*Frontiers in Plant Science*, 2019).
+- **Crop-load and chemical-thinning estimation**, and sensor fusion with deep networks for autonomous UAV navigation in orchards.
+- **Plant physiology**: sap flow, tree water relations, deficit irrigation and irrigation with treated wastewater."""
+    [cv.publications]
+        enable = true
+        icon = "fa-archive"
+        title = "SELECTED PUBLICATIONS"
+        intro = "Around thirty papers on agricultural robotics, computer vision and plant physiology. Full list on [Google Scholar](https://scholar.google.com/citations?user=PYpWgMYAAAAJ)."
+        [[cv.publications.list]]
+            title = "Spatially-aware consensus-based bundling for event-triggered multi-harvester row allocation"
+            url = "https://doi.org/10.1016/j.compag.2026.112518"
+            tagline = "*Computers and Electronics in Agriculture*, 2026, first author"
+        [[cv.publications.list]]
+            title = "Enhancing annotations for 5D apple pose estimation through 3D gaussian splatting (3DGS)"
+            url = "https://doi.org/10.1016/j.atech.2026.101910"
+            tagline = "*Smart Agricultural Technology*, 2026"
+        [[cv.publications.list]]
+            title = "Implementing a digital twin for flexible operation of agricultural robotics"
+            url = "https://doi.org/10.19103/as.2023.0124.28"
+            tagline = "*Advances in Agri-Food Robotics*, Burleigh Dodds, 2024"
+        [[cv.publications.list]]
+            title = "Counting nematodes made easy: leveraging AI-powered automation for enhanced efficiency and precision"
+            url = "https://doi.org/10.3389/fpls.2024.1349209"
+            tagline = "*Frontiers in Plant Science*, 2024"
+        [[cv.publications.list]]
+            title = "Smart implements by leveraging ISOBUS: Development and evaluation of field applications"
+            url = "https://doi.org/10.1016/j.atech.2023.100341"
+            tagline = "*Smart Agricultural Technology*, 2023"
+        [[cv.publications.list]]
+            title = "Single-Shot Convolution Neural Networks for Real-Time Fruit Detection Within the Tree"
+            url = "https://doi.org/10.3389/fpls.2019.00611"
+            tagline = "*Frontiers in Plant Science*, 2019, first author"
     [cv.projects]
         enable = true
         icon = "fa-archive"
-        title = "PROJECTS"
-        intro = "**You can list your side projects or open source libraries in this section.** Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et ligula in nunc bibendum fringilla a eu lectus"
+        title = "OPEN SOURCE"
+        intro = "Selected projects; everything else is on [GitHub](https://github.com/bresilla)."
         [[cv.projects.list]]
-            title = "Hugrid"
-            url = "https://github.com/aerohub/hugrid"
-            tagline = "Grid theme for Hugo. It's a kind of boilerplate to perform anyone or anything quickly. Portfolio, collection, bookmarks, contacts and so on"
+            title = "robolibs"
+            url = "https://github.com/robolibs"
+            tagline = "Rust libraries for robot fleets: `peerbus` zero-copy messaging, `syncbot` multi-robot navigation and scheduling, `ondrive` path tracking, `machbus` ISOBUS / J1939 / NMEA 2000."
         [[cv.projects.list]]
-            title = "Simple FAQ Theme for Hugo"
-            url = "https://github.com/aerohub/hugo-faq-theme"
-            tagline = "Simple FAQ Theme for Hugo. You may use this theme for building very simple FAQs or note lists."
+            title = "farmbot-ros"
+            url = "https://github.com/farmbot-ros"
+            tagline = "ROS 2 stack for field robots: coverage planning, task allocation, localization and ISOBUS."
         [[cv.projects.list]]
-            title = "Hugo Identity"
-            url = "https://github.com/aerohub/hugo-identity-theme"
-            tagline = "Little profile/card-style template for Hugo."
+            title = "gscbba"
+            url = "https://github.com/bresilla/gscbba"
+            tagline = "Code for the consensus-based multi-harvester row allocation paper."
         [[cv.projects.list]]
-            title = "Orbit"
-            url = "https://github.com/aerohub/hugo-orbit-theme"
-            tagline = "Hugo Resume/CV Theme for Developers."
+            title = "ARES"
+            url = "https://github.com/are-standard"
+            tagline = "Agriculture Robotics Exchange Standard, with the MACRO crop-operation schema."
         [[cv.projects.list]]
-            title = "Me"
-            url = "https://github.com/aerohub/hugo-me-theme"
-            tagline = "A simple responsive Hugo theme for personal site."
-    [cv.skills]
-        enable = true
-        icon = "fa-rocket"
-        title = "SKILLS"
-        [[cv.skills.list]]
-            skill = "Python & Django"
-            level = "98%"
-        [[cv.skills.list]]
-            skill = "Javascript & jQuery"
-            level = "98%"
-        [[cv.skills.list]]
-            skill = "Angular"
-            level = "95%"
-        [[cv.skills.list]]
-            skill = "HTML5 & CSS"
-            level = "95%"
-        [[cv.skills.list]]
-            skill = "Ruby on Rails"
-            level = "75%"
-        [[cv.skills.list]]
-            skill = "Sketch & Photoshop"
-            level = "60%"
+            title = "roc"
+            url = "https://github.com/bresilla/roc"
+            tagline = "A Rust replacement for the `ros2` command-line tool."
+        [[cv.projects.list]]
+            title = "fol"
+            url = "https://github.com/fol-lang/fol"
+            tagline = "A general-purpose systems programming language."
+        [[cv.projects.list]]
+            title = "magi and balthasar"
+            url = "https://github.com/ai-nerv"
+            tagline = "A coding agent for Linux and its evidence-backed memory."
+        [[cv.projects.list]]
+            title = "lule"
+            url = "https://github.com/termworks/lule"
+            tagline = "ANSI colour scheme generator for the terminal."
+        [[cv.projects.list]]
+            title = "faqe"
+            url = "https://github.com/bresilla/faqe"
+            tagline = "The static site generator behind this website."
 +++
