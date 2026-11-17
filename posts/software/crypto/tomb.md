@@ -6,7 +6,7 @@ readingtime = 14
 
 slug = "gpg-yubikey-tomb"
 title = "Back up OpenPGP keys with Tomb and cryptsetup"
-thumbnail = "thumbnail.png"
+thumbnail = "tomb.svg"
 categories = ["LINUX"]
 series = ["GPG"]
 part = "1"

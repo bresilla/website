@@ -6,7 +6,7 @@ readingtime = 8
 
 slug = "web-ipfs"
 title = "Hosting a website on the InterPlanetary File System"
-thumbnail = "thumbnail.png"
+thumbnail = "ipfs-logo.jpg"
 categories = ["LINUX"]
 series = ["IPFS"]
 part = "1"

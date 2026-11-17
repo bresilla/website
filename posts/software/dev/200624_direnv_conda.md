@@ -6,7 +6,7 @@ readingtime = 6
 
 slug = "direnv-anaconda"
 title = "Using direnv with Conda"
-thumbnail = "thumbnail.png"
+thumbnail = "direnv-conda.svg"
 description = "Activate a project-local Conda environment when entering a directory and cleanly unload it when leaving."
 categories = ["DEV"]
 series = ["DIRENV"]

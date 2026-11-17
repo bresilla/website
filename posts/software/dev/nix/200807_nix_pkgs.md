@@ -6,7 +6,7 @@ readingtime = 8
 
 slug = "nix-pckgs"
 title = "Using Nix as a package manager for any language"
-thumbnail = "thumbnail.png"
+thumbnail = "nix-pkgs.svg"
 categories = ["DEV"]
 series = ["NIX-SHELL"]
 part = "1"

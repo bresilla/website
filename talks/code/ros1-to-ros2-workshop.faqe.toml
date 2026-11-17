@@ -28,3 +28,4 @@ credits = [
     "https://github.com/lopsided98/nix-ros-overlay",
     "https://github.com/bresilla/rosflake",
 ]
+thumbnail = "ros1-to-ros2.svg"
